@@ -1,12 +1,15 @@
 {
   "$comment": "Project settings. /bootstrap fills these in. null = not decided yet: agents must ask before generating screens.",
-  "product": null,
-  "locale": null,
+  "product": "Acme",
+  "locale": "en-US",
   "otherLocales": [],
-  "currency": null,
-  "font": "Inter",
+  "currency": "USD",
+  "font": "Geist",
   "density": "comfortable",
-  "viewports": [1440, 390],
+  "viewports": [
+    1440,
+    390
+  ],
   "referenceDate": "2026-01-15T12:00:00Z",
   "designSystem": null
 }
