@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/layout/top-bar/top-bar.njk" import topBar %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/avatar/avatar.njk" import avatar %}
+{% set description = "Brand, global search and the account actions." %}
+{% block matrix %}
+
+{% call section("actions") %}
+  {% call cell("messages · notifications · account") %}<div class="w-full max-w-6xl rounded-lg bg-canvas p-6">{% call topBar(project.product, sample.searchPlaceholder, sample.searchLabel) %}{{ iconButton(sample.messages, "message-circle", variant="secondary") }}{{ iconButton(sample.notificationsUnread, "bell", variant="secondary", dot=true) }}{{ avatar(sample.accountName) }}{% endcall %}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{#- TopBar. Props: brand (product name, links home), searchPlaceholder, searchLabel (accessible name of the search), homeHref, searchId. Default slot = actions: icon buttons, then the account avatar. Search drops to its own row on phones. -#}
+{% from "components/ui/input/input.njk" import input %}
+{% macro topBar(brand, searchPlaceholder, searchLabel, homeHref="#", searchId="global-search") %}
+{%- set v = variants.topBar -%}
+<header data-component="TopBar" class="{{ v.base }}">
+  <a href="{{ homeHref }}" class="{{ v.slots.brand }}">{{ brand }}</a>
+  <div role="search" class="{{ v.slots.search }}">{{ input(searchId, type="search", placeholder=searchPlaceholder, label=searchLabel, variant="search", size="lg", iconLeading="search") }}</div>
+  {%- if caller %}<div data-slot="actions" class="{{ v.slots.actions }}">{{ caller() }}</div>{% endif %}
+</header>
+{%- endmacro %}

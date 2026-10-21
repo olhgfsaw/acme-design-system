@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/promo-card/promo-card.njk" import promoCard %}
+{% from "components/common/help-callout/help-callout.njk" import helpCallout %}
+{% from "components/ui/button/button.njk" import button %}
+{% set description = "The tall upsell card. One per screen, in the first column across both rows of the grid." %}
+{% block matrix %}
+
+{% call section("full") %}
+  {% call cell("offer + help + call to action") %}<div class="flex w-80">{% call promoCard("m-promo", sample.promoTitle, text=sample.promoText, closeLabel=sample.closePromo, offerTitle=sample.freeTrial, offerBadge=sample.trialDays, offerBadgeIcon="crown") %}{{ helpCallout(sample.helpTitle, sample.helpText) }}{{ button(sample.upgradeNow, size="lg", iconTrailing="arrow-right", layout="w-full") }}{% endcall %}</div>{% endcall %}
+  {% call cell("title only") %}<div class="w-80">{{ promoCard("m-promo-2", sample.promoTitle, text=sample.promoText) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

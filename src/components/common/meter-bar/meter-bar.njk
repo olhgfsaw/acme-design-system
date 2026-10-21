@@ -1,0 +1,12 @@
+{#- MeterBar. Props: id (unique on the page), label, value, max (100), highlight (the single standout row, amber hatch), valueLabel (formatted readout; a percentage by default). -#}
+{% macro meterBar(id, label, value, max=100, highlight=false, valueLabel=null) %}
+{%- set v = variants.meterBar -%}
+{%- set pct = (value / max * 100) | round(1) -%}
+<div data-component="MeterBar" class="{{ v.base }}">
+  <div class="{{ v.slots.head }}"><span>{{ label }}</span><span class="{{ v.slots.value }}">{{ valueLabel or ((value / max) | percent) }}</span></div>
+  <svg class="{{ v.slots.svg }}" aria-hidden="true" focusable="false">
+    {%- if highlight %}<defs><pattern id="{{ id }}-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" class="{{ v.slots.stripeBg }}"></rect><rect width="3" height="7" class="{{ v.slots.stripe }}"></rect></pattern></defs><rect width="{{ pct }}%" height="100%" rx="8" fill="url(#{{ id }}-hatch)"></rect>
+    {%- else %}<rect width="{{ pct }}%" height="100%" rx="8" class="{{ v.slots.bar }}"></rect>{% endif -%}
+  </svg>
+</div>
+{%- endmacro %}

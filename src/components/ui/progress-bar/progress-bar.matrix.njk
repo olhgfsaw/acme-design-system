@@ -1,0 +1,16 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/progress-bar/progress-bar.njk" import progressBar %}
+{% set description = "A 4 px bar on a soft track. The fill is soft by design, so a title or a number always sits next to it." %}
+{% block matrix %}
+
+{% call section("tone") %}
+  {% for tone, value in [["accent", 72], ["success", 45], ["danger", 30], ["neutral", 90]] %}
+    {% call cell(tone ~ " · " ~ value) %}<div class="w-56">{{ progressBar(value, sample.projects[loop.index0].title, tone=tone) }}</div>{% endcall %}
+  {% endfor %}
+{% endcall %}
+{% call section("bounds") %}
+  {% call cell("0") %}<div class="w-56">{{ progressBar(0, sample.projects[0].title) }}</div>{% endcall %}
+  {% call cell("100") %}<div class="w-56">{{ progressBar(100, sample.projects[0].title) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/project-item/project-item.njk" import projectItem %}
+{% set description = "A list row: icon tile, title, client line and a thin progress bar with its readout." %}
+{% block matrix %}
+
+{% call section("tones") %}
+  {% call cell("list") %}<ul class="flex w-80 flex-col gap-4">{% for p in sample.projects %}<li>{{ projectItem(p.title, p.client, p.icon, p.progress, tone=p.tone, statusLabel=p.status) }}</li>{% endfor %}</ul>{% endcall %}
+{% endcall %}
+{% endblock %}

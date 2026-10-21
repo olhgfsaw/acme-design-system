@@ -1,0 +1,10 @@
+{
+  "base": "flex w-full items-center gap-4 rounded-md bg-canvas px-5 py-4 text-start transition-colors hover:bg-surface-subtle active:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+  "variants": {},
+  "slots": {
+    "body": "flex min-w-0 flex-col gap-1",
+    "title": "text-sm font-medium text-fg",
+    "text": "text-xs text-fg-secondary"
+  },
+  "defaultVariants": {}
+}

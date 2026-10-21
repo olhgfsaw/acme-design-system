@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/chart-legend/chart-legend.njk" import chartLegend %}
+{% set description = "Dot, label and bold count, two to a row." %}
+{% block matrix %}
+
+{% call section("statuses") %}
+  {% call cell("four tones") %}{{ chartLegend(sample.projectStatuses) }}{% endcall %}
+{% endcall %}
+{% endblock %}

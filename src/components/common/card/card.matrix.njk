@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% set description = "The white tile everything sits in: rounded-lg, p-6, no border, no shadow." %}
+{% block matrix %}
+
+{% call section("header") %}
+  {% call cell("title + expand") %}<div class="w-80 rounded-lg bg-canvas p-3">{% call card("m-card-1", title=sample.revenueOverview, expandLabel=sample.expand ~ ": " ~ sample.revenueOverview) %}{{ statBlock(sample.earningLabel, sample.earningMinor | money) }}{% endcall %}</div>{% endcall %}
+  {% call cell("title only") %}<div class="w-80 rounded-lg bg-canvas p-3">{% call card("m-card-2", title=sample.nextMeeting) %}<p class="text-sm text-fg-secondary">{{ sample.helpText }}</p>{% endcall %}</div>{% endcall %}
+  {% call cell("no title") %}<div class="w-80 rounded-lg bg-canvas p-3">{% call card("m-card-3") %}{{ statBlock(sample.earningLabel, sample.earningMinor | money, delta=sample.earningDelta | percent(1), trendLabel=sample.trendUp) }}{% endcall %}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

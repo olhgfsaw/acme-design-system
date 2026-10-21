@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/value-tag/value-tag.njk" import valueTag %}
+{% set description = "The amber tag for the one value that matters. Text is always on-accent, never white." %}
+{% block matrix %}
+
+{% call section("pointer") %}
+  {% call cell("without") %}{{ valueTag(32500 | number({ style: "currency", currency: project.currency, notation: "compact" })) }}{% endcall %}
+  {% call cell("with pointer") %}<div class="pb-2">{{ valueTag(32500 | number({ style: "currency", currency: project.currency, notation: "compact" }), pointer=true) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

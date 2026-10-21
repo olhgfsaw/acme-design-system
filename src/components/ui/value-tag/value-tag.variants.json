@@ -1,0 +1,8 @@
+{
+  "base": "relative inline-flex h-9 items-center rounded-md bg-accent px-4 text-sm font-semibold whitespace-nowrap text-on-accent tabular-nums",
+  "variants": {},
+  "slots": {
+    "pointer": "absolute -bottom-1 inset-s-1/2 size-2.5 -translate-x-1/2 rotate-45 rounded-xs bg-accent"
+  },
+  "defaultVariants": {}
+}

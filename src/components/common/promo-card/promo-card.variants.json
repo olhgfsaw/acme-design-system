@@ -1,0 +1,14 @@
+{
+  "base": "relative flex flex-col gap-6 overflow-hidden rounded-lg bg-accent-subtle p-6",
+  "variants": {},
+  "slots": {
+    "head": "flex flex-col gap-1 pe-12",
+    "title": "text-xl font-medium tracking-tight text-fg",
+    "text": "max-w-56 text-sm text-fg-secondary",
+    "close": "absolute inset-e-6 top-6",
+    "sheet": "-mx-6 -mb-6 mt-auto flex flex-col gap-6 rounded-t-lg bg-surface p-6",
+    "offer": "flex items-center justify-between gap-3",
+    "offerTitle": "text-base font-medium text-fg"
+  },
+  "defaultVariants": {}
+}

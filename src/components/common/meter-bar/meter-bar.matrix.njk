@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/meter-bar/meter-bar.njk" import meterBar %}
+{% set description = "Compares people or items on one measure. At most one row is highlighted with the amber hatch." %}
+{% block matrix %}
+
+{% call section("rows") %}
+  {% call cell("list · second highlighted") %}<div class="flex w-80 flex-col gap-4">{% for p in sample.team %}{{ meterBar("m-meter-" ~ loop.index, p.name, p.value, highlight=p.highlight) }}{% endfor %}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

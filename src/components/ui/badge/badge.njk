@@ -1,8 +1,8 @@
-{#- BaseBadge. Props: label, tone (neutral | info | success | warning | danger), dot. For statuses: {{ statusBadge("dealStatus", deal.status) }}. -#}
-{% macro badge(label, tone="neutral", dot=true) %}
+{#- BaseBadge. Props: label, tone (neutral | info | success | warning | danger | accent), dot, size (sm | md), iconName (replaces the dot). For statuses: {{ statusBadge("dealStatus", deal.status) }}. -#}
+{% macro badge(label, tone="neutral", dot=true, size="sm", iconName=null) %}
 {%- set v = variants.badge -%}
-<span data-component="BaseBadge" data-tone="{{ tone }}" class="{{ v.base }} {{ v.variants.tone[tone] }}">
-  {%- if dot %}<span class="size-1.5 rounded-full bg-current" aria-hidden="true"></span>{% endif -%}
+<span data-component="BaseBadge" data-tone="{{ tone }}" data-size="{{ size }}" class="{{ v.base }} {{ v.variants.tone[tone] }} {{ v.variants.size[size] }}">
+  {%- if iconName %}{{ icon(iconName, "size-4" if size == "md" else "size-3") }}{% elif dot %}<span class="size-1.5 rounded-full bg-current" aria-hidden="true"></span>{% endif -%}
   {{ label }}
 </span>
 {%- endmacro %}

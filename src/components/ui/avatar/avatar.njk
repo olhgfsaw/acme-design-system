@@ -1,0 +1,8 @@
+{#- BaseAvatar. Props: name (initials and accessible name), src, size (sm | md), ring (marks the selected person), decorative (a visible name sits next to it). -#}
+{% macro avatar(name, src=null, size="md", ring=false, decorative=false) %}
+{%- set v = variants.avatar -%}
+<span data-component="BaseAvatar" data-size="{{ size }}" class="{{ (v.base ~ " " ~ v.variants.size[size] ~ " " ~ v.variants.ring["true" if ring else "false"]) | trim }}">
+  {%- if src %}<img src="{{ src }}" alt="{{ "" if decorative else name }}" class="size-full object-cover">
+  {%- else %}<span aria-hidden="true">{{ name | initials }}</span>{% if not decorative %}<span class="sr-only">{{ name }}</span>{% endif %}{% endif -%}
+</span>
+{%- endmacro %}

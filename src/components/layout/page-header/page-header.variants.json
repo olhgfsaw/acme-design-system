@@ -1,0 +1,11 @@
+{
+  "base": "flex flex-wrap items-end justify-between gap-6",
+  "variants": {},
+  "slots": {
+    "text": "flex flex-col gap-2",
+    "title": "text-3xl font-medium tracking-tight text-fg md:text-4xl",
+    "description": "text-base text-fg-secondary",
+    "actions": "flex flex-wrap gap-3"
+  },
+  "defaultVariants": {}
+}

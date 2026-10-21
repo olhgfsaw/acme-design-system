@@ -1,0 +1,18 @@
+{
+  "base": "block h-1 w-full",
+  "variants": {
+    "tone": {
+      "accent": "fill-accent-strong",
+      "success": "fill-success-fg",
+      "danger": "fill-danger-fg",
+      "neutral": "fill-fg"
+    }
+  },
+  "slots": {
+    "svg": "block h-1 w-full",
+    "track": "fill-surface-subtle"
+  },
+  "defaultVariants": {
+    "tone": "accent"
+  }
+}

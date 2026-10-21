@@ -1,0 +1,16 @@
+{
+  "base": "flex gap-3",
+  "variants": {
+    "direction": {
+      "column": "flex-col items-start",
+      "row": "flex-row flex-wrap"
+    }
+  },
+  "slots": {
+    "item": "group inline-flex h-9 items-center gap-2 rounded-md bg-canvas px-4 text-sm text-fg-muted transition-colors hover:text-fg active:text-fg data-[state=on]:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus pointer-coarse:h-11",
+    "dot": "size-2 rounded-full border border-fg-muted group-data-[state=on]:border-fg group-data-[state=on]:bg-fg"
+  },
+  "defaultVariants": {
+    "direction": "column"
+  }
+}

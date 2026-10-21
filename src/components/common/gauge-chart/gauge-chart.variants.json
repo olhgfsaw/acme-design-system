@@ -1,0 +1,25 @@
+{
+  "base": "mx-auto flex w-full max-w-60 flex-col items-center",
+  "variants": {
+    "tone": {
+      "accent-strong": "stroke-accent-strong",
+      "accent": "stroke-accent",
+      "accent-subtle": "stroke-accent-subtle",
+      "neutral": "stroke-divider"
+    }
+  },
+  "slots": {
+    "svg": "block h-auto w-full",
+    "skeleton": "stroke-skeleton motion-safe:animate-pulse",
+    "center": "flex flex-col items-center",
+    "value": "text-3xl font-medium tracking-tight text-fg tabular-nums",
+    "caption": "text-sm text-fg",
+    "skeletonValue": "h-9 w-16 rounded-md bg-skeleton motion-safe:animate-pulse",
+    "skeletonCaption": "mt-1 h-5 w-28 rounded-sm bg-skeleton motion-safe:animate-pulse",
+    "state": "flex flex-col items-center gap-2 py-8 text-center",
+    "stateIcon": "size-6 text-fg-muted",
+    "stateTitle": "text-sm font-medium text-fg",
+    "stateText": "max-w-xs text-sm text-fg-secondary"
+  },
+  "defaultVariants": {}
+}

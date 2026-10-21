@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/avatar-stack/avatar-stack.njk" import avatarStack %}
+{% set description = "Overlapping avatars; one person is called out with the ring and a value tag." %}
+{% block matrix %}
+
+{% call section("highlight") %}
+  {% call cell("none") %}{{ avatarStack(sample.people, sample.topClientsLabel) }}{% endcall %}
+  {% call cell("second · tag") %}{{ avatarStack(sample.people, sample.topClientsLabel, highlight=1, tag=(sample.topClientMinor / 100) | number({ style: "currency", currency: project.currency, notation: "compact" })) }}{% endcall %}
+{% endcall %}
+{% endblock %}

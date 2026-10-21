@@ -1,7 +1,7 @@
 {% extends "layouts/matrix.njk" %}
 {% from "layouts/_matrix-macros.njk" import section, cell %}
 {% from "components/ui/badge/badge.njk" import badge %}
-{% set description = "Status tones. The label always carries the meaning; color only supports it." %}
+{% set description = "Status tones. The label always carries the meaning; color only supports it. accent · md is the plan badge on the promo card." %}
 {% block matrix %}
 {% call section("tone") %}
   {% for tone, label in [["neutral", sample.statusNew], ["info", sample.statusInProgress], ["success", sample.statusWon], ["warning", sample.statusWaiting], ["danger", sample.statusOverdue]] %}
@@ -10,5 +10,10 @@
 {% endcall %}
 {% call section("without dot") %}
   {% call cell("neutral") %}{{ badge(sample.statusDraft, dot=false) }}{% endcall %}
+{% endcall %}
+{% call section("accent") %}
+  {% call cell("sm") %}{{ badge(sample.trialDays, tone="accent", dot=false) }}{% endcall %}
+  {% call cell("md · icon") %}{{ badge(sample.trialDays, tone="accent", size="md", iconName="crown") }}{% endcall %}
+  {% call cell("neutral · md") %}{{ badge(sample.statusDraft, size="md", dot=false) }}{% endcall %}
 {% endcall %}
 {% endblock %}

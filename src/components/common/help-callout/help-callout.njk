@@ -1,0 +1,6 @@
+{#- HelpCallout. Props: title (a question), text (the way out), iconName. A clickable panel inside PromoCard's sheet. -#}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% macro helpCallout(title, text, iconName="circle-help") %}
+{%- set v = variants.helpCallout -%}
+<button type="button" data-component="HelpCallout" class="{{ v.base }}">{{ iconTile(iconName, size="lg", tone="card") }}<span class="{{ v.slots.body }}"><span class="{{ v.slots.title }}">{{ title }}</span><span class="{{ v.slots.text }}">{{ text }}</span></span></button>
+{%- endmacro %}

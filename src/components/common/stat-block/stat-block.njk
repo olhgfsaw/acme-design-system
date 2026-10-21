@@ -1,0 +1,11 @@
+{#- StatBlock. Props: label, value (formatted), delta (formatted change), trend (up | down), trendLabel (read by screen readers: "Up from last month"). The trend is color and arrow, never color alone. -#}
+{% macro statBlock(label, value, delta=null, trend="up", trendLabel="") %}
+{%- set v = variants.statBlock -%}
+<div data-component="StatBlock" class="{{ v.base }}">
+  <p class="{{ v.slots.label }}">{{ label }}</p>
+  <p class="{{ v.slots.value }}">{{ value }}</p>
+  {%- if delta %}
+  <p class="{{ v.slots.delta }} {{ v.variants.trend[trend] }}">{{ icon("trending-up" if trend == "up" else "trending-down", "size-4") }}<span>{{ delta }}</span>{% if trendLabel %}<span class="sr-only">{{ trendLabel }}</span>{% endif %}</p>
+  {%- endif %}
+</div>
+{%- endmacro %}

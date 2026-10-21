@@ -1,0 +1,10 @@
+{
+  "base": "flex flex-wrap items-center gap-3 md:flex-nowrap md:gap-12",
+  "variants": {},
+  "slots": {
+    "brand": "inline-flex h-12 shrink-0 items-center rounded-md text-xl font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "search": "order-last w-full md:order-0 md:max-w-xl md:flex-1",
+    "actions": "ms-auto flex items-center gap-3"
+  },
+  "defaultVariants": {}
+}

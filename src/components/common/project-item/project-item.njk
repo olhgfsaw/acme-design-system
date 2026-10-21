@@ -1,0 +1,14 @@
+{#- ProjectItem. Props: title, subtitle ("Client: Sarah Johnson"), iconName, progress (0–100), tone (accent | success | danger | neutral, as in ProgressBar), statusLabel (says what the tone means: "At risk"; the percentage by default). -#}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% from "components/ui/progress-bar/progress-bar.njk" import progressBar %}
+{% macro projectItem(title, subtitle, iconName, progress, tone="accent", statusLabel=null) %}
+{%- set v = variants.projectItem -%}
+<div data-component="ProjectItem" class="{{ v.base }}">
+  {{ iconTile(iconName) }}
+  <div class="{{ v.slots.body }}">
+    <p class="{{ v.slots.title }}" title="{{ title }}">{{ title }}</p>
+    <p class="{{ v.slots.subtitle }}" title="{{ subtitle }}">{{ subtitle }}</p>
+    <div class="{{ v.slots.progress }}">{{ progressBar(progress, title, tone=tone, layout="flex-1") }}<span class="{{ v.slots.status }}">{{ statusLabel or ((progress / 100) | percent) }}</span></div>
+  </div>
+</div>
+{%- endmacro %}

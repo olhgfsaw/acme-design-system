@@ -1,0 +1,17 @@
+{
+  "base": "grid grid-cols-2 gap-x-5 gap-y-3",
+  "variants": {
+    "tone": {
+      "accent-strong": "bg-accent-strong",
+      "accent": "bg-accent",
+      "accent-subtle": "bg-accent-subtle",
+      "neutral": "bg-divider"
+    }
+  },
+  "slots": {
+    "item": "flex items-center gap-1 text-xs whitespace-nowrap text-fg-secondary",
+    "dot": "size-2.5 shrink-0 rounded-full",
+    "count": "font-semibold text-fg tabular-nums"
+  },
+  "defaultVariants": {}
+}

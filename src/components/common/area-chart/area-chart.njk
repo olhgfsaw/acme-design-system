@@ -1,0 +1,49 @@
+{#- AreaChart. Props: labels (x ticks), series (the line), label (accessible name), seriesLabel, area (second series drawn as the soft fill) + areaLabel, highlight (index tagged at rest), tagLabel (formatted value of that point), messages { loading, emptyTitle, emptyText, errorTitle, errorText, retry }, state. No gridlines, no y-axis: the tag carries the number; a hidden table carries all of them. -#}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/value-tag/value-tag.njk" import valueTag %}
+{% macro areaChart(labels, series, label, seriesLabel="", area=null, areaLabel="", highlight=null, tagLabel=null, messages={}, state="default") %}
+{%- set v = variants.areaChart -%}
+{#- Geometry in a 600 × 220 viewBox: points from x 12 to 588, values from y 200 (zero) up to y 56, room above for the tag. -#}
+{%- set n = series | length -%}
+{%- set maxV = (series.concat(area or []) | sort | last) or 1 -%}
+{%- set dx = 576 / ([n - 1, 1] | sort | last) -%}
+{%- set fillSeries = area or series -%}
+{% if state == "loading" %}
+<figure data-component="AreaChart" aria-busy="true" class="{{ v.base }}">
+  <svg viewBox="0 0 600 220" class="{{ v.slots.svg }}" aria-hidden="true" focusable="false"><rect x="0" y="56" width="600" height="144" rx="12" class="{{ v.slots.skeleton }}"></rect></svg>
+  <div class="{{ v.slots.ticks }}" aria-hidden="true">{% for l in labels %}<span>{{ l }}</span>{% endfor %}</div>
+  <figcaption class="sr-only">{{ messages.loading }}</figcaption>
+</figure>
+{% elif state == "empty" or (state == "default" and n == 0) %}
+<figure data-component="AreaChart" class="{{ v.slots.state }}">{{ icon("chart-area", v.slots.stateIcon) }}<figcaption class="{{ v.slots.stateTitle }}">{{ messages.emptyTitle }}</figcaption><p class="{{ v.slots.stateText }}">{{ messages.emptyText }}</p></figure>
+{% elif state == "error" %}
+<figure data-component="AreaChart" class="{{ v.slots.state }}">{{ icon("circle-alert", v.slots.stateIcon) }}<figcaption class="{{ v.slots.stateTitle }}">{{ messages.errorTitle }}</figcaption><p class="{{ v.slots.stateText }}">{{ messages.errorText }}</p>{{ button(messages.retry, variant="secondary", size="sm", iconLeading="refresh-cw") }}</figure>
+{% else %}
+<figure data-component="AreaChart" class="{{ v.base }}">
+  {%- if highlight is not none and tagLabel %}<div class="{{ v.slots.mobileTag }}">{{ valueTag(labels[highlight] ~ " · " ~ tagLabel) }}</div>{% endif %}
+  <svg viewBox="0 0 600 220" class="{{ v.slots.svg }}" aria-hidden="true" focusable="false">
+    <path d="{% for val in fillSeries %}{% set x = (12 + loop.index0 * dx) | round(1) %}{% set y = (200 - val / maxV * 144) | round(1) %}{% if loop.first %}M{{ x }} {{ y }}{% else %}{% set px = (12 + (loop.index0 - 1) * dx) | round(1) %}{% set py = (200 - fillSeries[loop.index0 - 1] / maxV * 144) | round(1) %} C{{ (px + dx / 2) | round(1) }} {{ py }} {{ (x - dx / 2) | round(1) }} {{ y }} {{ x }} {{ y }}{% endif %}{% endfor %} L{{ (12 + (n - 1) * dx) | round(1) }} 200 L12 200 Z" class="{{ v.slots.area }}"></path>
+    <path d="{% for val in series %}{% set x = (12 + loop.index0 * dx) | round(1) %}{% set y = (200 - val / maxV * 144) | round(1) %}{% if loop.first %}M{{ x }} {{ y }}{% else %}{% set px = (12 + (loop.index0 - 1) * dx) | round(1) %}{% set py = (200 - series[loop.index0 - 1] / maxV * 144) | round(1) %} C{{ (px + dx / 2) | round(1) }} {{ py }} {{ (x - dx / 2) | round(1) }} {{ y }} {{ x }} {{ y }}{% endif %}{% endfor %}" fill="none" stroke-width="2" class="{{ v.slots.line }}"></path>
+    {%- if highlight is not none %}
+    {%- set hx = (12 + highlight * dx) | round(1) -%}{%- set hy = (200 - series[highlight] / maxV * 144) | round(1) %}
+    <line x1="{{ hx }}" y1="{{ hy }}" x2="{{ hx }}" y2="200" stroke-width="1.5" stroke-dasharray="4 4" class="{{ v.slots.guide }}"></line>
+    {%- endif %}
+    {%- for val in series %}
+    <circle cx="{{ (12 + loop.index0 * dx) | round(1) }}" cy="{{ (200 - val / maxV * 144) | round(1) }}" r="5" stroke-width="2" class="{{ v.slots.point }}"></circle>
+    {%- endfor %}
+    {%- if highlight is not none and tagLabel %}
+    <foreignObject x="{{ hx - 100 }}" y="{{ hy - 54 }}" width="200" height="44" class="{{ v.slots.tag }}"><div class="{{ v.slots.tagWrap }}">{{ valueTag(tagLabel, pointer=true) }}</div></foreignObject>
+    {%- endif %}
+  </svg>
+  <div class="{{ v.slots.ticks }}" aria-hidden="true">{% for l in labels %}<span>{{ l }}</span>{% endfor %}</div>
+  <table class="sr-only">
+    <caption>{{ label }}</caption>
+    <thead><tr><td></td>{% for l in labels %}<th scope="col">{{ l }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      <tr><th scope="row">{{ seriesLabel }}</th>{% for val in series %}<td>{{ val | number }}</td>{% endfor %}</tr>
+      {%- if area %}<tr><th scope="row">{{ areaLabel }}</th>{% for val in area %}<td>{{ val | number }}</td>{% endfor %}</tr>{% endif %}
+    </tbody>
+  </table>
+</figure>
+{% endif %}
+{%- endmacro %}

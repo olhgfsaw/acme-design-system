@@ -1,0 +1,15 @@
+{
+  "base": "flex flex-col gap-1",
+  "variants": {
+    "trend": {
+      "up": "text-success-fg",
+      "down": "text-danger-fg"
+    }
+  },
+  "slots": {
+    "label": "text-sm text-fg-muted",
+    "value": "text-3xl font-medium tracking-tight text-fg tabular-nums",
+    "delta": "inline-flex items-center gap-1 text-sm font-medium tabular-nums"
+  },
+  "defaultVariants": {}
+}

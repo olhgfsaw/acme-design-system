@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/avatar/avatar.njk" import avatar %}
+{% set description = "Round portrait; without a photo it shows initials on the accent tint. The ring marks the selected person." %}
+{% block matrix %}
+
+{% call section("size") %}
+  {% call cell("sm") %}{{ avatar(sample.accountName, size="sm") }}{% endcall %}
+  {% call cell("md") %}{{ avatar(sample.accountName) }}{% endcall %}
+  {% call cell("md · ring") %}{{ avatar(sample.people[1].name, ring=true) }}{% endcall %}
+{% endcall %}
+{% endblock %}

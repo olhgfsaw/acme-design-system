@@ -1,0 +1,16 @@
+{#- PromoCard. Props: id, title, text, closeLabel (adds the close button), offerTitle + offerBadge + offerBadgeIcon (the plan row at the top of the sheet). Default slot = the rest of the sheet: a HelpCallout and a large full-width primary button. One per screen. -#}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% macro promoCard(id, title, text=null, closeLabel=null, offerTitle=null, offerBadge=null, offerBadgeIcon=null) %}
+{%- set v = variants.promoCard -%}
+<section data-component="PromoCard" aria-labelledby="{{ id }}-title" class="{{ v.base }}">
+  <div class="{{ v.slots.head }}"><h2 id="{{ id }}-title" class="{{ v.slots.title }}">{{ title }}</h2>{% if text %}<p class="{{ v.slots.text }}">{{ text }}</p>{% endif %}</div>
+  {%- if closeLabel %}<div class="{{ v.slots.close }}">{{ iconButton(closeLabel, "x", variant="surface", size="sm") }}</div>{% endif %}
+  {%- if caller or offerTitle %}
+  <div class="{{ v.slots.sheet }}">
+    {%- if offerTitle %}<div class="{{ v.slots.offer }}"><h3 class="{{ v.slots.offerTitle }}">{{ offerTitle }}</h3>{% if offerBadge %}{{ badge(offerBadge, tone="accent", size="md", iconName=offerBadgeIcon, dot=false) }}{% endif %}</div>{% endif %}
+    {%- if caller %}{{ caller() }}{% endif %}
+  </div>
+  {%- endif %}
+</section>
+{%- endmacro %}

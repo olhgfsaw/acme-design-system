@@ -1,7 +1,7 @@
 {% extends "layouts/matrix.njk" %}
 {% from "layouts/_matrix-macros.njk" import section, cell %}
 {% from "components/ui/input/input.njk" import input %}
-{% set description = "Inputs are always used with a visible label (FormField). Here they carry aria-label for the matrix only." %}
+{% set description = "Inputs are always used with a visible label (FormField). Here they carry aria-label for the matrix only. The search variant is the global search in TopBar." %}
 {% block matrix %}
 {% call section("states") %}
   {% call cell("empty") %}<div class="w-72">{{ input("m-empty", placeholder=sample.companyPlaceholder, label=sample.company) }}</div>{% endcall %}
@@ -12,5 +12,9 @@
 {% call section("size") %}
   {% call cell("sm") %}<div class="w-72">{{ input("m-sm", size="sm", placeholder=sample.search, label=sample.search) }}</div>{% endcall %}
   {% call cell("md") %}<div class="w-72">{{ input("m-md", placeholder=sample.search, label=sample.searchDeals) }}</div>{% endcall %}
+{% endcall %}
+{% call section("search") %}
+  {% call cell("search · lg") %}<div class="w-96">{{ input("m-search", type="search", variant="search", size="lg", iconLeading="search", placeholder=sample.searchPlaceholder, label=sample.searchLabel) }}</div>{% endcall %}
+  {% call cell("search · filled") %}<div class="w-96">{{ input("m-search-filled", type="search", variant="search", size="lg", iconLeading="search", value=sample.companyValue, label=sample.searchLabel) }}</div>{% endcall %}
 {% endcall %}
 {% endblock %}

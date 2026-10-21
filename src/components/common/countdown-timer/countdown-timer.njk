@@ -1,0 +1,8 @@
+{#- CountdownTimer. Props: seconds (remaining), label (accessible name: "Time until the next meeting"). Shows HH:MM:SS; ticking is done in Nuxt. -#}
+{% macro countdownTimer(seconds, label) %}
+{%- set v = variants.countdownTimer -%}
+{%- set h = (seconds / 3600) | int -%}
+{%- set m = ((seconds % 3600) / 60) | int -%}
+{%- set s = seconds % 60 -%}
+<time data-component="CountdownTimer" role="timer" aria-label="{{ label }}" datetime="PT{{ h }}H{{ m }}M{{ s }}S" class="{{ v.base }}">{{ ("0" ~ h) if h < 10 else h }}:{{ ("0" ~ m) if m < 10 else m }}:{{ ("0" ~ s) if s < 10 else s }}</time>
+{%- endmacro %}

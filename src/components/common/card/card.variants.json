@@ -1,0 +1,10 @@
+{
+  "base": "flex min-w-0 flex-col gap-4 rounded-lg bg-surface p-6",
+  "variants": {},
+  "slots": {
+    "header": "flex items-center justify-between gap-3",
+    "title": "text-xl font-medium tracking-tight text-fg",
+    "body": "min-h-0 flex-1"
+  },
+  "defaultVariants": {}
+}

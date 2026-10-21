@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% set description = "A card's headline number with its label and an optional trend." %}
+{% block matrix %}
+
+{% call section("trend") %}
+  {% call cell("up") %}{{ statBlock(sample.earningLabel, sample.earningMinor | money, delta=sample.earningDelta | percent(1), trend="up", trendLabel=sample.trendUp) }}{% endcall %}
+  {% call cell("down") %}{{ statBlock(sample.earningLabel, sample.earningMinor | money, delta=sample.earningDelta | percent(1), trend="down", trendLabel=sample.trendDown) }}{% endcall %}
+  {% call cell("no trend") %}{{ statBlock(sample.earningLabel, sample.earningMinor | money) }}{% endcall %}
+{% endcall %}
+{% endblock %}

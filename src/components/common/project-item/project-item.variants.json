@@ -1,0 +1,12 @@
+{
+  "base": "flex items-center gap-3",
+  "variants": {},
+  "slots": {
+    "body": "flex min-w-0 flex-1 flex-col gap-1",
+    "title": "truncate text-sm font-medium text-fg",
+    "subtitle": "truncate text-xs text-fg-muted",
+    "progress": "flex items-center gap-2",
+    "status": "shrink-0 text-xs font-medium text-fg-secondary tabular-nums"
+  },
+  "defaultVariants": {}
+}

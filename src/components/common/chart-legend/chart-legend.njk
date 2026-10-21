@@ -1,0 +1,9 @@
+{#- ChartLegend. Props: items [{ label, count, tone }] with the same tones as the chart it explains. The counts carry the meaning; dot colors only support it. -#}
+{% macro chartLegend(items) %}
+{%- set v = variants.chartLegend -%}
+<ul data-component="ChartLegend" class="{{ v.base }}">
+  {%- for it in items %}
+  <li class="{{ v.slots.item }}"><span class="{{ v.slots.dot }} {{ v.variants.tone[it.tone] }}" aria-hidden="true"></span>{{ it.label }} <span class="{{ v.slots.count }}">({{ it.count | number }})</span></li>
+  {%- endfor %}
+</ul>
+{%- endmacro %}

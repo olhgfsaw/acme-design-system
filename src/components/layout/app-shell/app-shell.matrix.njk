@@ -1,0 +1,23 @@
+{#- AppShell renders the page's <main>, so its matrix extends the frame directly instead of layouts/matrix.njk (which has its own <main>). -#}
+{% extends "layouts/frame.njk" %}
+{% from "components/layout/app-shell/app-shell.njk" import appShell %}
+{% from "components/layout/top-bar/top-bar.njk" import topBar %}
+{% from "components/layout/nav-rail/nav-rail.njk" import navRail %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/avatar/avatar.njk" import avatar %}
+{% from "components/ui/button/button.njk" import button %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set tb %}{% call topBar(project.product, sample.searchPlaceholder, sample.searchLabel) %}{{ iconButton(sample.messages, "message-circle", variant="secondary") }}{{ iconButton(sample.notificationsUnread, "bell", variant="secondary", dot=true) }}{{ avatar(sample.accountName) }}{% endcall %}{% endset %}
+{% set rail %}{{ navRail(sample.nav, sample.mainNav, activeId="dashboard", footer=sample.navFooter) }}{% endset %}
+{% call appShell(tb, rail) %}
+  {% call pageHeader(sample.dashboardTitle, sample.dashboardSubtitle) %}{{ button(sample.createReport, variant="secondary", iconLeading="clipboard-list") }}{{ button(sample.newProject, iconLeading="plus") }}{% endcall %}
+  <div class="grid gap-3 md:grid-cols-3">
+    {% call card("m-shell-1", title=sample.earningLabel) %}{{ statBlock(sample.earningLabel, sample.earningMinor | money, delta=sample.earningDelta | percent(1), trendLabel=sample.trendUp) }}{% endcall %}
+    {% call card("m-shell-2", title=sample.revenueOverview, layout="md:col-span-2") %}<p class="text-sm text-fg-secondary">{{ sample.chartEmptyText }}</p>{% endcall %}
+  </div>
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{#- GaugeChart. Props: segments [{ label, count, tone }] in order around the arc (darkest first), label (accessible name), caption, value (centre number; the sum by default), messages { loading, emptyTitle, emptyText, errorTitle, errorText, retry }, state. A 220° horseshoe with the total under its opening; always pair it with a ChartLegend that carries the counts. -#}
+{% from "components/ui/button/button.njk" import button %}
+{% macro gaugeChart(segments, label, caption="", value=null, messages={}, state="default") %}
+{%- set v = variants.gaugeChart -%}
+{#- Geometry: a 220° arc of r = 100 around (120, 120), from 160° to 20° over the top. pathLength = 100, so dash lengths are percentages of the arc; gap = 6 px of 384. -#}
+{%- set arc = "M26.03 154.2 A100 100 0 1 1 213.97 154.2" -%}{%- set gap = 1.56 -%}
+{%- set total = segments | sum("count") -%}
+{% if state == "loading" %}
+<div data-component="GaugeChart" aria-busy="true" class="{{ v.base }}">
+  <svg viewBox="0 0 240 170" class="{{ v.slots.svg }}" aria-hidden="true" focusable="false"><path d="{{ arc }}" fill="none" stroke-width="22" class="{{ v.slots.skeleton }}"></path></svg>
+  <div class="{{ v.slots.center }}"><span class="{{ v.slots.skeletonValue }}"></span><span class="{{ v.slots.skeletonCaption }}"></span></div>
+  <span class="sr-only">{{ messages.loading }}</span>
+</div>
+{% elif state == "empty" or (state == "default" and total == 0) %}
+<div data-component="GaugeChart" class="{{ v.slots.state }}">{{ icon("chart-pie", v.slots.stateIcon) }}<p class="{{ v.slots.stateTitle }}">{{ messages.emptyTitle }}</p><p class="{{ v.slots.stateText }}">{{ messages.emptyText }}</p></div>
+{% elif state == "error" %}
+<div data-component="GaugeChart" class="{{ v.slots.state }}">{{ icon("circle-alert", v.slots.stateIcon) }}<p class="{{ v.slots.stateTitle }}">{{ messages.errorTitle }}</p><p class="{{ v.slots.stateText }}">{{ messages.errorText }}</p>{{ button(messages.retry, variant="secondary", size="sm", iconLeading="refresh-cw") }}</div>
+{% else %}
+<div data-component="GaugeChart" class="{{ v.base }}">
+  <svg viewBox="0 0 240 170" class="{{ v.slots.svg }}" role="img" aria-label="{{ label }}: {% for s in segments %}{{ s.label }} {{ s.count | number }}{% if not loop.last %}, {% endif %}{% endfor %}">
+    {%- for s in segments %}
+    {%- set len = 100 * s.count / total -%}
+    {%- set before = 100 * (segments.slice(0, loop.index0) | sum("count")) / total -%}
+    <path d="{{ arc }}" pathLength="100" fill="none" stroke-width="22" stroke-dasharray="{{ ([len - gap, 0] | sort | last) | round(2) }} 100" stroke-dashoffset="{{ (0 - before) | round(2) }}" class="{{ v.variants.tone[s.tone] }}"></path>
+    {%- endfor %}
+  </svg>
+  <div class="{{ v.slots.center }}"><span class="{{ v.slots.value }}">{{ value if value is not none else (total | number) }}</span>{% if caption %}<span class="{{ v.slots.caption }}">{{ caption }}</span>{% endif %}</div>
+</div>
+{% endif %}
+{%- endmacro %}

@@ -1,0 +1,7 @@
+{#- ProgressBar. Props: value (0–100), label (accessible name), tone (accent | success | danger | neutral), layout. Always place a title or a number next to it: the tone never carries the state alone. -#}
+{% macro progressBar(value, label, tone="accent", layout="") %}
+{%- set v = variants.progressBar -%}
+<div data-component="ProgressBar" data-tone="{{ tone }}" role="progressbar" aria-label="{{ label }}" aria-valuenow="{{ value }}" aria-valuemin="0" aria-valuemax="100" class="{{ (v.base ~ " " ~ layout) | trim }}">
+  <svg class="{{ v.slots.svg }}" aria-hidden="true" focusable="false"><rect width="100%" height="100%" rx="2" class="{{ v.slots.track }}"></rect><rect width="{{ value }}%" height="100%" rx="2" class="{{ v.variants.tone[tone] }}"></rect></svg>
+</div>
+{%- endmacro %}

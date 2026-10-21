@@ -82,6 +82,13 @@
   --palette-danger-800: oklch(45% 0.145 27.6);
   --palette-danger-950: oklch(27% 0.08 27);
 
+  /* Acme amber accent: amber-200 #fae29b, amber-400 #f7cf6e, amber-600 #e3a93b, dark tint #5c4818, on-amber #2e2306 */
+  --palette-accent-200: oklch(91.6% 0.093 91.5);
+  --palette-accent-400: oklch(87% 0.124 87.3);
+  --palette-accent-600: oklch(77.1% 0.139 79.5);
+  --palette-accent-800: oklch(41.3% 0.07 85.9);
+  --palette-accent-950: oklch(26.2% 0.046 87.8);
+
   /* Acme defines no info hue — placeholder sky kept */
   --palette-info-50: oklch(97.7% 0.013 236.62);
   --palette-info-200: oklch(90.1% 0.058 230.902);
@@ -146,6 +153,12 @@
   --color-neutral-fg: var(--palette-neutral-700);
   --color-neutral-border: var(--palette-neutral-200);
 
+  /* Accent — data emphasis only, never an action color */
+  --color-accent: var(--palette-accent-400); /* value tags, trial badge, highlighted data */
+  --color-accent-strong: var(--palette-accent-600); /* deepest data segment, unread dot, selected avatar ring */
+  --color-accent-subtle: var(--palette-accent-200); /* hatch stripes, promo card, avatar initials */
+  --color-on-accent: var(--palette-accent-950); /* text and icons on accent and accent-strong */
+
   /* Radius — Acme is round: badges 8, controls 12, cards 24, modals 32 (pills use rounded-full) */
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -176,6 +189,11 @@
   --color-divider: var(--palette-neutral-700);
   --color-control: var(--palette-neutral-500);
 
+  /* Acme: the one dark fill flips to near-white in dark */
+  --color-primary: var(--palette-neutral-50);
+  --color-primary-hover: var(--palette-neutral-300);
+  --color-primary-active: var(--palette-neutral-400);
+  --color-on-primary: var(--palette-neutral-950);
   --color-primary-fg: var(--palette-primary-400);
   --color-primary-subtle: color-mix(in oklab, var(--palette-primary-950) 60%, transparent);
   --color-focus: var(--palette-primary-400);
@@ -195,6 +213,8 @@
   --color-neutral-bg: var(--palette-neutral-800);
   --color-neutral-fg: var(--palette-neutral-300);
   --color-neutral-border: var(--palette-neutral-700);
+
+  --color-accent-subtle: var(--palette-accent-800);
 }
 
 @layer base {

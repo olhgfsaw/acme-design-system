@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/ui/button/button.njk" import button %}
+{% set description = "Page title, one-line description and the page's buttons, bottom-aligned on one row. Shown with an h2 here; on a screen it is the h1." %}
+{% block matrix %}
+
+{% call section("actions") %}
+  {% call cell("four buttons") %}<div class="w-full max-w-6xl">{% call pageHeader(sample.dashboardTitle, sample.dashboardSubtitle, level=2) %}{{ button(sample.createInvoice, variant="secondary", iconLeading="file-text") }}{{ button(sample.createReport, variant="secondary", iconLeading="clipboard-list") }}{{ button(sample.addClient, variant="secondary", iconLeading="user-plus") }}{{ button(sample.newProject, iconLeading="plus") }}{% endcall %}</div>{% endcall %}
+  {% call cell("no actions") %}<div class="w-full max-w-6xl">{{ pageHeader(sample.dashboardTitle, sample.dashboardSubtitle, level=2) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

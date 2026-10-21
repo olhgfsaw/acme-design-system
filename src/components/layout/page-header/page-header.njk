@@ -1,0 +1,8 @@
+{#- PageHeader. Props: title (names the place), description (one friendly sentence), level (1 on a screen). Default slot = the page's buttons: secondaries first, the one primary last. -#}
+{% macro pageHeader(title, description=null, level=1) %}
+{%- set v = variants.pageHeader -%}
+<div data-component="PageHeader" class="{{ v.base }}">
+  <div class="{{ v.slots.text }}"><h{{ level }} class="{{ v.slots.title }}">{{ title }}</h{{ level }}>{% if description %}<p class="{{ v.slots.description }}">{{ description }}</p>{% endif %}</div>
+  {%- if caller %}<div data-slot="actions" class="{{ v.slots.actions }}">{{ caller() }}</div>{% endif %}
+</div>
+{%- endmacro %}

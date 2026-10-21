@@ -1,0 +1,9 @@
+{#- LegendToggle. Props: items [{ id, label, state: "on" | "off" }], label (group name), direction (column | row). Series switches that double as the chart legend: a filled dot is on, a hollow dot is off. Reka ToggleGroup (type multiple). -#}
+{% macro legendToggle(items, label, direction="column") %}
+{%- set v = variants.legendToggle -%}
+<div role="group" aria-label="{{ label }}" data-component="LegendToggle" class="{{ v.base }} {{ v.variants.direction[direction] }}">
+  {%- for it in items %}
+  <button type="button" aria-pressed="{{ "true" if it.state == "on" else "false" }}" data-state="{{ it.state }}" class="{{ v.slots.item }}"><span class="{{ v.slots.dot }}" aria-hidden="true"></span>{{ it.label }}</button>
+  {%- endfor %}
+</div>
+{%- endmacro %}

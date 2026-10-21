@@ -1,14 +1,23 @@
 {
-  "base": "inline-flex shrink-0 items-center justify-center rounded-md transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-50 pointer-coarse:size-11",
+  "base": "relative inline-flex shrink-0 items-center justify-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-50",
   "variants": {
     "variant": {
       "ghost": "text-fg-secondary hover:bg-surface-subtle hover:text-fg active:bg-surface-subtle",
-      "secondary": "border border-control bg-surface text-fg shadow-xs hover:bg-surface-subtle active:bg-surface-subtle"
+      "secondary": "bg-surface-subtle text-fg hover:bg-divider active:bg-divider",
+      "muted": "bg-canvas text-fg-secondary hover:bg-surface-subtle active:bg-surface-subtle",
+      "surface": "bg-surface text-fg hover:bg-surface-subtle active:bg-surface-subtle",
+      "primary": "bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-active"
     },
     "size": {
-      "sm": "size-8",
-      "md": "size-9"
+      "sm": "size-9 pointer-coarse:size-11",
+      "md": "size-12"
     }
   },
-  "defaultVariants": { "variant": "ghost", "size": "md" }
+  "slots": {
+    "dot": "absolute inset-e-3 top-3 size-2 rounded-full bg-accent-strong ring-2 ring-surface-subtle"
+  },
+  "defaultVariants": {
+    "variant": "ghost",
+    "size": "md"
+  }
 }

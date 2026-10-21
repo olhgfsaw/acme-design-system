@@ -1,0 +1,21 @@
+{
+  "base": "flex flex-col gap-3",
+  "variants": {},
+  "slots": {
+    "svg": "block h-auto w-full overflow-visible",
+    "area": "fill-canvas",
+    "line": "stroke-control",
+    "guide": "stroke-control",
+    "point": "fill-fg stroke-surface",
+    "tag": "max-md:hidden",
+    "mobileTag": "md:hidden",
+    "ticks": "flex justify-between gap-2 text-xs text-fg-secondary",
+    "skeleton": "fill-skeleton motion-safe:animate-pulse",
+    "state": "flex flex-col items-center gap-2 py-8 text-center",
+    "stateIcon": "size-6 text-fg-muted",
+    "stateTitle": "text-sm font-medium text-fg",
+    "stateText": "max-w-xs text-sm text-fg-secondary",
+    "tagWrap": "flex h-full items-start justify-center"
+  },
+  "defaultVariants": {}
+}

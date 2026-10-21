@@ -1,0 +1,10 @@
+{
+  "base": "relative flex items-end pt-14",
+  "variants": {},
+  "slots": {
+    "item": "relative rounded-full ring-2 ring-surface not-first:-ms-2.5",
+    "highlighted": "relative z-10 rounded-full not-first:-ms-2.5",
+    "tag": "absolute inset-s-1/2 bottom-full mb-2.5 -translate-x-1/2"
+  },
+  "defaultVariants": {}
+}

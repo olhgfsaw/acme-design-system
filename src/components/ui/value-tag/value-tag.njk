@@ -1,0 +1,5 @@
+{#- ValueTag. Props: label (an already formatted value), pointer (adds the small arrow under the tag). Marks the one number that matters on a chart or a list. -#}
+{% macro valueTag(label, pointer=false) %}
+{%- set v = variants.valueTag -%}
+<span data-component="ValueTag" class="{{ v.base }}">{{ label }}{% if pointer %}<span class="{{ v.slots.pointer }}" aria-hidden="true"></span>{% endif %}</span>
+{%- endmacro %}

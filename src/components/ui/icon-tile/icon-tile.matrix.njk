@@ -1,0 +1,14 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% set description = "A rounded square holding one icon; it anchors a list row or a callout." %}
+{% block matrix %}
+
+{% for tone in ["muted", "card"] %}
+  {% call section(tone) %}
+    {% for size in ["md", "lg"] %}
+      {% call cell(size) %}<div class="rounded-md {{ "bg-surface" if tone == "muted" else "bg-canvas" }} p-3">{{ iconTile("globe", size=size, tone=tone) }}</div>{% endcall %}
+    {% endfor %}
+  {% endcall %}
+{% endfor %}
+{% endblock %}

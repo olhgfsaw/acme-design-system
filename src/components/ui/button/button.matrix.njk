@@ -1,7 +1,7 @@
 {% extends "layouts/matrix.njk" %}
 {% from "layouts/_matrix-macros.njk" import section, cell %}
 {% from "components/ui/button/button.njk" import button %}
-{% set description = "Variants × sizes × states. Check hover and focus by pointing and tabbing inside the frame." %}
+{% set description = "Pill buttons. One primary per view, last in a row. Check hover and focus by pointing and tabbing inside the frame." %}
 {% block matrix %}
 {% for variant in ["primary", "secondary", "ghost", "danger"] %}
   {% call section(variant) %}
@@ -13,4 +13,7 @@
     {% call cell("disabled") %}{{ button(sample.unavailable, variant=variant, disabled=true) }}{% endcall %}
   {% endcall %}
 {% endfor %}
+{% call section("full width (promo call to action)") %}
+  {% call cell("lg · w-full") %}<div class="w-80">{{ button(sample.upgradeNow, size="lg", iconTrailing="arrow-right", layout="w-full") }}</div>{% endcall %}
+{% endcall %}
 {% endblock %}

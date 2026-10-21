@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/gauge-chart/gauge-chart.njk" import gaugeChart %}
+{% from "components/common/chart-legend/chart-legend.njk" import chartLegend %}
+{% set description = "A 220° horseshoe split into status segments, darkest first, with the total in the middle. Switch data states with the tabs." %}
+{% block matrix %}
+{% set messages = { loading: sample.loading, emptyTitle: sample.chartEmptyTitle, emptyText: sample.chartEmptyText, errorTitle: sample.chartErrorTitle, errorText: sample.chartErrorText, retry: sample.retry } %}
+{% call section("with legend") %}
+  {% call cell(state) %}<div class="flex w-72 flex-col gap-6">{{ gaugeChart(sample.projectStatuses, sample.projectsChartLabel, caption=sample.activeProjects, messages=messages, state=state) }}{% if state == "default" %}{{ chartLegend(sample.projectStatuses) }}{% endif %}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

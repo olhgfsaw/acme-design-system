@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/help-callout/help-callout.njk" import helpCallout %}
+{% set description = "A clickable panel with a large icon tile, a question and the way out." %}
+{% block matrix %}
+
+{% call section("default") %}
+  {% call cell("in a sheet") %}<div class="w-80">{{ helpCallout(sample.helpTitle, sample.helpText) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

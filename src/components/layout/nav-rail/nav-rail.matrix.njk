@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/layout/nav-rail/nav-rail.njk" import navRail %}
+{% set description = "The vertical icon rail; the current section is filled with primary. Below md it wraps into rows above the content." %}
+{% block matrix %}
+
+{% call section("current") %}
+  {% call cell("dashboard current · log out pinned") %}<div class="flex">{{ navRail(sample.nav, sample.mainNav, activeId="dashboard", footer=sample.navFooter) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

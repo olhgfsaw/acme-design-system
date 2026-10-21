@@ -1,14 +1,17 @@
 {% extends "layouts/matrix.njk" %}
 {% from "layouts/_matrix-macros.njk" import section, cell %}
 {% from "components/ui/icon-button/icon-button.njk" import iconButton %}
-{% set description = "Icon-only buttons always carry a label (aria-label)." %}
+{% set description = "Round icon-only buttons always carry a label (aria-label). secondary on the canvas, muted in card headers, surface on the promo card, primary only when the icon is the main action." %}
 {% block matrix %}
-{% for variant in ["ghost", "secondary"] %}
+{% for variant in ["ghost", "secondary", "muted", "surface", "primary"] %}
   {% call section(variant) %}
     {% for size in ["sm", "md"] %}
-      {% call cell(size) %}{{ iconButton(sample.close, "x", variant=variant, size=size) }}{% endcall %}
+      {% call cell(size) %}<div class="rounded-md bg-canvas p-3">{{ iconButton(sample.close, "x", variant=variant, size=size) }}</div>{% endcall %}
     {% endfor %}
-    {% call cell("disabled") %}{{ iconButton(sample.delete, "trash-2", variant=variant, disabled=true) }}{% endcall %}
+    {% call cell("disabled") %}<div class="rounded-md bg-canvas p-3">{{ iconButton(sample.delete, "trash-2", variant=variant, disabled=true) }}</div>{% endcall %}
   {% endcall %}
 {% endfor %}
+{% call section("unread dot") %}
+  {% call cell("secondary · md") %}{{ iconButton(sample.notificationsUnread, "bell", variant="secondary", dot=true) }}{% endcall %}
+{% endcall %}
 {% endblock %}

@@ -1,10 +1,22 @@
 {
-  "base": "w-full min-w-0 rounded-md border border-control bg-surface px-3 text-sm text-fg shadow-xs placeholder:text-fg-muted focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-focus disabled:cursor-not-allowed disabled:bg-surface-subtle disabled:text-fg-muted aria-invalid:border-danger-fg",
+  "base": "w-full min-w-0 text-fg placeholder:text-fg-muted focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-focus disabled:cursor-not-allowed disabled:bg-surface-subtle disabled:text-fg-muted aria-invalid:border-danger-fg",
   "variants": {
+    "variant": {
+      "outline": "rounded-md border border-control bg-surface px-3 text-sm shadow-xs",
+      "search": "rounded-full border border-transparent bg-surface-subtle ps-12 pe-5 text-base"
+    },
     "size": {
       "sm": "h-8 pointer-coarse:h-11",
-      "md": "h-9 pointer-coarse:h-11"
+      "md": "h-9 pointer-coarse:h-11",
+      "lg": "h-12"
     }
   },
-  "defaultVariants": { "size": "md" }
+  "slots": {
+    "wrapper": "relative w-full",
+    "icon": "pointer-events-none absolute inset-s-5 top-1/2 size-5 -translate-y-1/2 text-fg-muted"
+  },
+  "defaultVariants": {
+    "variant": "outline",
+    "size": "md"
+  }
 }

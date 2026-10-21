@@ -1,0 +1,5 @@
+{
+  "base": "text-6xl font-normal tracking-tight whitespace-nowrap text-fg tabular-nums",
+  "variants": {},
+  "defaultVariants": {}
+}

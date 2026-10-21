@@ -1,0 +1,10 @@
+{
+  "base": "flex flex-wrap items-center gap-2 md:flex-col md:flex-nowrap md:gap-4",
+  "variants": {},
+  "slots": {
+    "list": "flex flex-wrap gap-2 md:flex-col md:gap-4",
+    "footer": "ms-auto flex gap-2 md:ms-0 md:mt-auto md:flex-col md:pt-10",
+    "item": "inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-surface-subtle text-fg-secondary transition-colors hover:bg-divider active:bg-divider aria-[current=page]:bg-primary aria-[current=page]:text-on-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+  },
+  "defaultVariants": {}
+}

@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/area-chart/area-chart.njk" import areaChart %}
+{% from "components/ui/legend-toggle/legend-toggle.njk" import legendToggle %}
+{% set description = "A smooth series line over a soft area, a dashed guide and the value tag on the point that matters. Switch data states with the tabs." %}
+{% block matrix %}
+{% set messages = { loading: sample.loading, emptyTitle: sample.chartEmptyTitle, emptyText: sample.chartEmptyText, errorTitle: sample.chartErrorTitle, errorText: sample.chartErrorText, retry: sample.retry } %}
+{% set tag = (sample.revenue[sample.highlight] * 1000) | number({ style: "currency", currency: project.currency, notation: "compact" }) %}
+{% call section("with series toggles") %}
+  <div class="flex w-full max-w-3xl items-start gap-6">{{ legendToggle(sample.series, sample.seriesLabel) }}<div class="min-w-0 flex-1">{{ areaChart(sample.months, sample.revenue, sample.revenueChartLabel, seriesLabel=sample.series[0].label, area=sample.expense, areaLabel=sample.series[1].label, highlight=sample.highlight, tagLabel=tag, messages=messages, state=state) }}</div></div>
+{% endcall %}
+{% endblock %}

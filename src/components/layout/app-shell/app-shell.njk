@@ -1,0 +1,11 @@
+{#- AppShell. Props: topBar (a rendered TopBar), rail (a rendered NavRail) — capture them with {% set %} blocks. Default slot = <main>: PageHeader, then the card grid. Once per screen. -#}
+{% macro appShell(topBar, rail) %}
+{%- set v = variants.appShell -%}
+<div data-component="AppShell" class="{{ v.base }}">
+  {{ topBar | safe }}
+  <div class="{{ v.slots.body }}">
+    {{ rail | safe }}
+    <main class="{{ v.slots.main }}">{% if caller %}{{ caller() }}{% endif %}</main>
+  </div>
+</div>
+{%- endmacro %}

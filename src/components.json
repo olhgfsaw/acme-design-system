@@ -1,45 +1,155 @@
 {
   "BaseButton": {
-    "description": "Triggers an action: one primary per view, secondary for the rest, ghost in toolbars, danger only for destructive actions.",
+    "description": "Triggers an action: pill-shaped; one primary per view, last in its row; secondary for the rest, ghost in toolbars, danger only for destructive actions.",
     "category": "ui",
     "path": "src/components/ui/button",
-    "variants": { "variant": ["primary", "secondary", "ghost", "danger"], "size": ["sm", "md", "lg"] },
-    "slots": ["default"],
-    "props": ["label", "variant", "size", "type", "disabled", "loading", "iconLeading", "iconTrailing"],
-    "states": ["default", "hover", "focus", "active", "disabled", "loading"],
+    "variants": {
+      "variant": [
+        "primary",
+        "secondary",
+        "ghost",
+        "danger"
+      ],
+      "size": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "label",
+      "variant",
+      "size",
+      "type",
+      "disabled",
+      "loading",
+      "iconLeading",
+      "iconTrailing"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus",
+      "active",
+      "disabled",
+      "loading"
+    ],
     "reka": null,
     "status": "review"
   },
   "BaseIconButton": {
-    "description": "A compact action shown as an icon only, always with an accessible name (aria-label) and a tooltip.",
+    "description": "A round action shown as an icon only, always with an accessible name (aria-label): secondary on the canvas, muted in card headers, surface on the promo card, primary when the icon is the main action.",
     "category": "ui",
     "path": "src/components/ui/icon-button",
-    "variants": { "variant": ["ghost", "secondary"], "size": ["sm", "md"] },
+    "variants": {
+      "variant": [
+        "ghost",
+        "secondary",
+        "muted",
+        "surface",
+        "primary"
+      ],
+      "size": [
+        "sm",
+        "md"
+      ]
+    },
     "slots": [],
-    "props": ["label", "iconName", "variant", "size", "disabled"],
-    "states": ["default", "hover", "focus", "active", "disabled"],
+    "props": [
+      "label",
+      "iconName",
+      "variant",
+      "size",
+      "disabled",
+      "dot"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus",
+      "active",
+      "disabled"
+    ],
     "reka": null,
     "status": "review"
   },
   "BaseBadge": {
-    "description": "A short status label; the text carries the meaning, the tone only supports it.",
+    "description": "A short status label; the text carries the meaning, the tone only supports it. accent · md is the plan badge on the promo card.",
     "category": "ui",
     "path": "src/components/ui/badge",
-    "variants": { "tone": ["neutral", "info", "success", "warning", "danger"] },
-    "slots": ["default"],
-    "props": ["label", "tone", "dot"],
-    "states": ["default"],
+    "variants": {
+      "tone": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "accent"
+      ],
+      "size": [
+        "sm",
+        "md"
+      ]
+    },
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "label",
+      "tone",
+      "dot",
+      "size",
+      "iconName"
+    ],
+    "states": [
+      "default"
+    ],
     "reka": null,
     "status": "review"
   },
   "BaseInput": {
-    "description": "A single-line text field, always used inside FormField so it has a label, hint and error.",
+    "description": "A single-line text field, always used inside FormField so it has a label, hint and error; the search variant is the global search pill in TopBar.",
     "category": "ui",
     "path": "src/components/ui/input",
-    "variants": { "size": ["sm", "md"] },
+    "variants": {
+      "variant": [
+        "outline",
+        "search"
+      ],
+      "size": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    },
     "slots": [],
-    "props": ["id", "name", "type", "value", "placeholder", "size", "invalid", "required", "disabled", "describedby", "inputmode", "autocomplete", "numeric"],
-    "states": ["default", "focus", "invalid", "disabled"],
+    "props": [
+      "id",
+      "name",
+      "type",
+      "value",
+      "placeholder",
+      "size",
+      "invalid",
+      "required",
+      "disabled",
+      "describedby",
+      "inputmode",
+      "autocomplete",
+      "numeric",
+      "label",
+      "variant",
+      "iconLeading"
+    ],
+    "states": [
+      "default",
+      "focus",
+      "invalid",
+      "disabled"
+    ],
     "reka": null,
     "status": "review"
   },
@@ -48,10 +158,463 @@
     "category": "form",
     "path": "src/components/form/form-field",
     "variants": {},
-    "slots": ["default"],
-    "props": ["id", "label", "hint", "error", "required", "input"],
-    "states": ["default", "invalid"],
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "id",
+      "label",
+      "hint",
+      "error",
+      "required",
+      "input"
+    ],
+    "states": [
+      "default",
+      "invalid"
+    ],
     "reka": null,
     "status": "review"
+  },
+  "BaseAvatar": {
+    "description": "A round portrait that falls back to initials on the accent tint; the ring marks the selected person.",
+    "category": "ui",
+    "path": "src/components/ui/avatar",
+    "variants": {
+      "size": [
+        "sm",
+        "md"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "name",
+      "src",
+      "size",
+      "ring",
+      "decorative"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": "Avatar",
+    "status": "draft"
+  },
+  "AvatarStack": {
+    "description": "Overlapping avatars of a small group with one person called out by the ring and a value tag.",
+    "category": "ui",
+    "path": "src/components/ui/avatar-stack",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "people",
+      "label",
+      "highlight",
+      "tag"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ValueTag": {
+    "description": "The amber tag that marks the one value that matters on a chart or in a group, optionally with a pointer.",
+    "category": "ui",
+    "path": "src/components/ui/value-tag",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "label",
+      "pointer"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "IconTile": {
+    "description": "A rounded square holding one decorative icon that anchors a list row or a callout.",
+    "category": "ui",
+    "path": "src/components/ui/icon-tile",
+    "variants": {
+      "size": [
+        "md",
+        "lg"
+      ],
+      "tone": [
+        "muted",
+        "card"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "iconName",
+      "size",
+      "tone"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ProgressBar": {
+    "description": "A thin progress bar on a soft track; always shown next to a title or a number so the tone never carries the state alone.",
+    "category": "ui",
+    "path": "src/components/ui/progress-bar",
+    "variants": {
+      "tone": [
+        "accent",
+        "success",
+        "danger",
+        "neutral"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "value",
+      "label",
+      "tone"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": "Progress",
+    "status": "draft"
+  },
+  "LegendToggle": {
+    "description": "Series switches that double as a chart legend: a filled dot means the series is shown.",
+    "category": "ui",
+    "path": "src/components/ui/legend-toggle",
+    "variants": {
+      "direction": [
+        "column",
+        "row"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "items",
+      "label",
+      "direction"
+    ],
+    "states": [
+      "default",
+      "on",
+      "off",
+      "hover",
+      "focus"
+    ],
+    "reka": "ToggleGroup",
+    "status": "draft"
+  },
+  "BaseCard": {
+    "description": "The white tile every dashboard block sits in, with an optional title and expand button; one idea per card.",
+    "category": "common",
+    "path": "src/components/common/card",
+    "variants": {},
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "id",
+      "title",
+      "expandLabel",
+      "level"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "StatBlock": {
+    "description": "A card's headline number with its label and an optional trend shown as color and arrow.",
+    "category": "common",
+    "path": "src/components/common/stat-block",
+    "variants": {
+      "trend": [
+        "up",
+        "down"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "label",
+      "value",
+      "delta",
+      "trend",
+      "trendLabel"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "CountdownTimer": {
+    "description": "A single live HH:MM:SS figure that fills a small card, such as the time until the next meeting.",
+    "category": "common",
+    "path": "src/components/common/countdown-timer",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "seconds",
+      "label"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ChartLegend": {
+    "description": "Dot, label and bold count for each part of a chart, two to a row.",
+    "category": "common",
+    "path": "src/components/common/chart-legend",
+    "variants": {
+      "tone": [
+        "accent-strong",
+        "accent",
+        "accent-subtle",
+        "neutral"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "items"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "GaugeChart": {
+    "description": "A 220° horseshoe split into status segments with the total in the middle; always paired with a ChartLegend.",
+    "category": "common",
+    "path": "src/components/common/gauge-chart",
+    "variants": {
+      "tone": [
+        "accent-strong",
+        "accent",
+        "accent-subtle",
+        "neutral"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "segments",
+      "label",
+      "caption",
+      "value",
+      "messages",
+      "state"
+    ],
+    "states": [
+      "default"
+    ],
+    "dataStates": [
+      "loading",
+      "empty",
+      "error"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "AreaChart": {
+    "description": "A smooth series line over a soft area with a value tag on the point that matters; no gridlines, no y-axis.",
+    "category": "common",
+    "path": "src/components/common/area-chart",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "labels",
+      "series",
+      "label",
+      "seriesLabel",
+      "area",
+      "areaLabel",
+      "highlight",
+      "tagLabel",
+      "messages",
+      "state"
+    ],
+    "states": [
+      "default"
+    ],
+    "dataStates": [
+      "loading",
+      "empty",
+      "error"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "MeterBar": {
+    "description": "A labelled bar whose length is the value, for comparing people or items on one measure; one standout row gets the amber hatch.",
+    "category": "common",
+    "path": "src/components/common/meter-bar",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "label",
+      "value",
+      "max",
+      "highlight",
+      "valueLabel"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ProjectItem": {
+    "description": "A list row with an icon tile, title, client line and a thin progress bar with its readout.",
+    "category": "common",
+    "path": "src/components/common/project-item",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "title",
+      "subtitle",
+      "iconName",
+      "progress",
+      "tone",
+      "statusLabel"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "HelpCallout": {
+    "description": "A clickable panel with a large icon tile, a question and the way out, used inside the promo card.",
+    "category": "common",
+    "path": "src/components/common/help-callout",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "title",
+      "text",
+      "iconName"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus",
+      "active"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "PromoCard": {
+    "description": "The tall upsell card with the plan offer, help and a full-width call to action; one per screen.",
+    "category": "common",
+    "path": "src/components/common/promo-card",
+    "variants": {},
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "id",
+      "title",
+      "text",
+      "closeLabel",
+      "offerTitle",
+      "offerBadge",
+      "offerBadgeIcon"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "PageHeader": {
+    "description": "Page title, one-line description and the page's buttons, primary last on the right.",
+    "category": "layout",
+    "path": "src/components/layout/page-header",
+    "variants": {},
+    "slots": [
+      "actions"
+    ],
+    "props": [
+      "title",
+      "description",
+      "level"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "NavRail": {
+    "description": "The vertical icon rail for the main sections; the current one is filled with primary, log out is pinned to the bottom.",
+    "category": "layout",
+    "path": "src/components/layout/nav-rail",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "items",
+      "label",
+      "activeId",
+      "footer"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus",
+      "current"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "TopBar": {
+    "description": "The bar across the top: brand, global search and the account actions.",
+    "category": "layout",
+    "path": "src/components/layout/top-bar",
+    "variants": {},
+    "slots": [
+      "actions"
+    ],
+    "props": [
+      "brand",
+      "searchPlaceholder",
+      "searchLabel",
+      "homeHref",
+      "searchId"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "AppShell": {
+    "description": "The whole-screen frame: top bar across, icon rail beside the main content.",
+    "category": "layout",
+    "path": "src/components/layout/app-shell",
+    "variants": {},
+    "slots": [
+      "default",
+      "topBar",
+      "rail"
+    ],
+    "props": [
+      "topBar",
+      "rail"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
   }
 }

@@ -1,0 +1,11 @@
+{#- AvatarStack. Props: people [{ name, src }], label (what the group is), highlight (index of the called-out person), tag (formatted value shown above them). -#}
+{% from "components/ui/avatar/avatar.njk" import avatar %}
+{% from "components/ui/value-tag/value-tag.njk" import valueTag %}
+{% macro avatarStack(people, label, highlight=null, tag=null) %}
+{%- set v = variants.avatarStack -%}
+<ul data-component="AvatarStack" aria-label="{{ label }}" class="{{ v.base }}">
+  {%- for p in people %}{% set hl = (loop.index0 == highlight) %}
+  <li class="{{ v.slots.highlighted if hl else v.slots.item }}">{{ avatar(p.name, src=p.src, ring=hl) }}{% if hl and tag %}<span class="{{ v.slots.tag }}">{{ valueTag(tag, pointer=true) }}</span>{% endif %}</li>
+  {%- endfor %}
+</ul>
+{%- endmacro %}
