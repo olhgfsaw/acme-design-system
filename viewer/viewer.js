@@ -7,6 +7,7 @@ let state = { ...defaults };
 try { state = { ...defaults, ...JSON.parse(localStorage.getItem(KEY) || "{}") }; } catch {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {} };
 
+const STATUSES = ["draft", "review", "approved", "deprecated"];
 const STATE_LABELS = { default: "Default", loading: "Loading", empty: "Empty", "no-results": "No results", error: "Error", stress: "Stress" };
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const anchor = (id) => `frame-${id.replace(/[^\w-]/g, "-")}`;
@@ -48,7 +49,8 @@ function card(f, opts) {
     <header>
       <strong>${esc(f.title || f.id)}</strong>
       <code>${esc(f.id)}</code>
-      <span class="status status-${esc(status)}">${esc(status)}</span>
+      <select class="status status-${esc(status)}" aria-label="Status of ${esc(f.title || f.id)}" data-status-kind="${f.id.startsWith("components/") ? "component" : "frame"}" data-status-id="${esc(f.id.startsWith("components/") ? f.title : f.id)}">${STATUSES.map((s) => `<option${s === status ? " selected" : ""}>${s}</option>`).join("")}</select>
+      ${status === "approved" ? `<span class="hint">baseline: <code>npm run approve:visual</code></span>` : ""}
       <a href="/frames/${esc(fileFor(f.id, viewOf(f)))}.html?theme=${themes()[0]}" target="_blank" rel="noopener">Open ↗</a>
     </header>
     ${tabs(f)}
@@ -98,6 +100,7 @@ function render() {
   const q = document.getElementById("q");
   q.addEventListener("input", (e) => { state.q = e.target.value; save(); clearTimeout(q.t); q.t = setTimeout(() => { render(); document.getElementById("q").focus(); }, 250); });
   bindTabs(document);
+  bindStatus(document);
   for (const a of document.querySelectorAll("[data-jump]")) {
     a.addEventListener("click", (e) => { e.preventDefault(); document.getElementById(a.dataset.jump)?.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" }); });
   }
@@ -105,6 +108,36 @@ function render() {
 }
 
 // A state tab changes only its own frame: that one card is redrawn, every other frame keeps its iframes.
+// Status picker: writes the status into src/canvas.json or src/components.json through the dev server.
+function bindStatus(root) {
+  for (const sel of root.querySelectorAll("select[data-status-id]")) {
+    sel.addEventListener("change", async () => {
+      const { statusKind: kind, statusId: id } = sel.dataset;
+      const prev = [...sel.classList].find((c) => c.startsWith("status-"))?.slice(7);
+      try {
+        const r = await fetch("/__status", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id, status: sel.value }) });
+        if (!r.ok) throw new Error((await r.json()).error);
+      } catch (e) {
+        sel.value = prev;
+        alert(`Status not saved: ${e.message}. The picker works only with the dev server (npm run dev).`);
+        return;
+      }
+      const list = kind === "component" ? manifest.components || [] : (manifest.flows || []).flatMap((flow) => flow.frames || []);
+      const f = list.find((x) => (kind === "component" ? x.title : x.id) === id);
+      if (f) f.status = sel.value;
+      const article = sel.closest("article");
+      if (f && article) {
+        const tmp = document.createElement("div");
+        tmp.innerHTML = card(f, kind === "component" ? { auto: true } : undefined);
+        const head = tmp.querySelector("header");
+        article.querySelector("header").replaceWith(head);
+        bindStatus(head);
+        head.querySelector("select")?.focus();
+      }
+    });
+  }
+}
+
 function bindTabs(root) {
   for (const b of root.querySelectorAll("[data-view]")) {
     b.addEventListener("click", () => {
@@ -120,6 +153,7 @@ function bindTabs(root) {
       const next = tmp.firstElementChild;
       old.replaceWith(next);
       bindTabs(next);
+      bindStatus(next);
       autoHeight(next);
       next.querySelector(`[data-view="${CSS.escape(b.dataset.view)}"]`)?.focus();
     });

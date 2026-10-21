@@ -45,3 +45,5 @@ body { margin: 0; background: var(--bg); color: var(--text); }
 .shot { margin: 0; display: flex; flex-direction: column; gap: 6px; }
 .shot figcaption { color: var(--muted); }
 .shot iframe { border: 1px solid var(--line); border-radius: 6px; background: #fff; display: block; }
+select.status { font: inherit; font-size: inherit; background: transparent; cursor: pointer; }
+.hint { color: var(--muted); font-size: 11px; }
