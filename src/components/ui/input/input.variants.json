@@ -1,0 +1,10 @@
+{
+  "base": "w-full min-w-0 rounded-md border border-control bg-surface px-3 text-sm text-fg shadow-xs placeholder:text-fg-muted focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-focus disabled:cursor-not-allowed disabled:bg-surface-subtle disabled:text-fg-muted aria-invalid:border-danger-fg",
+  "variants": {
+    "size": {
+      "sm": "h-8 pointer-coarse:h-11",
+      "md": "h-9 pointer-coarse:h-11"
+    }
+  },
+  "defaultVariants": { "size": "md" }
+}

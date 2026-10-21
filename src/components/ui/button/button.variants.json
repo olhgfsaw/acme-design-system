@@ -1,0 +1,17 @@
+{
+  "base": "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-50 aria-busy:cursor-progress",
+  "variants": {
+    "variant": {
+      "primary": "bg-primary text-on-primary shadow-xs hover:bg-primary-hover active:bg-primary-active",
+      "secondary": "border border-control bg-surface text-fg shadow-xs hover:bg-surface-subtle active:bg-surface-subtle",
+      "ghost": "text-fg-secondary hover:bg-surface-subtle hover:text-fg active:bg-surface-subtle",
+      "danger": "bg-danger-solid text-on-danger shadow-xs hover:bg-danger-solid-hover active:bg-danger-solid-hover"
+    },
+    "size": {
+      "sm": "h-8 px-3 pointer-coarse:h-11",
+      "md": "h-9 px-4 pointer-coarse:h-11",
+      "lg": "h-10 px-5 pointer-coarse:h-12"
+    }
+  },
+  "defaultVariants": { "variant": "primary", "size": "md" }
+}

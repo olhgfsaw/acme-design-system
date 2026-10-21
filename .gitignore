@@ -1,0 +1,7 @@
+node_modules/
+dist/
+frames/
+design-import/
+test-results/
+playwright-report/
+.design-system/

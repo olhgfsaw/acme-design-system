@@ -1,0 +1,14 @@
+{#- Frame shell: every page and matrix extends this. Theme comes from ?theme=dark (set by the canvas). -#}
+<!doctype html>
+<html lang="{{ project.locale or 'en' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title or frame.title or frame.id }}</title>
+    <script>if (new URLSearchParams(location.search).get("theme") === "dark") document.documentElement.classList.add("dark");</script>
+    <link rel="stylesheet" href="/src/styles/tokens.css">
+  </head>
+  <body class="{{ bodyClass or 'min-h-dvh antialiased' }}">
+    {% block body %}{% endblock %}
+  </body>
+</html>

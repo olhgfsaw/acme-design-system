@@ -1,0 +1,57 @@
+{
+  "BaseButton": {
+    "description": "Triggers an action: one primary per view, secondary for the rest, ghost in toolbars, danger only for destructive actions.",
+    "category": "ui",
+    "path": "src/components/ui/button",
+    "variants": { "variant": ["primary", "secondary", "ghost", "danger"], "size": ["sm", "md", "lg"] },
+    "slots": ["default"],
+    "props": ["label", "variant", "size", "type", "disabled", "loading", "iconLeading", "iconTrailing"],
+    "states": ["default", "hover", "focus", "active", "disabled", "loading"],
+    "reka": null,
+    "status": "review"
+  },
+  "BaseIconButton": {
+    "description": "A compact action shown as an icon only, always with an accessible name (aria-label) and a tooltip.",
+    "category": "ui",
+    "path": "src/components/ui/icon-button",
+    "variants": { "variant": ["ghost", "secondary"], "size": ["sm", "md"] },
+    "slots": [],
+    "props": ["label", "iconName", "variant", "size", "disabled"],
+    "states": ["default", "hover", "focus", "active", "disabled"],
+    "reka": null,
+    "status": "review"
+  },
+  "BaseBadge": {
+    "description": "A short status label; the text carries the meaning, the tone only supports it.",
+    "category": "ui",
+    "path": "src/components/ui/badge",
+    "variants": { "tone": ["neutral", "info", "success", "warning", "danger"] },
+    "slots": ["default"],
+    "props": ["label", "tone", "dot"],
+    "states": ["default"],
+    "reka": null,
+    "status": "review"
+  },
+  "BaseInput": {
+    "description": "A single-line text field, always used inside FormField so it has a label, hint and error.",
+    "category": "ui",
+    "path": "src/components/ui/input",
+    "variants": { "size": ["sm", "md"] },
+    "slots": [],
+    "props": ["id", "name", "type", "value", "placeholder", "size", "invalid", "required", "disabled", "describedby", "inputmode", "autocomplete", "numeric"],
+    "states": ["default", "focus", "invalid", "disabled"],
+    "reka": null,
+    "status": "review"
+  },
+  "FormField": {
+    "description": "Wraps a control with its label, optional hint and error message, and links them for screen readers.",
+    "category": "form",
+    "path": "src/components/form/form-field",
+    "variants": {},
+    "slots": ["default"],
+    "props": ["id", "label", "hint", "error", "required", "input"],
+    "states": ["default", "invalid"],
+    "reka": null,
+    "status": "review"
+  }
+}

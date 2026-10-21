@@ -1,0 +1,7 @@
+{#- BaseIconButton. Props: label (required → aria-label), icon, variant, size, disabled. -#}
+{% macro iconButton(label, iconName, variant="ghost", size="md", disabled=false, layout="") %}
+{%- set v = variants.iconButton -%}
+<button type="button" aria-label="{{ label }}" data-component="BaseIconButton" data-variant="{{ variant }}" data-size="{{ size }}" class="{{ (v.base ~ " " ~ v.variants.variant[variant] ~ " " ~ v.variants.size[size] ~ " " ~ layout) | trim }}"{% if disabled %} disabled{% endif %}>
+  {{- icon(iconName, "size-4" if size == "sm" else "size-5") -}}
+</button>
+{%- endmacro %}

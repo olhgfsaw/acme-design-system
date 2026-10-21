@@ -1,0 +1,14 @@
+{#- BaseInput. Props: id, name, type, value, placeholder, size, invalid, required, disabled, describedby, inputmode, autocomplete, numeric (tabular-nums). Use inside FormField. -#}
+{% macro input(id, name=null, type="text", value="", placeholder="", size="md", invalid=false, required=false, disabled=false, describedby=null, inputmode=null, autocomplete=null, numeric=false, label=null) %}
+{%- set v = variants.input -%}
+<input id="{{ id }}" name="{{ name or id }}" type="{{ type }}" data-component="BaseInput" data-size="{{ size }}" class="{{ v.base }} {{ v.variants.size[size] }}{% if numeric %} tabular-nums{% endif %}"
+  {%- if value %} value="{{ value }}"{% endif %}
+  {%- if placeholder %} placeholder="{{ placeholder }}"{% endif %}
+  {%- if label %} aria-label="{{ label }}"{% endif %}
+  {%- if invalid %} aria-invalid="true"{% endif %}
+  {%- if required %} required{% endif %}
+  {%- if disabled %} disabled{% endif %}
+  {%- if describedby %} aria-describedby="{{ describedby }}"{% endif %}
+  {%- if inputmode %} inputmode="{{ inputmode }}"{% endif %}
+  {%- if autocomplete %} autocomplete="{{ autocomplete }}"{% endif %}>
+{%- endmacro %}

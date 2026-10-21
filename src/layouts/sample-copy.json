@@ -1,0 +1,30 @@
+{
+  "$comment": "Sample UI text for the starter's reference matrix pages, per interface language (project.locale). Real screens take copy from fixtures and glossary.json — not from here. Add a language by copying the \"en\" block.",
+  "en": {
+    "create": "Create deal", "export": "Export", "saving": "Saving…", "unavailable": "Unavailable",
+    "close": "Close", "delete": "Delete",
+    "statusNew": "New", "statusInProgress": "In progress", "statusWon": "Won", "statusWaiting": "Awaiting reply", "statusOverdue": "Overdue", "statusDraft": "Draft",
+    "company": "Company", "companyPlaceholder": "For example, Northwind Traders", "companyValue": "Northwind Traders Ltd.",
+    "phone": "Phone", "phoneShort": "555 0100", "source": "Source", "readOnly": "Read only", "search": "Search", "searchDeals": "Search deals",
+    "dealName": "Deal name", "dealNamePlaceholder": "For example, CRM rollout", "amount": "Amount", "amountHint": "Whole units, no cents",
+    "phoneHint": "With country code", "phoneError": "The number must start with a country code, for example +1 555 010 0199"
+  },
+  "ru": {
+    "create": "Создать сделку", "export": "Экспорт", "saving": "Сохранение…", "unavailable": "Недоступно",
+    "close": "Закрыть", "delete": "Удалить",
+    "statusNew": "Новая", "statusInProgress": "В работе", "statusWon": "Выиграна", "statusWaiting": "Ожидает ответа", "statusOverdue": "Просрочена", "statusDraft": "Черновик",
+    "company": "Компания", "companyPlaceholder": "Например, ООО «Северсталь»", "companyValue": "ООО «Северсталь-Трейд»",
+    "phone": "Телефон", "phoneShort": "900 000", "source": "Источник", "readOnly": "Только для чтения", "search": "Поиск", "searchDeals": "Поиск по сделкам",
+    "dealName": "Название сделки", "dealNamePlaceholder": "Например, внедрение CRM", "amount": "Сумма", "amountHint": "Целыми числами, без копеек",
+    "phoneHint": "С кодом страны", "phoneError": "Номер должен начинаться с кода страны, например +7 900 000-00-00"
+  },
+  "uk": {
+    "create": "Створити угоду", "export": "Експорт", "saving": "Збереження…", "unavailable": "Недоступно",
+    "close": "Закрити", "delete": "Видалити",
+    "statusNew": "Нова", "statusInProgress": "У роботі", "statusWon": "Виграна", "statusWaiting": "Очікує відповіді", "statusOverdue": "Прострочена", "statusDraft": "Чернетка",
+    "company": "Компанія", "companyPlaceholder": "Наприклад, ТОВ «Нова Пошта»", "companyValue": "ТОВ «Нова Пошта Глобал»",
+    "phone": "Телефон", "phoneShort": "67 000 00", "source": "Джерело", "readOnly": "Лише для читання", "search": "Пошук", "searchDeals": "Пошук угод",
+    "dealName": "Назва угоди", "dealNamePlaceholder": "Наприклад, впровадження CRM", "amount": "Сума", "amountHint": "Цілими числами, без копійок",
+    "phoneHint": "З кодом країни", "phoneError": "Номер має починатися з коду країни, наприклад +380 67 000 00 00"
+  }
+}

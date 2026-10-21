@@ -1,0 +1,12 @@
+{#- Layout for component matrix pages: a titled grid of labelled cells. -#}
+{% extends "layouts/frame.njk" %}
+{% set bodyClass = "min-h-dvh bg-canvas antialiased" %}
+{% block body %}
+<main class="flex flex-col gap-8 p-8">
+  <header class="flex flex-col gap-1">
+    <h1 class="text-2xl font-semibold tracking-tight text-fg">{{ frame.title }}</h1>
+    {% if description %}<p class="max-w-prose text-sm text-fg-secondary">{{ description }}</p>{% endif %}
+  </header>
+  {% block matrix %}{% endblock %}
+</main>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% set description = "Label above the field; hint and error below it, linked with aria-describedby." %}
+{% block matrix %}
+{% call section("states") %}
+  {% call cell("default") %}<div class="w-80">{{ formField("ff-1", sample.dealName, required=true, input={ placeholder: sample.dealNamePlaceholder }) }}</div>{% endcall %}
+  {% call cell("hint") %}<div class="w-80">{{ formField("ff-2", sample.amount, hint=sample.amountHint, input={ inputmode: "decimal", numeric: true, value: 1250000 | number }) }}</div>{% endcall %}
+  {% call cell("error") %}<div class="w-80">{{ formField("ff-3", sample.phone, hint=sample.phoneHint, error=sample.phoneError, required=true, input={ type: "tel", value: sample.phoneShort, autocomplete: "tel" }) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

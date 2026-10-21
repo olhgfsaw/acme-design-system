@@ -1,0 +1,204 @@
+/* =============================================================================
+   tokens.css — the ONLY file in the project that contains raw color values.
+
+   1. Palette        raw values, NOT utilities. Replace with the project's brand
+                     (from the Claude Design design system). Keep the step names.
+   2. Semantic tokens  names are fixed across all projects; components use only
+                     these (bg-surface, text-fg, border-control, ...).
+   3. Dark theme     overrides semantic tokens only. Components never use dark:.
+
+   Placeholder values below are Tailwind v4 slate / blue / emerald / amber / rose /
+   sky. After replacing the palette, re-check the contrast pairs at the bottom.
+   ============================================================================= */
+
+@import "tailwindcss";
+@import "@fontsource-variable/inter"; /* replace with the project font package (see /bootstrap) */
+
+/* Rule and docs files contain "don't do this" examples — do not generate CSS from them. */
+@source not "../../.claude";
+@source not "../../*.md";
+@source not "../../viewer";
+@source not "../../index.html";
+@source not "../../build";
+@source not "../../scripts";
+@source not "../../tests";
+@source not "../../design-import";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   1. Palette — raw values (not utilities)
+   --------------------------------------------------------------------------- */
+:root {
+  --palette-white: oklch(100% 0 0);
+
+  --palette-neutral-50: oklch(98.4% 0.003 247.858);
+  --palette-neutral-100: oklch(96.8% 0.007 247.896);
+  --palette-neutral-200: oklch(92.9% 0.013 255.508);
+  --palette-neutral-300: oklch(86.9% 0.022 252.894);
+  --palette-neutral-400: oklch(70.4% 0.04 256.788);
+  --palette-neutral-450: oklch(64% 0.045 257); /* control borders: ≥ 3:1 on white, neutral-50, neutral-100 */
+  --palette-neutral-500: oklch(55.4% 0.046 257.417);
+  --palette-neutral-550: oklch(53% 0.046 257.4); /* muted text: ≥ 4.5:1 on white, neutral-50, neutral-100 */
+  --palette-neutral-600: oklch(44.6% 0.043 257.281);
+  --palette-neutral-700: oklch(37.2% 0.044 257.287);
+  --palette-neutral-800: oklch(27.9% 0.041 260.031);
+  --palette-neutral-900: oklch(20.8% 0.042 265.755);
+  --palette-neutral-950: oklch(12.9% 0.042 264.695);
+
+  --palette-primary-50: oklch(97% 0.014 254.604);
+  --palette-primary-400: oklch(70.7% 0.165 254.624);
+  --palette-primary-600: oklch(54.6% 0.245 262.881);
+  --palette-primary-700: oklch(48.8% 0.243 264.376);
+  --palette-primary-800: oklch(42.4% 0.199 265.638);
+  --palette-primary-950: oklch(28.2% 0.091 267.935);
+
+  --palette-success-50: oklch(97.9% 0.021 166.113);
+  --palette-success-200: oklch(90.5% 0.093 164.15);
+  --palette-success-300: oklch(84.5% 0.143 164.978);
+  --palette-success-700: oklch(50.8% 0.118 165.612);
+  --palette-success-800: oklch(43.2% 0.095 166.913);
+  --palette-success-950: oklch(26.2% 0.051 172.552);
+
+  --palette-warning-50: oklch(98.7% 0.022 95.277);
+  --palette-warning-200: oklch(92.4% 0.12 95.746);
+  --palette-warning-300: oklch(87.9% 0.169 91.605);
+  --palette-warning-700: oklch(55.5% 0.163 48.998);
+  --palette-warning-800: oklch(47.3% 0.137 46.201);
+  --palette-warning-950: oklch(27.9% 0.077 45.635);
+
+  --palette-danger-50: oklch(96.9% 0.015 12.422);
+  --palette-danger-200: oklch(89.2% 0.058 10.001);
+  --palette-danger-300: oklch(81% 0.117 11.638);
+  --palette-danger-700: oklch(51.4% 0.222 16.935);
+  --palette-danger-800: oklch(45.5% 0.188 13.697);
+  --palette-danger-950: oklch(27.1% 0.105 12.094);
+
+  --palette-info-50: oklch(97.7% 0.013 236.62);
+  --palette-info-200: oklch(90.1% 0.058 230.902);
+  --palette-info-300: oklch(82.8% 0.111 230.318);
+  --palette-info-700: oklch(50% 0.134 242.749);
+  --palette-info-800: oklch(44.3% 0.11 240.79);
+  --palette-info-950: oklch(29.3% 0.066 243.157);
+}
+
+/* ---------------------------------------------------------------------------
+   2. Semantic tokens — the only colors components may use
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Remove Tailwind's default palette: bg-slate-100, text-white etc. do not exist. */
+  --color-*: initial;
+
+  /* Surfaces */
+  --color-canvas: var(--palette-neutral-50); /* page background */
+  --color-surface: var(--palette-white); /* cards, tables, panels, inputs */
+  --color-surface-subtle: var(--palette-neutral-100); /* table header, secondary areas */
+  --color-surface-overlay: var(--palette-white); /* menus, popovers, modals, drawers */
+  --color-backdrop: color-mix(in oklab, var(--palette-neutral-900) 40%, transparent);
+  --color-skeleton: var(--palette-neutral-200);
+
+  /* Text */
+  --color-fg: var(--palette-neutral-900); /* headings, body, table cells */
+  --color-fg-secondary: var(--palette-neutral-600); /* labels, metadata, table headers */
+  --color-fg-muted: var(--palette-neutral-550); /* placeholders, timestamps, hints */
+
+  /* Lines */
+  --color-divider: var(--palette-neutral-200); /* decorative separators, card borders */
+  --color-control: var(--palette-neutral-450); /* borders of inputs, checkboxes, outline buttons (≥ 3:1) */
+
+  /* Primary action */
+  --color-primary: var(--palette-primary-600);
+  --color-primary-hover: var(--palette-primary-700);
+  --color-primary-active: var(--palette-primary-800);
+  --color-on-primary: var(--palette-white); /* text/icons on primary */
+  --color-primary-fg: var(--palette-primary-700); /* links, active nav text on surfaces */
+  --color-primary-subtle: var(--palette-primary-50); /* selected row, active nav background */
+  --color-focus: var(--palette-primary-600); /* focus outline */
+
+  /* Destructive action (solid button) */
+  --color-danger-solid: var(--palette-danger-700);
+  --color-danger-solid-hover: var(--palette-danger-800);
+  --color-on-danger: var(--palette-white);
+
+  /* Status tones: -bg (tint), -fg (text/icon, ≥ 4.5:1 on its -bg and on all surfaces), -border */
+  --color-success-bg: var(--palette-success-50);
+  --color-success-fg: var(--palette-success-700);
+  --color-success-border: var(--palette-success-200);
+  --color-warning-bg: var(--palette-warning-50);
+  --color-warning-fg: var(--palette-warning-700);
+  --color-warning-border: var(--palette-warning-200);
+  --color-danger-bg: var(--palette-danger-50);
+  --color-danger-fg: var(--palette-danger-700);
+  --color-danger-border: var(--palette-danger-200);
+  --color-info-bg: var(--palette-info-50);
+  --color-info-fg: var(--palette-info-700);
+  --color-info-border: var(--palette-info-200);
+  --color-neutral-bg: var(--palette-neutral-100);
+  --color-neutral-fg: var(--palette-neutral-700);
+  --color-neutral-border: var(--palette-neutral-200);
+
+  /* Typography — replace with the project font */
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   3. Dark theme — semantic overrides only (class .dark on <html>)
+   --------------------------------------------------------------------------- */
+.dark {
+  color-scheme: dark;
+
+  --color-canvas: var(--palette-neutral-950);
+  --color-surface: var(--palette-neutral-900);
+  --color-surface-subtle: var(--palette-neutral-800);
+  --color-surface-overlay: var(--palette-neutral-800); /* elevation = lighter surface, not shadow */
+  --color-backdrop: color-mix(in oklab, var(--palette-neutral-950) 60%, transparent);
+  --color-skeleton: var(--palette-neutral-800);
+
+  --color-fg: var(--palette-neutral-50);
+  --color-fg-secondary: var(--palette-neutral-300);
+  --color-fg-muted: var(--palette-neutral-400);
+
+  --color-divider: var(--palette-neutral-700);
+  --color-control: var(--palette-neutral-500);
+
+  --color-primary-fg: var(--palette-primary-400);
+  --color-primary-subtle: color-mix(in oklab, var(--palette-primary-950) 60%, transparent);
+  --color-focus: var(--palette-primary-400);
+
+  --color-success-bg: color-mix(in oklab, var(--palette-success-950) 50%, transparent);
+  --color-success-fg: var(--palette-success-300);
+  --color-success-border: color-mix(in oklab, var(--palette-success-800) 60%, transparent);
+  --color-warning-bg: color-mix(in oklab, var(--palette-warning-950) 50%, transparent);
+  --color-warning-fg: var(--palette-warning-300);
+  --color-warning-border: color-mix(in oklab, var(--palette-warning-800) 60%, transparent);
+  --color-danger-bg: color-mix(in oklab, var(--palette-danger-950) 50%, transparent);
+  --color-danger-fg: var(--palette-danger-300);
+  --color-danger-border: color-mix(in oklab, var(--palette-danger-800) 60%, transparent);
+  --color-info-bg: color-mix(in oklab, var(--palette-info-950) 50%, transparent);
+  --color-info-fg: var(--palette-info-300);
+  --color-info-border: color-mix(in oklab, var(--palette-info-800) 60%, transparent);
+  --color-neutral-bg: var(--palette-neutral-800);
+  --color-neutral-fg: var(--palette-neutral-300);
+  --color-neutral-border: var(--palette-neutral-700);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    background-color: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+  }
+  .dark {
+    color-scheme: dark;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Contrast pairs to re-check after changing the palette (WCAG 2.2 AA), both themes:
+   - fg, fg-secondary, fg-muted, primary-fg, *-fg   on canvas / surface / surface-subtle / surface-overlay  ≥ 4.5:1
+   - *-fg on its own *-bg                                                                                 ≥ 4.5:1
+   - on-primary on primary / primary-hover / primary-active; on-danger on danger-solid(-hover)             ≥ 4.5:1
+   - control and focus on canvas / surface / surface-subtle / surface-overlay                             ≥ 3:1
+   Placeholder values pass all pairs (lowest: control on surface-subtle 3.06, on-danger 6.06).
+   ----------------------------------------------------------------------------- */

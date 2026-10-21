@@ -1,0 +1,16 @@
+{#- FormField: visible label + control + hint + error, wired with aria-describedby.
+    Default control is BaseInput (props in `input`). For other controls use {% call %} and wire ids yourself:
+    hint id = "<id>-hint", error id = "<id>-error". -#}
+{% from "components/ui/input/input.njk" import input as baseInput %}
+{% macro formField(id, label, hint=null, error=null, required=false, input={}, layout="") %}
+{%- set v = variants.formField -%}
+{%- set describedby = (((id ~ "-hint ") if hint else "") ~ ((id ~ "-error") if error else "")) | trim -%}
+<div data-component="FormField" class="{{ (v.base ~ " " ~ layout) | trim }}">
+  <label for="{{ id }}" class="{{ v.slots.label }}">{{ label }}{% if required %} <span class="{{ v.slots.required }}" aria-hidden="true">*</span>{% endif %}</label>
+  {%- if caller %}{{ caller() }}{% else %}
+  {{ baseInput(id, name=input.name, type=input.type or "text", value=input.value, placeholder=input.placeholder, size=input.size or "md", invalid=error, required=required, disabled=input.disabled, describedby=describedby or null, inputmode=input.inputmode, autocomplete=input.autocomplete, numeric=input.numeric) }}
+  {%- endif %}
+  {%- if hint %}<p id="{{ id }}-hint" class="{{ v.slots.hint }}">{{ hint }}</p>{% endif %}
+  {%- if error %}<p id="{{ id }}-error" class="{{ v.slots.error }}">{{ icon("circle-alert", "mt-px size-3.5 shrink-0") }}<span>{{ error }}</span></p>{% endif %}
+</div>
+{%- endmacro %}

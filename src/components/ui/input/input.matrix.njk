@@ -1,0 +1,16 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/input/input.njk" import input %}
+{% set description = "Inputs are always used with a visible label (FormField). Here they carry aria-label for the matrix only." %}
+{% block matrix %}
+{% call section("states") %}
+  {% call cell("empty") %}<div class="w-72">{{ input("m-empty", placeholder=sample.companyPlaceholder, label=sample.company) }}</div>{% endcall %}
+  {% call cell("filled") %}<div class="w-72">{{ input("m-filled", value=sample.companyValue, label=sample.company) }}</div>{% endcall %}
+  {% call cell("invalid") %}<div class="w-72">{{ input("m-invalid", value=sample.phoneShort, invalid=true, label=sample.phone) }}</div>{% endcall %}
+  {% call cell("disabled") %}<div class="w-72">{{ input("m-disabled", value=sample.readOnly, disabled=true, label=sample.source) }}</div>{% endcall %}
+{% endcall %}
+{% call section("size") %}
+  {% call cell("sm") %}<div class="w-72">{{ input("m-sm", size="sm", placeholder=sample.search, label=sample.search) }}</div>{% endcall %}
+  {% call cell("md") %}<div class="w-72">{{ input("m-md", placeholder=sample.search, label=sample.searchDeals) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

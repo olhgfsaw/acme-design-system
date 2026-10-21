@@ -1,0 +1,13 @@
+{#- BaseBadge. Props: label, tone (neutral | info | success | warning | danger), dot. For statuses: {{ statusBadge("dealStatus", deal.status) }}. -#}
+{% macro badge(label, tone="neutral", dot=true) %}
+{%- set v = variants.badge -%}
+<span data-component="BaseBadge" data-tone="{{ tone }}" class="{{ v.base }} {{ v.variants.tone[tone] }}">
+  {%- if dot %}<span class="size-1.5 rounded-full bg-current" aria-hidden="true"></span>{% endif -%}
+  {{ label }}
+</span>
+{%- endmacro %}
+
+{% macro statusBadge(dict, code) %}
+{%- set s = data.statuses[dict][code] -%}
+{{ badge(s.label | label, tone=s.tone) }}
+{%- endmacro %}
