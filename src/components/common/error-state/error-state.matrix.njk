@@ -1,0 +1,9 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% set description = "A request failed: what happened, what to do, and Try again." %}
+{% block matrix %}
+{% call section("default") %}
+  {% call cell("with retry") %}<div class="w-80">{{ errorState(sample.chartErrorTitle, sample.chartErrorText, sample.retry) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

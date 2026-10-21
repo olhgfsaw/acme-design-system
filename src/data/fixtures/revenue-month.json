@@ -1,0 +1,160 @@
+{
+  "entity": "revenueMonth",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 501,
+        "month": "2025-08-01",
+        "revenueMinor": 22730000,
+        "expenseMinor": 20700000,
+        "currency": "USD"
+      },
+      {
+        "id": 502,
+        "month": "2025-09-01",
+        "revenueMinor": 24860000,
+        "expenseMinor": 23240000,
+        "currency": "USD"
+      },
+      {
+        "id": 503,
+        "month": "2025-10-01",
+        "revenueMinor": 23410000,
+        "expenseMinor": 20930000,
+        "currency": "USD"
+      },
+      {
+        "id": 504,
+        "month": "2025-11-01",
+        "revenueMinor": 24520000,
+        "expenseMinor": 22980000,
+        "currency": "USD"
+      },
+      {
+        "id": 505,
+        "month": "2025-12-01",
+        "revenueMinor": 27340000,
+        "expenseMinor": 24520000,
+        "currency": "USD"
+      },
+      {
+        "id": 506,
+        "month": "2026-01-01",
+        "revenueMinor": 28450000,
+        "expenseMinor": 24950000,
+        "currency": "USD"
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 501,
+        "month": "2025-08-01",
+        "revenueMinor": 22730000,
+        "expenseMinor": 20700000,
+        "currency": "USD"
+      },
+      {
+        "id": 502,
+        "month": "2025-09-01",
+        "revenueMinor": 24860000,
+        "expenseMinor": 23240000,
+        "currency": "USD"
+      },
+      {
+        "id": 503,
+        "month": "2025-10-01",
+        "revenueMinor": 23410000,
+        "expenseMinor": 20930000,
+        "currency": "USD"
+      },
+      {
+        "id": 504,
+        "month": "2025-11-01",
+        "revenueMinor": 24520000,
+        "expenseMinor": 22980000,
+        "currency": "USD"
+      },
+      {
+        "id": 505,
+        "month": "2025-12-01",
+        "revenueMinor": 27340000,
+        "expenseMinor": 24520000,
+        "currency": "USD"
+      },
+      {
+        "id": 506,
+        "month": "2026-01-01",
+        "revenueMinor": 28450000,
+        "expenseMinor": 24950000,
+        "currency": "USD"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000001,
+        "month": "2025-08-01",
+        "revenueMinor": 98451234567,
+        "expenseMinor": 87412345678,
+        "currency": "USD"
+      },
+      {
+        "id": 900000002,
+        "month": "2025-09-01",
+        "revenueMinor": 99685802457,
+        "expenseMinor": 88399999999,
+        "currency": "USD"
+      },
+      {
+        "id": 900000003,
+        "month": "2025-10-01",
+        "revenueMinor": 100920370347,
+        "expenseMinor": 89387654320,
+        "currency": "USD"
+      },
+      {
+        "id": 900000004,
+        "month": "2025-11-01",
+        "revenueMinor": 102154938237,
+        "expenseMinor": 90375308641,
+        "currency": "USD"
+      },
+      {
+        "id": 900000005,
+        "month": "2025-12-01",
+        "revenueMinor": 103389506127,
+        "expenseMinor": 91362962962,
+        "currency": "USD"
+      },
+      {
+        "id": 900000006,
+        "month": "2026-01-01",
+        "revenueMinor": 104624074017,
+        "expenseMinor": 92350617283,
+        "currency": "USD"
+      }
+    ],
+    "partial": [
+      {
+        "id": 601,
+        "month": "2025-12-01",
+        "revenueMinor": 0,
+        "expenseMinor": 0,
+        "currency": "USD"
+      },
+      {
+        "id": 602,
+        "month": "2026-01-01",
+        "revenueMinor": 1250000,
+        "expenseMinor": 0,
+        "currency": "USD"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

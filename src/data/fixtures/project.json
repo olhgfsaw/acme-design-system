@@ -1,0 +1,171 @@
+{
+  "entity": "project",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 101,
+        "title": "Website redesign",
+        "clientName": "James Anderson",
+        "kind": "website",
+        "status": "in_progress",
+        "health": "normal",
+        "progressPercent": 51
+      },
+      {
+        "id": 102,
+        "title": "App development",
+        "clientName": "Sarah Johnson",
+        "kind": "app",
+        "status": "in_progress",
+        "health": "on_track",
+        "progressPercent": 84
+      },
+      {
+        "id": 103,
+        "title": "Spring campaign",
+        "clientName": "Michael Klark",
+        "kind": "marketing",
+        "status": "in_progress",
+        "health": "normal",
+        "progressPercent": 66
+      },
+      {
+        "id": 104,
+        "title": "Landing page design",
+        "clientName": "Abdur Rahman",
+        "kind": "landing",
+        "status": "in_progress",
+        "health": "at_risk",
+        "progressPercent": 29
+      },
+      {
+        "id": 105,
+        "title": "Customer portal",
+        "clientName": "Emily Carter",
+        "kind": "app",
+        "status": "in_progress",
+        "health": "normal",
+        "progressPercent": 40
+      },
+      {
+        "id": 106,
+        "title": "Brand refresh",
+        "clientName": "Northwind Traders",
+        "kind": "marketing",
+        "status": "completed",
+        "health": "on_track",
+        "progressPercent": 100
+      },
+      {
+        "id": 107,
+        "title": "Pricing page",
+        "clientName": "Sarah Johnson",
+        "kind": "landing",
+        "status": "completed",
+        "health": "on_track",
+        "progressPercent": 100
+      },
+      {
+        "id": 108,
+        "title": "Help center",
+        "clientName": "James Anderson",
+        "kind": "website",
+        "status": "in_review",
+        "health": "normal",
+        "progressPercent": 95
+      },
+      {
+        "id": 109,
+        "title": "Partner onboarding",
+        "clientName": "Contoso Ltd.",
+        "kind": "app",
+        "status": "on_hold",
+        "health": "at_risk",
+        "progressPercent": 12
+      },
+      {
+        "id": 110,
+        "title": "Holiday newsletter",
+        "clientName": "Michael Klark",
+        "kind": "marketing",
+        "status": "completed",
+        "health": "on_track",
+        "progressPercent": 100
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 201,
+        "title": "Website redesign and content migration for the international customer support knowledge base",
+        "clientName": "Alexandria Montgomery-Fitzgerald Consulting Group International",
+        "kind": "website",
+        "status": "in_progress",
+        "health": "normal",
+        "progressPercent": 51
+      },
+      {
+        "id": 202,
+        "title": "Cross-platform mobile application development with offline synchronization",
+        "clientName": "Bartholomew Oyelaran-Whitmore",
+        "kind": "app",
+        "status": "in_progress",
+        "health": "at_risk",
+        "progressPercent": 7
+      },
+      {
+        "id": 203,
+        "title": "Quarterly multi-channel marketing campaign for the enterprise segment",
+        "clientName": "Konstantinopolsky-Alexandrovsky Vladislav",
+        "kind": "marketing",
+        "status": "in_review",
+        "health": "on_track",
+        "progressPercent": 98
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000001,
+        "title": "Website redesign",
+        "clientName": "James Anderson",
+        "kind": "website",
+        "status": "in_progress",
+        "health": "normal",
+        "progressPercent": 100
+      },
+      {
+        "id": 900000002,
+        "title": "App development",
+        "clientName": "Sarah Johnson",
+        "kind": "app",
+        "status": "in_progress",
+        "health": "on_track",
+        "progressPercent": 0
+      }
+    ],
+    "partial": [
+      {
+        "id": 301,
+        "title": "Internal tooling",
+        "kind": "app",
+        "status": "in_progress",
+        "health": "normal",
+        "progressPercent": 0
+      },
+      {
+        "id": 302,
+        "title": "Team offsite page",
+        "kind": "landing",
+        "status": "on_hold",
+        "health": "normal",
+        "progressPercent": 10
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

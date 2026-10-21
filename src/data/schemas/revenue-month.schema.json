@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RevenueMonth",
+  "x-entity": "revenueMonth",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "month",
+    "revenueMinor",
+    "expenseMinor",
+    "currency"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "month": {
+      "type": "string",
+      "format": "date",
+      "description": "First day of the month (UTC)"
+    },
+    "revenueMinor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Revenue for the month in minor units of currency"
+    },
+    "expenseMinor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Expense for the month in minor units of currency"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 code"
+    }
+  }
+}

@@ -1,7 +1,7 @@
-{#- AreaChart. Props: labels (x ticks), series (the line), label (accessible name), seriesLabel, area (second series drawn as the soft fill) + areaLabel, highlight (index tagged at rest), tagLabel (formatted value of that point), messages { loading, emptyTitle, emptyText, errorTitle, errorText, retry }, state. No gridlines, no y-axis: the tag carries the number; a hidden table carries all of them. -#}
+{#- AreaChart. Props: labels (x ticks), series (the line), label (accessible name), seriesLabel, area (second series drawn as the soft fill) + areaLabel, highlight (index tagged at rest), tagLabel (formatted value of that point), currency (values are minor units of it), messages { loading, emptyTitle, emptyText, errorTitle, errorText, retry }, state. No gridlines, no y-axis: the tag carries the number; a hidden table carries all of them. -#}
 {% from "components/ui/button/button.njk" import button %}
 {% from "components/ui/value-tag/value-tag.njk" import valueTag %}
-{% macro areaChart(labels, series, label, seriesLabel="", area=null, areaLabel="", highlight=null, tagLabel=null, messages={}, state="default") %}
+{% macro areaChart(labels, series, label, seriesLabel="", area=null, areaLabel="", highlight=null, tagLabel=null, currency=null, messages={}, state="default") %}
 {%- set v = variants.areaChart -%}
 {#- Geometry in a 600 × 220 viewBox: points from x 12 to 588, values from y 200 (zero) up to y 56, room above for the tag. -#}
 {%- set n = series | length -%}
@@ -40,8 +40,8 @@
     <caption>{{ label }}</caption>
     <thead><tr><td></td>{% for l in labels %}<th scope="col">{{ l }}</th>{% endfor %}</tr></thead>
     <tbody>
-      <tr><th scope="row">{{ seriesLabel }}</th>{% for val in series %}<td>{{ val | number }}</td>{% endfor %}</tr>
-      {%- if area %}<tr><th scope="row">{{ areaLabel }}</th>{% for val in area %}<td>{{ val | number }}</td>{% endfor %}</tr>{% endif %}
+      <tr><th scope="row">{{ seriesLabel }}</th>{% for val in series %}<td>{{ (val | money(currency)) if currency else (val | number) }}</td>{% endfor %}</tr>
+      {%- if area %}<tr><th scope="row">{{ areaLabel }}</th>{% for val in area %}<td>{{ (val | money(currency)) if currency else (val | number) }}</td>{% endfor %}</tr>{% endif %}
     </tbody>
   </table>
 </figure>

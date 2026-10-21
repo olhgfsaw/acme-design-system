@@ -1,1 +1,48 @@
-{}
+{
+  "projectStatus": {
+    "in_progress": {
+      "label": {
+        "en": "In progress"
+      },
+      "tone": "warning"
+    },
+    "completed": {
+      "label": {
+        "en": "Completed"
+      },
+      "tone": "success"
+    },
+    "in_review": {
+      "label": {
+        "en": "In review"
+      },
+      "tone": "info"
+    },
+    "on_hold": {
+      "label": {
+        "en": "On hold"
+      },
+      "tone": "neutral"
+    }
+  },
+  "projectHealth": {
+    "normal": {
+      "label": {
+        "en": "On schedule"
+      },
+      "tone": "neutral"
+    },
+    "on_track": {
+      "label": {
+        "en": "On track"
+      },
+      "tone": "success"
+    },
+    "at_risk": {
+      "label": {
+        "en": "At risk"
+      },
+      "tone": "danger"
+    }
+  }
+}

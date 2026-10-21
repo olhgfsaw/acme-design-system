@@ -1,0 +1,149 @@
+{% extends "layouts/frame.njk" %}
+{% from "components/layout/app-shell/app-shell.njk" import appShell %}
+{% from "components/layout/top-bar/top-bar.njk" import topBar %}
+{% from "components/layout/nav-rail/nav-rail.njk" import navRail %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/area-chart/area-chart.njk" import areaChart %}
+{% from "components/common/gauge-chart/gauge-chart.njk" import gaugeChart %}
+{% from "components/common/chart-legend/chart-legend.njk" import chartLegend %}
+{% from "components/common/meter-bar/meter-bar.njk" import meterBar %}
+{% from "components/common/project-item/project-item.njk" import projectItem %}
+{% from "components/common/countdown-timer/countdown-timer.njk" import countdownTimer %}
+{% from "components/common/promo-card/promo-card.njk" import promoCard %}
+{% from "components/common/help-callout/help-callout.njk" import helpCallout %}
+{% from "components/common/empty-state/empty-state.njk" import emptyState %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% from "components/ui/legend-toggle/legend-toggle.njk" import legendToggle %}
+{% from "components/ui/avatar-stack/avatar-stack.njk" import avatarStack %}
+{% from "components/ui/avatar/avatar.njk" import avatar %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- Data -#}
+{% set months = data.fixtures.revenueMonth.scenarios[scenario].slice(-6) %}
+{% set projects = data.fixtures.project.scenarios[scenario] %}
+{% set team = data.fixtures.teamMember.scenarios[scenario].slice(0, 4) %}
+{% set clients = data.fixtures.client.scenarios[scenario].slice(0, 5) %}
+{% set meeting = data.fixtures.meeting.scenarios[scenario] | first %}
+{% set monthNames = data.glossary.monthsShort | label %}
+{% set labels = [] %}{% set revenue = [] %}{% set expense = [] %}
+{% for m in months %}{% set _ = labels.push(monthNames[(m.month.slice(5, 7) | int) - 1]) %}{% set _ = revenue.push(m.revenueMinor) %}{% set _ = expense.push(m.expenseMinor) %}{% endfor %}
+{% set byStatus = projects | groupby("status") %}
+{% set statusTone = { in_progress: "accent-strong", completed: "accent", in_review: "accent-subtle", on_hold: "neutral" } %}
+{% set segments = [] %}
+{% for code in ["in_progress", "completed", "in_review", "on_hold"] %}{% set _ = segments.push({ label: data.statuses.projectStatus[code].label | label, count: (byStatus[code] or []) | length, tone: statusTone[code] }) %}{% endfor %}
+{% set healthTone = { normal: "accent", on_track: "success", at_risk: "danger" } %}
+{% set kindIcon = { website: "globe", app: "code", marketing: "megaphone", landing: "layout-template" } %}
+{% set topMember = team | sort(true, false, "performancePercent") | first %}
+{% set topClient = clients | sort(true, false, "revenueMinor") | first %}
+{% set messages = { loading: "Loading…", emptyTitle: "No data for this period", emptyText: "The chart fills in as soon as the first payments arrive.", errorTitle: "The chart didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" } %}
+{% set nav = [
+  { id: "dashboard", label: "Dashboard", icon: "layout-dashboard", href: "#dashboard" },
+  { id: "analytics", label: "Analytics", icon: "chart-column", href: "#analytics" },
+  { id: "projects", label: "Projects", icon: "folder", href: "#projects" },
+  { id: "team", label: "Team", icon: "users", href: "#team" },
+  { id: "finance", label: "Finance", icon: "wallet", href: "#finance" },
+  { id: "billing", label: "Billing", icon: "credit-card", href: "#billing" },
+  { id: "calendar", label: "Calendar", icon: "calendar", href: "#calendar" },
+  { id: "settings", label: "Settings", icon: "settings", href: "#settings" }
+] %}
+
+{#- Chrome -#}
+{% set tb %}{% call topBar(project.product, "Search anything here...", "Search") %}{{ iconButton("Messages", "message-circle", variant="secondary") }}{{ iconButton("Notifications, unread", "bell", variant="secondary", dot=true) }}{{ avatar("Your account") }}{% endcall %}{% endset %}
+{% set rail %}{{ navRail(nav, "Main", activeId="dashboard", footer=[{ id: "logout", label: "Log out", icon: "log-out", href: "#logout" }]) }}{% endset %}
+
+{% call appShell(tb, rail) %}
+  {% call pageHeader("Dashboard overview", "Here's what's happening with your business today") %}
+    {{ button("Create invoice", variant="secondary", iconLeading="file-text") }}
+    {{ button("Create a report", variant="secondary", iconLeading="clipboard-list") }}
+    {{ button("Add client", variant="secondary", iconLeading="user-plus") }}
+    {{ button("New project", iconLeading="plus") }}
+  {% endcall %}
+
+  {% if state == "error" %}
+  <div class="rounded-lg bg-surface p-6">{{ errorState("The dashboard didn't load", "Something went wrong on our side. Your data is safe — try again in a minute.", "Try again") }}</div>
+  {% else %}
+  {#- 4 : 3 : 3 : 3 columns from the design: the promo column is wider than the three data columns. -#}
+  <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-[minmax(0,4fr)_repeat(3,minmax(0,3fr))]"{% if state == "loading" %} aria-busy="true"{% endif %}>
+    {% if state == "loading" %}<p class="sr-only">Loading…</p>{% endif %}
+
+    <div class="grid xl:row-span-2">
+      {% call promoCard("promo", "Upgrade to Pro", text="Get advanced analytics and powerful features.", closeLabel="Dismiss upgrade offer", offerTitle="Free trial", offerBadge="7 days", offerBadgeIcon="crown") %}
+        {{ helpCallout("Need help deciding?", "Compare plans or contact sales") }}
+        {{ button("Upgrade now", size="lg", iconTrailing="arrow-right", layout="w-full") }}
+      {% endcall %}
+    </div>
+
+    {% call card("revenue", title="Revenue overview", expandLabel="Expand revenue overview", layout="xl:col-span-2") %}
+      <div class="flex flex-col gap-6 md:flex-row">
+        <div class="flex shrink-0 flex-col justify-between gap-6 pt-4">
+          {% if state == "loading" %}
+            <div class="flex flex-col gap-2">{{ skeleton("line", layout="w-32") }}{{ skeleton("figure", layout="w-40") }}{{ skeleton("line", layout="w-16") }}</div>
+          {% elif months | length %}
+            {% set last = months | last %}{% set prev = months[months.length - 2] if months.length > 1 else null %}
+            {% if prev and prev.revenueMinor > 0 %}
+              {% set change = (last.revenueMinor - prev.revenueMinor) / prev.revenueMinor %}
+              {{ statBlock("This month earning", last.revenueMinor | money(last.currency), delta=(change | abs) | percent(1), trend="up" if change >= 0 else "down", trendLabel=("Up" if change >= 0 else "Down") ~ " from last month") }}
+            {% else %}
+              {{ statBlock("This month earning", last.revenueMinor | money(last.currency)) }}
+            {% endif %}
+          {% endif %}
+          {{ legendToggle([{ id: "revenue", label: "Revenue", state: "on" }, { id: "expense", label: "Expense", state: "on" }], "Chart series") }}
+        </div>
+        <div class="flex min-w-0 flex-1 items-end">
+          <div class="w-full">{{ areaChart(labels, revenue, "Revenue and expense by month", seriesLabel="Revenue", area=expense, areaLabel="Expense", highlight=(months | length) - 1 if months | length else null, tagLabel=((months | last).revenueMinor | money((months | last).currency)) if months | length else null, currency=(months | first).currency if months | length else null, messages=messages, state=state) }}</div>
+        </div>
+      </div>
+    {% endcall %}
+
+    {% call card("status", title="Project status", expandLabel="Expand project status") %}
+      <div class="flex flex-col gap-5 pt-2">
+        {{ gaugeChart(segments, "Projects by status", caption="Active projects", messages=messages, state=state) }}
+        {% if state == "default" and projects | length %}{{ chartLegend(segments) }}{% endif %}
+      </div>
+    {% endcall %}
+
+    {% call card("team", title="Team performance", expandLabel="Expand team performance") %}
+      {% if state == "loading" %}
+        <div class="flex flex-col gap-4">{% for i in range(4) %}<div class="flex flex-col gap-2">{{ skeleton("line", layout="w-24") }}{{ skeleton("title", layout="w-full") }}</div>{% endfor %}</div>
+      {% elif team | length %}
+        <ul class="flex flex-col gap-4">
+          {% for m in team %}<li>{{ meterBar("team-" ~ m.id, m.name, m.performancePercent or 0, highlight=(m.id == topMember.id), valueLabel=(null if m.performancePercent is not none else "Not rated")) }}</li>{% endfor %}
+        </ul>
+      {% else %}
+        {{ emptyState("No team members yet", "Invite your team to see how each person tracks against this month's goals.", iconName="users") }}
+      {% endif %}
+    {% endcall %}
+
+    {% call card("active", title="Active projects", expandLabel="Expand active projects") %}
+      {% if state == "loading" %}
+        <div class="flex flex-col gap-4">{% for i in range(4) %}<div class="flex items-center gap-3">{{ skeleton("tile") }}<div class="flex flex-1 flex-col gap-2">{{ skeleton("line", layout="w-3/4") }}{{ skeleton("line", layout="w-1/2") }}</div></div>{% endfor %}</div>
+      {% elif (byStatus.in_progress or []) | length %}
+        <ul class="flex flex-col gap-4">
+          {% for p in (byStatus.in_progress).slice(0, 4) %}<li>{{ projectItem(p.title, ("Client: " ~ p.clientName) if p.clientName else "Internal project", kindIcon[p.kind], p.progressPercent, tone=healthTone[p.health], statusLabel=(null if p.health == "normal" else (data.statuses.projectHealth[p.health].label | label))) }}</li>{% endfor %}
+        </ul>
+      {% else %}
+        {% call emptyState("No active projects", "Projects you start appear here with their progress.", iconName="folder") %}{{ button("New project", size="sm", iconLeading="plus") }}{% endcall %}
+      {% endif %}
+    {% endcall %}
+
+    <div class="flex min-w-0 flex-col gap-3">
+      {% call card("meeting", title="Next meeting in", expandLabel="Expand next meeting") %}
+        {% if state == "loading" %}{{ skeleton("block", layout="w-full") }}
+        {% elif meeting %}{{ countdownTimer(meeting.startsInSeconds, "Time until " ~ (meeting.title or "the next meeting")) }}
+        {% else %}{{ emptyState("No meetings scheduled", "Your next meeting shows up here.", iconName="calendar") }}{% endif %}
+      {% endcall %}
+      {% call card("clients", title="Top clients", expandLabel="Expand top clients", layout="flex-1") %}
+        {% if state == "loading" %}<div class="flex gap-2 pt-14">{% for i in range(5) %}{{ skeleton("circle") }}{% endfor %}</div>
+        {% elif clients | length %}{{ avatarStack(clients, "Top clients this month", highlight=clients.indexOf(topClient), tag=topClient.revenueMinor | money(topClient.currency)) }}
+        {% else %}{{ emptyState("No clients yet", "Clients appear here once they're billed.", iconName="user-plus") }}{% endif %}
+      {% endcall %}
+    </div>
+  </div>
+  {% endif %}
+{% endcall %}
+{% endblock %}

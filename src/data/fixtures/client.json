@@ -1,0 +1,110 @@
+{
+  "entity": "client",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 41,
+        "name": "James Anderson",
+        "revenueMinor": 2150000,
+        "currency": "USD",
+        "avatarUrl": null
+      },
+      {
+        "id": 42,
+        "name": "Sarah Johnson",
+        "revenueMinor": 2780000,
+        "currency": "USD",
+        "avatarUrl": null
+      },
+      {
+        "id": 43,
+        "name": "Michael Klark",
+        "revenueMinor": 3250000,
+        "currency": "USD",
+        "avatarUrl": null
+      },
+      {
+        "id": 44,
+        "name": "Abdur Rahman",
+        "revenueMinor": 1460000,
+        "currency": "USD",
+        "avatarUrl": null
+      },
+      {
+        "id": 45,
+        "name": "Emily Carter",
+        "revenueMinor": 980000,
+        "currency": "USD",
+        "avatarUrl": null
+      },
+      {
+        "id": 46,
+        "name": "Northwind Traders",
+        "revenueMinor": 1720000,
+        "currency": "USD",
+        "avatarUrl": null
+      },
+      {
+        "id": 47,
+        "name": "Contoso Ltd.",
+        "revenueMinor": 640000,
+        "currency": "USD",
+        "avatarUrl": null
+      },
+      {
+        "id": 48,
+        "name": "Fabrikam Inc.",
+        "revenueMinor": 1130000,
+        "currency": "USD",
+        "avatarUrl": null
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 51,
+        "name": "Alexandria Montgomery-Fitzgerald Consulting Group International",
+        "revenueMinor": 1200000,
+        "currency": "USD",
+        "avatarUrl": null
+      },
+      {
+        "id": 52,
+        "name": "Konstantinopolsky-Alexandrovsky Vladislav",
+        "revenueMinor": 3400000,
+        "currency": "USD",
+        "avatarUrl": null
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000041,
+        "name": "James Anderson",
+        "revenueMinor": 98451234567,
+        "currency": "USD",
+        "avatarUrl": null
+      },
+      {
+        "id": 900000042,
+        "name": "Sarah Johnson",
+        "revenueMinor": 123456789012,
+        "currency": "USD",
+        "avatarUrl": null
+      }
+    ],
+    "partial": [
+      {
+        "id": 61,
+        "name": "Fabrikam Inc.",
+        "revenueMinor": 0,
+        "currency": "USD"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

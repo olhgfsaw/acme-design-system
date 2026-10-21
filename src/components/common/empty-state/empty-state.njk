@@ -1,0 +1,5 @@
+{#- EmptyState. Props: title, text (one sentence on what this area is for), iconName. Default slot = the primary action ("Create the first project"). For no-results use it with a reset-filters action, never a create action. -#}
+{% macro emptyState(title, text=null, iconName="inbox") %}
+{%- set v = variants.emptyState -%}
+<div data-component="EmptyState" class="{{ v.base }}">{{ icon(iconName, v.slots.icon) }}<p class="{{ v.slots.title }}">{{ title }}</p>{% if text %}<p class="{{ v.slots.text }}">{{ text }}</p>{% endif %}{% if caller %}<div data-slot="actions" class="{{ v.slots.actions }}">{{ caller() }}</div>{% endif %}</div>
+{%- endmacro %}

@@ -1,0 +1,11 @@
+{
+  "base": "flex flex-col items-center gap-2 py-8 text-center",
+  "variants": {},
+  "slots": {
+    "icon": "size-6 text-fg-muted",
+    "title": "text-sm font-medium text-fg",
+    "text": "max-w-xs text-sm text-fg-secondary",
+    "actions": "mt-2 flex flex-wrap justify-center gap-3"
+  },
+  "defaultVariants": {}
+}

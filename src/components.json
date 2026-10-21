@@ -440,7 +440,8 @@
       "highlight",
       "tagLabel",
       "messages",
-      "state"
+      "state",
+      "currency"
     ],
     "states": [
       "default"
@@ -610,6 +611,67 @@
     "props": [
       "topBar",
       "rail"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "BaseSkeleton": {
+    "description": "A loading placeholder with the size and shape of the content it stands for.",
+    "category": "ui",
+    "path": "src/components/ui/skeleton",
+    "variants": {
+      "shape": [
+        "line",
+        "title",
+        "figure",
+        "block",
+        "circle",
+        "tile"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "shape",
+      "layout"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "EmptyState": {
+    "description": "Shown when nothing has been created yet: icon, title, what the area is for and the action that fills it.",
+    "category": "common",
+    "path": "src/components/common/empty-state",
+    "variants": {},
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "title",
+      "text",
+      "iconName"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ErrorState": {
+    "description": "Shown in place of an area whose request failed: what happened, what to do and a Try again action.",
+    "category": "common",
+    "path": "src/components/common/error-state",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "title",
+      "text",
+      "retryLabel"
     ],
     "states": [
       "default"

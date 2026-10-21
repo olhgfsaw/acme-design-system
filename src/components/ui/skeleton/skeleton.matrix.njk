@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set description = "Loading placeholders. Same layout as the content they replace; never a centered spinner." %}
+{% block matrix %}
+{% call section("shape") %}
+  {% for shape in ["line", "title", "figure", "block"] %}
+    {% call cell(shape) %}<div class="w-48">{{ skeleton(shape, layout="w-full") }}</div>{% endcall %}
+  {% endfor %}
+  {% call cell("circle") %}{{ skeleton("circle") }}{% endcall %}
+  {% call cell("tile") %}{{ skeleton("tile") }}{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,5 @@
+{#- BaseSkeleton. Props: shape (line | title | figure | block | circle | tile), layout (width: w-full, w-24…). A loading placeholder with the size of what it stands for; the container carries aria-busy and the "Loading…" text. -#}
+{% macro skeleton(shape="line", layout="") %}
+{%- set v = variants.skeleton -%}
+<span data-component="BaseSkeleton" aria-hidden="true" class="{{ (v.base ~ " " ~ v.variants.shape[shape] ~ " " ~ layout) | trim }}"></span>
+{%- endmacro %}

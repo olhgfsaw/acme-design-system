@@ -1,0 +1,16 @@
+{
+  "base": "block bg-skeleton motion-safe:animate-pulse",
+  "variants": {
+    "shape": {
+      "line": "h-4 rounded-sm",
+      "title": "h-6 rounded-sm",
+      "figure": "h-9 rounded-md",
+      "block": "h-24 rounded-md",
+      "circle": "size-12 rounded-full",
+      "tile": "size-11 rounded-md"
+    }
+  },
+  "defaultVariants": {
+    "shape": "line"
+  }
+}

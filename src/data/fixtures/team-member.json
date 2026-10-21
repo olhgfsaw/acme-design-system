@@ -1,0 +1,90 @@
+{
+  "entity": "teamMember",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 11,
+        "name": "James R.",
+        "performancePercent": 70
+      },
+      {
+        "id": 12,
+        "name": "Olivia F.",
+        "performancePercent": 80
+      },
+      {
+        "id": 13,
+        "name": "Karl H.",
+        "performancePercent": 90
+      },
+      {
+        "id": 14,
+        "name": "Abraham M.",
+        "performancePercent": 60
+      },
+      {
+        "id": 15,
+        "name": "Emma R.",
+        "performancePercent": 55
+      },
+      {
+        "id": 16,
+        "name": "Noah M.",
+        "performancePercent": 72
+      },
+      {
+        "id": 17,
+        "name": "Liam K.",
+        "performancePercent": 64
+      },
+      {
+        "id": 18,
+        "name": "Sofia P.",
+        "performancePercent": 77
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 21,
+        "name": "Konstantinopolsky-Alexandrovsky V.",
+        "performancePercent": 88
+      },
+      {
+        "id": 22,
+        "name": "Bartholomew Oyelaran-Whitmore",
+        "performancePercent": 45
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000011,
+        "name": "James R.",
+        "performancePercent": 100
+      },
+      {
+        "id": 900000012,
+        "name": "Olivia F.",
+        "performancePercent": 0
+      }
+    ],
+    "partial": [
+      {
+        "id": 31,
+        "name": "New hire",
+        "performancePercent": null
+      },
+      {
+        "id": 32,
+        "name": "Olivia F.",
+        "performancePercent": 80
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

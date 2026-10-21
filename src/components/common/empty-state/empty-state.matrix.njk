@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/empty-state/empty-state.njk" import emptyState %}
+{% from "components/ui/button/button.njk" import button %}
+{% set description = "Nothing created yet: icon, title, what the area is for, and the action that fills it." %}
+{% block matrix %}
+{% call section("variants") %}
+  {% call cell("with action") %}<div class="w-80">{% call emptyState("No projects yet", "Projects you start appear here with their progress.", iconName="folder") %}{{ button(sample.newProject, size="sm", iconLeading="plus") }}{% endcall %}</div>{% endcall %}
+  {% call cell("text only") %}<div class="w-80">{{ emptyState("No meetings scheduled", "Your next meeting shows up here.", iconName="calendar") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

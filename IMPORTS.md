@@ -11,6 +11,21 @@ Log written by `/import-design`. Newest first. One entry per import.
 - Frames: added …, changed … (approved: … — needs the client again)
 -->
 
+## 2026-10-21 — design-import/2026-10-21-2/
+- Source: Dashboard Overview https://claude.ai/artifact/JtvjNW5danUWAVZHs6XcmE#artboard-15dd8cd198dd (Main.dc.html; built on the old Acme system, mapped by value).
+- Applied:
+  - Screen `pages/dashboard/overview.njk`, frame `dashboard-overview` (draft) with states loading, empty, error, stress; 1440 and 390.
+  - Data contracts (draft): revenue-month, project, team-member, client, meeting — schemas + six scenarios each; statuses `projectStatus`, `projectHealth`; glossary terms and short month names.
+  - New components (draft): BaseSkeleton, EmptyState, ErrorState. AreaChart takes `currency` for its hidden data table.
+  - Layout: 4 : 3 : 3 : 3 grid at xl (promo across two rows, revenue across two columns), 2 columns at md, 1 column on phones in reading order.
+- Snaps: "$284.5K" → full money "$284,500.00" (no compact money filter); chart months Jan–Jun → the six months before referenceDate (Aug–Jan); highlighted chart point → the latest month (the design tagged April); gauge and lists count real fixture records (design: 23 / 13 / 3 / 3).
+- Not applied:
+  - Title Case copy → sentence case.
+  - Logo image and promo illustration (`/_blob/…`) — no image files; brand as text.
+  - Outer frame rim and the `theme` / `showPromo` canvas switches (theme is the canvas toggle; dismissing the promo is behavior for Nuxt).
+  - Mobile reordering from the design (side cards above team) — DOM order kept so tab order matches what is seen.
+- Frames: added dashboard-overview; added skeleton, empty-state, error-state matrices.
+
 ## 2026-10-21 — design-import/2026-10-21/
 - Source: Acme design system https://claude.ai/artifact/KVDtSnxpyMvVjunsCp9tL9 (README, tokens.json, 25 component READMEs, index.d.ts, bundle.css). Brought in before the first publish so nothing live is lost.
 - Applied:

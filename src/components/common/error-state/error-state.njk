@@ -1,0 +1,6 @@
+{#- ErrorState. Props: title (what happened), text (what to do), retryLabel. Replaces only the area that failed; the page chrome and filters stay. -#}
+{% from "components/ui/button/button.njk" import button %}
+{% macro errorState(title, text, retryLabel) %}
+{%- set v = variants.errorState -%}
+<div data-component="ErrorState" class="{{ v.base }}">{{ icon("circle-alert", v.slots.icon) }}<p class="{{ v.slots.title }}">{{ title }}</p><p class="{{ v.slots.text }}">{{ text }}</p><div data-slot="actions" class="{{ v.slots.actions }}">{{ button(retryLabel, variant="secondary", size="sm", iconLeading="refresh-cw") }}</div></div>
+{%- endmacro %}

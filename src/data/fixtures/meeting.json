@@ -1,0 +1,49 @@
+{
+  "entity": "meeting",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 71,
+        "title": "Weekly client review",
+        "startsAt": "2026-01-16T03:25:34Z",
+        "startsInSeconds": 55534
+      },
+      {
+        "id": 72,
+        "title": "Design critique",
+        "startsAt": "2026-01-16T15:00:00Z",
+        "startsInSeconds": 97200
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 81,
+        "title": "Quarterly business review with the international customer success leadership team",
+        "startsAt": "2026-01-16T03:25:34Z",
+        "startsInSeconds": 55534
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000071,
+        "title": "Annual planning",
+        "startsAt": "2026-01-19T11:59:59Z",
+        "startsInSeconds": 359999
+      }
+    ],
+    "partial": [
+      {
+        "id": 91,
+        "startsAt": "2026-01-15T12:00:42Z",
+        "startsInSeconds": 42
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

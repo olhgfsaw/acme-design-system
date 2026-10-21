@@ -1,1 +1,27 @@
-{ "flows": [] }
+{
+  "flows": [
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "frames": [
+        {
+          "id": "dashboard-overview",
+          "title": "Dashboard overview",
+          "page": "pages/dashboard/overview.njk",
+          "states": [
+            "loading",
+            "empty",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            390
+          ],
+          "height": 1100,
+          "status": "draft"
+        }
+      ]
+    }
+  ]
+}
