@@ -79,7 +79,7 @@
     </div>
 
     {% call card("revenue", title="Revenue overview", expandLabel="Expand revenue overview", layout="xl:col-span-2") %}
-      <div class="flex flex-col gap-6 md:flex-row">
+      <div class="flex flex-col gap-6 xl:flex-row">
         <div class="flex shrink-0 flex-col justify-between gap-6 pt-4">
           {% if state == "loading" %}
             <div class="flex flex-col gap-2">{{ skeleton("line", layout="w-32") }}{{ skeleton("figure", layout="w-40") }}{{ skeleton("line", layout="w-16") }}</div>

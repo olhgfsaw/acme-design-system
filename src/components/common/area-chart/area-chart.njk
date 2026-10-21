@@ -36,14 +36,14 @@
     {%- endif %}
   </svg>
   <div class="{{ v.slots.ticks }}" aria-hidden="true">{% for l in labels %}<span>{{ l }}</span>{% endfor %}</div>
-  <table class="sr-only">
+  <div class="sr-only"><table>
     <caption>{{ label }}</caption>
     <thead><tr><td></td>{% for l in labels %}<th scope="col">{{ l }}</th>{% endfor %}</tr></thead>
     <tbody>
       <tr><th scope="row">{{ seriesLabel }}</th>{% for val in series %}<td>{{ (val | money(currency)) if currency else (val | number) }}</td>{% endfor %}</tr>
       {%- if area %}<tr><th scope="row">{{ areaLabel }}</th>{% for val in area %}<td>{{ (val | money(currency)) if currency else (val | number) }}</td>{% endfor %}</tr>{% endif %}
     </tbody>
-  </table>
+  </table></div>
 </figure>
 {% endif %}
 {%- endmacro %}
