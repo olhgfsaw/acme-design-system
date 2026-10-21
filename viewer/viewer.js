@@ -97,13 +97,37 @@ function render() {
   }
   const q = document.getElementById("q");
   q.addEventListener("input", (e) => { state.q = e.target.value; save(); clearTimeout(q.t); q.t = setTimeout(() => { render(); document.getElementById("q").focus(); }, 250); });
-  for (const b of document.querySelectorAll("[data-view]")) {
-    b.addEventListener("click", () => { state.views[b.dataset.frame] = b.dataset.view; save(); render(); document.querySelector(`[data-frame="${CSS.escape(b.dataset.frame)}"][data-view="${CSS.escape(b.dataset.view)}"]`)?.focus(); });
-  }
+  bindTabs(document);
   for (const a of document.querySelectorAll("[data-jump]")) {
     a.addEventListener("click", (e) => { e.preventDefault(); document.getElementById(a.dataset.jump)?.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" }); });
   }
-  for (const frame of document.querySelectorAll("iframe[data-auto]")) {
+  autoHeight(document);
+}
+
+// A state tab changes only its own frame: that one card is redrawn, every other frame keeps its iframes.
+function bindTabs(root) {
+  for (const b of root.querySelectorAll("[data-view]")) {
+    b.addEventListener("click", () => {
+      const id = b.dataset.frame;
+      state.views[id] = b.dataset.view;
+      save();
+      const screen = (manifest.flows || []).flatMap((flow) => flow.frames || []).find((f) => f.id === id);
+      const component = screen ? null : (manifest.components || []).find((c) => c.id === id);
+      const old = document.getElementById(anchor(id));
+      if (!old || !(screen || component)) return render();
+      const tmp = document.createElement("div");
+      tmp.innerHTML = card(screen || component, component ? { auto: true } : undefined);
+      const next = tmp.firstElementChild;
+      old.replaceWith(next);
+      bindTabs(next);
+      autoHeight(next);
+      next.querySelector(`[data-view="${CSS.escape(b.dataset.view)}"]`)?.focus();
+    });
+  }
+}
+
+function autoHeight(root) {
+  for (const frame of root.querySelectorAll("iframe[data-auto]")) {
     frame.addEventListener("load", () => { try { frame.height = frame.contentDocument.documentElement.scrollHeight; } catch {} });
   }
 }
