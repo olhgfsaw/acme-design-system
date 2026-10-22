@@ -2,6 +2,8 @@
 import manifest from "virtual:canvas-manifest";
 
 const KEY = "canvas-viewer";
+const BASE = import.meta.env.BASE_URL; // "/" locally, "/<repo>/" on GitHub Pages
+const EDITABLE = import.meta.env.DEV; // statuses can be written only by the local dev server
 const defaults = { theme: "light", zoom: "0.5", status: "all", q: "", views: {} };
 let state = { ...defaults };
 try { state = { ...defaults, ...JSON.parse(localStorage.getItem(KEY) || "{}") }; } catch {}
@@ -28,7 +30,7 @@ function shots(f, { auto = false } = {}) {
         const h = auto ? 400 : f.height || (vp < 768 ? 844 : 900);
         return `<figure class="shot">
           <figcaption>${vp}${auto ? "" : ` × ${h}`} · ${t}</figcaption>
-          <iframe src="/frames/${esc(file)}.html?theme=${t}" width="${vp}" height="${h}" loading="lazy" title="${esc(f.title || f.id)} — ${vp}px, ${t}"${auto ? " data-auto" : ""}></iframe>
+          <iframe src="${BASE}frames/${esc(file)}.html?theme=${t}" width="${vp}" height="${h}" loading="lazy" title="${esc(f.title || f.id)} — ${vp}px, ${t}"${auto ? " data-auto" : ""}></iframe>
         </figure>`;
       }),
     )
@@ -49,9 +51,10 @@ function card(f, opts) {
     <header>
       <strong>${esc(f.title || f.id)}</strong>
       <code>${esc(f.id)}</code>
-      <select class="status status-${esc(status)}" aria-label="Status of ${esc(f.title || f.id)}" data-status-kind="${f.id.startsWith("components/") ? "component" : "frame"}" data-status-id="${esc(f.id.startsWith("components/") ? f.title : f.id)}">${STATUSES.map((s) => `<option${s === status ? " selected" : ""}>${s}</option>`).join("")}</select>
+      ${EDITABLE ? "" : `<span class="status status-${esc(status)}">${esc(status)}</span>`}
+      ${!EDITABLE ? "" : `<select class="status status-${esc(status)}" aria-label="Status of ${esc(f.title || f.id)}" data-status-kind="${f.id.startsWith("components/") ? "component" : "frame"}" data-status-id="${esc(f.id.startsWith("components/") ? f.title : f.id)}">${STATUSES.map((s) => `<option${s === status ? " selected" : ""}>${s}</option>`).join("")}</select>`}
       ${status === "approved" ? `<span class="hint">baseline: <code>npm run approve:visual</code></span>` : ""}
-      <a href="/frames/${esc(fileFor(f.id, viewOf(f)))}.html?theme=${themes()[0]}" target="_blank" rel="noopener">Open ↗</a>
+      <a href="${BASE}frames/${esc(fileFor(f.id, viewOf(f)))}.html?theme=${themes()[0]}" target="_blank" rel="noopener">Open ↗</a>
     </header>
     ${tabs(f)}
     <div class="shots">${shots(f, opts)}</div>
