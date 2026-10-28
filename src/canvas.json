@@ -143,6 +143,643 @@
           "status": "draft"
         }
       ]
+    },
+    {
+      "id": "clients",
+      "title": "Clients",
+      "frames": [
+        {
+          "id": "clients",
+          "title": "Clients",
+          "page": "pages/clients/list.njk",
+          "states": [
+            "loading",
+            "empty",
+            "no-results",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 960,
+          "status": "draft"
+        },
+        {
+          "id": "client",
+          "title": "Client · Anderson Studio",
+          "page": "pages/clients/detail.njk",
+          "states": [
+            "loading",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1520,
+          "status": "draft"
+        },
+        {
+          "id": "client-new",
+          "title": "New client",
+          "page": "pages/clients/new.njk",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1200,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "projects",
+      "title": "Projects",
+      "frames": [
+        {
+          "id": "projects",
+          "title": "Projects · board",
+          "page": "pages/projects/list.njk",
+          "states": [
+            "loading",
+            "empty",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1100,
+          "status": "draft"
+        },
+        {
+          "id": "projects-list",
+          "title": "Projects · list",
+          "page": "pages/projects/list.njk",
+          "view": "list",
+          "states": [
+            "loading",
+            "empty",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1000,
+          "status": "draft"
+        },
+        {
+          "id": "project",
+          "title": "Project · Website redesign",
+          "page": "pages/projects/detail.njk",
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1880,
+          "status": "draft"
+        },
+        {
+          "id": "project-board",
+          "title": "Project board",
+          "page": "pages/projects/board.njk",
+          "adding": true,
+          "states": [
+            "loading",
+            "empty",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1200,
+          "status": "draft"
+        },
+        {
+          "id": "project-new",
+          "title": "New project",
+          "page": "pages/projects/new.njk",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1600,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "finance",
+      "title": "Finance",
+      "frames": [
+        {
+          "id": "finance",
+          "title": "Finance",
+          "page": "pages/finance/overview.njk",
+          "states": [
+            "loading",
+            "empty",
+            "no-results",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1050,
+          "status": "draft"
+        },
+        {
+          "id": "invoice",
+          "title": "Invoice · INV-2026-048",
+          "page": "pages/finance/invoice.njk",
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1060,
+          "status": "draft"
+        },
+        {
+          "id": "invoice-payment",
+          "title": "Invoice · recording a payment",
+          "page": "pages/finance/invoice.njk",
+          "recording": true,
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1200,
+          "status": "draft"
+        },
+        {
+          "id": "invoice-new",
+          "title": "New invoice",
+          "page": "pages/finance/new.njk",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1400,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "team",
+      "title": "Team",
+      "frames": [
+        {
+          "id": "team",
+          "title": "Team",
+          "page": "pages/team/list.njk",
+          "states": [
+            "loading",
+            "empty",
+            "no-results",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1780,
+          "status": "draft"
+        },
+        {
+          "id": "member",
+          "title": "Team member · Olivia Foster",
+          "page": "pages/team/member.njk",
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1240,
+          "status": "draft"
+        },
+        {
+          "id": "member-assign",
+          "title": "Team member · adding to a project",
+          "page": "pages/team/member.njk",
+          "assigning": true,
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1400,
+          "status": "draft"
+        },
+        {
+          "id": "invite-member",
+          "title": "Invite member",
+          "page": "pages/team/invite.njk",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1680,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "calendar",
+      "title": "Calendar",
+      "frames": [
+        {
+          "id": "calendar",
+          "title": "Calendar",
+          "page": "pages/calendar/index.njk",
+          "states": [
+            "loading",
+            "empty",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1500,
+          "status": "draft"
+        },
+        {
+          "id": "calendar-new-event",
+          "title": "New event",
+          "page": "pages/calendar/index.njk",
+          "adding": true,
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1500,
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "settings",
+      "title": "Settings",
+      "frames": [
+        {
+          "id": "settings",
+          "title": "General",
+          "page": "pages/settings/index.njk",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "status": "draft"
+        },
+        {
+          "id": "settings-integrations",
+          "title": "Integrations",
+          "page": "pages/settings/index.njk",
+          "tab": "integrations",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 3000,
+          "status": "draft"
+        },
+        {
+          "id": "settings-disconnect",
+          "title": "Disconnect Google Calendar",
+          "page": "pages/settings/index.njk",
+          "tab": "integrations",
+          "confirming": true,
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 3000,
+          "status": "draft"
+        },
+        {
+          "id": "settings-stages",
+          "title": "Project stages",
+          "page": "pages/settings/index.njk",
+          "tab": "stages",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "auth",
+      "title": "Sign in",
+      "frames": [
+        {
+          "id": "sign-in",
+          "title": "Sign in",
+          "page": "pages/auth/sign-in.njk",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "status": "draft"
+        },
+        {
+          "id": "sign-in-error",
+          "title": "Wrong password",
+          "page": "pages/auth/sign-in.njk",
+          "view": "error",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "status": "draft"
+        },
+        {
+          "id": "forgot-password",
+          "title": "Forgot password",
+          "page": "pages/auth/sign-in.njk",
+          "view": "forgot",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "status": "draft"
+        },
+        {
+          "id": "reset-sent",
+          "title": "Reset link sent",
+          "page": "pages/auth/sign-in.njk",
+          "view": "sent",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "status": "draft"
+        },
+        {
+          "id": "accept-invite",
+          "title": "Accept invite",
+          "page": "pages/auth/sign-in.njk",
+          "view": "invite",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "my-space",
+      "title": "My space",
+      "frames": [
+        {
+          "id": "me",
+          "title": "My work",
+          "page": "pages/me/index.njk",
+          "states": [
+            "loading",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1500,
+          "status": "draft"
+        },
+        {
+          "id": "my-time",
+          "title": "Time and time off",
+          "page": "pages/me/time.njk",
+          "states": [
+            "loading",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1100,
+          "status": "draft"
+        },
+        {
+          "id": "my-time-off",
+          "title": "Request time off",
+          "page": "pages/me/time.njk",
+          "requesting": true,
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1100,
+          "status": "draft"
+        },
+        {
+          "id": "my-projects",
+          "title": "My projects",
+          "page": "pages/me/projects.njk",
+          "states": [
+            "loading",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1200,
+          "status": "draft"
+        },
+        {
+          "id": "my-project",
+          "title": "My project",
+          "page": "pages/projects/detail.njk",
+          "member": true,
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1700,
+          "status": "draft"
+        },
+        {
+          "id": "my-board",
+          "title": "My project board",
+          "page": "pages/projects/board.njk",
+          "member": true,
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1400,
+          "status": "draft"
+        },
+        {
+          "id": "my-calendar",
+          "title": "My calendar",
+          "page": "pages/calendar/index.njk",
+          "member": true,
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 2100,
+          "status": "draft"
+        },
+        {
+          "id": "my-team",
+          "title": "Team",
+          "page": "pages/team/list.njk",
+          "member": true,
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1780,
+          "status": "draft"
+        },
+        {
+          "id": "account",
+          "title": "Account · Profile",
+          "page": "pages/me/account.njk",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1200,
+          "status": "draft"
+        },
+        {
+          "id": "account-security",
+          "title": "Account · Sign-in and security",
+          "page": "pages/me/account.njk",
+          "tab": "security",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1200,
+          "status": "draft"
+        },
+        {
+          "id": "account-notifications",
+          "title": "Account · Notifications",
+          "page": "pages/me/account.njk",
+          "tab": "notifications",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "status": "draft"
+        },
+        {
+          "id": "account-calendar",
+          "title": "Account · My calendar",
+          "page": "pages/me/account.njk",
+          "tab": "calendar",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "status": "draft"
+        },
+        {
+          "id": "account-capture",
+          "title": "Account · Capture",
+          "page": "pages/me/account.njk",
+          "tab": "capture",
+          "states": [
+            "loading",
+            "empty",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1600,
+          "status": "draft"
+        }
+      ]
     }
   ]
 }

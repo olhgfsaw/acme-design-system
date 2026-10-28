@@ -1,0 +1,26 @@
+{
+  "base": "flex flex-col gap-3 rounded-md bg-surface p-4 shadow-xs",
+  "variants": {
+    "tone": {
+      "todo": "bg-fg-muted",
+      "in_progress": "bg-accent-strong",
+      "in_review": "bg-warning-fg",
+      "done": "bg-success-fg"
+    }
+  },
+  "slots": {
+    "top": "flex min-h-6 items-start justify-between gap-2",
+    "tags": "flex min-w-0 flex-wrap gap-1.5",
+    "title": "text-sm font-medium text-fg",
+    "titleDone": "text-sm font-medium text-fg-secondary",
+    "note": "text-xs font-medium text-warning-fg",
+    "foot": "flex items-center justify-between gap-2",
+    "meta": "flex flex-wrap items-center gap-3 text-xs text-fg-secondary",
+    "metaItem": "inline-flex items-center gap-1 whitespace-nowrap",
+    "late": "inline-flex items-center gap-1 whitespace-nowrap font-medium text-danger-fg",
+    "ok": "inline-flex items-center gap-1 whitespace-nowrap text-success-fg",
+    "menu": "-m-1.5",
+    "moveDot": "size-2 shrink-0 rounded-full"
+  },
+  "defaultVariants": {}
+}

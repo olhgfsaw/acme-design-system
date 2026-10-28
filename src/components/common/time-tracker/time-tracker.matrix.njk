@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/time-tracker/time-tracker.njk" import timeTracker %}
+{% set description = "A running timer for the time sheet: elapsed time, project, start or stop, and a note." %}
+{% block matrix %}
+
+{% set pr = [{ value: "101", label: "Website redesign" }, { value: "102", label: "App development" }] %}
+{% call section("timer") %}
+  {% call cell("stopped") %}<div class="w-80">{{ timeTracker("m-tt-1", 0, false, pr, project="101") }}</div>{% endcall %}
+  {% call cell("running") %}<div class="w-80">{{ timeTracker("m-tt-2", 4520, true, pr, project="101", note="Homepage hero, mobile") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

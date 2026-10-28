@@ -1,11 +1,11 @@
-{#- BaseTabs. Props: items [{ id, label, count, href }], active (id), label (accessible name of the list). Without href: tabs switching panels (Reka Tabs: role="tab", data-state active / inactive, panel id "<id>-panel"). With href: section navigation, the current one has aria-current="page". -#}
-{% macro tabs(items, active, label) %}
+{#- BaseTabs. Props: items [{ id, label, count, href }], active (id), label (accessible name of the list), panel (id of one shared panel when the tabs filter the same content instead of switching panels). Without href: tabs switching panels (Reka Tabs: role="tab", data-state active / inactive, panel id "<id>-panel"). With href: section navigation, the current one has aria-current="page". -#}
+{% macro tabs(items, active, label, panel=null) %}
 {%- set v = variants.tabs -%}
 {%- set links = (items | first).href -%}
 {%- if links %}<nav aria-label="{{ label }}" data-component="BaseTabs" class="{{ v.base }}">{% else %}<div role="tablist" aria-label="{{ label }}" data-component="BaseTabs" class="{{ v.base }}">{% endif %}
   {%- for it in items %}{% set on = it.id == active %}
   {%- if links %}<a href="{{ it.href }}"{% if on %} aria-current="page"{% endif %} class="{{ v.slots.tab }}">{{ it.label }}{% if it.count is not none and it.count is defined %}<span class="{{ v.slots.count }}">{{ it.count | number }}</span>{% endif %}</a>
-  {%- else %}<button type="button" role="tab" id="{{ it.id }}-tab" aria-controls="{{ it.id }}-panel" aria-selected="{{ "true" if on else "false" }}" data-state="{{ "active" if on else "inactive" }}" tabindex="{{ "0" if on else "-1" }}" class="{{ v.slots.tab }}">{{ it.label }}{% if it.count is not none and it.count is defined %}<span class="{{ v.slots.count }}">{{ it.count | number }}</span>{% endif %}</button>{% endif %}
+  {%- else %}<button type="button" role="tab" id="{{ it.id }}-tab" aria-controls="{{ panel or (it.id ~ "-panel") }}" aria-selected="{{ "true" if on else "false" }}" data-state="{{ "active" if on else "inactive" }}" tabindex="{{ "0" if on else "-1" }}" class="{{ v.slots.tab }}">{{ it.label }}{% if it.count is not none and it.count is defined %}<span class="{{ v.slots.count }}">{{ it.count | number }}</span>{% endif %}</button>{% endif %}
   {%- endfor %}
 {% if links %}</nav>{% else %}</div>{% endif %}
 {%- endmacro %}

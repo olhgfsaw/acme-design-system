@@ -1,0 +1,12 @@
+{#- StatusMenu. A status badge that opens the list of statuses. Props: id, record ("INV-2026-048"), current (code), options [{ code, label, tone, hint, disabled }] (tone = BaseBadge tone, dot = the status code's color), open, footer ({ label, hint, href }: a link under the list), align. menuitemradio with aria-checked; Reka DropdownMenu RadioGroup in Nuxt. -#}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/overlay/dropdown/dropdown.njk" import dropdown, dropdownSeparator %}
+{% macro statusMenu(id, record, current, options, open=false, footer=null, align="start") %}
+{%- set v = variants.statusMenu -%}
+{%- set cur = [] %}{% for o in options %}{% if o.code == current %}{% set _ = cur.push(o) %}{% endif %}{% endfor %}{% set cur = cur | first -%}
+{%- set trig %}<button type="button" aria-haspopup="menu" aria-expanded="{{ "true" if open else "false" }}" aria-controls="{{ id }}" aria-label="{{ record }} status: {{ cur.label }}. Change status" data-component="StatusMenu" class="{{ v.slots.trigger }}">{{ badge(cur.label, tone=cur.tone) }}{{ icon("chevron-down", v.slots.chevron) }}</button>{% endset -%}
+{% call dropdown(id, "Change status of " ~ record, trig, open=open, align=align) %}
+  {%- for o in options %}<button type="button" role="menuitemradio" aria-checked="{{ "true" if o.code == current else "false" }}"{% if o.disabled %} aria-disabled="true"{% endif %} class="{{ v.slots.item }}"><span class="{{ v.slots.dot }} {{ v.variants.tone[o.code] }}" aria-hidden="true"></span><span class="{{ v.slots.text }}"><span class="{{ v.slots.label }}">{{ o.label }}</span>{% if o.hint %}<span class="{{ v.slots.hint }}">{{ o.hint }}</span>{% endif %}</span>{% if o.code == current %}{{ icon("check", v.slots.check) }}{% endif %}</button>{% endfor %}
+  {%- if footer %}{{ dropdownSeparator() }}<a href="{{ footer.href }}" role="menuitem" class="{{ v.slots.item }}">{{ icon("file-text", "mt-0.5 size-4 shrink-0 text-fg-secondary") }}<span class="{{ v.slots.text }}"><span class="{{ v.slots.label }}">{{ footer.label }}</span>{% if footer.hint %}<span class="{{ v.slots.hint }}">{{ footer.hint }}</span>{% endif %}</span></a>{% endif %}
+{% endcall %}
+{%- endmacro %}

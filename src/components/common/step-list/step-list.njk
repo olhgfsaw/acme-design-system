@@ -1,0 +1,5 @@
+{#- StepList. What happens next, in numbered steps. Props: steps (sentences). -#}
+{% macro stepList(steps) %}
+{%- set v = variants.stepList -%}
+<ol data-component="StepList" class="{{ v.base }}">{% for s in steps %}<li class="{{ v.slots.item }}"><span class="{{ v.slots.num }}" aria-hidden="true">{{ loop.index }}</span><span class="{{ v.slots.text }}">{{ s }}</span></li>{% endfor %}</ol>
+{%- endmacro %}

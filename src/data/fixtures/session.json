@@ -1,0 +1,147 @@
+{
+  "entity": "session",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 1,
+        "memberId": 11,
+        "device": "MacBook Pro",
+        "client": "Chrome",
+        "location": "San Francisco, CA",
+        "lastActiveAt": "2026-10-28T12:00:00Z",
+        "current": true,
+        "kind": "laptop"
+      },
+      {
+        "id": 2,
+        "memberId": 11,
+        "device": "iPhone 15",
+        "client": "Safari",
+        "location": "San Francisco, CA",
+        "lastActiveAt": "2026-10-27T19:40:00Z",
+        "kind": "phone"
+      },
+      {
+        "id": 3,
+        "memberId": 11,
+        "device": "Windows PC",
+        "client": "Edge",
+        "location": "Oakland, CA",
+        "lastActiveAt": "2026-10-14T08:15:00Z",
+        "kind": "laptop"
+      }
+    ],
+    "empty": [
+      {
+        "id": 1,
+        "memberId": 11,
+        "device": "MacBook Pro",
+        "client": "Chrome",
+        "location": "San Francisco, CA",
+        "lastActiveAt": "2026-10-28T12:00:00Z",
+        "current": true,
+        "kind": "laptop"
+      }
+    ],
+    "longStrings": [
+      {
+        "id": 1,
+        "memberId": 11,
+        "device": "MacBook Pro 16-inch with the very long custom name",
+        "client": "Chrome",
+        "location": "Rancho Santa Margarita, California, United States",
+        "lastActiveAt": "2026-10-28T12:00:00Z",
+        "current": true,
+        "kind": "laptop"
+      },
+      {
+        "id": 2,
+        "memberId": 11,
+        "device": "iPhone 15",
+        "client": "Safari",
+        "location": "San Francisco, CA",
+        "lastActiveAt": "2026-10-27T19:40:00Z",
+        "kind": "phone"
+      },
+      {
+        "id": 3,
+        "memberId": 11,
+        "device": "Windows PC",
+        "client": "Edge",
+        "location": "Oakland, CA",
+        "lastActiveAt": "2026-10-14T08:15:00Z",
+        "kind": "laptop"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 1,
+        "memberId": 11,
+        "device": "MacBook Pro",
+        "client": "Chrome",
+        "location": "San Francisco, CA",
+        "lastActiveAt": "2026-10-28T12:00:00Z",
+        "current": true,
+        "kind": "laptop"
+      },
+      {
+        "id": 2,
+        "memberId": 11,
+        "device": "iPhone 15",
+        "client": "Safari",
+        "location": "San Francisco, CA",
+        "lastActiveAt": "2026-10-27T19:40:00Z",
+        "kind": "phone"
+      },
+      {
+        "id": 3,
+        "memberId": 11,
+        "device": "Windows PC",
+        "client": "Edge",
+        "location": "Oakland, CA",
+        "lastActiveAt": "2026-10-14T08:15:00Z",
+        "kind": "laptop"
+      }
+    ],
+    "partial": [
+      {
+        "id": 4,
+        "memberId": 11,
+        "device": "Unknown device",
+        "lastActiveAt": "2026-10-28T12:00:00Z",
+        "current": true,
+        "kind": "laptop"
+      }
+    ],
+    "many": [
+      {
+        "id": 1,
+        "memberId": 11,
+        "device": "MacBook Pro",
+        "client": "Chrome",
+        "location": "San Francisco, CA",
+        "lastActiveAt": "2026-10-28T12:00:00Z",
+        "current": true,
+        "kind": "laptop"
+      },
+      {
+        "id": 2,
+        "memberId": 11,
+        "device": "iPhone 15",
+        "client": "Safari",
+        "location": "San Francisco, CA",
+        "lastActiveAt": "2026-10-27T19:40:00Z",
+        "kind": "phone"
+      },
+      {
+        "id": 3,
+        "memberId": 11,
+        "device": "Windows PC",
+        "client": "Edge",
+        "location": "Oakland, CA",
+        "lastActiveAt": "2026-10-14T08:15:00Z",
+        "kind": "laptop"
+      }
+    ]
+  }
+}

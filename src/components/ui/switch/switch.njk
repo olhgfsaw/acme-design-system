@@ -1,9 +1,9 @@
-{#- BaseSwitch. Props: id, label, description, checked, disabled. An on / off setting that applies at once. Reka Switch: role="switch", data-state on the track and the thumb. -#}
-{% macro switch(id, label, description=null, checked=false, disabled=false) %}
+{#- BaseSwitch. Props: id, label, description, checked, disabled, aside (a short value before the switch, e.g. a rate), locked (a required setting: on, disabled, with a lock; say why in the description). An on / off setting that applies at once. Reka Switch: role="switch", data-state on the track and the thumb. -#}
+{% macro switch(id, label, description=null, checked=false, disabled=false, aside=null, locked=false) %}
 {%- set v = variants.switch -%}
-{%- set st = "checked" if checked else "unchecked" -%}
+{%- set st = "checked" if (checked or locked) else "unchecked" -%}
 <div data-component="BaseSwitch" class="{{ v.base }}">
   <span class="{{ v.slots.text }}"><label for="{{ id }}" class="{{ v.slots.label }}">{{ label }}</label>{% if description %}<span id="{{ id }}-desc" class="{{ v.slots.description }}">{{ description }}</span>{% endif %}</span>
-  <button type="button" role="switch" id="{{ id }}" aria-checked="{{ "true" if checked else "false" }}" data-state="{{ st }}"{% if description %} aria-describedby="{{ id }}-desc"{% endif %} class="{{ v.slots.track }}"{% if disabled %} disabled{% endif %}><span data-state="{{ st }}" class="{{ v.slots.thumb }}"></span></button>
+  <span class="{{ v.slots.end }}">{% if aside %}<span class="{{ v.slots.aside }}">{{ aside }}</span>{% endif %}{% if locked %}{{ icon("lock", v.slots.lock) }}{% endif %}<button type="button" role="switch" id="{{ id }}" aria-checked="{{ "true" if st == "checked" else "false" }}" data-state="{{ st }}"{% if description %} aria-describedby="{{ id }}-desc"{% endif %} class="{{ v.slots.track }}"{% if disabled or locked %} disabled{% endif %}><span data-state="{{ st }}" class="{{ v.slots.thumb }}"></span></button></span>
 </div>
 {%- endmacro %}

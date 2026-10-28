@@ -1,0 +1,14 @@
+{#- MemberCard. A person on the Team page; the whole card opens their profile. Props: name, role, href, badges [{ label, tone }], projectCount, hours (formatted, this week), load (0–100+), projects (names). Workload over 90% uses the danger tone and says so. -#}
+{% from "components/ui/avatar/avatar.njk" import avatar as _avatar %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/progress-bar/progress-bar.njk" import progressBar %}
+{% macro memberCard(name, role, href, projectCount, hours, load, projects=[], badges=[]) %}
+{%- set v = variants.memberCard -%}
+<a href="{{ href }}" data-component="MemberCard" class="{{ v.base }}">
+  <div class="{{ v.slots.head }}">{{ _avatar(name, decorative=true) }}<span class="{{ v.slots.text }}"><span class="{{ v.slots.name }}">{{ name }}</span><span class="{{ v.slots.role }}">{{ role }}</span></span></div>
+  {%- if badges | length %}<div class="{{ v.slots.badges }}">{% for b in badges %}{{ badge(b.label, tone=b.tone) }}{% endfor %}</div>{% endif %}
+  <div class="{{ v.slots.stats }}"><div class="{{ v.slots.stat }}"><span class="{{ v.slots.statLabel }}">Projects</span><span class="{{ v.slots.statValue }}">{{ projectCount | number }}</span></div><div class="{{ v.slots.stat }}"><span class="{{ v.slots.statLabel }}">This week</span><span class="{{ v.slots.statValue }}">{{ hours }}</span></div></div>
+  <div class="{{ v.slots.load }}"><div class="{{ v.slots.loadRow }}"><span>Workload{% if load >= 90 %} · over capacity{% endif %}</span><span class="{{ v.slots.loadValue }}">{{ (load / 100) | percent }}</span></div>{{ progressBar([load, 100] | sort | first, "Workload", tone=("danger" if load >= 90 else "neutral")) }}</div>
+  {%- if projects | length %}<p class="{{ v.slots.projects }}">{{ projects | join(", ") }}</p>{% endif %}
+</a>
+{%- endmacro %}

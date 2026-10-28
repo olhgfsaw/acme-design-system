@@ -1,0 +1,22 @@
+{#- TimesheetGrid. Hours per project and day for one week, with day and row totals and the booked hours per project. Props: id, caption, days [{ short, date, iso }], rows [{ name, sub, hours [numbers or null per day], booked }], today (iso of today's column), locked (submitted or approved: values only, no inputs), state (default | loading), messages ({ loading }). A row over its booked hours shows the total in danger and says so. Each input's name says project and day. Below lg every project becomes a card with five day fields and its totals, so nothing scrolls sideways. -#}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% macro timesheetGrid(id, caption, days, rows, today=null, locked=false, state="default", messages={}) %}
+{%- set v = variants.timesheetGrid -%}
+{%- set all = [] %}{% set bk = [] %}{% for r in rows %}{% set _ = all.push(r.hours | sum) %}{% set _ = bk.push(r.booked or 0) %}{% endfor -%}
+<div data-component="TimesheetGrid" class="{{ v.slots.wrap }}"{% if state == "loading" %} aria-busy="true"{% endif %}>
+<table id="{{ id }}" class="{{ v.base }}">
+  <caption class="sr-only">{{ caption }}{% if state == "loading" %} · {{ messages.loading }}{% endif %}</caption>
+  <thead class="{{ v.slots.thead }}"><tr><th scope="col" class="{{ v.slots.head }}">Project</th>{% for d in days %}<th scope="col" class="{{ v.slots.headNum }} {% if d.iso == today %}{{ v.slots.headToday }} {{ v.slots.today }}{% else %}{{ v.slots.headMuted }}{% endif %}"{% if d.iso == today %} aria-current="date"{% endif %}>{{ d.short }} <span class="font-normal">{{ d.date }}</span></th>{% endfor %}<th scope="col" class="{{ v.slots.headNum }} {{ v.slots.headMuted }}">Total</th><th scope="col" class="{{ v.slots.headNum }} {{ v.slots.headMuted }}">Booked</th></tr></thead>
+  <tbody class="{{ v.slots.body }}">
+  {%- for r in rows %}{% set rowTotal = r.hours | sum %}{% set over = r.booked and rowTotal > r.booked %}
+  <tr class="{{ v.slots.row }}"><th scope="row" class="{{ v.slots.name }}"><span class="{{ v.slots.nameText }}" title="{{ r.name }}">{{ r.name }}</span>{% if r.sub %}<span class="{{ v.slots.sub }}">{{ r.sub }}</span>{% endif %}</th>
+    {%- for d in days %}{% set hv = r.hours[loop.index0] %}<td class="{{ v.slots.cell }}{% if d.iso == today %} {{ v.slots.today }}{% endif %}"><span class="{{ v.slots.dayLabel }}" aria-hidden="true">{{ d.short }}</span>{% if state == "loading" %}{{ skeleton("line", layout="w-full") }}{% elif locked %}<span class="{{ v.slots.value }}">{{ (hv | number) if hv else "–" }}</span>{% else %}{{ input(id ~ "-" ~ loop.index0 ~ "-" ~ r.name | replace(" ", "-") | replace(":", "") | lower, value=((hv | string) if hv else ""), inputmode="decimal", numeric=true, label=r.name ~ ", " ~ d.short ~ " " ~ d.date ~ ", hours", size="sm") }}{% endif %}</td>{% endfor %}
+    <td class="{{ v.slots.num }} {{ v.slots.over if over else v.slots.numValue }}"><span class="{{ v.slots.numLabel }}" aria-hidden="true">Total</span>{% if state != "loading" %}<span>{{ rowTotal | number }}{% if over %}<span class="sr-only">, over booked hours</span>{% endif %}</span>{% endif %}</td>
+    <td class="{{ v.slots.num }} {{ v.slots.muted }}"><span class="{{ v.slots.numLabel }}" aria-hidden="true">Booked</span><span>{{ (r.booked | number) if r.booked else "–" }}</span></td></tr>
+  {%- endfor %}
+  </tbody>
+  <tfoot><tr class="{{ v.slots.footRow }}"><th scope="row" class="{{ v.slots.footLabel }}">Total</th>{% for d in days %}{% set col = [] %}{% for r in rows %}{% set _ = col.push(r.hours[loop.index0] or 0) %}{% endfor %}<td class="{{ v.slots.foot }} {{ v.slots.numValue }}{% if d.iso == today %} {{ v.slots.today }}{% endif %}">{% if state != "loading" %}{{ col | sum | number }}{% endif %}</td>{% endfor %}<td class="{{ v.slots.footTotal }} {{ v.slots.numValue }}"><span class="{{ v.slots.numLabel }}" aria-hidden="true">Week total</span>{% if state != "loading" %}<span>{{ all | sum | number }}</span>{% endif %}</td><td class="{{ v.slots.foot }} {{ v.slots.muted }}">{{ bk | sum | number }}</td></tr></tfoot>
+</table>
+</div>
+{%- endmacro %}

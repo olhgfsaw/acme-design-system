@@ -1,0 +1,9 @@
+{
+  "base": "flex flex-col gap-2 rounded-md bg-surface p-3 shadow-xs",
+  "variants": {},
+  "slots": {
+    "row": "flex items-center gap-2",
+    "who": "min-w-0 flex-1"
+  },
+  "defaultVariants": {}
+}

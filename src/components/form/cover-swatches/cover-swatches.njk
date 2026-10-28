@@ -1,0 +1,7 @@
+{#- CoverSwatches. Pick a cover pattern. Props: id, labelledby, value (pattern), patterns. -#}
+{% from "components/common/project-cover/project-cover.njk" import projectCover %}
+{% macro coverSwatches(id, labelledby, value="ink", patterns=["ink", "dots", "grid", "rings", "stripes", "plain"]) %}
+{%- set v = variants.coverSwatches -%}
+{%- set names = { ink: "Ink", dots: "Dots", grid: "Grid", rings: "Rings", stripes: "Stripes", plain: "Plain" } -%}
+<div role="group" aria-labelledby="{{ labelledby }}" data-component="CoverSwatches" class="{{ v.base }}">{% for p in patterns %}<button type="button" aria-pressed="{{ "true" if p == value else "false" }}" aria-label="{{ names[p] }} pattern" class="{{ v.slots.swatch }}">{{ projectCover(id ~ "-" ~ p, "", pattern=p, size="tile") }}</button>{% endfor %}</div>
+{%- endmacro %}

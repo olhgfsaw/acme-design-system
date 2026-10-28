@@ -1,0 +1,14 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/pattern/calendar-grid/calendar-grid.njk" import calendarGrid %}
+{% set description = "A month as a table: weekday headers, day numbers that select the day, event chips colored by calendar and a more button." %}
+{% block matrix %}
+
+{% set ev = [] %}
+{% for e in data.fixtures.calendarEvent.scenarios[scenario] %}{% set _ = ev.push({ date: e.date, time: (e.startsAt | time) if e.startsAt else null, title: e.title, tone: data.statuses.eventCalendar[e.calendar].tone }) %}{% endfor %}
+{% set msg = { loading: "Loading calendar…", errorTitle: "The calendar didn't load", errorText: "Google Calendar didn't answer. Your events are safe — try again in a minute.", retry: "Try again" } %}
+{% call section("month") %}
+  {% call cell("October 2026, week starts Sunday, today Oct 28") %}<div class="w-full max-w-5xl"><h3 id="m-cal-title" class="mb-3 text-lg font-semibold text-fg">October 2026</h3>{{ calendarGrid("m-cal", 2026, 10, ev, "2026-10-28", selected="2026-10-28", labelledby="m-cal-title", state=state, messages=msg) }}</div>{% endcall %}
+  {% call cell("November 2026, week starts Monday") %}<div class="w-full max-w-5xl"><h3 id="m-cal-2-title" class="mb-3 text-lg font-semibold text-fg">November 2026</h3>{{ calendarGrid("m-cal-2", 2026, 11, ev, "2026-10-28", selected="2026-11-03", weekStart=1, labelledby="m-cal-2-title", state=state, messages=msg) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

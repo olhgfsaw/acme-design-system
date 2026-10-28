@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/layout/auth-layout/auth-layout.njk" import authLayout %}
+{% set description = "Sign-in, password reset and invite screens: a side panel about the product and the form column." %}
+{% block matrix %}
+
+{% call section("layout") %}
+  {% call cell("with a short form") %}<div class="w-full">{% call authLayout("Acme", "Clients, projects and invoices in one place", "Track every project stage and see the team's week.", note="Runs on your machine. Your data stays here.") %}<p class="text-3xl font-medium tracking-tight text-fg">Sign in</p><p class="text-base text-fg-secondary">Use your work email or Google account</p>{% endcall %}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,6 @@
+{#- AvatarGroup. Who works on something, in a small stack. Props: names, max (how many faces before "+N"), label ("Team"). The full list is the accessible name. -#}
+{% from "components/ui/avatar/avatar.njk" import avatar as _avatar %}
+{% macro avatarGroup(names, max=3, label="Team") %}
+{%- set v = variants.avatarGroup -%}
+<ul data-component="AvatarGroup" aria-label="{{ label }}: {{ names | join(", ") }}" class="{{ v.base }}">{% for n in names %}{% if loop.index <= max %}<li class="{{ v.slots.item }}">{{ _avatar(n, size="xs", decorative=true) }}</li>{% endif %}{% endfor %}{% if names | length > max %}<li class="{{ v.slots.item }}"><span class="{{ v.slots.more }}" aria-hidden="true">+{{ (names | length) - max }}</span></li>{% endif %}</ul>
+{%- endmacro %}

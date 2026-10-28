@@ -8,7 +8,11 @@
         "title": "Header and navigation",
         "status": "in_review",
         "dueDate": "2026-10-27",
-        "assigneeName": "James Reed"
+        "assigneeName": "James Reed",
+        "tag": "Frontend",
+        "priority": "high",
+        "note": "Waiting for the client's logo files",
+        "comments": 4
       },
       {
         "id": 702,
@@ -16,7 +20,11 @@
         "title": "Responsive check of page templates",
         "status": "in_progress",
         "dueDate": "2026-10-30",
-        "assigneeName": "Olivia Foster"
+        "assigneeName": "Olivia Foster",
+        "tag": "Frontend",
+        "subtasksDone": 3,
+        "subtasksTotal": 6,
+        "comments": 2
       },
       {
         "id": 703,
@@ -24,7 +32,10 @@
         "title": "Homepage build",
         "status": "in_progress",
         "dueDate": "2026-11-03",
-        "assigneeName": "James Reed"
+        "assigneeName": "James Reed",
+        "tag": "Frontend",
+        "subtasksDone": 2,
+        "subtasksTotal": 5
       },
       {
         "id": 704,
@@ -32,7 +43,8 @@
         "title": "Contact form with validation",
         "status": "todo",
         "dueDate": "2026-11-05",
-        "assigneeName": "Karl Hansen"
+        "assigneeName": "Karl Hansen",
+        "tag": "Frontend"
       },
       {
         "id": 705,
@@ -40,7 +52,10 @@
         "title": "Blog listing and article pages",
         "status": "todo",
         "dueDate": "2026-11-10",
-        "assigneeName": "Olivia Foster"
+        "assigneeName": "Olivia Foster",
+        "tag": "Content",
+        "subtasksDone": 0,
+        "subtasksTotal": 3
       },
       {
         "id": 706,
@@ -48,14 +63,16 @@
         "title": "Cookie banner and consent",
         "status": "todo",
         "dueDate": "2026-11-12",
-        "assigneeName": "James Reed"
+        "assigneeName": "James Reed",
+        "tag": "Frontend"
       },
       {
         "id": 707,
         "projectId": 101,
         "title": "Image optimisation pass",
         "status": "todo",
-        "dueDate": "2026-11-14"
+        "dueDate": "2026-11-14",
+        "tag": "Frontend"
       },
       {
         "id": 708,
@@ -63,7 +80,9 @@
         "title": "404 and empty pages",
         "status": "todo",
         "dueDate": "2026-11-18",
-        "assigneeName": "Karl Hansen"
+        "assigneeName": "Karl Hansen",
+        "tag": "Design",
+        "comments": 1
       },
       {
         "id": 709,
@@ -71,7 +90,8 @@
         "title": "Analytics events",
         "status": "todo",
         "dueDate": "2026-11-20",
-        "assigneeName": "Abraham Moss"
+        "assigneeName": "Abraham Moss",
+        "tag": "Analytics"
       },
       {
         "id": 710,
@@ -79,7 +99,9 @@
         "title": "Wireframes sign-off",
         "status": "done",
         "dueDate": "2026-10-02",
-        "assigneeName": "Daniel Kim"
+        "assigneeName": "Daniel Kim",
+        "tag": "Design",
+        "comments": 6
       },
       {
         "id": 711,
@@ -87,7 +109,36 @@
         "title": "App store screenshots",
         "status": "in_progress",
         "dueDate": "2026-11-04",
-        "assigneeName": "Olivia Foster"
+        "assigneeName": "Olivia Foster",
+        "tag": "Design"
+      },
+      {
+        "id": 712,
+        "projectId": 101,
+        "title": "Design system tokens in code",
+        "status": "done",
+        "dueDate": "2026-10-14",
+        "assigneeName": "Olivia Foster",
+        "tag": "Design"
+      },
+      {
+        "id": 713,
+        "projectId": 101,
+        "title": "Sitemap and page list",
+        "status": "done",
+        "dueDate": "2026-09-20",
+        "assigneeName": "Abraham Moss",
+        "tag": "Content"
+      },
+      {
+        "id": 714,
+        "projectId": 101,
+        "title": "Blog page templates",
+        "status": "in_review",
+        "dueDate": "2026-10-31",
+        "assigneeName": "Olivia Foster",
+        "tag": "Design",
+        "comments": 3
       }
     ],
     "empty": [],

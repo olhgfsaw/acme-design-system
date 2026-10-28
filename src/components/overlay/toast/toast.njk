@@ -1,7 +1,7 @@
 {#- ToastMessage. Props: message, actionLabel (Undo), fixed (pinned to the bottom of the screen; false inside a matrix). Short confirmations only; pauses while hovered or focused (Nuxt). The thing it confirms stays recoverable elsewhere. -#}
-{% macro toast(message, actionLabel=null, fixed=true) %}
+{% macro toast(message, actionLabel=null, fixed=true, actionHref=null) %}
 {%- set v = variants.toast -%}
 {%- if fixed %}<div role="status" aria-live="polite" class="{{ v.slots.region }}">{% else %}<div role="status" aria-live="polite">{% endif %}
-  <div data-component="ToastMessage" class="{{ v.base }} {{ v.variants.kind["action" if actionLabel else "plain"] }}"><span>{{ message }}</span>{% if actionLabel %}<button type="button" class="{{ v.slots.action }}">{{ actionLabel }}</button>{% endif %}</div>
+  <div data-component="ToastMessage" class="{{ v.base }} {{ v.variants.kind["action" if actionLabel else "plain"] }}"><span>{{ message }}</span>{% if actionLabel and actionHref %}<a href="{{ actionHref }}" class="{{ v.slots.action }}">{{ actionLabel }}</a>{% elif actionLabel %}<button type="button" class="{{ v.slots.action }}">{{ actionLabel }}</button>{% endif %}</div>
 </div>
 {%- endmacro %}

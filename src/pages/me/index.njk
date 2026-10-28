@@ -1,0 +1,81 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_space-chrome.njk" import spaceChrome %}
+{% from "layouts/_format.njk" import shortDate, weekdayIndex %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/time-tracker/time-tracker.njk" import timeTracker %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/detail-list/detail-list.njk" import detailList %}
+{% from "components/common/countdown-timer/countdown-timer.njk" import countdownTimer %}
+{% from "components/common/event-row/event-row.njk" import eventRow %}
+{% from "components/common/activity-list/activity-list.njk" import activityList %}
+{% from "components/common/project-card/project-card.njk" import projectCard %}
+{% from "components/common/empty-state/empty-state.njk" import emptyState %}
+{% from "components/ui/progress-bar/progress-bar.njk" import progressBar %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/ui/checkbox/checkbox.njk" import checkbox %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set session = data.fixtures.session.scenarios.typical | selectattr("current") | first %}
+{% set me = data.fixtures.teamMember.scenarios.typical | selectattr("id", "equalto", session.memberId) | first %}
+{% set today = project.referenceDate.slice(0, 10) %}
+{% set hour = project.referenceDate.slice(11, 13) | int %}
+{% set loading = state == "loading" %}
+{% set myTasks = [] %}{% set dueWeek = [] %}{% for t in data.fixtures.task.scenarios[scenario] %}{% if t.assigneeName == me.fullName %}{% set _ = myTasks.push(t) %}{% if t.status != "done" and t.dueDate and t.dueDate <= "2026-11-01" %}{% set _ = dueWeek.push(t) %}{% endif %}{% endif %}{% endfor %}
+{% set open = [] %}{% for t in myTasks %}{% if t.status != "done" %}{% set _ = open.push(t) %}{% endif %}{% endfor %}
+{% set meetings = [] %}{% for e in data.fixtures.calendarEvent.scenarios.typical %}{% if e.date == today and e.calendar == "meetings" %}{% set _ = meetings.push(e) %}{% endif %}{% endfor %}
+{% set next = [] %}{% for e in meetings %}{% if e.startsAt > project.referenceDate %}{% set _ = next.push(e) %}{% endif %}{% endfor %}{% set next = next | first %}
+{% set week = data.fixtures.timesheet.scenarios[scenario] | first %}
+{% set logged = [] %}{% set todayLogged = [] %}{% set booked = [] %}{% for r in week.rows %}{% set _ = logged.push(r.hours | sum) %}{% set _ = todayLogged.push(r.hours[2] or 0) %}{% set _ = booked.push(r.bookedHours or 0) %}{% endfor %}
+{% set wd = (data.glossary.weekdays | label)[weekdayIndex(today) | int] %}
+{% set summary = (meetings | length | plural({ one: "# meeting", other: "# meetings" })) ~ ", " ~ (dueWeek | length | plural({ one: "# task due this week", other: "# tasks due this week" })) %}
+{% set projects = [] %}{% for ph in me.projectHours %}{% for p in data.fixtures.project.scenarios.typical %}{% if p.title == ph.project %}{% set _ = projects.push({ p: p, ph: ph }) %}{% endif %}{% endfor %}{% endfor %}
+{% set stages = [] %}{% for code, s in data.statuses.projectStage %}{% set _ = stages.push({ name: s.label | label, code: code }) %}{% endfor %}
+
+{% call spaceChrome("me") %}
+  {% call pageHeader(("Good morning" if hour < 12 else ("Good afternoon" if hour < 18 else "Good evening")) ~ ", " ~ me.fullName.split(" ")[0], wd ~ ", " ~ (data.glossary.months | label)[(today.slice(5, 7) | int) - 1] ~ " " ~ (today.slice(8, 10) | int) ~ " · " ~ summary) %}
+    {{ button("Request time off", variant="secondary", iconLeading="plane", href="my-time-off.html") }}{{ button("Open timesheet", iconLeading="clock", href="my-time.html") }}
+  {% endcall %}
+  <div class="flex flex-col gap-3">
+    <div class="grid gap-3 xl:grid-cols-3">
+      {% call card("timer", title="Timer") %}{% set opts = [] %}{% for x in projects %}{% set _ = opts.push({ value: x.p.id ~ "", label: x.p.title }) %}{% endfor %}{{ timeTracker("tt", 0, false, opts, project=(opts[0].value if opts | length else null)) }}{% endcall %}
+      {% call card("week", title="This week", actionHref="my-time.html", actionLabel="Open timesheet") %}
+        <div class="flex flex-col gap-4">{% if loading %}{{ skeleton("figure") }}{% else %}{{ statBlock("Logged", (logged | sum | number) ~ " h") }}<p class="text-sm text-fg-secondary">Of {{ booked | sum | number }} h booked on your projects</p>{{ progressBar([((logged | sum) / ((booked | sum) or 1) * 100) | round | int, 100] | sort | first, "Logged of booked", tone="neutral") }}{{ detailList([{ label: "Today", value: (todayLogged | sum | number) ~ " h" }, { label: "Timesheet due", value: "Fri, " ~ shortDate("2026-10-30") }], columns="1") }}{% endif %}</div>
+      {% endcall %}
+      {% call card("next", title="Next meeting in") %}
+        {% if next %}<div class="flex flex-col gap-3">{{ countdownTimer(((next.startsAt.slice(11, 13) | int) - hour) * 3600 + (next.startsAt.slice(14, 16) | int) * 60, "Time until " ~ next.title) }}<div class="flex flex-col gap-1"><p class="text-base font-medium text-fg">{{ next.title }}</p><p class="text-sm text-fg-secondary">{{ next.startsAt | time }} · {{ next.durationMinutes }} min{% if next.projectName %} · {{ next.projectName }}{% endif %}</p></div>{% if next.meetLink %}<div>{{ button("Join Google Meet", size="sm", iconLeading="video", href="#join") }}</div>{% endif %}</div>
+        {% else %}{{ emptyState("No more meetings today", "Your next meeting shows up here.", iconName="calendar") }}{% endif %}
+      {% endcall %}
+    </div>
+    <div class="grid items-start gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      {% call card("tasks", title="My tasks") %}
+        <div class="flex flex-col gap-4">
+          {{ tabs([{ id: "open", label: "Open", count: open | length }, { id: "week", label: "Due this week", count: dueWeek | length }, { id: "done", label: "Done", count: (myTasks | length) - (open | length) }], "open", "Filter tasks", panel="my-tasks") }}
+          <div id="my-tasks" role="tabpanel" aria-label="Open tasks" class="flex flex-col gap-3"{% if loading %} aria-busy="true"{% endif %}>
+            {% if loading %}<span class="sr-only">Loading…</span>{% for i in range(0, 4) %}{{ skeleton("line", layout="w-full") }}{% endfor %}
+            {% elif open | length %}{% for t in open %}{% set p = data.fixtures.project.scenarios.typical | selectattr("id", "equalto", t.projectId) | first %}{{ checkbox("task-" ~ t.id, t.title, description=(p.title if p else "") ~ (" · High priority" if t.priority == "high" else ""), aside=(("Overdue, " if t.dueDate < today else "Due ") ~ shortDate(t.dueDate) if t.dueDate else null), asideTone=("danger" if t.dueDate and t.dueDate < today else "muted")) }}{% endfor %}
+            {% else %}<p class="text-sm text-fg-secondary">Nothing assigned to you. Tasks from your project boards show up here.</p>{% endif %}
+          </div>
+          <form class="flex gap-2" action="me.html">{{ input("new-task", placeholder="Add a task for today", label="New task") }}{{ button("Add", variant="secondary", type="submit") }}</form>
+        </div>
+      {% endcall %}
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("today", title="Today") %}
+          <div class="flex flex-col gap-3"><p class="text-sm text-fg-muted">From your Google Calendar</p>
+          <ul class="flex flex-col gap-2">{% for e in meetings | sort(false, false, "startsAt") %}<li>{{ eventRow(e.startsAt | time, (e.durationMinutes ~ " min") if e.startsAt > project.referenceDate else "Done", e.title, at=e.startsAt, meta=e.projectName, tone="meetings", action=({ label: "Join", href: "#join" } if e.meetLink and e.startsAt > project.referenceDate else null)) }}</li>{% endfor %}</ul></div>
+        {% endcall %}
+        {% call card("updates", title="Updates") %}
+          {% set items = [] %}{% for n in data.fixtures.notification.scenarios[scenario] %}{% set _ = items.push({ text: ((n.actorName ~ " ") if n.actorName else "") ~ n.text ~ ((" " ~ n.detail) if n.detail else ""), at: n.at, when: n.at | relative, tone: data.statuses.notificationKind[n.kind].tone }) %}{% endfor %}
+          {% if items | length %}{{ activityList(items) }}{% else %}<p class="text-sm text-fg-secondary">You're all caught up.</p>{% endif %}
+        {% endcall %}
+      </div>
+    </div>
+    {% call card("my-projects", title="My projects", actionHref="my-projects.html", actionLabel="All my projects") %}
+      <ul class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">{% for x in projects %}{% set cur = 0 %}{% for s in stages %}{% if s.code == x.p.stage %}{% set cur = loop.index0 %}{% endif %}{% endfor %}<li class="flex min-w-0">{{ projectCard("mp-" ~ x.p.id, x.p.title, "my-project.html", x.p.clientName ~ " · " ~ x.ph.role, (x.ph.hours ~ " h/week"), x.p.title.split(" ")[0][0] ~ (x.p.title.split(" ")[1] or " ")[0], x.p.cover, stages, cur, percent=x.p.progressPercent, team=x.p.team, due=shortDate(x.p.dueDate)) }}</li>{% endfor %}</ul>
+    {% endcall %}
+  </div>
+{% endcall %}
+{% endblock %}

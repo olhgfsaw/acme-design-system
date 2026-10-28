@@ -1,0 +1,5 @@
+{#- Small formatting helpers shared by screens. shortDate: "Oct 30" from an ISO date, month names from the glossary (Intl has no month-day filter here). monogram: first letters of the first two words. dayNumber: days since a fixed epoch for a YYYY-MM-DD date, to count days between two dates (cast with | int). weekdayIndex: 0 = Sunday … 6 = Saturday. -#}
+{% macro shortDate(iso) %}{%- if iso -%}{{ (data.glossary.monthsShort | label)[(iso.slice(5, 7) | int) - 1] }} {{ iso.slice(8, 10) | int }}{%- endif -%}{% endmacro %}
+{% macro monogram(title) %}{%- set w = title.split(" ") -%}{{ ((w[0] | first) ~ ((w[1] or "") | first)) | upper }}{% endmacro %}
+{% macro dayNumber(iso) %}{%- set y = iso.slice(0, 4) | int %}{% set m = iso.slice(5, 7) | int %}{% set d = iso.slice(8, 10) | int %}{% if m < 3 %}{% set y = y - 1 %}{% set m = m + 12 %}{% endif -%}{{ 365 * y + (y / 4) | int - (y / 100) | int + (y / 400) | int + ((153 * (m - 3) + 2) / 5) | int + d }}{%- endmacro %}
+{% macro weekdayIndex(iso) %}{{ ((dayNumber(iso) | int) + 2) % 7 }}{% endmacro %}

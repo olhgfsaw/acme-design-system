@@ -1,0 +1,203 @@
+{
+  "entity": "invoice",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 1050,
+        "number": "INV-2026-050",
+        "clientName": "Klark Coffee Co.",
+        "projectName": "Marketing campaign",
+        "description": "October campaign work",
+        "issuedAt": "2026-10-28",
+        "dueAt": "2026-11-27",
+        "amountMinor": 900000,
+        "currency": "USD",
+        "status": "draft",
+        "termsDays": 30,
+        "taxPercent": 0
+      },
+      {
+        "id": 1048,
+        "number": "INV-2026-048",
+        "clientName": "Anderson Studio",
+        "projectName": "Website redesign",
+        "description": "Development milestone 2",
+        "issuedAt": "2026-10-15",
+        "dueAt": "2026-11-14",
+        "amountMinor": 800000,
+        "currency": "USD",
+        "status": "sent",
+        "termsDays": 30,
+        "taxPercent": 0,
+        "milestone": "Milestone 3 of 4 · Development, part 2",
+        "lines": [
+          {
+            "description": "Front-end build",
+            "detail": "Page templates, components, responsive layouts",
+            "quantity": 1,
+            "rateMinor": 600000,
+            "amountMinor": 600000
+          },
+          {
+            "description": "CMS setup and content migration",
+            "detail": "48 pages moved from the old site",
+            "quantity": 1,
+            "rateMinor": 200000,
+            "amountMinor": 200000
+          }
+        ],
+        "note": "Pay by bank transfer within 30 days. Put the invoice number in the payment reference."
+      },
+      {
+        "id": 1047,
+        "number": "INV-2026-047",
+        "clientName": "Northwind Health",
+        "projectName": "App development",
+        "description": "October sprint work",
+        "issuedAt": "2026-10-01",
+        "dueAt": "2026-10-31",
+        "amountMinor": 1400000,
+        "currency": "USD",
+        "status": "sent",
+        "termsDays": 30,
+        "taxPercent": 0
+      },
+      {
+        "id": 1046,
+        "number": "INV-2026-046",
+        "clientName": "Rahman Logistics",
+        "projectName": "Landing page design",
+        "description": "Design deposit",
+        "issuedAt": "2026-09-15",
+        "dueAt": "2026-10-15",
+        "amountMinor": 320000,
+        "currency": "USD",
+        "status": "overdue",
+        "termsDays": 30,
+        "taxPercent": 0
+      },
+      {
+        "id": 1045,
+        "number": "INV-2026-045",
+        "clientName": "Lopez Architects",
+        "projectName": "Partner onboarding",
+        "description": "Discovery workshop",
+        "issuedAt": "2026-09-28",
+        "dueAt": "2026-10-28",
+        "amountMinor": 420000,
+        "currency": "USD",
+        "status": "paid",
+        "paidAt": "2026-10-23",
+        "termsDays": 30,
+        "taxPercent": 0
+      },
+      {
+        "id": 1043,
+        "number": "INV-2026-043",
+        "clientName": "Anderson Studio",
+        "projectName": "Website redesign",
+        "description": "Development milestone 1",
+        "issuedAt": "2026-09-09",
+        "dueAt": "2026-10-09",
+        "amountMinor": 800000,
+        "currency": "USD",
+        "status": "paid",
+        "paidAt": "2026-10-06",
+        "termsDays": 30,
+        "taxPercent": 0
+      },
+      {
+        "id": 1036,
+        "number": "INV-2026-036",
+        "clientName": "Anderson Studio",
+        "projectName": "Website redesign",
+        "description": "Discovery and design",
+        "issuedAt": "2026-08-04",
+        "dueAt": "2026-09-03",
+        "amountMinor": 800000,
+        "currency": "USD",
+        "status": "paid",
+        "paidAt": "2026-08-30",
+        "termsDays": 30,
+        "taxPercent": 0
+      },
+      {
+        "id": 1028,
+        "number": "INV-2026-028",
+        "clientName": "Klark Coffee Co.",
+        "projectName": "Marketing campaign",
+        "description": "July retainer",
+        "issuedAt": "2026-07-20",
+        "dueAt": "2026-08-19",
+        "amountMinor": 450000,
+        "currency": "USD",
+        "status": "paid",
+        "paidAt": "2026-08-12",
+        "termsDays": 30,
+        "taxPercent": 0
+      },
+      {
+        "id": 1021,
+        "number": "INV-2026-021",
+        "clientName": "Anderson Studio",
+        "projectName": "Brand guidelines",
+        "description": "Full project",
+        "issuedAt": "2026-06-20",
+        "dueAt": "2026-07-20",
+        "amountMinor": 950000,
+        "currency": "USD",
+        "status": "paid",
+        "paidAt": "2026-07-15",
+        "termsDays": 30,
+        "taxPercent": 0
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 1101,
+        "number": "INV-2026-101",
+        "clientName": "Alexandria Montgomery-Fitzgerald Consulting Group International",
+        "projectName": "Website redesign and content migration for the international knowledge base",
+        "description": "October retainer and extra content migration work for the support knowledge base",
+        "issuedAt": "2026-10-01",
+        "dueAt": "2026-10-31",
+        "amountMinor": 1250000,
+        "currency": "USD",
+        "status": "overdue"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900001,
+        "number": "INV-2026-99999",
+        "clientName": "Northwind Health",
+        "projectName": "App development",
+        "description": "Annual platform licence",
+        "issuedAt": "2026-10-01",
+        "dueAt": "2026-10-31",
+        "amountMinor": 123451851852,
+        "currency": "USD",
+        "status": "sent"
+      }
+    ],
+    "partial": [
+      {
+        "id": 1201,
+        "number": "INV-2026-120",
+        "clientName": "Fabrikam Inc.",
+        "issuedAt": "2026-10-28",
+        "dueAt": "2026-11-27",
+        "amountMinor": 0,
+        "currency": "USD",
+        "status": "draft"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

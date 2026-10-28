@@ -1,0 +1,9 @@
+{#- BudgetBar. How a sum splits into parts (paid, invoiced and unpaid, not invoiced). Props: currency, parts [{ label, amountMinor, tone: strong | accent | muted | danger }], label (accessible summary). Widths come from the amounts; the legend carries the numbers. -#}
+{% macro budgetBar(currency, parts, label) %}
+{%- set v = variants.budgetBar -%}
+{%- set total = parts | sum("amountMinor") -%}
+<div data-component="BudgetBar" class="{{ v.base }}">
+  <svg class="{{ v.slots.track }}" role="img" aria-label="{{ label }}"><rect width="100%" height="100%" rx="6" class="fill-surface-subtle"></rect>{% set ns = { x: 0 } %}{% for p in parts %}{% if p.tone != "muted" and total %}{% set before = (parts.slice(0, loop.index0) | sum("amountMinor")) / total * 100 %}<rect x="{{ before | round(2) }}%" width="{{ (p.amountMinor / total * 100) | round(2) }}%" height="100%" class="{{ v.variants.tone[p.tone] }}"></rect>{% endif %}{% endfor %}</svg>
+  <div class="{{ v.slots.legend }}">{% for p in parts %}<div class="{{ v.slots.row }}"><span class="{{ v.slots.dot }} {{ v.dot[p.tone] }}" aria-hidden="true"></span><span>{{ p.label }}</span><span class="{{ v.slots.value }}">{{ p.amountMinor | money(currency) }}</span></div>{% endfor %}</div>
+</div>
+{%- endmacro %}

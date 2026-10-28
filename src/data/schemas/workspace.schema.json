@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Workspace",
+  "x-entity": "workspace",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "address",
+    "email",
+    "currency"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Legal name on invoices"
+    },
+    "shortName": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "Name in the app"
+    },
+    "address": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "Postal address on invoices"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Billing email"
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "Phone with country code"
+    },
+    "website": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Domain"
+    },
+    "taxId": {
+      "type": "string",
+      "maxLength": 60,
+      "description": "Tax ID; absent if not registered"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 code"
+    },
+    "bank": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "account"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Bank"
+        },
+        "account": {
+          "type": "string",
+          "description": "Account number"
+        },
+        "swift": {
+          "type": "string",
+          "description": "SWIFT / BIC"
+        }
+      },
+      "description": "Bank details printed on invoices"
+    },
+    "invoicePrefix": {
+      "type": "string",
+      "maxLength": 12,
+      "description": "Invoice number prefix"
+    },
+    "defaultTermsDays": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Default payment terms"
+    },
+    "defaultTaxPercent": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Default tax rate"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA time zone"
+    },
+    "weekStart": {
+      "type": "string",
+      "enum": [
+        "monday",
+        "sunday"
+      ],
+      "description": "First day of the week"
+    },
+    "localAddress": {
+      "type": "string",
+      "format": "uri",
+      "description": "Where the workspace runs"
+    },
+    "filesFolder": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Folder for client files"
+    },
+    "filesUsedGb": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Space used by files, GB"
+    },
+    "invoiceNumberFormat": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "Pattern for invoice numbers"
+    },
+    "nextInvoiceNumber": {
+      "type": "string",
+      "maxLength": 40
+    },
+    "defaultStages": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 80
+      },
+      "description": "Stages new projects start with"
+    }
+  }
+}

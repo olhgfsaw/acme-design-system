@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/pattern/project-board/project-board.njk" import projectBoard %}
+{% set description = "Projects in columns by stage. Switch data states with the tabs." %}
+{% block matrix %}
+
+{% set stages = [{ name: "Discovery" }, { name: "Design" }, { name: "Development" }, { name: "Review" }, { name: "Launch" }] %}
+{% set card = { id: "m-pb-c1", title: "Website redesign", href: "#", client: "Anderson Studio", budget: "$32,000.00", monogram: "WR", pattern: "ink", stages: stages, current: 2, percent: 51, stageLabel: "Development", team: ["Olivia Foster", "James Reed"], due: "Dec 12" } %}
+{% call section("board") %}
+  <div class="w-full">{{ projectBoard([{ id: "m-d", name: "Discovery", cards: [] }, { id: "m-de", name: "Design", cards: [] }, { id: "m-dev", name: "Development", cards: [card] }, { id: "m-r", name: "Review", cards: [] }, { id: "m-l", name: "Launch", cards: [] }], state=state, messages={ loading: "Loading…", emptyTitle: "No projects yet", emptyText: "Start a project to plan its stages, tasks and invoices.", create: "New project", errorTitle: "Projects didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" }) }}</div>
+{% endcall %}
+{% endblock %}

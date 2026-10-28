@@ -34,6 +34,165 @@
       "minimum": 0,
       "maximum": 200,
       "description": "Share of this month's working hours already booked; over 100 means overbooked; null when no hours are set"
+    },
+    "role": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "Job title"
+    },
+    "discipline": {
+      "type": "string",
+      "enum": [
+        "design",
+        "engineering",
+        "management"
+      ],
+      "x-dict": "discipline",
+      "description": "Team the person belongs to"
+    },
+    "access": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "member"
+      ],
+      "description": "What they can see: admins see money"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Work email"
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "Phone with country code"
+    },
+    "location": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "City and time zone"
+    },
+    "workingHours": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "Usual working hours"
+    },
+    "since": {
+      "type": "string",
+      "format": "date",
+      "description": "Joined the company"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Skills shown on the profile"
+    },
+    "hoursThisWeek": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Hours booked this week"
+    },
+    "capacityHours": {
+      "type": "number",
+      "minimum": 1,
+      "description": "Hours per week"
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Active projects"
+    },
+    "away": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "Upcoming time off, short"
+    },
+    "calendarConnected": {
+      "type": "boolean",
+      "description": "Google Calendar connected"
+    },
+    "timeOff": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dates",
+          "reason"
+        ],
+        "properties": {
+          "dates": {
+            "type": "string",
+            "description": "Formatted range"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason and length"
+          }
+        }
+      },
+      "description": "Planned time off"
+    },
+    "vacationLeft": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Vacation days left this year"
+    },
+    "vacationTotal": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Vacation days a year"
+    },
+    "projectHours": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "project",
+          "hours"
+        ],
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": "Project title"
+          },
+          "hours": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Hours a week on it"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role on the project"
+          }
+        }
+      },
+      "description": "Weekly hours per project"
+    },
+    "reportsTo": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Their lead; approves timesheets and time off"
+    },
+    "sickDaysUsed": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Sick days this year"
+    },
+    "pronouns": {
+      "type": "string",
+      "maxLength": 40
+    },
+    "about": {
+      "type": "string",
+      "maxLength": 280,
+      "description": "A short bio"
     }
   }
 }

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Calendar event",
+  "x-entity": "calendarEvent",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "date",
+    "calendar"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "What it is"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Day it falls on"
+    },
+    "startsAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Start, UTC; absent for all-day items"
+    },
+    "durationMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of a meeting"
+    },
+    "calendar": {
+      "type": "string",
+      "enum": [
+        "meetings",
+        "deadlines",
+        "finance",
+        "timeoff"
+      ],
+      "description": "Which calendar it is on; picks the color"
+    },
+    "projectName": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "note": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "One line under the title: people, client, amount"
+    },
+    "meetLink": {
+      "type": "boolean",
+      "description": "Has a Google Meet link"
+    },
+    "risk": {
+      "type": "string",
+      "enum": [
+        "late",
+        "at_risk"
+      ],
+      "description": "Deadlines only: the project is late or at risk"
+    }
+  }
+}

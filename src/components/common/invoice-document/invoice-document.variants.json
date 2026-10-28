@@ -1,0 +1,28 @@
+{
+  "base": "relative flex min-w-0 flex-col gap-8 rounded-lg bg-surface p-6 md:p-8",
+  "variants": {},
+  "slots": {
+    "void": "rounded-md bg-neutral-bg px-4 py-3 text-sm font-medium text-neutral-fg",
+    "top": "flex flex-wrap justify-between gap-6",
+    "seller": "flex flex-col gap-1",
+    "sellerName": "text-xl font-semibold tracking-tight text-fg",
+    "line": "text-sm text-fg-secondary",
+    "meta": "grid grid-cols-[auto_auto] content-start gap-x-6 gap-y-1 text-sm",
+    "metaKey": "text-fg-secondary",
+    "metaValue": "text-end text-fg tabular-nums",
+    "parties": "grid gap-6 sm:grid-cols-2",
+    "party": "flex flex-col gap-1",
+    "partyLabel": "text-xs font-medium text-fg-muted",
+    "partyName": "text-sm font-medium text-fg",
+    "lines": "w-full border-collapse text-sm",
+    "th": "border-b border-divider pb-3 text-start text-xs font-medium text-fg-secondary",
+    "thEnd": "border-b border-divider pb-3 text-end text-xs font-medium text-fg-secondary",
+    "td": "border-b border-divider py-3 align-top",
+    "tdEnd": "border-b border-divider py-3 ps-3 text-end align-top tabular-nums",
+    "desc": "font-medium text-fg",
+    "descSub": "text-xs text-fg-muted",
+    "totals": "flex justify-end",
+    "terms": "text-sm/6 text-fg-secondary"
+  },
+  "defaultVariants": {}
+}

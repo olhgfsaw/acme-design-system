@@ -1,0 +1,29 @@
+{
+  "base": "flex flex-col gap-4",
+  "variants": {
+    "tone": {
+      "success": "fill-success-fg",
+      "warning": "fill-warning-fg",
+      "accent": "fill-accent-strong",
+      "muted": "fill-surface-subtle",
+      "danger": "fill-danger-fg",
+      "info": "fill-info-fg"
+    }
+  },
+  "dot": {
+    "success": "bg-success-fg",
+    "warning": "bg-warning-fg",
+    "accent": "bg-accent-strong",
+    "muted": "bg-divider",
+    "danger": "bg-danger-fg",
+    "info": "bg-info-fg"
+  },
+  "slots": {
+    "track": "block h-3 w-full rounded-full",
+    "legend": "grid gap-x-6 gap-y-2 sm:grid-cols-2",
+    "row": "flex items-center gap-2 text-sm text-fg-secondary",
+    "dot": "size-2.5 shrink-0 rounded-full",
+    "value": "ms-auto font-medium text-fg tabular-nums"
+  },
+  "defaultVariants": {}
+}

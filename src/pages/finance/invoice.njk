@@ -1,0 +1,64 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "layouts/_format.njk" import shortDate %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/invoice-document/invoice-document.njk" import invoiceDocument %}
+{% from "components/common/status-menu/status-menu.njk" import statusMenu %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/activity-list/activity-list.njk" import activityList %}
+{% from "components/common/inline-panel/inline-panel.njk" import inlinePanel %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/progress-bar/progress-bar.njk" import progressBar %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set ws = data.fixtures.workspace.scenarios.typical | first %}
+{% set inv = [] %}{% for i in data.fixtures.invoice.scenarios.typical %}{% if i.id == 1048 %}{% set _ = inv.push(i) %}{% endif %}{% endfor %}{% set inv = inv | first %}
+{% set client = [] %}{% for c in data.fixtures.client.scenarios.typical %}{% if c.companyName == inv.clientName %}{% set _ = client.push(c) %}{% endif %}{% endfor %}{% set client = client | first %}
+{% set paidMinor = 0 %}
+{% set statusOptions = [{ code: "draft", label: "Draft", tone: "neutral", hint: "Not sent yet" }, { code: "sent", label: "Sent", tone: "info", hint: "Waiting for payment" }, { code: "paid", label: "Paid", tone: "success", hint: "Paid in full" }, { code: "overdue", label: "Overdue", tone: "danger", hint: "Set automatically after the due date", disabled: true }, { code: "void", label: "Void", tone: "neutral", hint: "Cancelled, kept for your records" }] %}
+
+{% call appChrome("finance", scenario="typical") %}
+  {% if state == "error" %}
+    {% call pageHeader("Invoice", crumbs=[{ label: "Finance", href: "finance.html" }, { label: "Invoice" }]) %}{% endcall %}
+    <div class="rounded-lg bg-surface p-6">{{ errorState("This invoice didn't load", "Something went wrong on our side. Try again in a minute.", "Try again") }}</div>
+  {% elif state == "loading" %}
+    <div aria-busy="true" class="flex flex-col gap-8"><p class="sr-only">Loading…</p>{{ skeleton("title", layout="w-64") }}<div class="grid gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">{% call card("l1") %}{{ skeleton("block", layout="w-full") }}{% endcall %}{% call card("l2") %}{{ skeleton("block", layout="w-full") }}{% endcall %}</div></div>
+  {% else %}
+    {% set menu %}{{ statusMenu("inv-status", inv.number, inv.status, statusOptions) }}{% endset %}
+    {% call pageHeader(inv.number, inv.clientName ~ " · " ~ inv.projectName ~ " · " ~ inv.milestone, crumbs=[{ label: "Finance", href: "finance.html" }, { label: inv.number }], titleAside=menu) %}
+      {{ button("Download PDF", variant="secondary", iconLeading="download") }}
+      {{ button("Send reminder", variant="secondary", iconLeading="bell") }}
+      {{ button("Record payment", iconLeading="plus") }}
+    {% endcall %}
+    <div class="grid items-start gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      {% set subtotal = inv.lines | sum("amountMinor") %}
+      {{ invoiceDocument("doc", ws, { number: inv.number, issuedAt: inv.issuedAt, dueAt: inv.dueAt, terms: "Net " ~ inv.termsDays }, { name: inv.clientName, contact: client.name ~ ", " ~ (client.contactRole | lower), email: client.billingEmail or client.email, address: client.address }, inv.currency, inv.lines, [{ label: "Subtotal", amountMinor: subtotal }, { label: "Tax (" ~ (inv.taxPercent / 100) | percent ~ ")", amountMinor: 0 }, { label: "Paid", amountMinor: paidMinor }], inv.amountMinor - paidMinor, project={ name: inv.projectName, detail: inv.milestone }, note=inv.note ~ " Bank: " ~ ws.bank.name ~ " · " ~ ws.bank.account ~ " · SWIFT " ~ ws.bank.swift ~ ".") }}
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("payment", title="Payment") %}
+          <div class="flex flex-col gap-4">
+            {{ statBlock("Amount due", (inv.amountMinor - paidMinor) | money(inv.currency)) }}
+            <p class="text-sm text-fg-secondary">Due {{ inv.dueAt | date("medium") }}</p>
+            {{ progressBar((paidMinor / inv.amountMinor * 100) | round | int, "Paid", tone="success") }}
+            <div class="flex items-baseline justify-between gap-4 text-sm"><span class="text-fg-secondary">Paid</span><span class="text-fg tabular-nums">{{ paidMinor | money(inv.currency) }} of {{ inv.amountMinor | money(inv.currency) }}</span></div>
+            {% if frame.recording %}
+              {% call inlinePanel("record", "Record payment", "Marks the invoice Paid when the full amount arrives") %}
+                <div class="grid gap-3 sm:grid-cols-2">{{ formField("pay-amount", "Amount, " ~ inv.currency, input={ value: "8,000.00", inputmode: "decimal", numeric: true }) }}{{ formField("pay-date", "Date received", input={ type: "date", value: "2026-10-28" }) }}</div>
+                {% call formField("pay-method", "Method", hint="Full amount: the invoice becomes Paid.") %}{{ select("pay-method", [{ value: "bank", label: "Bank transfer" }, { value: "card", label: "Card" }, { value: "check", label: "Check" }, { value: "other", label: "Other" }], value="bank", describedby="pay-method-hint") }}{% endcall %}
+                <div class="flex justify-end gap-2">{{ button("Cancel", variant="ghost", size="sm") }}{{ button("Save payment", size="sm", type="submit") }}</div>
+              {% endcall %}
+            {% endif %}
+          </div>
+        {% endcall %}
+        {% call card("payments", title="Payments") %}<p class="text-sm text-fg-muted">No payments yet.</p>{% endcall %}
+        {% call card("activity", title="Activity") %}{{ activityList([{ text: "Created by Daniel Kim", at: "2026-10-15T09:00:00Z", when: "Oct 15, 9:00 AM" }, { text: "Sent to accounts@andersonstudio.example", at: "2026-10-15T09:05:00Z", when: "Oct 15, 9:05 AM", tone: "info" }, { text: "Viewed by the client", at: "2026-10-16T14:20:00Z", when: "Oct 16, 2:20 PM", tone: "success" }]) }}{% endcall %}
+      </div>
+    </div>
+  {% endif %}
+{% endcall %}
+{% endblock %}

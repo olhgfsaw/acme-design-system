@@ -1,12 +1,33 @@
 {
   "base": "flex items-start gap-3",
-  "variants": {},
+  "variants": {
+    "appearance": {
+      "plain": "",
+      "card": "rounded-md bg-canvas px-4 py-3"
+    }
+  },
   "slots": {
     "box": "mt-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-xs border border-control bg-surface text-on-primary data-[state=checked]:border-primary data-[state=checked]:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed disabled:opacity-50",
     "check": "size-3",
     "text": "flex min-w-0 flex-1 flex-col gap-0.5",
     "label": "cursor-pointer text-sm font-medium text-fg",
-    "description": "text-xs text-fg-muted"
+    "description": "text-xs text-fg-muted",
+    "aside": "shrink-0 text-xs tabular-nums",
+    "swatch": "size-2.5 shrink-0 rounded-full",
+    "labelRow": "flex items-center gap-2"
   },
-  "defaultVariants": {}
+  "defaultVariants": {
+    "appearance": "plain"
+  },
+  "asideTone": {
+    "muted": "text-fg-muted",
+    "danger": "font-medium text-danger-fg"
+  },
+  "swatch": {
+    "info": "bg-info-fg",
+    "danger": "bg-danger-fg",
+    "success": "bg-success-fg",
+    "warning": "bg-warning-fg",
+    "neutral": "bg-fg-muted"
+  }
 }

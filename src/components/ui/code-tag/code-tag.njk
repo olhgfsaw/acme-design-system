@@ -1,0 +1,5 @@
+{#- CodeTag. A short technical value shown as code: an API scope, a key name, a file pattern. Props: label. Not for running text. -#}
+{% macro codeTag(label) %}
+{%- set v = variants.codeTag -%}
+<code data-component="CodeTag" class="{{ v.base }}">{{ label }}</code>
+{%- endmacro %}

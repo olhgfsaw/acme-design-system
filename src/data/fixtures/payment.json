@@ -1,0 +1,103 @@
+{
+  "entity": "payment",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 401,
+        "invoiceNumber": "INV-2026-028",
+        "clientName": "Klark Coffee Co.",
+        "receivedAt": "2026-10-20",
+        "amountMinor": 450000,
+        "currency": "USD",
+        "method": "bank",
+        "reference": "KC-88213",
+        "recordedBy": "Daniel Kim"
+      },
+      {
+        "id": 402,
+        "invoiceNumber": "INV-2026-045",
+        "clientName": "Lopez Architects",
+        "receivedAt": "2026-10-12",
+        "amountMinor": 420000,
+        "currency": "USD",
+        "method": "card",
+        "recordedBy": "Daniel Kim"
+      },
+      {
+        "id": 403,
+        "invoiceNumber": "INV-2026-043",
+        "clientName": "Anderson Studio",
+        "receivedAt": "2026-10-09",
+        "amountMinor": 800000,
+        "currency": "USD",
+        "method": "bank",
+        "reference": "AS-2207",
+        "recordedBy": "Daniel Kim"
+      },
+      {
+        "id": 404,
+        "invoiceNumber": "INV-2026-047",
+        "clientName": "Northwind Health",
+        "receivedAt": "2026-10-03",
+        "amountMinor": 1400000,
+        "currency": "USD",
+        "method": "bank",
+        "reference": "NWH-PAY-88213",
+        "recordedBy": "Daniel Kim"
+      },
+      {
+        "id": 405,
+        "invoiceNumber": "INV-2026-036",
+        "clientName": "Anderson Studio",
+        "receivedAt": "2026-09-01",
+        "amountMinor": 800000,
+        "currency": "USD",
+        "method": "bank",
+        "recordedBy": "Daniel Kim"
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 411,
+        "invoiceNumber": "INV-2026-101",
+        "clientName": "Alexandria Montgomery-Fitzgerald Consulting Group International",
+        "receivedAt": "2026-10-20",
+        "amountMinor": 1250000,
+        "currency": "USD",
+        "method": "bank",
+        "reference": "AMFCGI-REMITTANCE-2026-10-OCTOBER-RETAINER",
+        "recordedBy": "Daniel Kim"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000401,
+        "invoiceNumber": "INV-2026-99999",
+        "clientName": "Northwind Health",
+        "receivedAt": "2026-10-03",
+        "amountMinor": 123451851852,
+        "currency": "USD",
+        "method": "bank",
+        "recordedBy": "Daniel Kim"
+      }
+    ],
+    "partial": [
+      {
+        "id": 421,
+        "invoiceNumber": "INV-2026-120",
+        "clientName": "Fabrikam Inc.",
+        "receivedAt": "2026-10-28",
+        "amountMinor": 100,
+        "currency": "USD",
+        "method": "other"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

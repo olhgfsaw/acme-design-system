@@ -1,0 +1,44 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "layouts/_format.njk" import shortDate, monogram %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/pattern/task-board/task-board.njk" import taskBoard %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/ui/segmented/segmented.njk" import segmented %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/button/button.njk" import button %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set p = (data.fixtures.project.scenarios.typical | selectattr("pinned") | first) %}
+{% set today = project.referenceDate.slice(0, 10) %}
+{% set tasks = [] %}{% for t in data.fixtures.task.scenarios[scenario] %}{% if scenario != "typical" or t.projectId == p.id %}{% set _ = tasks.push(t) %}{% endif %}{% endfor %}
+{% set statusOrder = [["todo", "To do"], ["in_progress", "In progress"], ["in_review", "In review"], ["done", "Done"]] %}
+{% set columns = [] %}
+{% for s in statusOrder %}
+  {% set items = [] %}
+  {% for t in tasks %}{% if t.status == s[0] %}{% set _ = items.push({ id: "t-" ~ t.id, title: t.title, tag: t.tag, high: t.priority == "high", note: t.note, due: shortDate(t.dueDate) if t.dueDate else null, late: t.dueDate and t.dueDate < today and t.status != "done", subtasks: ({ done: t.subtasksDone or 0, total: t.subtasksTotal } if t.subtasksTotal else null), comments: t.comments or 0, assignee: t.assigneeName }) %}{% endif %}{% endfor %}
+  {% set _ = columns.push({ id: s[0], label: s[1], tasks: items, adding: frame.adding and s[0] == "todo" }) %}
+{% endfor %}
+{% set open = [] %}{% for t in tasks %}{% if t.status != "done" %}{% set _ = open.push(t) %}{% endif %}{% endfor %}
+{% set people = [] %}{% for n in p.team %}{% set _ = people.push({ value: n, label: n }) %}{% endfor %}
+{% set filters = [{ id: "all", label: "Everyone" }] %}{% for n in p.team %}{% set _ = filters.push({ id: n, label: n.split(" ")[0], avatar: n }) %}{% endfor %}
+
+{#- frame.member: the board seen from My space. -#}
+{% set member = frame.member %}
+{% call appChrome("projects", scenario="typical", member=member) %}
+  <div class="flex flex-col gap-8">
+    {% call pageHeader(p.title, p.clientName ~ " · " ~ (data.statuses.projectStage[p.stage].label | label) ~ ", stage 3 of 5 · Due " ~ (p.dueDate | date("medium")), crumbs=[{ label: "My projects" if member else "Projects", href: "my-projects.html" if member else "projects.html" }, { label: p.title, href: "my-project.html" if member else "project.html" }, { label: "Board" }], cover={ id: "hdr-cover", monogram: monogram(p.title), pattern: p.cover }, badge={ label: data.statuses.projectStatus[p.status].label | label, tone: data.statuses.projectStatus[p.status].tone }) %}
+      {% if not member %}{{ button("Pin to dashboard", variant="secondary", iconLeading="pin", pressed=true) }}{% endif %}
+      {{ button("Add task", iconLeading="plus") }}
+    {% endcall %}
+    {{ tabs([{ id: "overview", label: "Overview", href: "my-project.html" if member else "project.html" }, { id: "board", label: "Board", count: open | length, href: "my-board.html" if member else "project-board.html" }], "board", "Project sections") }}
+  </div>
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      {{ segmented(filters, "all", "Show tasks for") }}
+      <div class="flex flex-wrap items-center gap-4"><p class="text-sm text-fg-secondary tabular-nums">{{ open | length }} open · {{ tasks | length - open | length }} done</p><div class="w-full sm:w-64">{{ input("task-search", type="search", variant="filter", iconLeading="search", placeholder="Search tasks", label="Search tasks") }}</div></div>
+    </div>
+    {{ taskBoard(columns, people=people, state=state, messages={ loading: "Loading…", emptyColumn: "Drag a task here or move it with its menu", errorTitle: "The board didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" }) }}
+  </div>
+{% endcall %}
+{% endblock %}

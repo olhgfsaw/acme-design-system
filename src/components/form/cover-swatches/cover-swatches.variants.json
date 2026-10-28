@@ -1,0 +1,8 @@
+{
+  "base": "flex flex-wrap gap-2",
+  "variants": {},
+  "slots": {
+    "swatch": "inline-flex rounded-md aria-pressed:outline-2 aria-pressed:outline-offset-2 aria-pressed:outline-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+  },
+  "defaultVariants": {}
+}

@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/task-card/task-card.njk" import taskCard %}
+{% set description = "A task on a board. Move to is the non-drag way to change its column." %}
+{% block matrix %}
+
+{% set cols = [{ id: "todo", label: "To do" }, { id: "in_progress", label: "In progress" }, { id: "in_review", label: "In review" }, { id: "done", label: "Done" }] %}
+{% call section("state") %}
+  {% call cell("in progress") %}<div class="w-72 rounded-md bg-canvas p-2">{{ taskCard("m-tc-1", "Responsive check of page templates", "in_progress", cols, tag="Frontend", due="Oct 30", subtasks={ done: 3, total: 6 }, comments=2, assignee="Olivia Foster") }}</div>{% endcall %}
+  {% call cell("high, overdue, note") %}<div class="w-72 rounded-md bg-canvas p-2">{{ taskCard("m-tc-2", "Header and navigation", "in_review", cols, tag="Frontend", high=true, note="Waiting for the client's logo files", due="Oct 27", late=true, assignee="James Reed") }}</div>{% endcall %}
+  {% call cell("done") %}<div class="w-72 rounded-md bg-canvas p-2">{{ taskCard("m-tc-3", "Wireframes sign-off", "done", cols, tag="Design", due="Oct 2", assignee="Daniel Kim") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,6 @@
+{#- EventRow. One calendar event. Props: time ("15:00" or "All day"), day ("Today", "Nov 3"), at (ISO start), title, meta (people, place), tone (team | client | milestone | personal | timeoff | meetings | deadlines | finance: which calendar), action ({ label, href }: Join, Open). The time column is 80 px, a spacing step (fits "11:00 AM"). -#}
+{% from "components/ui/button/button.njk" import button %}
+{% macro eventRow(time, day, title, at=null, meta=null, tone="team", action=null) %}
+{%- set v = variants.eventRow -%}
+<div data-component="EventRow" class="{{ v.base }}"><time{% if at %} datetime="{{ at }}"{% endif %} class="{{ v.slots.time }}"><span>{{ time }}</span><span class="{{ v.slots.day }}">{{ day }}</span></time><div class="{{ v.slots.body }}"><span class="{{ v.slots.title }}"><span class="{{ v.slots.dot }} {{ v.variants.tone[tone] }}" aria-hidden="true"></span><span class="{{ v.slots.titleText }}" title="{{ title }}">{{ title }}</span></span>{% if meta %}<span class="{{ v.slots.meta }}">{{ meta }}</span>{% endif %}</div>{% if action %}{{ button(action.label, variant="secondary", size="sm", href=action.href, ariaLabel=action.label ~ ": " ~ title) }}{% else %}<span></span>{% endif %}</div>
+{%- endmacro %}

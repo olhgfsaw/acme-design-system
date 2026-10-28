@@ -1,0 +1,63 @@
+{% extends "layouts/frame.njk" %}
+{% from "components/layout/auth-layout/auth-layout.njk" import authLayout %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stage-tracker/stage-tracker.njk" import stageTracker %}
+{% from "components/common/inline-alert/inline-alert.njk" import inlineAlert %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/form/password-rules/password-rules.njk" import passwordRules %}
+{% from "components/ui/avatar-group/avatar-group.njk" import avatarGroup %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/checkbox/checkbox.njk" import checkbox %}
+{% from "components/ui/text-divider/text-divider.njk" import textDivider %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- frame.view: sign-in (default) | error (wrong password) | forgot | sent | invite. -#}
+{% set view = frame.view or "sign-in" %}
+{% set p = data.fixtures.project.scenarios.typical | first %}
+{% set invite = data.fixtures.invite.scenarios.typical | first %}
+{% set stageNames = [] %}{% for code, s in data.statuses.projectStage %}{% set _ = stageNames.push({ name: s.label | label }) %}{% endfor %}
+{% set stageIdx = 0 %}{% for code, s in data.statuses.projectStage %}{% if code == p.stage %}{% set stageIdx = loop.index0 %}{% endif %}{% endfor %}
+{% set preview %}{% call card("preview") %}<div class="flex flex-col gap-4"><div class="flex items-center justify-between gap-3"><div class="flex min-w-0 flex-col"><span class="font-medium text-fg">{{ p.title }}</span><span class="text-xs text-fg-muted">{{ p.clientName }}</span></div>{{ badge("On track", tone="success") }}</div>{{ stageTracker(stageNames, stageIdx, percent=p.progressPercent) }}{{ avatarGroup(p.team, max=4) }}</div>{% endcall %}{% endset %}
+{% set h1 = "text-3xl font-medium tracking-tight text-fg" %}{% set lead = "text-base text-fg-secondary" %}
+{% call authLayout(project.product, "Clients, projects and invoices in one place", "Track every project stage, keep client files together, and see the team's week next to your Google Calendar.", note="Runs on your machine at localhost:3000. Your data stays here.", preview=preview) %}
+  {% if view == "sign-in" or view == "error" %}
+    <div class="flex flex-col gap-2"><h1 class="{{ h1 }}">Sign in</h1><p class="{{ lead }}">Use your work email or Google account</p></div>
+    {% if view == "error" %}<div role="alert">{{ inlineAlert("Email or password is wrong", "4 tries left before sign-in is paused for 15 minutes.", tone="danger") }}</div>{% endif %}
+    {{ button("Continue with Google", variant="secondary", href="me.html") }}
+    {{ textDivider("or with email") }}
+    <form class="flex flex-col gap-4" action="me.html">
+      {% call formField("lg-email", "Work email") %}{{ input("lg-email", type="email", value=("olivia.foster@acme.example" if view == "error" else ""), autocomplete="username", invalid=(view == "error"), required=true) }}{% endcall %}
+      <div data-component="FormField" class="flex flex-col gap-1.5"><div class="flex items-baseline justify-between gap-3"><label for="lg-pass" class="text-sm font-medium text-fg">Password</label>{{ button("Forgot password?", variant="ghost", size="sm", href="forgot-password.html") }}</div><div class="flex gap-2">{{ input("lg-pass", type="password", value=("password" if view == "error" else ""), autocomplete="current-password", invalid=(view == "error"), required=true) }}{{ iconButton("Show password", "eye", variant="muted") }}</div></div>
+      {{ checkbox("lg-remember", "Keep me signed in", description="For 30 days on this computer", checked=true) }}
+      {{ button("Sign in", type="submit") }}
+    </form>
+    <p class="text-sm text-fg-secondary">No account? Ask your workspace admin for an invite.</p>
+  {% elif view == "forgot" %}
+    {{ button("Back to sign in", variant="ghost", size="sm", iconLeading="arrow-left", href="sign-in.html") }}
+    <div class="flex flex-col gap-2"><h1 class="{{ h1 }}">Reset your password</h1><p class="{{ lead }}">We'll email you a link to set a new one. It works for 1 hour.</p></div>
+    <form class="flex flex-col gap-4" action="reset-sent.html">
+      {{ formField("lg-reset", "Work email", hint="Use the email your admin invited", required=true, input={ type: "email", autocomplete: "username" }) }}
+      {{ button("Send reset link", type="submit") }}
+    </form>
+  {% elif view == "sent" %}
+    {{ iconTile("mail", size="lg") }}
+    <div class="flex flex-col gap-2"><h1 class="{{ h1 }}">Check your email</h1><p class="{{ lead }}">If olivia.foster@acme.example has an account, a reset link is on its way. Look in spam if it doesn't show up in a minute.</p></div>
+    <div class="flex flex-col gap-3">{{ button("Resend link", variant="secondary") }}{{ button("Back to sign in", variant="ghost", href="sign-in.html") }}</div>
+  {% else %}
+    <div class="flex flex-col gap-2"><h1 class="{{ h1 }}">Join {{ project.product }}</h1><p class="{{ lead }}">{{ invite.invitedByName }} invited you as a {{ invite.role }}. Set up your account to see your projects and schedule.</p></div>
+    {{ button("Join with Google", variant="secondary", href="me.html") }}
+    {{ textDivider("or set a password") }}
+    <form class="flex flex-col gap-4" action="me.html">
+      {{ formField("iv-name", "Full name", required=true, input={ value: invite.name, autocomplete: "name" }) }}
+      {% call formField("iv-email", "Work email") %}{{ input("iv-email", type="email", value=invite.email, autocomplete="username", disabled=true) }}{% endcall %}
+      {% call formField("iv-pass", "Create a password", required=true) %}{{ input("iv-pass", type="password", autocomplete="new-password", describedby="iv-reqs", required=true) }}{{ passwordRules("iv-reqs", [{ text: "At least 10 characters", met: false }, { text: "A number", met: false }, { text: "Not the same as your email", met: false }]) }}{% endcall %}
+      {{ button("Create account", type="submit") }}
+    </form>
+    <p class="text-xs text-fg-muted">The invite expires on {{ (invite.expiresAt ~ "T12:00:00Z") | date("medium") }}.</p>
+  {% endif %}
+{% endcall %}
+{% endblock %}

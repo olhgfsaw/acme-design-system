@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/layout/space-nav/space-nav.njk" import spaceNav %}
+{% set description = "The labelled side navigation of a team member's personal space." %}
+{% block matrix %}
+
+{% set items = [{ id: "me", label: "My work", icon: "house", href: "#" }, { id: "time", label: "Time and time off", icon: "clock", href: "#" }, { id: "projects", label: "My projects", icon: "folder", href: "#", count: 3, countLabel: "active" }, { id: "calendar", label: "Calendar", icon: "calendar", href: "#" }, { id: "team", label: "Team", icon: "users", href: "#" }] %}
+{% call section("current") %}
+  {% call cell("My work") %}{{ spaceNav(items, "My space", activeId="me") }}{% endcall %}
+  {% call cell("My projects") %}{{ spaceNav(items, "My space", activeId="projects") }}{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/pattern/cover-picker/cover-picker.njk" import coverPicker %}
+{% set description = "The cover tile next to a project title; it opens patterns and upload." %}
+{% block matrix %}
+
+{% call section("state") %}
+  {% call cell("closed") %}{{ coverPicker("m-cp-1", "WR", pattern="ink") }}{% endcall %}
+  {% call cell("open") %}<div class="flex w-80 flex-col"><div>{{ coverPicker("m-cp-2", "WR", pattern="dots", open=true) }}</div><div class="h-72"></div></div>{% endcall %}
+{% endcall %}
+{% endblock %}

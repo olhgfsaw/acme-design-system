@@ -1,0 +1,11 @@
+{
+  "base": "flex items-center gap-3",
+  "variants": {},
+  "slots": {
+    "text": "flex min-w-0 flex-1 flex-col",
+    "name": "truncate text-sm font-medium text-fg",
+    "meta": "text-xs text-fg-muted",
+    "actions": "flex shrink-0 gap-1"
+  },
+  "defaultVariants": {}
+}

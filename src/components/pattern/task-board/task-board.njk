@@ -1,0 +1,24 @@
+{#- TaskBoard. A project's tasks in status columns. Props: columns [{ id, label, tasks [TaskCard params], adding (show TaskQuickAdd) }], people (for quick add), state (default | loading | empty | error), messages. Every card has Move to; dragging is an extra in Nuxt. -#}
+{% from "components/common/task-card/task-card.njk" import taskCard %}
+{% from "components/form/task-quick-add/task-quick-add.njk" import taskQuickAdd %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% macro taskBoard(columns, people=[], state="default", messages={}) %}
+{%- set v = variants.taskBoard -%}
+{%- set cols = [] %}{% for c in columns %}{% set _ = cols.push({ id: c.id, label: c.label }) %}{% endfor -%}
+{% if state == "error" %}<div data-component="TaskBoard" class="rounded-lg bg-surface p-6">{{ errorState(messages.errorTitle, messages.errorText, messages.retry) }}</div>
+{% else %}
+<div data-component="TaskBoard" class="{{ v.base }}"{% if state == "loading" %} aria-busy="true"{% endif %}>{% if state == "loading" %}<p class="sr-only">{{ messages.loading }}</p>{% endif %}
+  {%- for col in columns %}
+  <section aria-labelledby="tcol-{{ col.id }}" class="{{ v.slots.col }}">
+    <div class="{{ v.slots.head }}"><div class="{{ v.slots.headLeft }}"><span class="{{ v.slots.dot }} {{ v.variants.tone[col.id] }}" aria-hidden="true"></span><h2 id="tcol-{{ col.id }}" class="{{ v.slots.title }}">{{ col.label }}</h2><span class="{{ v.slots.count }}">{% if state == "loading" %}–{% else %}{{ col.tasks | length }}{% endif %}</span></div>{{ iconButton("Add a task to " ~ col.label, "plus", size="sm") }}</div>
+    {%- if col.adding and state == "default" %}{{ taskQuickAdd("qa-" ~ col.id, people) }}{% endif %}
+    {%- if state == "loading" %}<div class="{{ v.slots.list }}">{{ skeleton("block", layout="w-full") }}{{ skeleton("block", layout="w-full") }}</div>
+    {%- elif state != "empty" and col.tasks | length %}<ul class="{{ v.slots.list }}">{% for t in col.tasks %}<li>{{ taskCard(t.id, t.title, col.id, cols, tag=t.tag, high=t.high, note=t.note, due=t.due, late=t.late, subtasks=t.subtasks, comments=t.comments, assignee=t.assignee) }}</li>{% endfor %}</ul>
+    {%- else %}<p class="{{ v.slots.empty }}">{{ messages.emptyColumn or "Nothing here yet" }}</p>{% endif %}
+  </section>
+  {%- endfor %}
+</div>
+{% endif %}
+{%- endmacro %}

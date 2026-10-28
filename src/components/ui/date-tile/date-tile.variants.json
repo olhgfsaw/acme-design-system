@@ -1,0 +1,9 @@
+{
+  "base": "inline-flex size-11 shrink-0 flex-col items-center justify-center rounded-md bg-surface",
+  "variants": {},
+  "slots": {
+    "month": "text-xs/3.5 text-fg-muted",
+    "day": "text-sm/4.5 font-semibold text-fg tabular-nums"
+  },
+  "defaultVariants": {}
+}

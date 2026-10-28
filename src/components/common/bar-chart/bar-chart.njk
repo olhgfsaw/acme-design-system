@@ -1,0 +1,10 @@
+{#- BarChart. A few values side by side; the highlighted bar is the one that matters (this month). Props: labels, values, label (accessible name), highlight (index), currency (values are minor units of it), seriesLabel. A hidden table carries every value. -#}
+{% macro barChart(labels, values, label, highlight=null, currency=null, seriesLabel="Value") %}
+{%- set v = variants.barChart -%}
+{%- set n = values | length -%}{%- set maxV = (values | sort | last) or 1 -%}
+<figure data-component="BarChart" class="{{ v.base }}">
+  <svg class="{{ v.slots.svg }}" viewBox="0 0 {{ n * 40 }} 160" preserveAspectRatio="none" aria-hidden="true" focusable="false">{% for val in values %}{% set h = (val / maxV * 150) | round(1) %}<rect x="{{ loop.index0 * 40 + 8 }}" y="{{ 160 - h }}" width="24" height="{{ h }}" rx="4" class="{{ v.slots.barOn if loop.index0 == highlight else v.slots.bar }}"></rect>{% endfor %}</svg>
+  <div class="{{ v.slots.ticks }}" aria-hidden="true">{% for l in labels %}<span class="{{ v.slots.tickOn if loop.index0 == highlight else "" }}">{{ l }}</span>{% endfor %}</div>
+  <div class="sr-only"><table><caption>{{ label }}</caption><thead><tr><td></td>{% for l in labels %}<th scope="col">{{ l }}</th>{% endfor %}</tr></thead><tbody><tr><th scope="row">{{ seriesLabel }}</th>{% for val in values %}<td>{{ (val | money(currency)) if currency else (val | number) }}</td>{% endfor %}</tr></tbody></table></div>
+</figure>
+{%- endmacro %}

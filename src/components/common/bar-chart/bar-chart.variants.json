@@ -1,0 +1,12 @@
+{
+  "base": "flex flex-col gap-2",
+  "variants": {},
+  "slots": {
+    "svg": "block h-40 w-full",
+    "bar": "fill-surface-subtle",
+    "barOn": "fill-accent",
+    "ticks": "flex justify-around gap-1 text-xs text-fg-secondary",
+    "tickOn": "font-semibold text-fg"
+  },
+  "defaultVariants": {}
+}

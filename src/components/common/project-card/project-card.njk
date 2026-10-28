@@ -1,0 +1,16 @@
+{#- ProjectCard. A project on the board: cover strip, name, client, budget, a status badge when something needs attention, stage, team and due date. The whole card is a link. Props: id, title, href, client, budget (formatted; or another headline value at the end, such as your hours a week), monogram, pattern, badge ({ label, tone }), stages, current, percent, stageLabel, team, due (formatted), late, stats ([{ label, value }], up to three counts for the viewer: open for you, due this week, in review). -#}
+{% from "components/common/project-cover/project-cover.njk" import projectCover %}
+{% from "components/common/stage-tracker/stage-tracker.njk" import stageTracker %}
+{% from "components/ui/avatar-group/avatar-group.njk" import avatarGroup %}
+{% from "components/ui/badge/badge.njk" import badge as _badge %}
+{% macro projectCard(id, title, href, client, budget, monogram, pattern, stages, current, percent=null, stageLabel=null, team=[], due=null, late=false, badge=null, stats=[]) %}
+{%- set v = variants.projectCard -%}
+<a href="{{ href }}" data-component="ProjectCard" class="{{ v.base }}">
+  <div class="{{ v.slots.cover }}">{{ projectCover(id ~ "-cover", monogram, pattern=pattern, size="strip") }}</div>
+  <div class="{{ v.slots.head }}"><span class="{{ v.slots.text }}"><span id="{{ id }}-title" class="{{ v.slots.title }}">{{ title }}</span><span class="{{ v.slots.client }}">{{ client }}</span></span><span class="{{ v.slots.budget }}">{{ budget }}</span></div>
+  {%- if badge %}<div>{{ _badge(badge.label, tone=badge.tone) }}</div>{% endif %}
+  {{ stageTracker(stages, current, percent=percent, label=stageLabel) }}
+  {%- if stats | length %}<div class="{{ v.slots.stats }}">{% for s in stats %}<span class="{{ v.slots.stat }}"><span class="{{ v.slots.statValue }}">{{ s.value | number }}</span><span class="{{ v.slots.statLabel }}">{{ s.label }}</span></span>{% endfor %}</div>{% endif %}
+  <div class="{{ v.slots.foot }}">{{ avatarGroup(team) }}{% if due %}<span class="{{ v.slots.late if late else v.slots.due }}">{{ icon("calendar", "size-4") }}{{ due }}</span>{% endif %}</div>
+</a>
+{%- endmacro %}

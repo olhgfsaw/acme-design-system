@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/project-card/project-card.njk" import projectCard %}
+{% set description = "A project on the board; the whole card opens it." %}
+{% block matrix %}
+
+{% set stages = [{ name: "Discovery" }, { name: "Design" }, { name: "Development" }, { name: "Review" }, { name: "Launch" }] %}
+{% call section("state") %}
+  {% call cell("on track") %}<div class="w-72">{{ projectCard("m-pc-1", "Website redesign", "#", "Anderson Studio", "$32,000.00", "WR", "ink", stages, 2, percent=51, stageLabel="Development", team=["Olivia Foster", "James Reed", "Karl Hansen", "Abraham Moss"], due="Dec 12") }}</div>{% endcall %}
+  {% call cell("at risk, late") %}<div class="w-72">{{ projectCard("m-pc-2", "Landing page design", "#", "Rahman Logistics", "$6,400.00", "LP", "stripes", stages, 1, percent=29, stageLabel="Design", team=["James Reed"], due="Oct 20", late=true, badge={ label: "At risk", tone: "danger" }) }}</div>{% endcall %}
+  {% call cell("with stats, member view") %}<div class="flex w-80">{{ projectCard("m-pc-stats", "Website redesign", "#", "Anderson Studio · Lead designer", "18 h/week", "WR", "ink", [{ name: "Discovery" }, { name: "Design" }, { name: "Development" }, { name: "Review" }, { name: "Launch" }], 2, percent=51, team=["Olivia Foster", "James Reed", "Karl Hansen"], due="Dec 12", stats=[{ label: "Open for you", value: 3 }, { label: "Due this week", value: 2 }, { label: "In review", value: 1 }]) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

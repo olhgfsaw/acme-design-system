@@ -1,0 +1,6 @@
+{#- FileDropzone. Drop files or browse. Props: id, label (accessible name of the file input), hint (allowed types and size), layout (stack | row). The whole zone is the label of a visually hidden file input, so a click or Enter opens the picker. -#}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% macro fileDropzone(id, label, hint, layout="stack") %}
+{%- set v = variants.fileDropzone -%}
+<label for="{{ id }}" data-component="FileDropzone" class="{{ v.base }} {{ v.variants.layout[layout] }}"><input id="{{ id }}" type="file" multiple class="sr-only" aria-label="{{ label }}" aria-describedby="{{ id }}-hint">{{ iconTile("upload", tone="card") }}<span class="{{ v.slots.text }}"><span class="{{ v.slots.title }}">Drop files here or browse</span><span id="{{ id }}-hint" class="{{ v.slots.hint }}">{{ hint }}</span></span><span data-component="BaseButton" data-variant="secondary" data-size="sm" aria-hidden="true" class="{{ variants.button.base }} {{ variants.button.variants.variant.secondary }} {{ variants.button.variants.size.sm }}">Browse files</span></label>
+{%- endmacro %}

@@ -1,0 +1,82 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "layouts/_format.njk" import shortDate %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/status-menu/status-menu.njk" import statusMenu %}
+{% from "components/common/bar-chart/bar-chart.njk" import barChart %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable, tableCell %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set invoices = data.fixtures.invoice.scenarios[scenario] %}
+{% set payments = data.fixtures.payment.scenarios[scenario] %}
+{% set months = data.fixtures.revenueMonth.scenarios[scenario].slice(-6) %}
+{% set monthNames = data.glossary.monthsShort | label %}
+{% set by = invoices | groupby("status") %}
+{% set cur = project.currency %}
+{% set thisMonth = project.referenceDate.slice(0, 7) %}
+{% set paidMonth = [] %}{% for p in payments %}{% if p.receivedAt.slice(0, 7) == thisMonth %}{% set _ = paidMonth.push(p) %}{% endif %}{% endfor %}
+{% set outstanding = ((by.sent or []) | sum("amountMinor")) + ((by.overdue or []) | sum("amountMinor")) %}
+{% set statusOptions = [{ code: "draft", label: "Draft", tone: "neutral", hint: "Not sent yet" }, { code: "sent", label: "Sent", tone: "info", hint: "Waiting for payment" }, { code: "paid", label: "Paid", tone: "success", hint: "Paid in full" }, { code: "overdue", label: "Overdue", tone: "danger", hint: "Set automatically after the due date", disabled: true }] %}
+{% set labels = [] %}{% set values = [] %}{% for m in months %}{% set _ = labels.push(monthNames[(m.month.slice(5, 7) | int) - 1]) %}{% set _ = values.push(m.revenueMinor) %}{% endfor %}
+
+{% call appChrome("finance", scenario=scenario) %}
+  {% call pageHeader("Finance", "Invoices and payments · " ~ (monthNames[(thisMonth.slice(5, 7) | int) - 1]) ~ " " ~ thisMonth.slice(0, 4) ~ " · " ~ cur) %}
+    {{ button("Create invoice", iconLeading="plus", href="invoice-new.html") }}
+  {% endcall %}
+  <div class="flex flex-col gap-3">
+    <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"{% if state == "loading" %} aria-busy="true"{% endif %}>
+      {% if state == "loading" %}{% for i in range(4) %}{% call card("s" ~ i) %}<div class="flex flex-col gap-2">{{ skeleton("line", layout="w-24") }}{{ skeleton("figure", layout="w-32") }}</div>{% endcall %}{% endfor %}
+      {% elif state != "error" %}
+        {% call card("s-paid") %}{{ statBlock("Paid this month", (paidMonth | sum("amountMinor")) | money(cur)) }}<p class="text-sm text-fg-secondary">{{ paidMonth | length | plural({ one: "# payment", other: "# payments" }) }}</p>{% endcall %}
+        {% call card("s-out") %}{{ statBlock("Outstanding", outstanding | money(cur)) }}<p class="text-sm text-fg-secondary">{{ ((by.sent or []) | length + (by.overdue or []) | length) | plural({ one: "# invoice", other: "# invoices" }) }}</p>{% endcall %}
+        {% call card("s-over") %}{{ statBlock("Overdue", ((by.overdue or []) | sum("amountMinor")) | money(cur)) }}<p class="text-sm {{ "font-medium text-danger-fg" if (by.overdue or []) | length else "text-fg-secondary" }}">{{ ((by.overdue or []) | length | plural({ one: "# invoice past due", other: "# invoices past due" })) if (by.overdue or []) | length else "Nothing overdue" }}</p>{% endcall %}
+        {% call card("s-draft") %}{{ statBlock("Drafts", ((by.draft or []) | sum("amountMinor")) | money(cur)) }}<p class="text-sm text-fg-secondary">{{ (by.draft or []) | length | plural({ one: "# draft not sent", other: "# drafts not sent" }) }}</p>{% endcall %}
+      {% endif %}
+    </div>
+    {#- The invoice table needs the full width below 1536 px; the payment cards sit beside it only on wide screens. -#}
+    <div class="grid items-start gap-3 2xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      {% call card("invoices", title="Invoices") %}
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            {{ tabs([{ id: "all", label: "All", count: invoices | length }, { id: "draft", label: "Draft", count: (by.draft or []) | length }, { id: "sent", label: "Sent", count: (by.sent or []) | length }, { id: "overdue", label: "Overdue", count: (by.overdue or []) | length }, { id: "paid", label: "Paid", count: (by.paid or []) | length }], "all", "Filter invoices by status", panel="invoice-table") }}
+            <div class="w-full sm:w-64">{{ input("invoice-search", type="search", variant="filter", iconLeading="search", placeholder="Invoice, client or project", label="Search invoices", value=("INV-2025" if state == "no-results" else "")) }}</div>
+          </div>
+          <p class="text-sm text-fg-muted">Change a status from its badge. Part payments are recorded on the invoice page.</p>
+          <div id="invoice-table" role="tabpanel" aria-labelledby="all-tab">
+          {% call dataTable("Invoices", [{ label: "Invoice" }, { label: "Client" }, { label: "Issued" }, { label: "Due" }, { label: "Amount", align: "end" }, { label: "Status" }], state=state, messages={ loading: "Loading…", emptyTitle: "No invoices yet", emptyText: "Bill a project milestone to start tracking what's paid and what's due.", noResultsTitle: "No invoices match “INV-2025”", noResultsText: "Search by invoice number, client or project.", reset: "Clear search", errorTitle: "Invoices didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" }, emptyAction={ label: "Create invoice", href: "invoice-new.html", icon: "plus" }) %}
+            {% for i in invoices %}
+            <tr class="{{ variants.dataTable.slots.row }}">
+              {% call tableCell() %}{{ recordCell(i.number, href="invoice.html", sub=i.projectName or "General work") }}{% endcall %}
+              {% call tableCell() %}{{ recordCell(i.clientName, href="client.html", avatar=i.clientName) }}{% endcall %}
+              {% call tableCell(kind="muted") %}{{ shortDate(i.issuedAt) }}{% endcall %}
+              {% call tableCell(kind=("danger" if i.status == "overdue" else "muted")) %}{{ shortDate(i.dueAt) }}{% endcall %}
+              {% call tableCell("end", ("danger" if i.status == "overdue" else "numeric")) %}{{ i.amountMinor | money(i.currency) }}{% endcall %}
+              {% call tableCell() %}{{ statusMenu("st-" ~ i.id, i.number, i.status, statusOptions, align="end") }}{% endcall %}
+            </tr>
+            {% endfor %}
+          {% endcall %}
+          </div>
+        </div>
+      {% endcall %}
+      <div class="grid min-w-0 gap-3 lg:grid-cols-2 2xl:grid-cols-1">
+        {% call card("payments", title="Payments received") %}
+          <div class="flex flex-col gap-4"><p class="text-sm text-fg-muted">{{ monthNames[(thisMonth.slice(5, 7) | int) - 1] }} · {{ (paidMonth | sum("amountMinor")) | money(cur) }}</p>
+          {% if state == "loading" %}{% for i in range(3) %}{{ skeleton("line", layout="w-full") }}{% endfor %}
+          {% elif paidMonth | length %}<ul class="flex flex-col gap-3">{% for p in paidMonth %}<li>{{ recordCell(p.clientName, sub=p.invoiceNumber ~ " · " ~ shortDate(p.receivedAt) ~ " · " ~ (data.statuses.paymentMethod[p.method].label | label), avatar=p.clientName, aside="+" ~ (p.amountMinor | money(p.currency))) }}</li>{% endfor %}</ul>
+          {% else %}<p class="text-sm text-fg-muted">No payments this month yet.</p>{% endif %}</div>
+        {% endcall %}
+        {% call card("months", title="Paid by month") %}
+          {% if state == "loading" %}{{ skeleton("block", layout="w-full") }}{% elif values | length %}{{ barChart(labels, values, "Paid by month, " ~ labels[0] ~ " to " ~ labels[labels.length - 1], highlight=(values | length) - 1, currency=cur, seriesLabel="Paid") }}{% else %}<p class="text-sm text-fg-muted">The chart fills in as soon as the first payments arrive.</p>{% endif %}
+        {% endcall %}
+      </div>
+    </div>
+  </div>
+{% endcall %}
+{% endblock %}

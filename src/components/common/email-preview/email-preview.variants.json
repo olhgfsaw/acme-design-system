@@ -1,0 +1,14 @@
+{
+  "base": "flex flex-col overflow-hidden rounded-md border border-divider",
+  "variants": {},
+  "slots": {
+    "head": "flex flex-col gap-1 border-b border-divider bg-canvas px-4 py-3 text-xs text-fg-secondary",
+    "headValue": "font-medium text-fg",
+    "body": "flex flex-col gap-4 px-5 py-6 text-sm/6 text-fg",
+    "title": "text-xl font-medium tracking-tight",
+    "quote": "rounded-md bg-canvas px-4 py-3 whitespace-pre-line text-fg-secondary",
+    "cta": "inline-flex h-10 items-center self-start rounded-full bg-primary px-5 font-medium text-on-primary",
+    "foot": "text-xs text-fg-muted"
+  },
+  "defaultVariants": {}
+}

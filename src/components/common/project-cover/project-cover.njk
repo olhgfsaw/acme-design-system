@@ -1,9 +1,9 @@
-{#- ProjectCover. Props: id (unique on the page), monogram ("WR"), pattern (ink | dots | grid | rings | stripes | plain), size (block | strip | tile), href + label (the cover opens the project; otherwise decorative). The pattern is drawn in SVG from tokens. -#}
+{#- ProjectCover. Props: id (unique on the page), monogram ("WR"), pattern (ink | dots | grid | rings | stripes | plain), size (block | strip | tile | header: the 64 px tile before a page title), href + label (the cover opens the project; otherwise decorative). The pattern is drawn in SVG from tokens. -#}
 {% macro projectCover(id, monogram, pattern="plain", size="block", href=null, label=null) %}
 {%- set v = variants.projectCover -%}
 {%- set p = v.patterns[pattern] -%}
 {%- if href %}<a href="{{ href }}"{% else %}<div aria-hidden="true"{% endif %} data-component="ProjectCover" data-size="{{ size }}" class="{{ v.base }} {{ v.variants.pattern[pattern] }} {{ v.variants.size[size] }}">
-  {%- if pattern != "plain" and size != "tile" %}
+  {%- if pattern != "plain" and size not in ["tile", "header"] %}
   <svg class="{{ v.slots.svg }}" aria-hidden="true" focusable="false"><defs>
     {%- if pattern == "ink" %}<pattern id="{{ id }}-p" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" stroke-width="1.5" opacity="0.14" class="{{ p.line }}"></line></pattern>
     {%- elif pattern == "dots" %}<pattern id="{{ id }}-p" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="8" cy="8" r="1.6" class="{{ p.line }}"></circle></pattern>
@@ -19,6 +19,6 @@
   <svg class="{{ v.slots.svg }}" aria-hidden="true" focusable="false"><svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">{% for i in range(1, 13) %}<path d="M{{ 100 - i * 8 }} 0A{{ i * 8 }} {{ i * 8 }} 0 0 0 100 {{ i * 8 }}" fill="none" stroke-width="2" vector-effect="non-scaling-stroke" class="{{ p.line }}"></path>{% endfor %}</svg><foreignObject x="0" y="0" width="100%" height="100%"><div class="{{ v.slots.foreign }}"><span class="{{ v.slots.mono }} {{ p.mono }}">{{ monogram }}</span></div></foreignObject></svg>
   {%- endif %}
   {%- endif %}
-  {%- if size == "tile" or pattern == "plain" %}<span aria-hidden="true" class="{{ v.slots.monoTile if size == "tile" else v.slots.mono }}">{{ monogram }}</span>{% endif %}{% if href %}<span class="sr-only">{{ label }}</span>{% endif %}
+  {%- if size in ["tile", "header"] or pattern == "plain" %}<span aria-hidden="true" class="{{ v.slots.monoTile if size == "tile" else (v.slots.monoHeader if size == "header" else v.slots.mono) }}">{{ monogram }}</span>{% endif %}{% if href %}<span class="sr-only">{{ label }}</span>{% endif %}
 {% if href %}</a>{% else %}</div>{% endif %}
 {%- endmacro %}

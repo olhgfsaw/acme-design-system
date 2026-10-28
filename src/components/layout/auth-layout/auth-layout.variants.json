@@ -1,0 +1,17 @@
+{
+  "base": "grid min-h-dvh bg-canvas lg:grid-cols-2",
+  "variants": {},
+  "slots": {
+    "side": "m-4 flex flex-col justify-between gap-8 rounded-lg bg-accent-subtle p-6 max-lg:hidden md:p-10",
+    "brand": "text-xl font-semibold tracking-tight text-fg",
+    "pitch": "flex max-w-lg flex-col gap-3",
+    "headline": "text-3xl font-medium tracking-tight text-fg md:text-4xl",
+    "text": "text-base text-fg-secondary",
+    "preview": "max-w-md",
+    "note": "inline-flex items-center gap-2 text-sm text-fg-secondary",
+    "main": "flex items-center justify-center px-6 py-10",
+    "card": "flex w-full max-w-sm flex-col gap-6",
+    "mobileBrand": "text-xl font-semibold tracking-tight text-fg lg:hidden"
+  },
+  "defaultVariants": {}
+}

@@ -1,0 +1,23 @@
+{#- ProjectBoard. Projects in columns by stage. Props: columns [{ id, name, cards [ProjectCard params] }], state (default | loading | empty | error), messages. Cards are links; nothing is dragged here (stages change on the project page). Columns stack on narrow screens. -#}
+{% from "components/common/project-card/project-card.njk" import projectCard %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% from "components/common/empty-state/empty-state.njk" import emptyState %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% from "components/ui/button/button.njk" import button %}
+{% macro projectBoard(columns, state="default", messages={}) %}
+{%- set v = variants.projectBoard -%}
+{% if state == "empty" %}<div data-component="ProjectBoard" class="rounded-lg bg-surface p-6">{% call emptyState(messages.emptyTitle, messages.emptyText, iconName="folder") %}{{ button(messages.create, size="sm", iconLeading="plus", href="project-new.html") }}{% endcall %}</div>
+{% elif state == "error" %}<div data-component="ProjectBoard" class="rounded-lg bg-surface p-6">{{ errorState(messages.errorTitle, messages.errorText, messages.retry) }}</div>
+{% else %}
+<div data-component="ProjectBoard" class="{{ v.base }}"{% if state == "loading" %} aria-busy="true"{% endif %}>{% if state == "loading" %}<p class="sr-only">{{ messages.loading }}</p>{% endif %}
+  {%- for col in columns %}
+  <section aria-labelledby="col-{{ col.id }}" class="{{ v.slots.col }}">
+    <div class="{{ v.slots.head }}"><h2 id="col-{{ col.id }}" class="{{ v.slots.title }}">{{ col.name }}</h2><span class="{{ v.slots.count }}">{% if state == "loading" %}–{% else %}{{ col.cards | length }}{% endif %}</span></div>
+    {%- if state == "loading" %}<div class="{{ v.slots.list }}">{{ skeleton("block", layout="w-full") }}</div>
+    {%- elif col.cards | length %}<ul class="{{ v.slots.list }}">{% for c in col.cards %}<li class="flex">{{ projectCard(c.id, c.title, c.href, c.client, c.budget, c.monogram, c.pattern, c.stages, c.current, percent=c.percent, stageLabel=c.stageLabel, team=c.team, due=c.due, late=c.late, badge=c.badge) }}</li>{% endfor %}</ul>
+    {%- else %}<p class="{{ v.slots.empty }}">No projects in {{ col.name | lower }}</p>{% endif %}
+  </section>
+  {%- endfor %}
+</div>
+{% endif %}
+{%- endmacro %}

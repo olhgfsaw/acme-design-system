@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/member-card/member-card.njk" import memberCard %}
+{% set description = "A person on the Team page; the whole card opens their profile." %}
+{% block matrix %}
+
+{% call section("load") %}
+  {% call cell("normal") %}<div class="flex w-72">{{ memberCard("Olivia Foster", "Lead designer", "#", 3, "34 h", 86, projects=["Website redesign", "App development", "Landing page design"], badges=[{ label: "Available", tone: "success" }]) }}</div>{% endcall %}
+  {% call cell("over capacity, away") %}<div class="flex w-72">{{ memberCard("Karl Hansen", "Backend developer", "#", 3, "38 h", 94, projects=["Website redesign", "App development"], badges=[{ label: "Available", tone: "success" }, { label: "Off Oct 29–30", tone: "warning" }]) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

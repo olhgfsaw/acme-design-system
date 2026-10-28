@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% set description = "The first cell of a table row: face, name and one line under it." %}
+{% block matrix %}
+
+{% call section("face") %}
+  {% call cell("avatar") %}<div class="w-64">{{ recordCell("Anderson Studio", href="#", sub="James Anderson", avatar="Anderson Studio") }}</div>{% endcall %}
+  {% call cell("icon") %}<div class="w-64">{{ recordCell("Brand guidelines.pdf", sub="PDF · 2.4 MB", iconName="file-text") }}</div>{% endcall %}
+  {% call cell("cover") %}<div class="w-64">{{ recordCell("Website redesign", href="#", sub="Anderson Studio", cover={ id: "m-rc-cv", monogram: "WR", pattern: "ink" }) }}</div>{% endcall %}
+  {% call cell("text only") %}<div class="w-64">{{ recordCell("INV-2026-048", href="#", sub="Website redesign · development milestone 2") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

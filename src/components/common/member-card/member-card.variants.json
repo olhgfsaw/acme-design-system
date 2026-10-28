@@ -1,0 +1,20 @@
+{
+  "base": "flex min-w-0 flex-1 flex-col gap-4 rounded-lg bg-canvas p-6 transition-shadow hover:shadow-lg active:shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+  "variants": {},
+  "slots": {
+    "head": "flex items-center gap-3",
+    "text": "flex min-w-0 flex-1 flex-col",
+    "name": "truncate font-medium text-fg",
+    "role": "truncate text-xs text-fg-muted",
+    "badges": "flex flex-wrap gap-2",
+    "stats": "grid grid-cols-2 gap-3 border-y border-divider py-3",
+    "stat": "flex flex-col gap-1",
+    "statLabel": "text-xs text-fg-muted",
+    "statValue": "text-xl font-medium tracking-tight text-fg tabular-nums",
+    "load": "flex flex-col gap-2",
+    "loadRow": "flex items-center justify-between gap-2 text-sm text-fg-secondary",
+    "loadValue": "font-medium text-fg tabular-nums",
+    "projects": "text-sm text-fg-secondary"
+  },
+  "defaultVariants": {}
+}

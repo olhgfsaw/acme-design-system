@@ -9,7 +9,9 @@
     "desc": "col-span-2 md:col-span-1",
     "amount": "text-end text-sm font-medium text-fg tabular-nums",
     "note": "flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-fg-muted",
-    "end": "text-end"
+    "end": "text-end",
+    "headRemovable": "hidden gap-3 text-xs font-medium text-fg-muted md:grid md:grid-cols-[minmax(0,1fr)_--spacing(20)_--spacing(32)_--spacing(28)_--spacing(9)]",
+    "rowRemovable": "grid grid-cols-2 items-center gap-3 md:grid-cols-[minmax(0,1fr)_--spacing(20)_--spacing(32)_--spacing(28)_--spacing(9)]"
   },
   "defaultVariants": {}
 }

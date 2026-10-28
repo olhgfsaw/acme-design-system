@@ -18,5 +18,12 @@
   },
   "defaultVariants": {
     "align": "start"
+  },
+  "kinds": {
+    "text": "",
+    "numeric": "tabular-nums",
+    "muted": "whitespace-nowrap text-fg-secondary",
+    "danger": "font-medium text-danger-fg tabular-nums",
+    "secondary": "text-fg-secondary"
   }
 }

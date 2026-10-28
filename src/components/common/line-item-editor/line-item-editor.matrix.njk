@@ -7,4 +7,7 @@
 {% call section("lines") %}
   <div class="w-full max-w-3xl">{{ lineItemEditor("m-li", "USD", [{ description: "October campaign work", quantity: 1, rateMinor: 900000, amountMinor: 900000, descProvenance: "msg", descNote: "“the October campaign work”", rateProvenance: "msg", rateNote: "“nine thousand dollars”" }, { description: "Brand guidelines, August design work", quantity: 2, rateMinor: 237500, amountMinor: 475000, descProvenance: "guess", descNote: "Renamed from “Brand guidelines, July design work”", rateProvenance: "match", rateNote: "Same rate as July" }]) }}</div>
 {% endcall %}
+{% call section("new invoice") %}
+  <div class="w-full max-w-3xl">{{ lineItemEditor("m-li2", "USD", [{ description: "Front-end build", quantity: 1, rateMinor: 600000, amountMinor: 600000 }, { description: "", quantity: 1, rateMinor: 0, amountMinor: 0 }], removable=true) }}</div>
+{% endcall %}
 {% endblock %}

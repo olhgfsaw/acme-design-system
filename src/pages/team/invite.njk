@@ -1,0 +1,53 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/email-preview/email-preview.njk" import emailPreview %}
+{% from "components/common/step-list/step-list.njk" import stepList %}
+{% from "components/form/form-section/form-section.njk" import formSection %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/form/radio-cards/radio-cards.njk" import radioCards %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/textarea/textarea.njk" import textarea %}
+{% from "components/ui/checkbox/checkbox.njk" import checkbox %}
+{% from "components/ui/button/button.njk" import button %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set active = [] %}{% for p in data.fixtures.project.scenarios.typical %}{% if p.status == "in_progress" %}{% set _ = active.push(p) %}{% endif %}{% endfor %}
+{% call appChrome("team", scenario="typical") %}
+  {% call pageHeader("Invite a team member", "They get an email with a link to set up their account", crumbs=[{ label: "Team", href: "team.html" }, { label: "Invite member" }]) %}{% endcall %}
+  <form class="flex flex-col gap-6" action="team.html">
+    <p class="text-sm text-fg-secondary">Fields marked <span class="text-danger-fg" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+    <div class="grid items-start gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      {% call card("person-card") %}
+        <div class="flex flex-col gap-6">
+          {% call formSection("person", "Person", "How they appear on boards, in the calendar and on the Team page") %}
+            {{ formField("iv-name", "Full name", required=true, input={ value: "Nina Petrova", autocomplete: "name" }) }}
+            {{ formField("iv-email", "Work email", required=true, input={ type: "email", value: "nina.petrova@acme.example", autocomplete: "email" }) }}
+            {{ formField("iv-title", "Job title", input={ value: "Frontend developer" }) }}
+            {% call formField("iv-group", "Discipline") %}{{ select("iv-group", [{ value: "design", label: "Design" }, { value: "engineering", label: "Engineering" }, { value: "management", label: "Management" }], value="engineering") }}{% endcall %}
+          {% endcall %}
+          <hr class="h-px border-0 bg-divider">
+          <div class="flex flex-col gap-4"><h2 id="access-title" class="text-xl font-medium tracking-tight text-fg">Access</h2><p class="text-sm text-fg-secondary">What they can see after they join. You can change it later on their profile.</p>
+            {{ radioCards("access", "access-title", [{ value: "member", title: "Member", line: "Their projects, boards and calendar. No money." }, { value: "admin", title: "Admin", line: "Everything, including clients, invoices and settings." }], value="member") }}</div>
+          <hr class="h-px border-0 bg-divider">
+          <fieldset class="flex flex-col gap-4"><legend class="mb-4 text-xl font-medium tracking-tight text-fg">Projects</legend><p class="-mt-2 text-sm text-fg-secondary">They join these projects and their boards right away. 2 selected.</p>
+            <div class="grid gap-3 md:grid-cols-2">{% for p in active %}{{ checkbox("ivp-" ~ p.id, p.title, description=p.clientName ~ " · " ~ (data.statuses.projectStage[p.stage].label | label), checked=(p.title in ["Website redesign", "Marketing campaign"]), appearance="card") }}{% endfor %}</div></fieldset>
+          <hr class="h-px border-0 bg-divider">
+          {% call formSection("schedule", "Schedule", "Used for workload on the Team page and the dashboard") %}
+            {{ formField("iv-hours", "Hours per week", input={ type: "number", value: "40", inputmode: "numeric", numeric: true }) }}
+            {{ formField("iv-start", "Start date", input={ type: "date", value: "2026-11-02" }) }}
+          {% endcall %}
+          <hr class="h-px border-0 bg-divider">
+          {% call formField("iv-note", "Personal note", hint="Shown in the email") %}{{ textarea("iv-note", rows=3, value="Welcome aboard! Your first task is the homepage build.", describedby="iv-note-hint") }}{% endcall %}
+        </div>
+      {% endcall %}
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("preview", title="Email they get") %}<div class="flex flex-col gap-4"><p class="text-sm text-fg-secondary">Updates as you fill in the form</p>{{ emailPreview("Daniel Kim via Acme", "Nina Petrova <nina.petrova@acme.example>", "Daniel Kim invited you to Acme", "Join the team on Acme", ["Hi Nina,", "Daniel Kim invited you to join Acme as a Frontend developer.", "You'll start on Website redesign and Marketing campaign."], cta="Accept invite", quote="Welcome aboard! Your first task is the homepage build.", foot="The link works until Nov 4, 2026. As a member you see your projects, boards and calendar.") }}</div>{% endcall %}
+        {% call card("next", title="After they accept") %}{{ stepList(["They set a password or sign in with Google.", "They land on My work with their projects, board tasks and schedule.", "You see them on the Team page. Until then they wait under Pending invites."]) }}{% endcall %}
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center justify-end gap-3">{{ button("Cancel", variant="ghost", href="team.html") }}{{ button("Send invite", type="submit", iconLeading="send") }}</div>
+  </form>
+{% endcall %}
+{% endblock %}

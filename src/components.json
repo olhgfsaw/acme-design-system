@@ -32,7 +32,8 @@
       "ariaLabel",
       "haspopup",
       "expanded",
-      "describedby"
+      "describedby",
+      "pressed"
     ],
     "states": [
       "default",
@@ -127,7 +128,8 @@
         "outline",
         "search",
         "attention",
-        "missing"
+        "missing",
+        "filter"
       ],
       "size": [
         "sm",
@@ -194,7 +196,9 @@
       "size": [
         "xs",
         "sm",
-        "md"
+        "md",
+        "lg",
+        "xl"
       ]
     },
     "slots": [],
@@ -562,7 +566,15 @@
     "props": [
       "title",
       "description",
-      "level"
+      "level",
+      "crumbs",
+      "avatar",
+      "badge",
+      "kicker",
+      "cover",
+      "lead",
+      "titleAside",
+      "avatarSize"
     ],
     "states": [
       "default"
@@ -604,7 +616,8 @@
       "searchPlaceholder",
       "searchLabel",
       "homeHref",
-      "searchId"
+      "searchId",
+      "context"
     ],
     "states": [
       "default"
@@ -757,14 +770,23 @@
     "description": "A yes / no choice with a visible label and optional description.",
     "category": "ui",
     "path": "src/components/ui/checkbox",
-    "variants": {},
+    "variants": {
+      "appearance": [
+        "plain",
+        "card"
+      ]
+    },
     "slots": [],
     "props": [
       "id",
       "label",
       "description",
       "checked",
-      "disabled"
+      "disabled",
+      "aside",
+      "asideTone",
+      "appearance",
+      "swatch"
     ],
     "states": [
       "default",
@@ -786,13 +808,16 @@
       "label",
       "description",
       "checked",
-      "disabled"
+      "disabled",
+      "aside",
+      "locked"
     ],
     "states": [
       "default",
-      "checked",
       "focus",
-      "disabled"
+      "checked",
+      "disabled",
+      "locked"
     ],
     "reka": "Switch",
     "status": "draft"
@@ -806,7 +831,8 @@
     "props": [
       "items",
       "active",
-      "label"
+      "label",
+      "panel"
     ],
     "states": [
       "default",
@@ -918,7 +944,8 @@
       "size": [
         "block",
         "strip",
-        "tile"
+        "tile",
+        "header"
       ]
     },
     "slots": [],
@@ -947,7 +974,8 @@
       "current",
       "percent",
       "variant",
-      "inset"
+      "inset",
+      "label"
     ],
     "states": [
       "default"
@@ -1160,7 +1188,8 @@
     "props": [
       "message",
       "actionLabel",
-      "fixed"
+      "fixed",
+      "actionHref"
     ],
     "states": [
       "default"
@@ -1267,7 +1296,8 @@
     "props": [
       "id",
       "currency",
-      "lines"
+      "lines",
+      "removable"
     ],
     "states": [
       "default"
@@ -1484,6 +1514,761 @@
     ],
     "states": [
       "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "RecordCell": {
+    "description": "The first cell of a table row: the record's avatar, icon or cover, its name as a link and one line under it.",
+    "category": "common",
+    "path": "src/components/common/record-cell",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "title",
+      "href",
+      "sub",
+      "avatar",
+      "iconName",
+      "cover",
+      "aside"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "AvatarGroup": {
+    "description": "A small stack of avatars for who works on something, with +N for the rest.",
+    "category": "ui",
+    "path": "src/components/ui/avatar-group",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "names",
+      "max",
+      "label"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "BudgetBar": {
+    "description": "Shows how a contract or budget splits into paid, invoiced and not yet invoiced, with the amounts in a legend.",
+    "category": "common",
+    "path": "src/components/common/budget-bar",
+    "variants": {
+      "tone": [
+        "strong",
+        "accent",
+        "muted",
+        "danger"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "currency",
+      "parts",
+      "label"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "FileDropzone": {
+    "description": "A zone to drop files onto or click to browse; the whole zone opens the file picker.",
+    "category": "form",
+    "path": "src/components/form/file-dropzone",
+    "variants": {
+      "layout": [
+        "stack",
+        "row"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "id",
+      "label",
+      "hint",
+      "layout"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "FileRow": {
+    "description": "One attached file with its type, size and date, and download and remove actions.",
+    "category": "common",
+    "path": "src/components/common/file-row",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "name",
+      "meta",
+      "iconName",
+      "download",
+      "remove"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "FormSection": {
+    "description": "Groups related form fields under a heading and an explanation, in one or two columns.",
+    "category": "form",
+    "path": "src/components/form/form-section",
+    "variants": {},
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "id",
+      "title",
+      "text",
+      "columns",
+      "level"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "TaskSummary": {
+    "description": "Shows how a project's tasks split by status as a bar with counts.",
+    "category": "common",
+    "path": "src/components/common/task-summary",
+    "variants": {
+      "tone": [
+        "success",
+        "warning",
+        "accent",
+        "muted",
+        "danger",
+        "info"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "parts",
+      "label",
+      "unit"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "EventRow": {
+    "description": "One calendar event with its time, title, people or place, calendar color and an optional Join or Open action.",
+    "category": "common",
+    "path": "src/components/common/event-row",
+    "variants": {
+      "tone": [
+        "team",
+        "client",
+        "milestone",
+        "personal",
+        "timeoff",
+        "meetings",
+        "deadlines",
+        "finance"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "time",
+      "day",
+      "title",
+      "at",
+      "meta",
+      "tone",
+      "action"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "CoverSwatches": {
+    "description": "A row of cover patterns to pick one for a project.",
+    "category": "form",
+    "path": "src/components/form/cover-swatches",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "labelledby",
+      "value",
+      "patterns"
+    ],
+    "states": [
+      "default",
+      "pressed",
+      "focus"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "CoverPicker": {
+    "description": "The project's cover tile beside its title; it opens a panel to choose a pattern or upload an image.",
+    "category": "pattern",
+    "path": "src/components/pattern/cover-picker",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "monogram",
+      "pattern",
+      "open"
+    ],
+    "states": [
+      "default",
+      "open",
+      "focus"
+    ],
+    "reka": "Popover",
+    "status": "draft"
+  },
+  "ProjectCard": {
+    "description": "A project on the board with its cover, client, budget, stage, team and due date; the whole card opens the project.",
+    "category": "common",
+    "path": "src/components/common/project-card",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "title",
+      "href",
+      "client",
+      "budget",
+      "monogram",
+      "pattern",
+      "stages",
+      "current",
+      "percent",
+      "stageLabel",
+      "team",
+      "due",
+      "late",
+      "badge",
+      "stats"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ProjectBoard": {
+    "description": "Projects in columns by stage, each a ProjectCard; columns stack on narrow screens.",
+    "category": "pattern",
+    "path": "src/components/pattern/project-board",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "columns",
+      "state",
+      "messages"
+    ],
+    "states": [
+      "default"
+    ],
+    "dataStates": [
+      "loading",
+      "empty",
+      "error"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "TaskCard": {
+    "description": "A task on a board with tags, priority, due date, subtasks, comments and assignee, and a Move to menu instead of dragging.",
+    "category": "common",
+    "path": "src/components/common/task-card",
+    "variants": {
+      "tone": [
+        "todo",
+        "in_progress",
+        "in_review",
+        "done"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "id",
+      "title",
+      "status",
+      "columns",
+      "tag",
+      "high",
+      "note",
+      "due",
+      "late",
+      "subtasks",
+      "comments",
+      "assignee",
+      "menuOpen"
+    ],
+    "states": [
+      "default",
+      "focus",
+      "menu-open"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "TaskQuickAdd": {
+    "description": "A small form to add a task to a board column with its assignee.",
+    "category": "form",
+    "path": "src/components/form/task-quick-add",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "people",
+      "assignee"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "TaskBoard": {
+    "description": "A project's tasks in status columns with quick add, empty-column hints and a Move to menu on every card.",
+    "category": "pattern",
+    "path": "src/components/pattern/task-board",
+    "variants": {
+      "tone": [
+        "todo",
+        "in_progress",
+        "in_review",
+        "done"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "columns",
+      "people",
+      "state",
+      "messages"
+    ],
+    "states": [
+      "default"
+    ],
+    "dataStates": [
+      "loading",
+      "empty",
+      "error"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "StageEditor": {
+    "description": "Edits the ordered stages of a project with their target dates.",
+    "category": "form",
+    "path": "src/components/form/stage-editor",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "stages",
+      "dates",
+      "reorder"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "StatusMenu": {
+    "description": "A status badge that opens the list of statuses to change it, with hints and an optional link below.",
+    "category": "common",
+    "path": "src/components/common/status-menu",
+    "variants": {
+      "tone": [
+        "draft",
+        "sent",
+        "paid",
+        "overdue",
+        "void",
+        "partial"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "id",
+      "record",
+      "current",
+      "options",
+      "open",
+      "footer",
+      "align"
+    ],
+    "states": [
+      "default",
+      "open",
+      "focus"
+    ],
+    "reka": "DropdownMenu",
+    "status": "draft"
+  },
+  "BarChart": {
+    "description": "A small bar chart of a few values with one highlighted bar and a hidden data table.",
+    "category": "common",
+    "path": "src/components/common/bar-chart",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "labels",
+      "values",
+      "label",
+      "highlight",
+      "currency",
+      "seriesLabel"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "InvoiceDocument": {
+    "description": "The invoice as the client sees it: seller, dates, bill to, project, lines, totals and payment terms.",
+    "category": "common",
+    "path": "src/components/common/invoice-document",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "workspace",
+      "invoice",
+      "billTo",
+      "currency",
+      "lines",
+      "totals",
+      "totalMinor",
+      "totalLabel",
+      "project",
+      "note",
+      "voided"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "MemberCard": {
+    "description": "A person on the Team page with role, status, projects, hours this week and workload; the whole card opens their profile.",
+    "category": "common",
+    "path": "src/components/common/member-card",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "name",
+      "role",
+      "href",
+      "projectCount",
+      "hours",
+      "load",
+      "projects",
+      "badges"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "EmailPreview": {
+    "description": "Shows what an email will look like before it is sent: sender, recipient, subject and body.",
+    "category": "common",
+    "path": "src/components/common/email-preview",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "from",
+      "to",
+      "subject",
+      "title",
+      "paragraphs",
+      "cta",
+      "quote",
+      "foot"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "StepList": {
+    "description": "Explains what happens next as numbered steps.",
+    "category": "common",
+    "path": "src/components/common/step-list",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "steps"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "DateTile": {
+    "description": "A small month and day square that leads a row in lists of dated items, such as upcoming deadlines.",
+    "category": "ui",
+    "path": "src/components/ui/date-tile",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "iso"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "DeadlineRow": {
+    "description": "An upcoming due date in a list: date tile, the project it belongs to, a line with date and client, and a Late / At risk / In N days badge.",
+    "category": "common",
+    "path": "src/components/common/deadline-row",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "iso",
+      "title",
+      "href",
+      "sub",
+      "badge"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "CalendarGrid": {
+    "description": "Shows a month as a table of days with event chips colored by calendar; selecting a day shows its agenda, and busy days end with a more button.",
+    "category": "pattern",
+    "path": "src/components/pattern/calendar-grid",
+    "variants": {
+      "tone": [
+        "info",
+        "danger",
+        "success",
+        "warning",
+        "neutral"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "id",
+      "year",
+      "month",
+      "events",
+      "today",
+      "selected",
+      "weekStart",
+      "labelledby",
+      "state",
+      "messages"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus",
+      "selected"
+    ],
+    "dataStates": [
+      "loading",
+      "error"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "CodeTag": {
+    "description": "Shows a short technical value as code, such as an API scope or a number pattern; not for running text.",
+    "category": "ui",
+    "path": "src/components/ui/code-tag",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "label"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "SpaceNav": {
+    "description": "The labelled side navigation of a team member's personal space, with icons, text and counts; replaces NavRail for members.",
+    "category": "layout",
+    "path": "src/components/layout/space-nav",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "items",
+      "label",
+      "activeId"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus",
+      "current"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "AuthLayout": {
+    "description": "The shell of sign-in, password reset and invite screens: a side panel about the product and a narrow form column.",
+    "category": "layout",
+    "path": "src/components/layout/auth-layout",
+    "variants": {},
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "product",
+      "headline",
+      "text",
+      "note",
+      "preview"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "TextDivider": {
+    "description": "A horizontal rule with a short label, placed between two ways of doing the same thing, such as Google sign-in and email.",
+    "category": "ui",
+    "path": "src/components/ui/text-divider",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "label"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "PasswordRules": {
+    "description": "Lists what a new password needs under the field and ticks each rule as it is met.",
+    "category": "form",
+    "path": "src/components/form/password-rules",
+    "variants": {
+      "state": [
+        "met",
+        "unmet"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "id",
+      "rules"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "TimeTracker": {
+    "description": "A running timer for the time sheet with elapsed time, a project, start and stop, and what you're working on.",
+    "category": "common",
+    "path": "src/components/common/time-tracker",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "seconds",
+      "running",
+      "projects",
+      "project",
+      "note"
+    ],
+    "states": [
+      "default",
+      "running"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "TimesheetGrid": {
+    "description": "A week of hours per project and day with day and row totals and booked hours; editable as a draft, read-only once submitted.",
+    "category": "pattern",
+    "path": "src/components/pattern/timesheet-grid",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "caption",
+      "days",
+      "rows",
+      "today",
+      "locked",
+      "state",
+      "messages"
+    ],
+    "states": [
+      "default",
+      "focus",
+      "locked"
+    ],
+    "dataStates": [
+      "loading"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "NotificationMatrix": {
+    "description": "A table of events by channel with one checkbox per cell, for choosing what reaches you in the app and by email.",
+    "category": "form",
+    "path": "src/components/form/notification-matrix",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "caption",
+      "channels",
+      "events"
+    ],
+    "states": [
+      "default",
+      "focus",
+      "checked",
+      "disabled"
     ],
     "reka": null,
     "status": "draft"

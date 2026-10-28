@@ -1,0 +1,9 @@
+{#- NotificationMatrix. Which events reach you on which channel: one row per event, one checkbox per channel. Props: id, caption, channels [{ id, label }], events [{ id, label, note, on [channel ids], locked [channel ids that can't be turned off] }]. Each checkbox's name says event and channel. -#}
+{% macro notificationMatrix(id, caption, channels, events) %}
+{%- set v = variants.notificationMatrix -%}
+<table id="{{ id }}" data-component="NotificationMatrix" class="{{ v.base }}">
+  <caption class="sr-only">{{ caption }}</caption>
+  <thead><tr><th scope="col" class="{{ v.slots.head }}">Event</th>{% for c in channels %}<th scope="col" class="{{ v.slots.headCenter }}">{{ c.label }}</th>{% endfor %}</tr></thead>
+  <tbody>{% for e in events %}<tr><th scope="row" id="{{ id }}-{{ e.id }}" class="{{ v.slots.event }}"><span class="{{ v.slots.label }}">{{ e.label }}</span>{% if e.note %}<span class="{{ v.slots.note }}">{{ e.note }}</span>{% endif %}</th>{% for c in channels %}{% set on = c.id in e.on %}{% set lk = c.id in (e.locked or []) %}<td class="{{ v.slots.cell }}"><button type="button" role="checkbox" aria-checked="{{ "true" if on or lk else "false" }}" data-state="{{ "checked" if on or lk else "unchecked" }}" aria-label="{{ e.label }}: {{ c.label }}" class="{{ v.slots.box }}"{% if lk %} disabled{% endif %}>{% if on or lk %}{{ icon("check", v.slots.check) }}{% endif %}</button></td>{% endfor %}</tr>{% endfor %}</tbody>
+</table>
+{%- endmacro %}

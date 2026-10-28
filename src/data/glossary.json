@@ -47,5 +47,58 @@
   },
   "workload": {
     "en": "Workload"
+  },
+  "invoice": {
+    "en": "Invoice"
+  },
+  "file": {
+    "en": "File"
+  },
+  "contract": {
+    "en": "Contract value"
+  },
+  "outstanding": {
+    "en": "Outstanding"
+  },
+  "months": {
+    "en": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ]
+  },
+  "weekdaysShort": {
+    "en": [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ]
+  },
+  "weekdays": {
+    "en": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ]
+  },
+  "calendarEvent": {
+    "en": "Event"
   }
 }

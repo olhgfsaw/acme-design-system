@@ -1,0 +1,31 @@
+{
+  "base": "w-full border-collapse text-sm max-lg:block lg:table-fixed",
+  "variants": {},
+  "slots": {
+    "wrap": "min-w-0",
+    "thead": "max-lg:sr-only",
+    "body": "max-lg:flex max-lg:flex-col max-lg:gap-3",
+    "row": "max-lg:grid max-lg:grid-cols-5 max-lg:gap-2 max-lg:rounded-md max-lg:bg-canvas max-lg:p-3",
+    "head": "border-b border-divider p-2 text-start text-xs font-medium text-fg-muted lg:w-1/4",
+    "headNum": "border-b border-divider p-2 text-end text-xs font-medium",
+    "headMuted": "text-fg-muted",
+    "headToday": "text-fg",
+    "cell": "border-b border-divider px-1 py-2 max-lg:flex max-lg:flex-col max-lg:gap-1 max-lg:border-0 max-lg:p-0",
+    "dayLabel": "text-xs text-fg-muted lg:hidden",
+    "today": "bg-surface-subtle max-lg:bg-transparent",
+    "name": "border-b border-divider p-2 text-start font-normal max-lg:col-span-5 max-lg:border-0 max-lg:p-0",
+    "nameText": "block truncate font-medium text-fg",
+    "sub": "block truncate text-xs text-fg-muted",
+    "num": "border-b border-divider p-2 text-end tabular-nums max-lg:col-span-5 max-lg:flex max-lg:justify-between max-lg:border-0 max-lg:p-0",
+    "numLabel": "text-xs text-fg-muted lg:hidden",
+    "numValue": "text-fg",
+    "over": "font-medium text-danger-fg",
+    "muted": "text-fg-muted",
+    "foot": "px-2 py-3 text-end font-semibold tabular-nums max-lg:hidden",
+    "footTotal": "px-2 py-3 text-end font-semibold tabular-nums max-lg:col-span-5 max-lg:flex max-lg:justify-between max-lg:p-0",
+    "footLabel": "px-2 py-3 text-start font-semibold text-fg max-lg:hidden",
+    "footRow": "max-lg:mt-3 max-lg:grid max-lg:rounded-md max-lg:bg-canvas max-lg:p-3",
+    "value": "block px-2 text-end tabular-nums text-fg max-lg:px-0 max-lg:text-start"
+  },
+  "defaultVariants": {}
+}

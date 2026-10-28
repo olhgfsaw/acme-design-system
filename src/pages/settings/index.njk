@@ -1,0 +1,142 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/activity-list/activity-list.njk" import activityList %}
+{% from "components/common/detail-list/detail-list.njk" import detailList %}
+{% from "components/common/inline-alert/inline-alert.njk" import inlineAlert %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/form/stage-editor/stage-editor.njk" import stageEditor %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/switch/switch.njk" import switch %}
+{% from "components/ui/checkbox/checkbox.njk" import checkbox %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% from "components/ui/code-tag/code-tag.njk" import codeTag %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- frame.tab: general (default) | integrations | stages. frame.confirming: the Disconnect confirmation is open on Google Calendar. -#}
+{% set tab = frame.tab or "general" %}
+{% set ws = data.fixtures.workspace.scenarios.typical | first %}
+{% set integrations = data.fixtures.integration.scenarios.typical %}
+{% set gc = integrations | selectattr("id", "equalto", "google_calendar") | first %}
+{% set h2 = "text-xl font-medium tracking-tight text-fg" %}{% set h3 = "text-base font-medium text-fg" %}{% set sub = "text-sm text-fg-secondary" %}
+{% set icons = { google_calendar: "calendar", google_drive: "hard-drive", gmail: "mail", slack: "hash" } %}
+
+{% call appChrome("settings", scenario="typical") %}
+  {% call pageHeader("Settings", "Workspace, integrations and project defaults") %}{% endcall %}
+  {{ tabs([{ id: "general", label: "General", href: "settings.html" }, { id: "integrations", label: "Integrations", href: "settings-integrations.html" }, { id: "stages", label: "Project stages", href: "settings-stages.html" }], tab, "Settings sections") }}
+
+  {% if tab == "general" %}
+  <div class="grid items-start gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    {% call card("workspace", title="Workspace") %}
+      <div class="flex flex-col gap-6"><p class="{{ sub }}">Acme runs on your computer. These settings apply to everyone in the workspace.</p>
+      <div class="grid gap-x-5 gap-y-4 md:grid-cols-2">
+        {{ formField("g-name", "Workspace name", input={ value: ws.shortName or ws.name, autocomplete: "organization" }) }}
+        {% call formField("g-url", "Local address") %}{{ input("g-url", type="url", value=ws.localAddress) }}{% endcall %}
+        {% call formField("g-folder", "Files folder", hint="Each client gets a folder; project files go in a subfolder per project · " ~ (ws.filesUsedGb | number) ~ " GB used", layout="md:col-span-2") %}{{ input("g-folder", value=ws.filesFolder, describedby="g-folder-hint") }}{% endcall %}
+        {% call formField("g-tz", "Time zone") %}{{ select("g-tz", [{ value: "America/Los_Angeles", label: "Pacific time, Los Angeles" }, { value: "America/Denver", label: "Mountain time, Denver" }, { value: "America/Chicago", label: "Central time, Chicago" }, { value: "America/New_York", label: "Eastern time, New York" }], value=ws.timezone) }}{% endcall %}
+        {% call formField("g-week", "Week starts on") %}{{ select("g-week", [{ value: "sunday", label: (data.glossary.weekdays | label)[0] }, { value: "monday", label: (data.glossary.weekdays | label)[1] }], value=ws.weekStart) }}{% endcall %}
+      </div>
+      <div class="flex justify-end">{{ button("Save changes") }}</div></div>
+    {% endcall %}
+    {% call card("invoices", title="Invoices") %}
+      <div class="flex flex-col gap-4"><p class="{{ sub }}">Defaults for new invoices</p>
+        {% call formField("g-prefix", "Number format", hint="Next: " ~ ws.nextInvoiceNumber) %}{{ input("g-prefix", value=ws.invoiceNumberFormat, describedby="g-prefix-hint") }}{% endcall %}
+        {% call formField("g-terms", "Payment terms") %}{{ select("g-terms", [{ value: "0", label: "Due on receipt" }, { value: "14", label: "Net 14" }, { value: "30", label: "Net 30" }, { value: "45", label: "Net 45" }], value=(ws.defaultTermsDays ~ "")) }}{% endcall %}
+        {% call formField("g-cur", "Currency") %}{{ select("g-cur", [{ value: "USD", label: "USD, US dollar" }], value=ws.currency) }}{% endcall %}
+      </div>
+    {% endcall %}
+  </div>
+
+  {% elif tab == "integrations" %}
+  <div class="grid items-start gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <div class="flex min-w-0 flex-col gap-3">
+      {% call card("ai") %}
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-wrap items-start justify-between gap-3"><div class="flex min-w-0 items-start gap-3">{{ iconTile("sparkles") }}<div class="flex min-w-0 flex-col gap-1"><h2 id="ai-title" class="{{ h2 }}">AI capture</h2><p class="{{ sub }}">Turns voice, text and files into proposals in Inbox. Nothing changes until someone approves.</p></div></div>{{ button("Open Inbox", variant="ghost", size="sm", href="inbox.html") }}</div>
+          <div class="flex flex-col"><h3 class="{{ h3 }}">Channels</h3>
+            {{ switch("ai-web", "Web capture", description="The Capture button in the top bar, for everyone", checked=true) }}
+            {{ switch("ai-tg", "Telegram bot", description="@AcmeCaptureBot · 4 people linked", checked=true) }}
+            {{ switch("ai-email", "Email forwarding", description="A personal address for each person, like capture+daniel@in.acme.app", checked=true) }}</div>
+          <hr class="h-px border-0 bg-divider">
+          <fieldset class="flex flex-col gap-3"><legend class="{{ h3 }}">What AI can propose</legend><p class="text-xs text-fg-muted">Types you turn off are never proposed. The message is kept and shows as “Couldn't understand”.</p>
+            <div class="grid grid-cols-2 gap-x-5 gap-y-3 md:grid-cols-3 2xl:grid-cols-4">{% for t in [["invoice", "Invoices"], ["payment", "Payments"], ["task", "Tasks"], ["client", "Clients"], ["time", "Time entries"], ["project", "Project changes"], ["note", "Notes"]] %}{{ checkbox("ai-type-" ~ t[0], t[1], checked=true) }}{% endfor %}</div></fieldset>
+          <hr class="h-px border-0 bg-divider">
+          <div class="flex flex-col gap-2"><h3 class="{{ h3 }}">Review rules</h3>
+            {{ switch("ai-always", "Invoices, payments and anything sent to clients are always reviewed one by one", description="Required for every workspace. It can't be turned off.", locked=true) }}
+            {{ switch("ai-auto", "Apply low-risk proposals automatically", description="Only when every field matched. Each one still shows in Inbox under Approved and can be undone for 7 days.") }}
+            <div class="flex flex-col gap-1 rounded-md bg-canvas px-4 py-2"><div class="flex flex-wrap items-baseline justify-between gap-2 pt-2 pb-1 text-xs font-medium text-fg-muted"><span>Per type</span><span>Approved without edits, last 30 days</span></div>
+              {% for a in [["note", "Notes", 0.99, 37, ""], ["time", "Time entries", 0.97, 112, ", mostly from Calendar"], ["task", "Tasks", 0.94, 48, ""]] %}{{ switch("ai-auto-" ~ a[0], "Apply " ~ (a[1] | lower) ~ " automatically", description=(a[3] | plural({ one: "# proposal", other: "# proposals" })) ~ a[4] ~ " · turn on the switch above first", aside=(a[2] | percent), disabled=true) }}{% endfor %}</div></div>
+          <hr class="h-px border-0 bg-divider">
+          <div class="flex flex-col gap-4"><div class="flex flex-col gap-1"><h3 class="{{ h3 }}">Who can approve</h3><p class="text-xs text-fg-muted">Members can capture. They follow their own captures in Account, Capture.</p></div>
+            <div class="grid gap-x-5 gap-y-4 md:grid-cols-3">
+              {% call formField("ai-money", "Invoices and payments") %}{{ select("ai-money", [{ value: "admin", label: "Admin only" }, { value: "leads", label: "Admins and project leads" }], value="admin") }}{% endcall %}
+              {% call formField("ai-tasks", "Tasks, time entries, notes") %}{{ select("ai-tasks", [{ value: "leads", label: "Project leads" }, { value: "admin", label: "Admin only" }, { value: "anyone", label: "Anyone on the project" }], value="leads") }}{% endcall %}
+              {% call formField("ai-records", "Clients and projects") %}{{ select("ai-records", [{ value: "leads", label: "Admins and project leads" }, { value: "admin", label: "Admin only" }], value="leads") }}{% endcall %}
+            </div></div>
+          <hr class="h-px border-0 bg-divider">
+          <div class="flex flex-col gap-4"><h3 class="{{ h3 }}">Data</h3>
+            {{ inlineAlert("Voice and files are sent to the AI provider for processing", "Used only to make the proposal. Transcripts stay with the proposal in Acme.", tone="info") }}
+            {% call formField("ai-keep", "Keep original voice notes and files", hint="Deleted 90 days after the proposal is approved or rejected", layout="max-w-sm") %}{{ select("ai-keep", [{ value: "30", label: "30 days" }, { value: "90", label: "90 days" }, { value: "365", label: "365 days" }], value="90", describedby="ai-keep-hint") }}{% endcall %}</div>
+        </div>
+      {% endcall %}
+
+      {% call card("gcal") %}
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-wrap items-start justify-between gap-3"><div class="flex min-w-0 items-start gap-3">{{ iconTile("calendar") }}<div class="flex min-w-0 flex-col gap-1"><h2 id="gcal-title" class="{{ h2 }}">{{ gc.name }}</h2><p class="{{ sub }}">Google Calendar API v3 · OAuth 2.0</p></div></div>{{ badge("Connected" if gc.connected else "Not connected", tone=("success" if gc.connected else "neutral")) }}</div>
+          {{ detailList([{ label: "Account", value: gc.account ~ " · connected by " ~ gc.connectedBy ~ " on " ~ ((gc.connectedAt ~ "T12:00:00Z") | date("medium")) }, { label: "Last sync", value: (gc.lastSyncedAt | datetime) ~ " · " ~ (gc.lastSyncChanges | plural({ one: "# event updated", other: "# events updated" })) }], columns="1") }}
+          <hr class="h-px border-0 bg-divider">
+          <fieldset class="flex flex-col gap-3"><legend class="{{ h3 }} mb-3">Calendars to sync</legend>
+            {% for c in [["meet", "Acme · Meetings", "Client calls, reviews, team rituals", true], ["due", "Acme · Deadlines", "Project due dates and stage changes", true], ["fin", "Acme · Finance", "Invoice due dates and payments", true], ["off", "Team time off", "Vacations and sick days", true], ["hol", "Holidays in United States", "Read only, from Google", false]] %}{{ checkbox("gc-cal-" ~ c[0], c[1], description=c[2], checked=c[3]) }}{% endfor %}</fieldset>
+          <hr class="h-px border-0 bg-divider">
+          <div class="flex flex-col"><h3 class="{{ h3 }}">What to sync</h3>
+            {% for o in [["two-way", "Two-way sync", "Changes in Google Calendar come back to Acme", true], ["stages", "Add project stages", "An all-day event when a stage starts and ends", true], ["invoices", "Add invoice due dates", "On the Acme · Finance calendar", true], ["guests", "Invite client contacts", "Clients get invites to meetings on their project", false], ["meet", "Google Meet links", "Added to new meetings automatically", true]] %}{{ switch("gc-opt-" ~ o[0], o[1], description=o[2], checked=o[3]) }}{% endfor %}</div>
+          {% call formField("gc-freq", "Check for changes", hint="Push notifications from Google update events sooner when the server is reachable", layout="max-w-sm") %}{{ select("gc-freq", [{ value: "1", label: "Every minute" }, { value: "5", label: "Every 5 minutes" }, { value: "15", label: "Every 15 minutes" }, { value: "60", label: "Every hour" }], value="5", describedby="gc-freq-hint") }}{% endcall %}
+          <hr class="h-px border-0 bg-divider">
+          {% if frame.confirming %}
+          <div role="alert" class="flex flex-col gap-3">{{ inlineAlert("Disconnect Google Calendar?", "Sync stops right away. Events already in Google Calendar stay there, and nothing is deleted in Acme.", tone="danger") }}<div class="flex flex-wrap gap-2">{{ button("Keep connected", variant="secondary", size="sm", href="settings-integrations.html") }}{{ button("Disconnect", variant="danger", size="sm") }}</div></div>
+          {% endif %}
+          <div class="flex flex-wrap justify-between gap-2">{{ button("Disconnect", variant="ghost", size="sm", iconLeading="unlink", href="settings-disconnect.html") }}<div class="flex flex-wrap gap-2">{{ button("Sync now", variant="secondary", size="sm", iconLeading="refresh-cw") }}{{ button("Save changes", size="sm") }}</div></div>
+        </div>
+      {% endcall %}
+
+      {% call card("api", title="API credentials") %}
+        <div class="flex flex-col gap-6"><p class="{{ sub }}">From Google Cloud Console → APIs and services → Credentials → OAuth client ID (web application)</p>
+          <div class="grid gap-x-5 gap-y-4 md:grid-cols-2">
+            {% call formField("api-id", "Client ID", layout="md:col-span-2") %}<div class="flex gap-2">{{ input("api-id", value="[your-client-id].apps.googleusercontent.com") }}{{ button("Copy", variant="secondary", iconLeading="copy", ariaLabel="Copy client ID") }}</div>{% endcall %}
+            {% call formField("api-secret", "Client secret", hint="Stored encrypted on this machine, never sent to the browser after saving") %}<div class="flex gap-2">{{ input("api-secret", type="password", value="GOCSPX-sample-secret-value", autocomplete="off", describedby="api-secret-hint") }}{{ iconButton("Show client secret", "eye", variant="muted") }}</div>{% endcall %}
+            {% call formField("api-redirect", "Redirect URI", hint="Add this to Authorized redirect URIs in the OAuth client") %}<div class="flex gap-2">{{ input("api-redirect", value="http://localhost:3000/api/google/callback", describedby="api-redirect-hint") }}{{ iconButton("Copy redirect URI", "copy", variant="muted") }}</div>{% endcall %}
+          </div>
+          <div class="flex flex-col gap-2"><h3 class="text-sm font-medium text-fg">Scopes</h3><ul class="flex flex-wrap gap-2">{% for s in ["calendar.events", "calendar.calendarlist.readonly", "userinfo.email"] %}<li>{{ codeTag(s) }}</li>{% endfor %}</ul></div>
+        </div>
+      {% endcall %}
+    </div>
+    <div class="flex min-w-0 flex-col gap-3">
+      {% call card("other", title="Other integrations") %}
+        <ul class="flex flex-col gap-4">{% for i in integrations %}{% if i.id != "google_calendar" %}<li class="flex items-center justify-between gap-3">{{ recordCell(i.name, sub=(("Connected · " ~ i.purpose) if i.connected else i.purpose), iconName=icons[i.id]) }}{{ button("Manage" if i.connected else "Connect", variant="secondary", size="sm", ariaLabel=("Manage " if i.connected else "Connect ") ~ i.name) }}</li>{% endif %}{% endfor %}</ul>
+      {% endcall %}
+      {% call card("log", title="Sync log") %}
+        {% set items = [] %}{% for e in data.fixtures.syncEvent.scenarios.typical %}{% set _ = items.push({ text: e.text, at: e.at, when: (e.at | datetime) ~ (" · " ~ e.actorName if e.actorName else "") ~ (" · " ~ e.detail if e.detail else ""), tone: data.statuses.syncResult[e.result].tone }) %}{% endfor %}
+        {{ activityList(items) }}
+      {% endcall %}
+    </div>
+  </div>
+
+  {% else %}
+  <div class="max-w-3xl">
+    {% call card("stages", title="Default project stages") %}
+      <div class="flex flex-col gap-4"><p class="{{ sub }}">New projects start with these. Each project can change its own list.</p>
+        {% set st = [] %}{% for s in ws.defaultStages %}{% set _ = st.push({ name: s }) %}{% endfor %}
+        {{ stageEditor("ds", st, dates=false, reorder=true) }}
+        <div class="flex justify-end">{{ button("Save stages") }}</div></div>
+    {% endcall %}
+  </div>
+  {% endif %}
+{% endcall %}
+{% endblock %}

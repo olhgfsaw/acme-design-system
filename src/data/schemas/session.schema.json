@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Session",
+  "x-entity": "session",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "memberId",
+    "device",
+    "lastActiveAt",
+    "kind"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "memberId": {
+      "type": "integer",
+      "description": "Who is signed in"
+    },
+    "device": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "client": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Browser or app"
+    },
+    "location": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "lastActiveAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "current": {
+      "type": "boolean",
+      "description": "The device this page is open on"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "laptop",
+        "phone"
+      ]
+    }
+  }
+}

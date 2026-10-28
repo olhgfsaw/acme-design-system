@@ -29,6 +29,43 @@
       "type": "integer",
       "minimum": 0,
       "description": "Seconds from the server's now to the start; the client counts down from it"
+    },
+    "projectName": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Project it is about; absent for general meetings"
+    },
+    "calendar": {
+      "type": "string",
+      "enum": [
+        "team",
+        "client",
+        "milestone",
+        "personal",
+        "timeoff"
+      ],
+      "description": "Which calendar it is on; picks the color"
+    },
+    "allDay": {
+      "type": "boolean",
+      "description": "Lasts the whole day"
+    },
+    "endsAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End, UTC"
+    },
+    "attendees": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "People invited"
+    },
+    "place": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Room or video link name"
     }
   }
 }

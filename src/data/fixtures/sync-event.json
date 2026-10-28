@@ -1,0 +1,119 @@
+{
+  "entity": "syncEvent",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 1,
+        "text": "3 events updated from Google",
+        "at": "2026-10-28T11:56:00Z",
+        "result": "ok"
+      },
+      {
+        "id": 2,
+        "text": "Added “Design critique: homepage”",
+        "at": "2026-10-28T09:12:00Z",
+        "actorName": "Olivia Foster",
+        "result": "ok"
+      },
+      {
+        "id": 3,
+        "text": "Push channel renewed for 7 days",
+        "at": "2026-10-27T18:00:00Z",
+        "result": "info"
+      },
+      {
+        "id": 4,
+        "text": "Token refresh failed, retried",
+        "at": "2026-10-25T02:14:00Z",
+        "detail": "Fixed on retry",
+        "result": "warning"
+      },
+      {
+        "id": 5,
+        "text": "Connected",
+        "at": "2026-09-14T10:00:00Z",
+        "actorName": "Daniel Kim",
+        "result": "info"
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 2,
+        "text": "Added “Quarterly design critique with the whole Anderson Studio marketing and brand team”",
+        "at": "2026-10-28T09:12:00Z",
+        "actorName": "Konstantinopolsky-Alexandrovsky Vladislav",
+        "result": "ok"
+      },
+      {
+        "id": 3,
+        "text": "Push channel renewed for 7 days",
+        "at": "2026-10-27T18:00:00Z",
+        "result": "info"
+      },
+      {
+        "id": 4,
+        "text": "Token refresh failed, retried",
+        "at": "2026-10-25T02:14:00Z",
+        "detail": "Fixed on retry",
+        "result": "warning"
+      },
+      {
+        "id": 5,
+        "text": "Connected",
+        "at": "2026-09-14T10:00:00Z",
+        "actorName": "Daniel Kim",
+        "result": "info"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000001,
+        "text": "124,800 events updated from Google",
+        "at": "2026-10-28T11:56:00Z",
+        "result": "ok"
+      },
+      {
+        "id": 2,
+        "text": "Added “Design critique: homepage”",
+        "at": "2026-10-28T09:12:00Z",
+        "actorName": "Olivia Foster",
+        "result": "ok"
+      },
+      {
+        "id": 3,
+        "text": "Push channel renewed for 7 days",
+        "at": "2026-10-27T18:00:00Z",
+        "result": "info"
+      },
+      {
+        "id": 4,
+        "text": "Token refresh failed, retried",
+        "at": "2026-10-25T02:14:00Z",
+        "detail": "Fixed on retry",
+        "result": "warning"
+      },
+      {
+        "id": 5,
+        "text": "Connected",
+        "at": "2026-09-14T10:00:00Z",
+        "actorName": "Daniel Kim",
+        "result": "info"
+      }
+    ],
+    "partial": [
+      {
+        "id": 6,
+        "text": "Sync",
+        "at": "2026-10-28T11:56:00Z",
+        "result": "ok"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

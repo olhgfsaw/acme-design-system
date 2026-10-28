@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/stage-editor/stage-editor.njk" import stageEditor %}
+{% set description = "The stages a project moves through, with target dates." %}
+{% block matrix %}
+
+{% call section("stages") %}
+  <div class="w-full max-w-2xl">{{ stageEditor("m-se", [{ name: "Discovery", date: "2026-11-13" }, { name: "Design", date: "2026-12-11" }, { name: "Development", date: "2027-01-29" }]) }}</div>
+{% endcall %}
+{% call section("workspace defaults") %}
+  {% call cell("no dates, reorder") %}<div class="w-full max-w-xl">{{ stageEditor("m-se-r", [{ name: "Discovery" }, { name: "Design" }, { name: "Development" }, { name: "Review" }, { name: "Launch" }], dates=false, reorder=true) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

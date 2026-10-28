@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/notification-matrix/notification-matrix.njk" import notificationMatrix %}
+{% set description = "Which events reach you on which channel, one checkbox per event and channel." %}
+{% block matrix %}
+
+{% call section("matrix") %}
+  {% call cell("default") %}<div class="w-full max-w-xl">{{ notificationMatrix("m-nm", "Notifications by channel", [{ id: "app", label: "In Acme" }, { id: "email", label: "Email" }], [{ id: "assigned", label: "A task is assigned to me", note: "On any of my projects", on: ["app", "email"] }, { id: "mention", label: "Someone mentions me", on: ["app"] }, { id: "security", label: "Sign-in from a new device", note: "Always on", on: [], locked: ["app", "email"] }]) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

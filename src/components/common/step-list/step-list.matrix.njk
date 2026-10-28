@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/step-list/step-list.njk" import stepList %}
+{% set description = "What happens next, in numbered steps." %}
+{% block matrix %}
+
+{% call section("steps") %}
+  <div class="w-96">{{ stepList(["They set a password or sign in with Google.", "They land on My work with their projects, board tasks and schedule.", "You see them on the Team page. Until then they wait under Pending invites."]) }}</div>
+{% endcall %}
+{% endblock %}

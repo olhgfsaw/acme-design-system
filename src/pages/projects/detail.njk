@@ -1,0 +1,118 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "layouts/_format.njk" import shortDate, monogram %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/pattern/cover-picker/cover-picker.njk" import coverPicker %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable, tableCell %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/stage-tracker/stage-tracker.njk" import stageTracker %}
+{% from "components/common/task-summary/task-summary.njk" import taskSummary %}
+{% from "components/common/task-list/task-list.njk" import taskList %}
+{% from "components/common/budget-bar/budget-bar.njk" import budgetBar %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/file-row/file-row.njk" import fileRow %}
+{% from "components/common/event-row/event-row.njk" import eventRow %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% from "components/form/file-dropzone/file-dropzone.njk" import fileDropzone %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/ui/badge/badge.njk" import statusBadge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- frame.member: the same project seen from My space — no money, links stay in My space. -#}
+{% set member = frame.member %}
+{% set links = { list: "my-projects.html" if member else "projects.html", project: "my-project.html" if member else "project.html", board: "my-board.html" if member else "project-board.html", calendar: "my-calendar.html" if member else "calendar.html" } %}
+{% set p = (data.fixtures.project.scenarios.typical | selectattr("pinned") | first) %}
+{% set today = project.referenceDate.slice(0, 10) %}
+{% set stageCodes = ["discovery", "design", "development", "review", "launch"] %}
+{% set idx = stageCodes.indexOf(p.stage) %}
+{% set stages = [] %}{% for s in stageCodes %}{% set _ = stages.push({ name: data.statuses.projectStage[s].label | label, date: shortDate(p.stageDates[loop.index0]) if p.stageDates else null }) %}{% endfor %}
+{% set tasks = [] %}{% for t in data.fixtures.task.scenarios.typical %}{% if t.projectId == p.id %}{% set _ = tasks.push(t) %}{% endif %}{% endfor %}
+{% set by = tasks | groupby("status") %}
+{% set open = [] %}{% for t in tasks %}{% if t.status != "done" %}{% set _ = open.push(t) %}{% endif %}{% endfor %}
+{% set late = [] %}{% for t in open %}{% if t.dueDate and t.dueDate < today %}{% set _ = late.push(t) %}{% endif %}{% endfor %}
+{% set taskTone = { todo: "neutral", in_progress: "accent", in_review: "warning", done: "success" } %}
+{% set next = [] %}{% for t in (open | sort(false, false, "dueDate")).slice(0, 3) %}{% set _ = next.push({ title: t.title, href: links.board, due: shortDate(t.dueDate), overdue: t.dueDate < today, status: (data.statuses.taskStatus[t.status].label | label) ~ (" · " ~ t.tag if t.tag else ""), tone: taskTone[t.status], assignee: t.assigneeName }) %}{% endfor %}
+{% set invoices = [] %}{% for i in data.fixtures.invoice.scenarios.typical %}{% if i.projectName == p.title %}{% set _ = invoices.push(i) %}{% endif %}{% endfor %}
+{% set files = [] %}{% for f in data.fixtures.file.scenarios.typical %}{% if f.projectName == p.title %}{% set _ = files.push(f) %}{% endif %}{% endfor %}
+{% set meetings = [] %}{% for m in data.fixtures.meeting.scenarios.typical %}{% if m.projectName == p.title %}{% set _ = meetings.push(m) %}{% endif %}{% endfor %}
+{% set invoiced = invoices | sum("amountMinor") %}{% set paid = 0 %}
+{% set paidList = [] %}{% for i in invoices %}{% if i.status == "paid" %}{% set _ = paidList.push(i) %}{% endif %}{% endfor %}
+{% set paid = paidList | sum("amountMinor") %}
+{% set fileIcon = { pdf: "file-text", docx: "file-text", xlsx: "sheet", png: "image", jpg: "image", fig: "pen-tool" } %}
+{% set roles = { "Olivia Foster": "Lead designer", "James Reed": "Frontend developer", "Karl Hansen": "Backend developer", "Abraham Moss": "Project manager" } %}
+{% set pinned = frame.pinned %}
+
+{% call appChrome("projects", scenario="typical", member=member) %}
+  {% if state == "error" %}
+    {% call pageHeader("Project", crumbs=[{ label: "My projects" if member else "Projects", href: links.list }, { label: "Project" }]) %}{% endcall %}
+    <div class="rounded-lg bg-surface p-6">{{ errorState("This project didn't load", "Something went wrong on our side. Try again in a minute.", "Try again") }}</div>
+  {% elif state == "loading" %}
+    <div aria-busy="true" class="flex flex-col gap-8"><p class="sr-only">Loading…</p><div class="flex items-center gap-5">{{ skeleton("circle") }}<div class="flex flex-1 flex-col gap-2">{{ skeleton("title", layout="w-64 max-w-full") }}{{ skeleton("line", layout="w-80 max-w-full") }}</div></div>{% call card("l-stages") %}{{ skeleton("block", layout="w-full") }}{% endcall %}</div>
+  {% else %}
+    {% set lead %}{{ coverPicker("cover", monogram(p.title), pattern=p.cover, open=frame.coverOpen) }}{% endset %}
+    <div class="flex flex-col gap-8">
+      {% call pageHeader(p.title, p.clientName ~ " · Started " ~ shortDate(p.startDate) ~ " · Due " ~ (p.dueDate | date("medium")), crumbs=[{ label: "My projects" if member else "Projects", href: links.list }, { label: p.title }], badge={ label: data.statuses.projectStatus[p.status].label | label, tone: data.statuses.projectStatus[p.status].tone }, lead=lead) %}
+        {% if member %}{{ button("Open board", iconLeading="square-kanban", href=links.board) }}{% else %}
+        {{ button("Pin to dashboard", variant="secondary", iconLeading="pin", pressed=pinned) }}
+        {{ button("Edit", variant="secondary", iconLeading="pencil") }}
+        {{ button("Create invoice", variant="secondary", iconLeading="file-text", href="invoice-new.html") }}
+        {{ button("Move to " ~ stages[idx + 1].name, iconTrailing="arrow-right") if idx < 4 else button("Completed", disabled=true) }}{% endif %}
+      {% endcall %}
+      {{ tabs([{ id: "overview", label: "Overview", href: links.project }, { id: "board", label: "Board", count: open | length, href: links.board }], "overview", "Project sections") }}
+    </div>
+    <div class="flex flex-col gap-3">
+      {% call card("stage", title="Progress") %}<div class="flex flex-col gap-6"><p class="text-sm text-fg-secondary tabular-nums">Stage {{ idx + 1 }} of 5 · {{ (p.progressPercent / 100) | percent }} complete</p>{{ stageTracker(stages, idx, variant="full") }}</div>{% endcall %}
+      <div class="grid items-start gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <div class="flex min-w-0 flex-col gap-3">
+          {% call card("tasks", title="Tasks", actionHref=links.board, actionLabel="Open board") %}
+            <div class="flex flex-col gap-4">
+              <p class="text-sm text-fg-muted">{{ tasks | length | plural({ one: "# task", other: "# tasks" }) }} · {{ (by.done or []) | length }} done · {{ late | length }} overdue</p>
+              {% set parts = [{ label: "Done", count: (by.done or []) | length, tone: "success" }, { label: "In review", count: (by.in_review or []) | length, tone: "warning" }, { label: "In progress", count: (by.in_progress or []) | length, tone: "accent" }, { label: "To do", count: (by.todo or []) | length, tone: "muted" }] %}
+              {{ taskSummary(parts, parts[0].count ~ " done, " ~ parts[1].count ~ " in review, " ~ parts[2].count ~ " in progress, " ~ parts[3].count ~ " to do") }}
+              <h3 class="text-sm font-medium text-fg-secondary">Up next</h3>
+              {{ taskList(next, "Up next") }}
+            </div>
+          {% endcall %}
+          {% call card("files", title="Files") %}
+            <div class="flex flex-col gap-4"><p class="text-sm text-fg-muted">{{ files | length | plural({ one: "# file", other: "# files" }) }}</p>{{ fileDropzone("project-files", "Upload project files", "Briefs, designs, exports. Up to 25 MB each", layout="row") }}
+              <ul class="flex flex-col gap-3">{% for f in files %}<li>{{ fileRow(f.name, (f.type | upper) ~ " · " ~ ((f.sizeBytes / 1024) | number({ style: "unit", unit: "kilobyte", maximumFractionDigits: 0 })) ~ " · " ~ (f.uploadedAt | date("medium")), iconName=fileIcon[f.type]) }}</li>{% endfor %}</ul></div>
+          {% endcall %}
+          {% if not member %}{% call card("payments", title="Invoices and payments") %}
+            <div class="flex flex-col gap-4"><p class="text-sm text-fg-muted">Billed in milestones against the {{ p.budgetMinor | money(p.currency) }} budget</p>
+            {% call dataTable("Invoices and payments for " ~ p.title, [{ label: "Invoice" }, { label: "Due" }, { label: "Paid on" }, { label: "Amount", align: "end" }, { label: "Status" }]) %}
+              {% for i in invoices | sort(false, false, "issuedAt") %}
+              <tr class="{{ variants.dataTable.slots.row }}">
+                {% call tableCell() %}{{ recordCell(i.number, href="invoice.html", sub=i.description) }}{% endcall %}
+                {% call tableCell(kind="muted") %}{{ shortDate(i.dueAt) }}{% endcall %}
+                {% call tableCell(kind="muted") %}{{ shortDate(i.paidAt) if i.paidAt else "—" }}{% endcall %}
+                {% call tableCell("end", "numeric") %}{{ i.amountMinor | money(i.currency) }}{% endcall %}
+                {% call tableCell() %}{{ statusBadge("invoiceStatus", i.status) }}{% endcall %}
+              </tr>
+              {% endfor %}
+            {% endcall %}</div>
+          {% endcall %}{% endif %}
+        </div>
+        <div class="flex min-w-0 flex-col gap-3">
+          {% if not member %}{% call card("budget", title="Budget") %}
+            <div class="flex flex-col gap-4">{{ statBlock("Project cost", p.budgetMinor | money(p.currency)) }}<p class="text-sm text-fg-secondary">{{ "Fixed price" if p.billing == "fixed" else "Hourly" }} · {{ (paid / p.budgetMinor) | percent }} paid</p>
+              {% set unpaid = invoiced - paid %}{% set rest = [p.budgetMinor - invoiced, 0] | sort | last %}
+              {{ budgetBar(p.currency, [{ label: "Paid", amountMinor: paid, tone: "strong" }, { label: "Invoiced, unpaid", amountMinor: unpaid, tone: "accent" }, { label: "Not invoiced yet", amountMinor: rest, tone: "muted" }], "Paid " ~ (paid | money(p.currency)) ~ ", invoiced and unpaid " ~ (unpaid | money(p.currency)) ~ ", not invoiced " ~ (rest | money(p.currency))) }}</div>
+          {% endcall %}{% endif %}
+          {% call card("team", title="Team") %}
+            <div class="flex flex-col gap-4"><p class="text-sm text-fg-muted">{{ p.team | length | plural({ one: "# person on this project", other: "# people on this project" }) }}</p>
+              <ul class="flex flex-col gap-3">{% for n in p.team %}<li>{{ recordCell(n, href="member.html", sub=roles[n], avatar=n) }}</li>{% endfor %}</ul>{{ button("Add people", variant="secondary", size="sm", iconLeading="user-plus") }}</div>
+          {% endcall %}
+          {% call card("meetings", title="Meetings", actionHref=links.calendar, actionLabel="Open calendar") %}
+            <div class="flex flex-col gap-2"><p class="text-sm text-fg-muted">From Google Calendar</p>
+              {% for m in meetings %}{{ eventRow("All day" if m.allDay else (m.startsAt | time), "Today" if m.startsAt.slice(0, 10) == today else shortDate(m.startsAt.slice(0, 10)), m.title, at=m.startsAt, meta=(m.attendees | join(", ")) ~ (" · " ~ m.place if m.place else "") if m.attendees else null, tone=m.calendar, action=({ label: "Join", href: "#join" } if m.startsAt.slice(0, 10) == today and not m.allDay else null)) }}{% endfor %}</div>
+          {% endcall %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endcall %}
+{% endblock %}

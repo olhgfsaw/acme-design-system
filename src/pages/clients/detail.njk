@@ -1,0 +1,123 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/stage-tracker/stage-tracker.njk" import stageTracker %}
+{% from "components/common/budget-bar/budget-bar.njk" import budgetBar %}
+{% from "components/common/detail-list/detail-list.njk" import detailList %}
+{% from "components/common/file-row/file-row.njk" import fileRow %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% from "components/common/empty-state/empty-state.njk" import emptyState %}
+{% from "components/form/file-dropzone/file-dropzone.njk" import fileDropzone %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable, tableCell %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/ui/badge/badge.njk" import statusBadge %}
+{% from "components/ui/avatar-group/avatar-group.njk" import avatarGroup %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- The client shown: Anderson Studio in the typical data, the first record otherwise. -#}
+{% set all = data.fixtures.client.scenarios[scenario] %}
+{% set picked = [] %}{% for c in all %}{% if scenario != "typical" or c.id == 42 %}{% set _ = picked.push(c) %}{% endif %}{% endfor %}
+{% set c = picked | first %}
+{% set company = (c.companyName or c.name) if c else "" %}
+{% set projects = [] %}{% for p in data.fixtures.project.scenarios.typical %}{% if c and p.clientName == company %}{% set _ = projects.push(p) %}{% endif %}{% endfor %}
+{% set invoices = [] %}{% for i in data.fixtures.invoice.scenarios.typical %}{% if c and i.clientName == company %}{% set _ = invoices.push(i) %}{% endif %}{% endfor %}
+{% set files = [] %}{% for f in data.fixtures.file.scenarios[scenario] %}{% if c and f.clientId == c.id %}{% set _ = files.push(f) %}{% endif %}{% endfor %}
+{% set stageCodes = ["discovery", "design", "development", "review", "launch"] %}
+{% set stages = [] %}{% for s in stageCodes %}{% set _ = stages.push({ name: data.statuses.projectStage[s].label | label }) %}{% endfor %}
+{% set kindLabel = { website: "Website", app: "App", marketing: "Marketing", landing: "Landing page", brand: "Brand identity" } %}
+{% set fileIcon = { pdf: "file-text", docx: "file-text", xlsx: "sheet", png: "image", jpg: "image", fig: "pen-tool" } %}
+
+{% call appChrome("clients", scenario="typical") %}
+  {% if state == "error" %}
+    {% call pageHeader("Client", crumbs=[{ label: "Clients", href: "clients.html" }, { label: "Client" }]) %}{% endcall %}
+    <div class="rounded-lg bg-surface p-6">{{ errorState("This client didn't load", "Something went wrong on our side. Try again in a minute.", "Try again") }}</div>
+  {% elif state == "loading" %}
+    <div aria-busy="true" class="flex flex-col gap-8 md:gap-12"><p class="sr-only">Loading…</p>
+      <div class="flex items-center gap-5">{{ skeleton("circle") }}<div class="flex flex-1 flex-col gap-2">{{ skeleton("title", layout="w-64 max-w-full") }}{{ skeleton("line", layout="w-80 max-w-full") }}</div></div>
+      <div class="grid gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">{% call card("l1") %}<div class="flex flex-col gap-3">{% for i in range(4) %}{{ skeleton("line", layout="w-full") }}{% endfor %}</div>{% endcall %}{% call card("l2") %}<div class="flex flex-col gap-3">{% for i in range(4) %}{{ skeleton("line", layout="w-full") }}{% endfor %}</div>{% endcall %}</div>
+    </div>
+  {% else %}
+    {% call pageHeader(company, ((c.name ~ (", " ~ (c.contactRole | lower) if c.contactRole else "")) if c.companyName else "Private client") ~ ((" · Client since " ~ (c.since | date("long"))) if c.since else ""), crumbs=[{ label: "Clients", href: "clients.html" }, { label: company }], avatar=company, badge={ label: data.statuses.clientStatus[c.status].label | label, tone: data.statuses.clientStatus[c.status].tone }) %}
+      {{ button("Edit", variant="secondary", iconLeading="pencil") }}
+      {{ button("Create invoice", variant="secondary", iconLeading="file-text", href="invoice-new.html") }}
+      {{ button("New project", iconLeading="plus", href="project-new.html") }}
+    {% endcall %}
+
+    <div class="flex flex-col gap-6">
+      {{ tabs([{ id: "overview", label: "Overview" }, { id: "projects", label: "Projects", count: projects | length }, { id: "documents", label: "Documents", count: files | length }, { id: "invoices", label: "Invoices", count: invoices | length }], "overview", "Client sections", panel="client-panel") }}
+      {#- Main column 2 : side column 1 from the design. -#}
+      <div id="client-panel" role="tabpanel" aria-labelledby="overview-tab" class="grid items-start gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <div class="flex min-w-0 flex-col gap-3">
+          {% call card("projects", title="Projects") %}
+            {% call dataTable("Projects for " ~ company, [{ label: "Project" }, { label: "Stage" }, { label: "Budget", align: "end" }, { label: "Paid", align: "end" }, { label: "Due" }, { label: "Team" }], state=("empty" if not projects | length else "default"), messages={ emptyTitle: "No projects yet", emptyText: "Start a project for this client to plan stages, tasks and invoices." }, emptyAction={ label: "New project", href: "project-new.html", icon: "plus" }) %}
+              {% for p in projects %}
+              {% set idx = stageCodes.indexOf(p.stage) %}
+              <tr class="{{ variants.dataTable.slots.row }}">
+                {% call tableCell() %}{{ recordCell(p.title, href="project.html", sub=kindLabel[p.kind]) }}{% endcall %}
+                {% call tableCell() %}<div class="min-w-40">{{ stageTracker(stages, idx, percent=p.progressPercent, label=("Completed" if p.status == "completed" else stages[idx].name)) }}</div>{% endcall %}
+                {% call tableCell("end", "numeric") %}{{ p.budgetMinor | money(p.currency) }}{% endcall %}
+                {% call tableCell("end", "numeric") %}{{ p.paidMinor | money(p.currency) }}{% endcall %}
+                {% call tableCell(kind="muted") %}{{ (p.dueDate | date("medium")) if p.dueDate else "Not planned" }}{% endcall %}
+                {% call tableCell() %}{{ avatarGroup(p.team) }}{% endcall %}
+              </tr>
+              {% endfor %}
+            {% endcall %}
+          {% endcall %}
+
+          {% call card("documents", title="Documents") %}
+            <div class="flex flex-col gap-4">
+              <p class="text-sm text-fg-muted">{{ files | length | plural({ one: "# file", other: "# files" }) }} · contracts, briefs and assets</p>
+              {{ fileDropzone("client-files", "Upload documents", "PDF, DOCX, XLSX, PNG or JPG, up to 25 MB each", layout="row") }}
+              {% if files | length %}
+              <ul class="flex flex-col gap-3">{% for f in files %}<li>{{ fileRow(f.name, (f.type | upper) ~ " · " ~ ((f.sizeBytes / 1024) | number({ style: "unit", unit: "kilobyte", maximumFractionDigits: 0 })) ~ " · " ~ (f.uploadedAt | date("medium")), iconName=fileIcon[f.type]) }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+          {% endcall %}
+
+          {% call card("invoices", title="Invoices") %}
+            {% call dataTable("Invoices for " ~ company, [{ label: "Invoice" }, { label: "Issued" }, { label: "Due" }, { label: "Amount", align: "end" }, { label: "Status" }], state=("empty" if not invoices | length else "default"), messages={ emptyTitle: "No invoices yet", emptyText: "Invoices for this client show up here." }, emptyAction={ label: "Create invoice", href: "invoice-new.html", icon: "plus" }) %}
+              {% for i in invoices %}
+              <tr class="{{ variants.dataTable.slots.row }}">
+                {% call tableCell() %}{{ recordCell(i.number, href="invoice.html", sub=(i.projectName ~ " · " ~ i.description) if i.projectName else i.description) }}{% endcall %}
+                {% call tableCell(kind="muted") %}{{ i.issuedAt | date("medium") }}{% endcall %}
+                {% call tableCell(kind="muted") %}{{ i.dueAt | date("medium") }}{% endcall %}
+                {% call tableCell("end", "numeric") %}{{ i.amountMinor | money(i.currency) }}{% endcall %}
+                {% call tableCell() %}{{ statusBadge("invoiceStatus", i.status) }}{% endcall %}
+              </tr>
+              {% endfor %}
+            {% endcall %}
+          {% endcall %}
+        </div>
+
+        <div class="flex min-w-0 flex-col gap-3">
+          {% call card("contact", title="Contact") %}
+            {% set rows = [] %}
+            {% for row in [["Main contact", (c.name ~ (", " ~ (c.contactRole | lower) if c.contactRole else ""))], ["Email", c.email], ["Phone", c.phone], ["Website", c.website], ["Address", c.address]] %}{% if row[1] %}{% set _ = rows.push({ label: row[0], value: row[1] }) %}{% endif %}{% endfor %}
+            {{ detailList(rows, columns="1") }}
+          {% endcall %}
+          {% if c.contractMinor %}
+          {% call card("finance", title="Finance", actionHref="finance.html", actionLabel="All invoices") %}
+            <div class="flex flex-col gap-4">
+              {{ statBlock("Contract value", c.contractMinor | money(c.currency)) }}
+              <p class="text-sm text-fg-secondary">{{ (c.projectCount or 0) | plural({ one: "# project", other: "# projects" }) }}</p>
+              {% set notInvoiced = [c.contractMinor - (c.paidMinor or 0) - (c.outstandingMinor or 0), 0] | sort | last %}
+              {{ budgetBar(c.currency, [{ label: "Paid", amountMinor: c.paidMinor or 0, tone: "strong" }, { label: "Invoiced, unpaid", amountMinor: c.outstandingMinor or 0, tone: "accent" }, { label: "Not invoiced yet", amountMinor: notInvoiced, tone: "muted" }], "Paid " ~ ((c.paidMinor or 0) | money(c.currency)) ~ ", invoiced and unpaid " ~ ((c.outstandingMinor or 0) | money(c.currency)) ~ ", not invoiced " ~ (notInvoiced | money(c.currency))) }}
+            </div>
+          {% endcall %}
+          {% endif %}
+          {% call card("notes", title="Notes") %}
+            {% if c.notes %}<div class="flex flex-col gap-3"><p class="text-sm/6 text-fg">{{ c.notes }}</p><p class="text-xs text-fg-muted">Updated {{ c.notesAt | date("medium") }} by {{ c.notesBy }}</p>{{ button("Edit notes", variant="secondary", size="sm", iconLeading="pencil") }}</div>
+            {% else %}{% call emptyState("No notes yet", "How they like to work, who approves invoices — anything the team should know.", iconName="notebook-pen") %}{{ button("Add notes", variant="secondary", size="sm", iconLeading="plus") }}{% endcall %}{% endif %}
+          {% endcall %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endcall %}
+{% endblock %}

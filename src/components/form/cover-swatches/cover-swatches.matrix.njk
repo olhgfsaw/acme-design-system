@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/cover-swatches/cover-swatches.njk" import coverSwatches %}
+{% set description = "Pick a cover pattern for a project." %}
+{% block matrix %}
+
+{% call section("value") %}
+  {% call cell("ink chosen") %}<p id="m-cs-l" class="sr-only">Patterns</p>{{ coverSwatches("m-cs", "m-cs-l", value="ink") }}{% endcall %}
+{% endcall %}
+{% endblock %}

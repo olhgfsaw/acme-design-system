@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/invoice-document/invoice-document.njk" import invoiceDocument %}
+{% set description = "The invoice as the client sees it." %}
+{% block matrix %}
+
+{% call section("document") %}
+  <div class="w-full max-w-3xl rounded-lg bg-canvas p-3">{{ invoiceDocument("m-id", { name: "Acme Studio LLC", address: "500 Market St, Suite 300, San Francisco, CA 94105", email: "billing@acme.example", taxId: "84-1234567" }, { number: "INV-2026-048", issuedAt: "2026-10-15", dueAt: "2026-11-14", terms: "Net 30" }, { name: "Anderson Studio", contact: "James Anderson, founder", email: "accounts@andersonstudio.example" }, "USD", [{ description: "Front-end build", detail: "Page templates, components, responsive layouts", quantity: 1, rateMinor: 600000, amountMinor: 600000 }, { description: "CMS setup and content migration", detail: "48 pages moved from the old site", quantity: 1, rateMinor: 200000, amountMinor: 200000 }], [{ label: "Subtotal", amountMinor: 800000 }, { label: "Tax (0%)", amountMinor: 0 }, { label: "Paid", amountMinor: 0 }], 800000, project={ name: "Website redesign", detail: "Milestone 3 of 4 · Development, part 2" }, note="Pay by bank transfer within 30 days. Put the invoice number in the payment reference.") }}</div>
+{% endcall %}
+{% endblock %}

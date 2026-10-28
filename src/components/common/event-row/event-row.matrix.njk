@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/event-row/event-row.njk" import eventRow %}
+{% set description = "One calendar event: when, what, who, and an optional action." %}
+{% block matrix %}
+
+{% call section("events") %}
+  <div class="flex w-full max-w-md flex-col gap-2">{{ eventRow("15:00", "Today", "Anderson weekly", at="2026-10-28T15:00:00Z", meta="James Anderson, Olivia Foster · Google Meet", tone="client", action={ label: "Join", href: "#" }) }}{{ eventRow("11:00", "Nov 3", "Homepage review", meta="Website redesign team", tone="team") }}{{ eventRow("All day", "Nov 24", "Review stage starts", meta="Website redesign", tone="milestone") }}</div>
+{% endcall %}
+{% endblock %}

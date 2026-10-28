@@ -14,7 +14,25 @@
         "progressPercent": 51,
         "dueDate": "2026-12-12",
         "pinned": true,
-        "openedAt": "2026-10-28T09:10:00Z"
+        "openedAt": "2026-10-28T09:10:00Z",
+        "budgetMinor": 3200000,
+        "paidMinor": 1600000,
+        "currency": "USD",
+        "team": [
+          "Olivia Foster",
+          "James Reed",
+          "Karl Hansen",
+          "Abraham Moss"
+        ],
+        "startDate": "2026-08-04",
+        "billing": "fixed",
+        "stageDates": [
+          "2026-08-28",
+          "2026-09-29",
+          "2026-11-20",
+          "2026-11-24",
+          "2026-12-12"
+        ]
       },
       {
         "id": 102,
@@ -27,7 +45,15 @@
         "cover": "dots",
         "progressPercent": 84,
         "dueDate": "2026-11-20",
-        "openedAt": "2026-10-27T16:40:00Z"
+        "openedAt": "2026-10-27T16:40:00Z",
+        "budgetMinor": 5600000,
+        "paidMinor": 4200000,
+        "currency": "USD",
+        "team": [
+          "Olivia Foster",
+          "Karl Hansen"
+        ],
+        "billing": "fixed"
       },
       {
         "id": 103,
@@ -40,7 +66,15 @@
         "cover": "rings",
         "progressPercent": 66,
         "dueDate": "2026-11-30",
-        "openedAt": "2026-10-26T11:05:00Z"
+        "openedAt": "2026-10-26T11:05:00Z",
+        "budgetMinor": 1800000,
+        "paidMinor": 900000,
+        "currency": "USD",
+        "team": [
+          "Abraham Moss",
+          "Emma Ruiz"
+        ],
+        "billing": "fixed"
       },
       {
         "id": 104,
@@ -52,19 +86,34 @@
         "stage": "design",
         "cover": "stripes",
         "progressPercent": 29,
-        "dueDate": "2026-11-14"
+        "dueDate": "2026-11-14",
+        "budgetMinor": 640000,
+        "paidMinor": 0,
+        "currency": "USD",
+        "team": [
+          "James Reed"
+        ],
+        "billing": "fixed"
       },
       {
         "id": 105,
         "title": "Brand guidelines",
         "clientName": "Anderson Studio",
-        "kind": "marketing",
+        "kind": "brand",
         "status": "completed",
         "health": "on_track",
         "stage": "launch",
         "cover": "grid",
         "progressPercent": 100,
-        "dueDate": "2026-09-30"
+        "dueDate": "2026-06-20",
+        "budgetMinor": 950000,
+        "paidMinor": 950000,
+        "currency": "USD",
+        "team": [
+          "Olivia Foster",
+          "Mia Chen"
+        ],
+        "billing": "fixed"
       },
       {
         "id": 106,
@@ -76,7 +125,15 @@
         "stage": "review",
         "cover": "plain",
         "progressPercent": 95,
-        "dueDate": "2026-11-06"
+        "dueDate": "2026-11-06",
+        "budgetMinor": 2400000,
+        "paidMinor": 1200000,
+        "currency": "USD",
+        "team": [
+          "Noah Bennett",
+          "Karl Hansen"
+        ],
+        "billing": "fixed"
       },
       {
         "id": 107,
@@ -87,7 +144,14 @@
         "health": "at_risk",
         "stage": "discovery",
         "cover": "plain",
-        "progressPercent": 12
+        "progressPercent": 12,
+        "budgetMinor": 1400000,
+        "paidMinor": 420000,
+        "currency": "USD",
+        "team": [
+          "Abraham Moss"
+        ],
+        "billing": "fixed"
       }
     ],
     "empty": [],

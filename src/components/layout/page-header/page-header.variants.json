@@ -5,7 +5,11 @@
     "text": "flex flex-col gap-2",
     "title": "text-3xl font-medium tracking-tight text-fg md:text-4xl",
     "description": "text-base text-fg-secondary",
-    "actions": "flex flex-wrap gap-3"
+    "actions": "flex flex-wrap gap-3",
+    "lead": "flex flex-col gap-4",
+    "identity": "flex items-center gap-5",
+    "titleRow": "flex flex-wrap items-center gap-3",
+    "kicker": "flex flex-wrap items-center gap-2"
   },
   "defaultVariants": {}
 }

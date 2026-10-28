@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/avatar-group/avatar-group.njk" import avatarGroup %}
+{% set description = "Who works on something, in a small stack; the full list is the accessible name." %}
+{% block matrix %}
+
+{% call section("size") %}
+  {% call cell("two") %}{{ avatarGroup(["Olivia Foster", "Mia Chen"]) }}{% endcall %}
+  {% call cell("four, max 3") %}{{ avatarGroup(["Olivia Foster", "James Reed", "Karl Hansen", "Abraham Moss"]) }}{% endcall %}
+{% endcall %}
+{% endblock %}

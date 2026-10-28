@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sync event",
+  "x-entity": "syncEvent",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "text",
+    "at",
+    "result"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "text": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actorName": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Who did it; absent for automatic events"
+    },
+    "detail": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "info",
+        "warning",
+        "error"
+      ]
+    }
+  }
+}

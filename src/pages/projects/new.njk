@@ -1,0 +1,60 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/project-cover/project-cover.njk" import projectCover %}
+{% from "components/form/form-section/form-section.njk" import formSection %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/form/stage-editor/stage-editor.njk" import stageEditor %}
+{% from "components/form/cover-swatches/cover-swatches.njk" import coverSwatches %}
+{% from "components/form/file-dropzone/file-dropzone.njk" import fileDropzone %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/textarea/textarea.njk" import textarea %}
+{% from "components/ui/checkbox/checkbox.njk" import checkbox %}
+{% from "components/ui/button/button.njk" import button %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set clients = [{ value: "", label: "Choose a client" }] %}{% for c in data.fixtures.client.scenarios.typical %}{% set _ = clients.push({ value: c.id ~ "", label: c.companyName or c.name }) %}{% endfor %}
+{% call appChrome("projects", scenario="typical") %}
+  {% call pageHeader("New project", "Set the client, the cost, the stages and who works on it", crumbs=[{ label: "Projects", href: "projects.html" }, { label: "New project" }]) %}{% endcall %}
+  <form class="flex flex-col gap-6" action="project.html">
+    <p class="text-sm text-fg-secondary">Fields marked <span class="text-danger-fg" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+    <div class="grid items-start gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("details") %}
+          {% call formSection("details", "Project details", "The budget is the project's cost to the client; invoices are counted against it") %}
+            {{ formField("p-name", "Project name", required=true, input={ placeholder: "Spring promo landing page" }, layout="md:col-span-2") }}
+            {% call formField("p-client", "Client", required=true) %}{{ select("p-client", clients, value="", required=true) }}{% endcall %}
+            {% call formField("p-type", "Type") %}{{ select("p-type", [{ value: "website", label: "Website" }, { value: "app", label: "App" }, { value: "marketing", label: "Marketing" }, { value: "landing", label: "Landing page" }, { value: "brand", label: "Brand identity" }], value="website") }}{% endcall %}
+            {{ formField("p-start", "Start date", input={ type: "date", value: "2026-11-02" }) }}
+            {{ formField("p-due", "Due date", input={ type: "date", value: "2027-02-26" }) }}
+            {{ formField("p-budget", "Budget, USD", required=true, input={ inputmode: "decimal", numeric: true, placeholder: "18,000" }) }}
+            {% call formField("p-billing", "Billing") %}{{ select("p-billing", [{ value: "fixed", label: "Fixed price" }, { value: "hourly", label: "Hourly" }, { value: "retainer", label: "Monthly retainer" }], value="fixed") }}{% endcall %}
+            {% call formField("p-scope", "Scope", layout="md:col-span-2") %}{{ textarea("p-scope", rows=3, placeholder="What's included, what isn't, and what the client gives you") }}{% endcall %}
+          {% endcall %}
+        {% endcall %}
+        {% call card("stages", title="Stages") %}
+          <div class="flex flex-col gap-4"><p class="text-sm text-fg-secondary">Progress moves through these in order. Dates are added to Google Calendar.</p>
+          {{ stageEditor("stage", [{ name: "Discovery", date: "2026-11-13" }, { name: "Design", date: "2026-12-11" }, { name: "Development", date: "2027-01-29" }, { name: "Review", date: "2027-02-12" }, { name: "Launch", date: "2027-02-26" }]) }}</div>
+        {% endcall %}
+      </div>
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("cover", title="Cover") %}
+          <div class="flex flex-col gap-4"><p class="text-sm text-fg-secondary">Helps tell projects apart on cards, the board and the dashboard</p>
+            {{ projectCover("new-cover", "NP", pattern="dots") }}
+            <div class="flex flex-wrap items-center gap-3">{{ button("Upload image", variant="secondary", size="sm", iconLeading="upload") }}<span class="text-xs text-fg-muted">PNG, JPG or WebP, at least 800 × 336</span></div>
+            <p id="pattern-label" class="text-sm font-medium text-fg">Or pick a pattern</p>{{ coverSwatches("new-sw", "pattern-label", value="dots") }}
+          </div>
+        {% endcall %}
+        {% call card("people", title="Team") %}
+          <fieldset class="flex flex-col gap-3"><legend class="mb-3 text-sm text-fg-secondary">2 people selected · booking for November</legend>
+            {% for m in data.fixtures.teamMember.scenarios.typical %}{{ checkbox("tm-" ~ m.id, m.fullName, description=m.name, checked=loop.index <= 2, aside=((m.workloadPercent / 100) | percent) ~ " booked", asideTone=("danger" if m.workloadPercent >= 90 else "muted")) }}{% endfor %}
+          </fieldset>
+        {% endcall %}
+        {% call card("pfiles", title="Files") %}<div class="flex flex-col gap-4"><p class="text-sm text-fg-secondary">Brief, contract, references</p>{{ fileDropzone("new-project-files", "Attach files", "Up to 25 MB each", layout="row") }}</div>{% endcall %}
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center justify-end gap-3">{{ button("Cancel", variant="ghost", href="projects.html") }}{{ button("Create project", type="submit", iconLeading="check") }}</div>
+  </form>
+{% endcall %}
+{% endblock %}

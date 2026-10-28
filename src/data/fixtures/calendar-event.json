@@ -1,0 +1,304 @@
+{
+  "entity": "calendarEvent",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 1201,
+        "title": "Anderson weekly",
+        "date": "2026-09-30",
+        "startsAt": "2026-09-30T15:00:00Z",
+        "durationMinutes": 45,
+        "calendar": "meetings",
+        "projectName": "Website redesign",
+        "meetLink": true
+      },
+      {
+        "id": 1202,
+        "title": "Northwind sprint demo",
+        "date": "2026-10-01",
+        "startsAt": "2026-10-01T10:00:00Z",
+        "durationMinutes": 60,
+        "calendar": "meetings",
+        "projectName": "App development",
+        "meetLink": true
+      },
+      {
+        "id": 1203,
+        "title": "Paid: Northwind $14,000",
+        "date": "2026-10-03",
+        "calendar": "finance",
+        "note": "INV-2026-044"
+      },
+      {
+        "id": 1204,
+        "title": "Anderson weekly",
+        "date": "2026-10-07",
+        "startsAt": "2026-10-07T15:00:00Z",
+        "durationMinutes": 45,
+        "calendar": "meetings",
+        "projectName": "Website redesign",
+        "meetLink": true
+      },
+      {
+        "id": 1205,
+        "title": "Klark campaign check-in",
+        "date": "2026-10-08",
+        "startsAt": "2026-10-08T11:00:00Z",
+        "durationMinutes": 30,
+        "calendar": "meetings",
+        "projectName": "Marketing campaign",
+        "meetLink": true
+      },
+      {
+        "id": 1206,
+        "title": "Paid: Anderson $8,000",
+        "date": "2026-10-09",
+        "calendar": "finance",
+        "note": "INV-2026-043"
+      },
+      {
+        "id": 1207,
+        "title": "Paid: Lopez $4,200",
+        "date": "2026-10-12",
+        "calendar": "finance",
+        "note": "INV-2026-045"
+      },
+      {
+        "id": 1208,
+        "title": "Anderson weekly",
+        "date": "2026-10-14",
+        "startsAt": "2026-10-14T15:00:00Z",
+        "durationMinutes": 45,
+        "calendar": "meetings",
+        "projectName": "Website redesign",
+        "meetLink": true
+      },
+      {
+        "id": 1209,
+        "title": "Lopez discovery workshop",
+        "date": "2026-10-14",
+        "startsAt": "2026-10-14T14:00:00Z",
+        "durationMinutes": 120,
+        "calendar": "meetings",
+        "projectName": "Portfolio website"
+      },
+      {
+        "id": 1210,
+        "title": "Sent: INV-2026-048",
+        "date": "2026-10-15",
+        "calendar": "finance",
+        "note": "Anderson Studio · $8,000"
+      },
+      {
+        "id": 1211,
+        "title": "Website redesign: design signed off",
+        "date": "2026-10-16",
+        "calendar": "deadlines",
+        "note": "Stage 2 of 5 done"
+      },
+      {
+        "id": 1212,
+        "title": "Paid: Klark $4,500",
+        "date": "2026-10-20",
+        "calendar": "finance",
+        "note": "INV-2026-046"
+      },
+      {
+        "id": 1213,
+        "title": "Anderson weekly",
+        "date": "2026-10-21",
+        "startsAt": "2026-10-21T15:00:00Z",
+        "durationMinutes": 45,
+        "calendar": "meetings",
+        "projectName": "Website redesign",
+        "meetLink": true
+      },
+      {
+        "id": 1214,
+        "title": "Rahman brief call",
+        "date": "2026-10-21",
+        "startsAt": "2026-10-21T10:00:00Z",
+        "durationMinutes": 30,
+        "calendar": "meetings",
+        "projectName": "Landing page design",
+        "meetLink": true
+      },
+      {
+        "id": 1215,
+        "title": "Design critique: homepage",
+        "date": "2026-10-28",
+        "startsAt": "2026-10-28T10:00:00Z",
+        "durationMinutes": 60,
+        "calendar": "meetings",
+        "projectName": "Website redesign",
+        "note": "Olivia, James, Abraham"
+      },
+      {
+        "id": 1216,
+        "title": "Northwind app: UI review",
+        "date": "2026-10-28",
+        "startsAt": "2026-10-28T13:30:00Z",
+        "durationMinutes": 45,
+        "calendar": "meetings",
+        "projectName": "App development",
+        "note": "Sarah Johnson",
+        "meetLink": true
+      },
+      {
+        "id": 1217,
+        "title": "Anderson weekly",
+        "date": "2026-10-28",
+        "startsAt": "2026-10-28T15:00:00Z",
+        "durationMinutes": 45,
+        "calendar": "meetings",
+        "projectName": "Website redesign",
+        "note": "James Anderson",
+        "meetLink": true
+      },
+      {
+        "id": 1218,
+        "title": "Paid: Rahman $3,000",
+        "date": "2026-10-28",
+        "calendar": "finance",
+        "note": "INV-2026-047"
+      },
+      {
+        "id": 1219,
+        "title": "Rahman landing page: wireframes",
+        "date": "2026-10-29",
+        "startsAt": "2026-10-29T11:00:00Z",
+        "durationMinutes": 60,
+        "calendar": "meetings",
+        "projectName": "Landing page design",
+        "meetLink": true
+      },
+      {
+        "id": 1220,
+        "title": "Sofia Marin off",
+        "date": "2026-10-29",
+        "calendar": "timeoff",
+        "note": "Back Nov 2"
+      },
+      {
+        "id": 1221,
+        "title": "Sofia Marin off",
+        "date": "2026-10-30",
+        "calendar": "timeoff",
+        "note": "Back Nov 2"
+      },
+      {
+        "id": 1222,
+        "title": "Team retro",
+        "date": "2026-10-30",
+        "startsAt": "2026-10-30T16:00:00Z",
+        "durationMinutes": 60,
+        "calendar": "meetings",
+        "note": "Everyone"
+      },
+      {
+        "id": 1223,
+        "title": "Booking system due",
+        "date": "2026-11-03",
+        "calendar": "deadlines",
+        "note": "Bennett Fitness · on hold",
+        "risk": "late"
+      },
+      {
+        "id": 1224,
+        "title": "Homepage build review",
+        "date": "2026-11-04",
+        "startsAt": "2026-11-04T11:00:00Z",
+        "durationMinutes": 60,
+        "calendar": "meetings",
+        "projectName": "Website redesign"
+      },
+      {
+        "id": 1225,
+        "title": "Landing page design due",
+        "date": "2026-11-07",
+        "calendar": "deadlines",
+        "note": "Rahman Logistics",
+        "risk": "at_risk"
+      },
+      {
+        "id": 1226,
+        "title": "Due: INV-2026-048",
+        "date": "2026-11-14",
+        "calendar": "finance",
+        "note": "Anderson Studio · $8,000"
+      },
+      {
+        "id": 1227,
+        "title": "App development due",
+        "date": "2026-11-20",
+        "calendar": "deadlines",
+        "note": "Northwind Health"
+      },
+      {
+        "id": 1228,
+        "title": "Website redesign: review starts",
+        "date": "2026-11-24",
+        "calendar": "deadlines",
+        "note": "Stage 4 of 5"
+      },
+      {
+        "id": 1229,
+        "title": "Marketing campaign due",
+        "date": "2026-11-28",
+        "calendar": "deadlines",
+        "note": "Klark Coffee Co."
+      },
+      {
+        "id": 1230,
+        "title": "Website redesign launch",
+        "date": "2026-12-12",
+        "calendar": "deadlines",
+        "note": "Anderson Studio"
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 1290,
+        "title": "Quarterly design critique with the whole Anderson Studio marketing and brand team",
+        "date": "2026-10-28",
+        "startsAt": "2026-10-28T10:00:00Z",
+        "durationMinutes": 60,
+        "calendar": "meetings",
+        "projectName": "Website redesign",
+        "note": "Olivia Foster, James Anderson, Konstantinopolsky-Alexandrovsky Vladislav, Abraham Moss"
+      },
+      {
+        "id": 1291,
+        "title": "Booking system for Bennett Fitness and Wellness Centers, phase two delivery",
+        "date": "2026-11-03",
+        "calendar": "deadlines",
+        "note": "Bennett Fitness and Wellness Centers International · on hold",
+        "risk": "late"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900001203,
+        "title": "Paid: Northwind $1,240,000",
+        "date": "2026-10-03",
+        "calendar": "finance",
+        "note": "INV-2026-044"
+      }
+    ],
+    "partial": [
+      {
+        "id": 1295,
+        "title": "Hold",
+        "date": "2026-10-28",
+        "calendar": "meetings"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

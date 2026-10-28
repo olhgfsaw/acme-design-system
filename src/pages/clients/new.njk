@@ -1,0 +1,56 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/form/form-section/form-section.njk" import formSection %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/form/file-dropzone/file-dropzone.njk" import fileDropzone %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/textarea/textarea.njk" import textarea %}
+{% from "components/ui/button/button.njk" import button %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% call appChrome("clients", scenario="typical") %}
+  {% call pageHeader("New client", "Add the company, the main contact and any documents you already have", crumbs=[{ label: "Clients", href: "clients.html" }, { label: "New client" }]) %}{% endcall %}
+  <form class="flex flex-col gap-6" action="client.html">
+    <p class="text-sm text-fg-secondary">Fields marked <span class="text-danger-fg" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+    <div class="grid items-start gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      {% call card("client-form") %}
+        <div class="flex flex-col gap-6">
+          {% call formSection("company", "Company", "How the client appears across projects, invoices and the calendar") %}
+            {{ formField("f-company", "Company name", required=true, input={ autocomplete: "organization", placeholder: "Harbor & Pine Bakery" }) }}
+            {{ formField("f-site", "Website", input={ type: "url", placeholder: "https://" }) }}
+            {% call formField("f-industry", "Industry") %}{{ select("f-industry", [{ value: "", label: "Choose an industry" }, { value: "health", label: "Health" }, { value: "food", label: "Food and drink" }, { value: "logistics", label: "Logistics" }, { value: "education", label: "Education" }, { value: "architecture", label: "Architecture" }, { value: "fitness", label: "Fitness" }], value="") }}{% endcall %}
+            {% call formField("f-status", "Status") %}{{ select("f-status", [{ value: "lead", label: "Lead" }, { value: "active", label: "Active" }, { value: "paused", label: "Paused" }], value="active") }}{% endcall %}
+            {{ formField("f-address", "Address", input={ autocomplete: "street-address" }, layout="md:col-span-2") }}
+          {% endcall %}
+          <hr class="h-px border-0 bg-divider">
+          {% call formSection("contact", "Main contact", "The person you agree scope, dates and payments with") %}
+            {{ formField("f-name", "Full name", required=true, input={ autocomplete: "name" }) }}
+            {{ formField("f-role", "Role", input={ autocomplete: "organization-title", placeholder: "Founder" }) }}
+            {{ formField("f-email", "Email", required=true, input={ type: "email", autocomplete: "email" }) }}
+            {{ formField("f-phone", "Phone", hint="With country code", input={ type: "tel", autocomplete: "tel" }) }}
+          {% endcall %}
+          <hr class="h-px border-0 bg-divider">
+          {% call formField("f-notes", "Notes") %}{{ textarea("f-notes", placeholder="How they like to work, who approves invoices, anything the team should know") }}{% endcall %}
+        </div>
+      {% endcall %}
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("docs", title="Documents") %}<div class="flex flex-col gap-4"><p class="text-sm text-fg-secondary">Contracts, briefs, NDAs. They appear on the client page.</p>{{ fileDropzone("new-client-files", "Attach documents", "PDF, DOCX, XLSX, PNG or JPG, up to 25 MB each") }}<p class="text-sm text-fg-muted">No documents yet.</p></div>{% endcall %}
+        {% call card("billing", title="Billing") %}
+          <div class="flex flex-col gap-4">
+            <p class="text-sm text-fg-secondary">Used as defaults for this client's invoices</p>
+            {{ formField("f-bill-email", "Invoice email", hint="Leave empty to use the contact's email", input={ type: "email", autocomplete: "email" }) }}
+            <div class="grid gap-4 sm:grid-cols-2">
+              {% call formField("f-currency", "Currency") %}{{ select("f-currency", [{ value: "USD", label: "USD" }, { value: "EUR", label: "EUR" }, { value: "GBP", label: "GBP" }], value="USD") }}{% endcall %}
+              {% call formField("f-terms", "Payment terms") %}{{ select("f-terms", [{ value: "15", label: "Net 15" }, { value: "30", label: "Net 30" }, { value: "45", label: "Net 45" }, { value: "0", label: "Due on receipt" }], value="30") }}{% endcall %}
+            </div>
+            {{ formField("f-tax", "Tax ID", input={ placeholder: "Optional" }) }}
+          </div>
+        {% endcall %}
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center justify-end gap-3">{{ button("Cancel", variant="ghost", href="clients.html") }}{{ button("Save client", type="submit", iconLeading="check") }}</div>
+  </form>
+{% endcall %}
+{% endblock %}

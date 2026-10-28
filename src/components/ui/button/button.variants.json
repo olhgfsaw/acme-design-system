@@ -3,7 +3,7 @@
   "variants": {
     "variant": {
       "primary": "bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-active",
-      "secondary": "bg-surface-subtle text-fg hover:bg-divider active:bg-divider",
+      "secondary": "bg-surface-subtle text-fg hover:bg-divider active:bg-divider aria-pressed:bg-accent aria-pressed:text-on-accent",
       "ghost": "text-fg-secondary hover:bg-surface-subtle hover:text-fg active:bg-surface-subtle",
       "danger": "bg-danger-solid text-on-danger hover:bg-danger-solid-hover active:bg-danger-solid-hover"
     },

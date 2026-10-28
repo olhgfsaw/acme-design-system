@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Payment",
+  "x-entity": "payment",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "invoiceNumber",
+    "clientName",
+    "receivedAt",
+    "amountMinor",
+    "currency",
+    "method"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "invoiceNumber": {
+      "type": "string",
+      "description": "Invoice it pays"
+    },
+    "clientName": {
+      "type": "string",
+      "description": "Who paid"
+    },
+    "receivedAt": {
+      "type": "string",
+      "format": "date",
+      "description": "When the money arrived"
+    },
+    "amountMinor": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Amount, minor units"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 code"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "bank",
+        "card",
+        "check",
+        "other"
+      ],
+      "x-dict": "paymentMethod",
+      "description": "How it was paid"
+    },
+    "reference": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "Bank reference; absent if none"
+    },
+    "recordedBy": {
+      "type": "string",
+      "description": "Who recorded it"
+    }
+  }
+}

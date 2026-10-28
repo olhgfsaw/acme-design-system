@@ -1,0 +1,20 @@
+{#- InvoiceDocument. The invoice as the client sees it. Props: id, workspace ({ name, address, email, taxId, bank }), invoice ({ number, issuedAt, dueAt, terms }), billTo ({ name, contact, email, address }), project ({ name, detail }), currency, lines [{ description, detail, quantity, rateMinor, amountMinor }], totals (InvoiceTotals rows), totalMinor, totalLabel, note, voided (text). -#}
+{% from "components/common/invoice-totals/invoice-totals.njk" import invoiceTotals %}
+{% macro invoiceDocument(id, workspace, invoice, billTo, currency, lines, totals, totalMinor, totalLabel="Amount due", project=null, note=null, voided=null) %}
+{%- set v = variants.invoiceDocument -%}
+<article data-component="InvoiceDocument" aria-label="Invoice {{ invoice.number }}" class="{{ v.base }}">
+  {%- if voided %}<p role="status" class="{{ v.slots.void }}">{{ voided }}</p>{% endif %}
+  <div class="{{ v.slots.top }}">
+    <div class="{{ v.slots.seller }}"><span class="{{ v.slots.sellerName }}">{{ workspace.name }}</span><span class="{{ v.slots.line }}">{{ workspace.address }}</span><span class="{{ v.slots.line }}">{{ workspace.email }}{% if workspace.taxId %} · Tax ID {{ workspace.taxId }}{% endif %}</span></div>
+    <dl class="{{ v.slots.meta }}"><dt class="{{ v.slots.metaKey }}">Invoice</dt><dd class="{{ v.slots.metaValue }} font-medium">{{ invoice.number }}</dd><dt class="{{ v.slots.metaKey }}">Issued</dt><dd class="{{ v.slots.metaValue }}">{{ invoice.issuedAt | date("medium") }}</dd><dt class="{{ v.slots.metaKey }}">Due</dt><dd class="{{ v.slots.metaValue }}">{{ invoice.dueAt | date("medium") }}</dd><dt class="{{ v.slots.metaKey }}">Terms</dt><dd class="{{ v.slots.metaValue }}">{{ invoice.terms }}</dd></dl>
+  </div>
+  <div class="{{ v.slots.parties }}">
+    <div class="{{ v.slots.party }}"><span class="{{ v.slots.partyLabel }}">Bill to</span><span class="{{ v.slots.partyName }}">{{ billTo.name }}</span>{% for l in [billTo.contact, billTo.email, billTo.address] %}{% if l %}<span class="{{ v.slots.line }}">{{ l }}</span>{% endif %}{% endfor %}</div>
+    {%- if project %}<div class="{{ v.slots.party }}"><span class="{{ v.slots.partyLabel }}">Project</span><span class="{{ v.slots.partyName }}">{{ project.name }}</span>{% if project.detail %}<span class="{{ v.slots.line }}">{{ project.detail }}</span>{% endif %}</div>{% endif %}
+  </div>
+  <table class="{{ v.slots.lines }}"><caption class="sr-only">Line items</caption><thead><tr><th scope="col" class="{{ v.slots.th }}">Description</th><th scope="col" class="{{ v.slots.thEnd }}">Qty</th><th scope="col" class="{{ v.slots.thEnd }}">Rate</th><th scope="col" class="{{ v.slots.thEnd }}">Amount</th></tr></thead>
+    <tbody>{% for l in lines %}<tr><td class="{{ v.slots.td }}"><div class="flex flex-col gap-0.5"><span class="{{ v.slots.desc }}">{{ l.description }}</span>{% if l.detail %}<span class="{{ v.slots.descSub }}">{{ l.detail }}</span>{% endif %}</div></td><td class="{{ v.slots.tdEnd }}">{{ l.quantity | number }}</td><td class="{{ v.slots.tdEnd }}">{{ l.rateMinor | money(currency) }}</td><td class="{{ v.slots.tdEnd }}">{{ l.amountMinor | money(currency) }}</td></tr>{% endfor %}</tbody></table>
+  <div class="{{ v.slots.totals }}">{{ invoiceTotals(currency, totals, totalMinor, totalLabel=totalLabel) }}</div>
+  {%- if note %}<p class="{{ v.slots.terms }}">{{ note }}</p>{% endif %}
+</article>
+{%- endmacro %}

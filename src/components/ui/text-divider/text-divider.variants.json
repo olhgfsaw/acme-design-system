@@ -1,0 +1,8 @@
+{
+  "base": "flex items-center gap-3 text-xs text-fg-muted",
+  "variants": {},
+  "slots": {
+    "line": "h-px flex-1 bg-divider"
+  },
+  "defaultVariants": {}
+}

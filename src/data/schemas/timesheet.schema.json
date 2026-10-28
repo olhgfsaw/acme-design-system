@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Timesheet",
+  "x-entity": "timesheet",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "memberId",
+    "weekStart",
+    "status",
+    "rows"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "memberId": {
+      "type": "integer"
+    },
+    "weekStart": {
+      "type": "string",
+      "format": "date",
+      "description": "Monday of the week"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "submitted",
+        "approved"
+      ]
+    },
+    "approvedBy": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "projectName",
+          "hours"
+        ],
+        "properties": {
+          "projectName": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "clientName": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Client, or why it isn't billed"
+          },
+          "bookedHours": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Hours a week booked on the project; 0 for internal work"
+          },
+          "hours": {
+            "type": "array",
+            "minItems": 5,
+            "maxItems": 5,
+            "items": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "description": "Monday to Friday"
+          }
+        }
+      }
+    }
+  }
+}

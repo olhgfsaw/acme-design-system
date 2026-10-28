@@ -1,0 +1,27 @@
+{#- TaskCard. A task on a board. Props: id, title, status (todo | in_progress | in_review | done), tag, high (high priority), note (a warning line), due (formatted), late, subtasks ({ done, total }), comments, assignee, columns [{ id, label }] (for Move to), menuOpen. Move to is the single-pointer alternative to dragging (WCAG 2.5.7); the card is a focusable article named by its title. -#}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/avatar/avatar.njk" import avatar as _avatar %}
+{% from "components/overlay/dropdown/dropdown.njk" import dropdown, dropdownHeader %}
+{% macro taskCard(id, title, status, columns, tag=null, high=false, note=null, due=null, late=false, subtasks=null, comments=0, assignee=null, menuOpen=false) %}
+{%- set v = variants.taskCard -%}
+<article data-component="TaskCard" tabindex="0" aria-labelledby="{{ id }}-title" class="{{ v.base }} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+  <div class="{{ v.slots.top }}">
+    <div class="{{ v.slots.tags }}">{% if tag %}{{ badge(tag, dot=false) }}{% endif %}{% if high %}{{ badge("High priority", tone="danger", iconName="arrow-up", dot=false) }}{% endif %}</div>
+    <div class="{{ v.slots.menu }}">
+      {%- set trig %}<button type="button" aria-haspopup="menu" aria-expanded="{{ "true" if menuOpen else "false" }}" aria-controls="{{ id }}-move" aria-label="Move {{ title }}" data-component="BaseIconButton" data-variant="ghost" data-size="sm" class="{{ variants.iconButton.base }} {{ variants.iconButton.variants.variant.ghost }} {{ variants.iconButton.variants.size.sm }}">{{ icon("ellipsis", "size-4") }}</button>{% endset -%}
+      {% call dropdown(id ~ "-move", "Move to", trig, open=menuOpen, align="end") %}{{ dropdownHeader("Move to") }}{% for c in columns %}{% if c.id != status %}<button type="button" role="menuitem" class="{{ variants.dropdown.slots.item }}"><span class="{{ v.slots.moveDot }} {{ v.variants.tone[c.id] }}" aria-hidden="true"></span><span>{{ c.label }}</span></button>{% endif %}{% endfor %}{% endcall %}
+    </div>
+  </div>
+  <p id="{{ id }}-title" class="{{ v.slots.titleDone if status == "done" else v.slots.title }}">{{ title }}</p>
+  {%- if note %}<p class="{{ v.slots.note }}">{{ note }}</p>{% endif %}
+  <div class="{{ v.slots.foot }}">
+    <div class="{{ v.slots.meta }}">
+      {%- if status == "done" %}<span class="{{ v.slots.ok }}">{{ icon("check", "size-3.5") }}Done {{ due }}</span>
+      {%- elif due %}<span class="{{ v.slots.late if late else v.slots.metaItem }}">{{ icon("calendar", "size-3.5") }}{{ ("Overdue, " ~ due) if late else ("Due " ~ due) }}</span>{% endif %}
+      {%- if subtasks %}<span class="{{ v.slots.metaItem }}">{{ icon("list-checks", "size-3.5") }}<span aria-hidden="true" class="tabular-nums">{{ subtasks.done }}/{{ subtasks.total }}</span><span class="sr-only">{{ subtasks.done }} of {{ subtasks.total }} subtasks done</span></span>{% endif %}
+      {%- if comments %}<span class="{{ v.slots.metaItem }}">{{ icon("message-square", "size-3.5") }}<span aria-hidden="true" class="tabular-nums">{{ comments }}</span><span class="sr-only">{{ comments | plural({ one: "# comment", other: "# comments" }) }}</span></span>{% endif %}
+    </div>
+    {%- if assignee %}<span title="{{ assignee }}">{{ _avatar(assignee, size="xs") }}</span>{% endif %}
+  </div>
+</article>
+{%- endmacro %}

@@ -1,0 +1,8 @@
+{#- RecordCell. The first cell of a table row: the record's face, its name (a link to it) and one line under it. Props: title, href, sub, avatar (a name: initials avatar), iconName (an IconTile instead), cover ({ id, monogram, pattern }: a ProjectCover tile instead), aside (a value at the end, e.g. an amount, in lists outside tables). -#}
+{% from "components/ui/avatar/avatar.njk" import avatar as _avatar %}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% from "components/common/project-cover/project-cover.njk" import projectCover %}
+{% macro recordCell(title, href=null, sub=null, avatar=null, iconName=null, cover=null, aside=null) %}
+{%- set v = variants.recordCell -%}
+<div data-component="RecordCell" class="{{ v.base }}">{% if avatar %}{{ _avatar(avatar, size="sm", decorative=true) }}{% elif iconName %}{{ iconTile(iconName, size="sm") }}{% elif cover %}{{ projectCover(cover.id, cover.monogram, pattern=cover.pattern, size="tile") }}{% endif %}<span class="{{ v.slots.text }}">{% if href %}<a href="{{ href }}" class="{{ v.slots.title }}" title="{{ title }}">{{ title }}</a>{% else %}<span class="{{ v.slots.titlePlain }}" title="{{ title }}">{{ title }}</span>{% endif %}{% if sub %}<span class="{{ v.slots.sub }}" title="{{ sub }}">{{ sub }}</span>{% endif %}</span>{% if aside %}<span class="{{ v.slots.aside }}">{{ aside }}</span>{% endif %}</div>
+{%- endmacro %}

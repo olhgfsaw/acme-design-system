@@ -218,5 +218,255 @@
       },
       "tone": "neutral"
     }
+  },
+  "clientStatus": {
+    "active": {
+      "label": {
+        "en": "Active"
+      },
+      "tone": "success"
+    },
+    "paused": {
+      "label": {
+        "en": "Paused"
+      },
+      "tone": "neutral"
+    },
+    "lead": {
+      "label": {
+        "en": "Lead"
+      },
+      "tone": "info"
+    }
+  },
+  "invoiceStatus": {
+    "draft": {
+      "label": {
+        "en": "Draft"
+      },
+      "tone": "neutral"
+    },
+    "sent": {
+      "label": {
+        "en": "Sent"
+      },
+      "tone": "info"
+    },
+    "paid": {
+      "label": {
+        "en": "Paid"
+      },
+      "tone": "success"
+    },
+    "overdue": {
+      "label": {
+        "en": "Overdue"
+      },
+      "tone": "danger"
+    }
+  },
+  "paymentMethod": {
+    "bank": {
+      "label": {
+        "en": "Bank transfer"
+      },
+      "tone": "neutral"
+    },
+    "card": {
+      "label": {
+        "en": "Card"
+      },
+      "tone": "neutral"
+    },
+    "check": {
+      "label": {
+        "en": "Check"
+      },
+      "tone": "neutral"
+    },
+    "other": {
+      "label": {
+        "en": "Other"
+      },
+      "tone": "neutral"
+    }
+  },
+  "discipline": {
+    "design": {
+      "label": {
+        "en": "Design"
+      },
+      "tone": "neutral"
+    },
+    "engineering": {
+      "label": {
+        "en": "Engineering"
+      },
+      "tone": "neutral"
+    },
+    "management": {
+      "label": {
+        "en": "Management"
+      },
+      "tone": "neutral"
+    }
+  },
+  "inviteStatus": {
+    "pending": {
+      "label": {
+        "en": "Pending"
+      },
+      "tone": "warning"
+    },
+    "expired": {
+      "label": {
+        "en": "Expired"
+      },
+      "tone": "danger"
+    }
+  },
+  "eventCalendar": {
+    "meetings": {
+      "label": {
+        "en": "Meetings"
+      },
+      "tone": "info"
+    },
+    "deadlines": {
+      "label": {
+        "en": "Deadlines and milestones"
+      },
+      "tone": "danger"
+    },
+    "finance": {
+      "label": {
+        "en": "Invoices and payments"
+      },
+      "tone": "success"
+    },
+    "timeoff": {
+      "label": {
+        "en": "Time off"
+      },
+      "tone": "warning"
+    }
+  },
+  "deadlineRisk": {
+    "late": {
+      "label": {
+        "en": "Late"
+      },
+      "tone": "danger"
+    },
+    "at_risk": {
+      "label": {
+        "en": "At risk"
+      },
+      "tone": "warning"
+    }
+  },
+  "syncResult": {
+    "ok": {
+      "label": {
+        "en": "Done"
+      },
+      "tone": "success"
+    },
+    "info": {
+      "label": {
+        "en": "Info"
+      },
+      "tone": "neutral"
+    },
+    "warning": {
+      "label": {
+        "en": "Warning"
+      },
+      "tone": "warning"
+    },
+    "error": {
+      "label": {
+        "en": "Failed"
+      },
+      "tone": "danger"
+    }
+  },
+  "timesheetStatus": {
+    "draft": {
+      "label": {
+        "en": "Draft"
+      },
+      "tone": "neutral"
+    },
+    "submitted": {
+      "label": {
+        "en": "Submitted"
+      },
+      "tone": "info"
+    },
+    "approved": {
+      "label": {
+        "en": "Approved"
+      },
+      "tone": "success"
+    }
+  },
+  "notificationKind": {
+    "comment": {
+      "label": {
+        "en": "Comment"
+      },
+      "tone": "info"
+    },
+    "approval": {
+      "label": {
+        "en": "Approval"
+      },
+      "tone": "success"
+    },
+    "risk": {
+      "label": {
+        "en": "Risk"
+      },
+      "tone": "warning"
+    }
+  },
+  "captureStatus": {
+    "processing": {
+      "label": {
+        "en": "Processing…"
+      },
+      "tone": "neutral"
+    },
+    "pending": {
+      "label": {
+        "en": "Waiting for review"
+      },
+      "tone": "info"
+    },
+    "approved": {
+      "label": {
+        "en": "Approved"
+      },
+      "tone": "success"
+    },
+    "approved_edited": {
+      "label": {
+        "en": "Approved with edits"
+      },
+      "tone": "success"
+    },
+    "rejected": {
+      "label": {
+        "en": "Rejected"
+      },
+      "tone": "neutral"
+    },
+    "failed": {
+      "label": {
+        "en": "Couldn't understand"
+      },
+      "tone": "danger"
+    }
   }
 }

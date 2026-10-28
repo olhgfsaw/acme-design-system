@@ -1,0 +1,9 @@
+{#- TaskSummary. How tasks split by status. Props: parts [{ label, count, tone: success | warning | accent | muted | danger | info }], label (accessible summary), unit (after each count, e.g. "h" for hours). -#}
+{% macro taskSummary(parts, label, unit=null) %}
+{%- set v = variants.taskSummary -%}
+{%- set total = parts | sum("count") -%}
+<div data-component="TaskSummary" class="{{ v.base }}">
+  <svg class="{{ v.slots.track }}" role="img" aria-label="{{ label }}"><rect width="100%" height="100%" rx="6" class="fill-surface-subtle"></rect>{% for p in parts %}{% if p.tone != "muted" and total %}<rect x="{{ ((parts.slice(0, loop.index0) | sum("count")) / total * 100) | round(2) }}%" width="{{ (p.count / total * 100) | round(2) }}%" height="100%" class="{{ v.variants.tone[p.tone] }}"></rect>{% endif %}{% endfor %}</svg>
+  <div class="{{ v.slots.legend }}">{% for p in parts %}<div class="{{ v.slots.row }}"><span class="{{ v.slots.dot }} {{ v.dot[p.tone] }}" aria-hidden="true"></span><span>{{ p.label }}</span><span class="{{ v.slots.value }}">{{ p.count | number }}{% if unit %} {{ unit }}{% endif %}</span></div>{% endfor %}</div>
+</div>
+{%- endmacro %}

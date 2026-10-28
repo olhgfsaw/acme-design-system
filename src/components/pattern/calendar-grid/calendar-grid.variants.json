@@ -1,0 +1,34 @@
+{
+  "base": "w-full table-fixed border-collapse",
+  "variants": {
+    "tone": {
+      "info": "bg-info-bg text-info-fg",
+      "danger": "bg-danger-bg text-danger-fg",
+      "success": "bg-success-bg text-success-fg",
+      "warning": "bg-warning-bg text-warning-fg",
+      "neutral": "bg-neutral-bg text-neutral-fg"
+    },
+    "dot": {
+      "info": "bg-info-fg",
+      "danger": "bg-danger-fg",
+      "success": "bg-success-fg",
+      "warning": "bg-warning-fg",
+      "neutral": "bg-fg-muted"
+    }
+  },
+  "slots": {
+    "head": "pb-2 text-start text-xs font-medium text-fg-muted",
+    "abbr": "no-underline",
+    "cell": "h-28 border border-divider p-1 align-top max-md:h-16 data-selected:bg-surface-subtle data-outside-view:bg-canvas",
+    "day": "inline-flex size-7 items-center justify-center rounded-full text-xs font-medium tabular-nums text-fg hover:bg-surface-subtle active:bg-surface-subtle data-outside-view:text-fg-muted aria-pressed:outline-2 aria-pressed:outline-fg aria-[current=date]:bg-primary aria-[current=date]:text-on-primary pointer-coarse:size-11 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "chips": "mt-1 flex flex-col gap-0.5 max-md:hidden",
+    "chip": "flex min-w-0 gap-1 truncate rounded-sm px-1.5 py-0.5 text-xs",
+    "chipTime": "shrink-0 font-medium tabular-nums",
+    "chipTitle": "truncate",
+    "more": "self-start rounded-sm px-1.5 text-xs text-fg-secondary hover:text-fg hover:underline active:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "dots": "mt-1 flex flex-wrap gap-0.5 md:hidden",
+    "dotItem": "size-1.5 rounded-full",
+    "skeleton": "mt-1 flex flex-col gap-0.5 max-md:hidden"
+  },
+  "defaultVariants": {}
+}

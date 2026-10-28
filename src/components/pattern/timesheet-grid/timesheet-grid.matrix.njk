@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/pattern/timesheet-grid/timesheet-grid.njk" import timesheetGrid %}
+{% set description = "Hours per project and day for one week, with totals and booked hours." %}
+{% block matrix %}
+
+{% set days = [{ short: "Mon", date: "Oct 26", iso: "2026-10-26" }, { short: "Tue", date: "Oct 27", iso: "2026-10-27" }, { short: "Wed", date: "Oct 28", iso: "2026-10-28" }, { short: "Thu", date: "Oct 29", iso: "2026-10-29" }, { short: "Fri", date: "Oct 30", iso: "2026-10-30" }] %}
+{% set rows = [{ name: "Website redesign", sub: "Anderson Studio", hours: [3, 2, null, null, null], booked: 14 }, { name: "App development", sub: "Northwind Health", hours: [3, 1.25, null, null, null], booked: 12 }, { name: "Internal: meetings and admin", sub: "Not billed", hours: [0.5, null, null, null, null], booked: 0 }] %}
+{% call section("week") %}
+  {% call cell("draft, editable") %}<div class="w-full max-w-4xl">{{ timesheetGrid("m-ts-1", "Hours per project and day", days, rows, today="2026-10-28", state=state, messages={ loading: "Loading…" }) }}</div>{% endcall %}
+  {% call cell("approved, locked, one row over booked") %}<div class="w-full max-w-4xl">{{ timesheetGrid("m-ts-2", "Hours per project and day", days, [{ name: "Website redesign", sub: "Anderson Studio", hours: [3, 3, 3, 3, 3], booked: 14 }, { name: "App development", sub: "Northwind Health", hours: [2.5, 3, 2.5, 2, 2], booked: 12 }], locked=true, state=state, messages={ loading: "Loading…" }) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

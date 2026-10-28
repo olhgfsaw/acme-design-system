@@ -6,13 +6,69 @@
         "id": 71,
         "title": "Anderson weekly",
         "startsAt": "2026-10-28T15:00:00Z",
-        "startsInSeconds": 10800
+        "endsAt": "2026-10-28T15:30:00Z",
+        "startsInSeconds": 10800,
+        "projectName": "Website redesign",
+        "calendar": "client",
+        "attendees": [
+          "James Anderson",
+          "Olivia Foster",
+          "Daniel Kim"
+        ],
+        "place": "Google Meet"
       },
       {
         "id": 72,
         "title": "Design critique",
         "startsAt": "2026-10-29T10:00:00Z",
-        "startsInSeconds": 79200
+        "endsAt": "2026-10-29T11:00:00Z",
+        "startsInSeconds": 79200,
+        "calendar": "team",
+        "attendees": [
+          "Olivia Foster",
+          "Mia Chen",
+          "Abraham Moss"
+        ],
+        "place": "Studio"
+      },
+      {
+        "id": 73,
+        "title": "Homepage review",
+        "startsAt": "2026-11-03T11:00:00Z",
+        "endsAt": "2026-11-03T12:00:00Z",
+        "startsInSeconds": 515000,
+        "projectName": "Website redesign",
+        "calendar": "team",
+        "attendees": [
+          "Olivia Foster",
+          "James Reed",
+          "Karl Hansen"
+        ],
+        "place": "Google Meet"
+      },
+      {
+        "id": 74,
+        "title": "Review stage starts",
+        "startsAt": "2026-11-24T00:00:00Z",
+        "startsInSeconds": 2290000,
+        "projectName": "Website redesign",
+        "calendar": "milestone",
+        "allDay": true
+      },
+      {
+        "id": 75,
+        "title": "Northwind sprint review",
+        "startsAt": "2026-10-30T16:00:00Z",
+        "endsAt": "2026-10-30T17:00:00Z",
+        "startsInSeconds": 187200,
+        "projectName": "App development",
+        "calendar": "client",
+        "attendees": [
+          "Sarah Johnson",
+          "Karl Hansen",
+          "Olivia Foster"
+        ],
+        "place": "Zoom"
       }
     ],
     "empty": [],

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Notification",
+  "x-entity": "notification",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "memberId",
+    "text",
+    "at",
+    "kind"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "memberId": {
+      "type": "integer",
+      "description": "Who it is for"
+    },
+    "actorName": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Who did it; absent for system notices"
+    },
+    "text": {
+      "type": "string",
+      "maxLength": 300
+    },
+    "detail": {
+      "type": "string",
+      "maxLength": 300
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "comment",
+        "approval",
+        "risk"
+      ]
+    },
+    "href": {
+      "type": "string"
+    }
+  }
+}

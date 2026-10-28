@@ -1,0 +1,8 @@
+{#- EmailPreview. What an email will look like. Props: from, to, subject, title, paragraphs, quote (a personal note), cta (button text, shown as a picture of the button), foot. -#}
+{% macro emailPreview(from, to, subject, title, paragraphs, cta=null, quote=null, foot=null) %}
+{%- set v = variants.emailPreview -%}
+<figure data-component="EmailPreview" class="{{ v.base }}">
+  <figcaption class="{{ v.slots.head }}"><span>From <span class="{{ v.slots.headValue }}">{{ from }}</span></span><span>To <span class="{{ v.slots.headValue }}">{{ to }}</span></span><span>Subject <span class="{{ v.slots.headValue }}">{{ subject }}</span></span></figcaption>
+  <div class="{{ v.slots.body }}"><p class="{{ v.slots.title }}">{{ title }}</p>{% for p in paragraphs %}{% if loop.index == 2 and quote %}<p class="{{ v.slots.quote }}">{{ quote }}</p>{% endif %}<p>{{ p }}</p>{% endfor %}{% if cta %}<span class="{{ v.slots.cta }}" aria-hidden="true">{{ cta }}</span>{% endif %}{% if foot %}<p class="{{ v.slots.foot }}">{{ foot }}</p>{% endif %}</div>
+</figure>
+{%- endmacro %}

@@ -1,0 +1,8 @@
+{#- AuthLayout. Sign-in, password reset and invite screens: a tinted side panel about the product (hidden below lg) and the form column. Props: product, headline, text, note (a line at the bottom, e.g. where data lives), preview (rendered decorative content, captured with {% set %}). Default slot = the form column. -#}
+{% macro authLayout(product, headline, text, note=null, preview=null) %}
+{%- set v = variants.authLayout -%}
+<div data-component="AuthLayout" class="{{ v.base }}">
+  <aside aria-label="About {{ product }}" class="{{ v.slots.side }}"><span class="{{ v.slots.brand }}">{{ product }}</span><div class="flex flex-col gap-8"><div class="{{ v.slots.pitch }}"><p class="{{ v.slots.headline }}">{{ headline }}</p><p class="{{ v.slots.text }}">{{ text }}</p></div>{% if preview %}<div class="{{ v.slots.preview }}" aria-hidden="true">{{ preview | safe }}</div>{% endif %}</div>{% if note %}<p class="{{ v.slots.note }}">{{ icon("shield-check", "size-4") }}{{ note }}</p>{% endif %}</aside>
+  <main class="{{ v.slots.main }}"><div class="{{ v.slots.card }}"><span class="{{ v.slots.mobileBrand }}" aria-hidden="true">{{ product }}</span>{% if caller %}{{ caller() }}{% endif %}</div></main>
+</div>
+{%- endmacro %}

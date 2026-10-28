@@ -11,6 +11,25 @@ Log written by `/import-design`. Newest first. One entry per import.
 - Frames: added …, changed … (approved: … — needs the client again)
 -->
 
+## 2026-10-28 — design-import/2026-10-28/ (stages 3–8 of 8: the rest of the product)
+- Source: same design, artboards Clients, Client, NewClient, Projects, Project, NewProject, ProjectBoard, Finance, Invoice, NewInvoice, Team, Member, InviteMember, Calendar, Settings, Login, Me, MyTime, Account, AccountSecurity, AccountNotifications, AccountCalendar, AccountCapture, EmpProjects, EmpProject, EmpBoard, EmpCalendar, EmpTeam. All 34 artboards are now imported.
+- Applied:
+  - Screens (draft): Clients (list, client, new client) · Projects (board, list, project, project board, new project) · Finance (overview, invoice, record payment, new invoice) · Team (list, member, assign to project, invite) · Calendar (+ new event) · Settings (General, Integrations, Disconnect Google Calendar, Project stages) · Sign in (sign in, wrong password, forgot password, reset link sent, accept invite) · My space for team members (My work, Time and time off, request time off, My projects, project, board, calendar, team, Account: profile, sign-in and security, notifications, my calendar, capture).
+  - My space reuses the admin project, board, calendar and team templates with `member: true` (no finance, no invites, links stay in My space); `appChrome(member=true)` renders the member chrome (`layouts/_space-chrome.njk`).
+  - New components (draft): RecordCell, AvatarGroup, BudgetBar, FileDropzone, FileRow, FormSection, TaskSummary, EventRow, CoverSwatches, CoverPicker, ProjectCard, ProjectBoard, TaskCard, TaskQuickAdd, TaskBoard, StageEditor, StatusMenu, BarChart, InvoiceDocument, MemberCard, EmailPreview, StepList, CalendarGrid, DateTile, DeadlineRow, CodeTag, SpaceNav, AuthLayout, TextDivider, PasswordRules, TimeTracker, TimesheetGrid, NotificationMatrix.
+  - Changed components (every use changes): BaseAvatar sizes up to `xl`; BaseInput `filter` variant; BaseButton `href`, `pressed`; BaseCheckbox `aside`, `appearance: card`, `swatch`; BaseSwitch `aside`, `locked`; BaseSegmented avatars; BaseTabs `panel`; ToastMessage `actionHref`; ProjectCover `header` size; PageHeader crumbs, avatar, badge, cover, lead; DataTable cell kinds and row class; StageTracker `label`; StageEditor `dates`, `reorder`; LineItemEditor `removable`; EventRow tones for the calendar (meetings, deadlines, finance); ProjectCard `stats`; TopBar `context` chip.
+  - Data: client (status, money, contacts, billing), project (budget, team, dates, billing), task (tag, priority, subtasks, comments), meeting; new contracts invoice, file, payment, workspace, invite, calendar-event, integration, sync-event, timesheet, notification, session, capture; statuses clientStatus, invoiceStatus, paymentMethod, discipline, inviteStatus, eventCalendar, deadlineRisk, syncResult, timesheetStatus, notificationKind, captureStatus; glossary month and weekday names.
+- Snaps: calendar side column 320 → 384 px; time-off tone neutral → warning (the same tone as everywhere else); My space chip 13 → 12 px; SpaceNav 232 → 240 px; sign-in column 400 → 384 px; timer 40 → 36 px; event time column 76 → 80 px; Settings two-column layouts start at xl.
+- Not applied:
+  - Month calendar as `role="grid"` without rows → a real table with weekday headers; the "+2 more" popover, month switching and syncing are Nuxt behavior.
+  - Open panels shown as their own frames (new event, request time off, disconnect confirmation, add task) instead of toggles.
+  - Faded rows (opacity) for switches that need another switch first → disabled switches; text stays readable.
+  - Telegram "linked" state and live code countdown: only the linking steps are shown.
+  - Google and other brand icons: Lucide has no brand marks; buttons say the name.
+  - The timesheet and the "My recent captures" table become cards below lg instead of scrolling sideways; the captures' Sent column moved under the title.
+  - Event times are formatted in the time zone of the machine that builds the canvas.
+- Frames: added clients, client, client-new, projects, projects-list, project, project-board, project-new, finance, invoice, invoice-payment, invoice-new, team, member, member-assign, invite-member, calendar, calendar-new-event, settings, settings-integrations, settings-disconnect, settings-stages, sign-in, sign-in-error, forgot-password, reset-sent, accept-invite, me, my-time, my-time-off, my-projects, my-project, my-board, my-calendar, my-team, account, account-security, account-notifications, account-calendar, account-capture. No approved frames changed.
+
 ## 2026-10-28 — design-import/2026-10-28/ (stage 2 of 8: Inbox)
 - Source: same design, artboards Inbox, Proposal, QuickCapture, TelegramBot, CaptureButton.
 - Applied:

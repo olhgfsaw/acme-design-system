@@ -1,0 +1,103 @@
+{
+  "entity": "file",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 301,
+        "clientId": 42,
+        "name": "Anderson Studio master services agreement.pdf",
+        "type": "pdf",
+        "sizeBytes": 421888,
+        "uploadedAt": "2024-03-04T10:00:00Z",
+        "uploadedBy": "Daniel Kim"
+      },
+      {
+        "id": 302,
+        "clientId": 42,
+        "projectName": "Website redesign",
+        "name": "Website redesign brief.docx",
+        "type": "docx",
+        "sizeBytes": 88064,
+        "uploadedAt": "2026-08-01T09:00:00Z",
+        "uploadedBy": "Abraham Moss"
+      },
+      {
+        "id": 303,
+        "clientId": 42,
+        "name": "Website redesign SOW, signed.pdf",
+        "type": "pdf",
+        "sizeBytes": 254976,
+        "uploadedAt": "2026-08-02T15:00:00Z",
+        "uploadedBy": "Daniel Kim"
+      },
+      {
+        "id": 304,
+        "clientId": 42,
+        "projectName": "Brand guidelines",
+        "name": "Brand moodboard.png",
+        "type": "png",
+        "sizeBytes": 2516582,
+        "uploadedAt": "2026-05-10T11:00:00Z",
+        "uploadedBy": "Olivia Foster"
+      },
+      {
+        "id": 305,
+        "clientId": 42,
+        "projectName": "Website redesign",
+        "name": "Content inventory.xlsx",
+        "type": "xlsx",
+        "sizeBytes": 61440,
+        "uploadedAt": "2026-09-12T13:00:00Z",
+        "uploadedBy": "James Reed"
+      },
+      {
+        "id": 306,
+        "clientId": 44,
+        "name": "Klark October scope.pdf",
+        "type": "pdf",
+        "sizeBytes": 188416,
+        "uploadedAt": "2026-10-24T11:00:00Z",
+        "uploadedBy": "Daniel Kim"
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 311,
+        "clientId": 51,
+        "name": "Alexandria Montgomery-Fitzgerald Consulting Group International — master services agreement, amended and restated, signed copy.pdf",
+        "type": "pdf",
+        "sizeBytes": 421888,
+        "uploadedAt": "2026-03-04T10:00:00Z",
+        "uploadedBy": "Konstantinopolsky-Alexandrovsky Vladislav"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900301,
+        "clientId": 900000041,
+        "name": "Raw footage.fig",
+        "type": "fig",
+        "sizeBytes": 9876543210,
+        "uploadedAt": "2026-10-01T10:00:00Z",
+        "uploadedBy": "Daniel Kim"
+      }
+    ],
+    "partial": [
+      {
+        "id": 321,
+        "clientId": 61,
+        "name": "Notes.pdf",
+        "type": "pdf",
+        "sizeBytes": 0,
+        "uploadedAt": "2026-10-28T10:00:00Z"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/file-row/file-row.njk" import fileRow %}
+{% set description = "One attached file with download and remove." %}
+{% block matrix %}
+
+{% call section("actions") %}
+  {% call cell("both") %}<div class="w-96">{{ fileRow("Anderson Studio master services agreement.pdf", "PDF · 412 KB · Mar 4, 2024", iconName="file-text") }}</div>{% endcall %}
+  {% call cell("remove only") %}<div class="w-96">{{ fileRow("Brand moodboard.png", "PNG · 2.4 MB", iconName="image", download=false) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

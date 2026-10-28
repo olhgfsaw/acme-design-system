@@ -1,0 +1,17 @@
+{
+  "base": "relative flex cursor-pointer items-center gap-3 rounded-md border-2 border-dashed border-control bg-canvas transition-colors hover:bg-surface-subtle active:bg-surface-subtle has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-focus",
+  "variants": {
+    "layout": {
+      "stack": "flex-col justify-center px-6 py-7 text-center",
+      "row": "flex-row justify-start px-5 py-4 text-start"
+    }
+  },
+  "slots": {
+    "text": "flex min-w-0 flex-1 flex-col gap-1",
+    "title": "text-sm font-medium text-fg",
+    "hint": "text-xs text-fg-muted"
+  },
+  "defaultVariants": {
+    "layout": "stack"
+  }
+}

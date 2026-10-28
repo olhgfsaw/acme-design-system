@@ -1,0 +1,64 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable, tableCell %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/badge/badge.njk" import statusBadge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set clients = data.fixtures.client.scenarios[scenario] %}
+{% set byStatus = clients | groupby("status") %}
+{% set projects = data.fixtures.project.scenarios[scenario] %}
+{% set active = byStatus.active or [] %}
+{% set contract = clients | sum("contractMinor") %}{% set paid = clients | sum("paidMinor") %}{% set outstanding = clients | sum("outstandingMinor") %}
+{% set overdue = [] %}{% for c in clients %}{% if c.overdueMinor %}{% set _ = overdue.push(c) %}{% endif %}{% endfor %}
+{% set activeProjects = [] %}{% for p in projects %}{% if p.status == "in_progress" %}{% set _ = activeProjects.push(p) %}{% endif %}{% endfor %}
+{% set cur = (clients | first).currency if clients | length else project.currency %}
+
+{% call appChrome("clients", scenario=scenario) %}
+  {% call pageHeader("Clients", (clients | length | plural({ one: "# client", other: "# clients" })) ~ " · " ~ (activeProjects | length | plural({ one: "# active project", other: "# active projects" }))) %}
+    {{ button("Add client", iconLeading="plus", href="client-new.html") }}
+  {% endcall %}
+
+  <div class="flex flex-col gap-3">
+    <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"{% if state == "loading" %} aria-busy="true"{% endif %}>
+      {% if state == "loading" %}
+        {% for i in range(4) %}{% call card("stat-" ~ i) %}<div class="flex flex-col gap-2">{{ skeleton("line", layout="w-24") }}{{ skeleton("figure", layout="w-32") }}{{ skeleton("line", layout="w-28") }}</div>{% endcall %}{% endfor %}
+      {% elif state != "error" %}
+        {% call card("stat-active") %}{{ statBlock("Active clients", active | length | number) }}<p class="text-sm text-fg-secondary">{{ (byStatus.paused or []) | length }} paused · {{ (byStatus.lead or []) | length | plural({ one: "# lead", other: "# leads" }) }}</p>{% endcall %}
+        {% call card("stat-contract") %}{{ statBlock("Contract value", contract | money(cur)) }}<p class="text-sm text-fg-secondary">Across {{ projects | length | plural({ one: "# project", other: "# projects" }) }}</p>{% endcall %}
+        {% call card("stat-paid") %}{{ statBlock("Paid to date", paid | money(cur)) }}<p class="text-sm text-fg-secondary">{{ ((paid / contract) if contract else 0) | percent }} of contract value</p>{% endcall %}
+        {% call card("stat-outstanding") %}{{ statBlock("Outstanding", outstanding | money(cur)) }}<p class="text-sm {{ "font-medium text-danger-fg" if overdue | length else "text-fg-secondary" }}">{{ (overdue | length | plural({ one: "# invoice overdue", other: "# invoices overdue" })) if overdue | length else "Nothing overdue" }}</p>{% endcall %}
+      {% endif %}
+    </div>
+
+    <section aria-label="Client list" class="flex min-w-0 flex-col gap-4 rounded-lg bg-surface p-6">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        {{ tabs([{ id: "all", label: "All", count: clients | length }, { id: "active", label: "Active", count: active | length }, { id: "paused", label: "Paused", count: (byStatus.paused or []) | length }, { id: "lead", label: "Leads", count: (byStatus.lead or []) | length }], "all", "Filter clients by status", panel="client-table") }}
+        <div class="w-full sm:w-72">{{ input("client-search", type="search", variant="filter", iconLeading="search", placeholder="Search by name or company", label="Search clients", value=("Greenwood" if state == "no-results" else "")) }}</div>
+      </div>
+      <div id="client-table" role="tabpanel" aria-labelledby="all-tab">
+      {% call dataTable("Clients", [{ label: "Client" }, { label: "Projects" }, { label: "Contract value", align: "end" }, { label: "Paid", align: "end" }, { label: "Outstanding", align: "end" }, { label: "Status" }, { label: "Last activity" }], state=state, messages={ loading: "Loading…", emptyTitle: "No clients yet", emptyText: "Add your first client to keep their projects, documents and invoices together.", noResultsTitle: "No clients match “Greenwood”", noResultsText: "Check the spelling or search by the contact's name.", reset: "Clear search", errorTitle: "Clients didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" }, emptyAction={ label: "Add client", href: "client-new.html", icon: "plus" }) %}
+        {% for c in clients %}
+        <tr class="{{ variants.dataTable.slots.row }}">
+          {% call tableCell() %}{{ recordCell(c.companyName or c.name, href="client.html", sub=c.name if c.companyName else null, avatar=c.companyName or c.name) }}{% endcall %}
+          {% call tableCell(kind="secondary") %}{% if c.projectCount %}{{ c.projectCount | number }} · {{ (c.activeProjectCount | number ~ " active") if c.activeProjectCount else "paused" }}{% else %}No projects yet{% endif %}{% endcall %}
+          {% call tableCell("end", "numeric") %}{{ (c.contractMinor | money(c.currency)) if c.contractMinor is defined else "—" }}{% endcall %}
+          {% call tableCell("end", "numeric") %}{{ (c.paidMinor | money(c.currency)) if c.paidMinor is defined else "—" }}{% endcall %}
+          {% call tableCell("end", "danger" if c.overdueMinor else "numeric") %}{% if c.outstandingMinor is defined %}{{ c.outstandingMinor | money(c.currency) }}{% if c.overdueMinor %} overdue{% endif %}{% else %}—{% endif %}{% endcall %}
+          {% call tableCell() %}{{ statusBadge("clientStatus", c.status) }}{% endcall %}
+          {% call tableCell(kind="secondary") %}{% if c.lastActivity %}{{ c.lastActivity }} · <time datetime="{{ c.lastActivityAt }}">{{ c.lastActivityAt | date("medium") }}</time>{% endif %}{% endcall %}
+        </tr>
+        {% endfor %}
+      {% endcall %}
+      </div>
+    </section>
+  </div>
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "layouts/_format.njk" import shortDate, dayNumber %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/pattern/calendar-grid/calendar-grid.njk" import calendarGrid %}
+{% from "components/common/deadline-row/deadline-row.njk" import deadlineRow %}
+{% from "components/common/event-row/event-row.njk" import eventRow %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/checkbox/checkbox.njk" import checkbox %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- frame.adding: the New event panel is open. The month shown and the selected day are today's. -#}
+{% set adding = frame.adding %}
+{#- frame.member: the calendar in My space — only the member's projects; settings go to their own calendar settings. -#}
+{% set member = frame.member %}
+{% set today = project.referenceDate.slice(0, 10) %}
+{% set year = today.slice(0, 4) | int %}{% set month = today.slice(5, 7) | int %}
+{% set loading = state == "loading" %}{% set failed = state == "error" %}
+{% set all = data.fixtures.calendarEvent.scenarios[scenario] %}
+{% set ws = data.fixtures.workspace.scenarios.typical | first %}
+{% set gc = (data.fixtures.integration.scenarios[scenario] | selectattr("id", "equalto", "google_calendar") | first) %}
+{% macro duration(m) %}{% if m >= 60 and m % 60 == 0 %}{{ m / 60 }} h{% elif m >= 60 %}{{ (m / 60) | int }} h {{ m % 60 }} min{% else %}{{ m }} min{% endif %}{% endmacro %}
+{% macro inDays(n) %}{% if n == 0 %}Today{% elif n == 1 %}Tomorrow{% else %}{{ n | plural({ one: "In # day", other: "In # days" }) }}{% endif %}{% endmacro %}
+{% macro meta(e) %}{% set parts = [] %}{% if e.durationMinutes %}{% set _ = parts.push(duration(e.durationMinutes) | trim) %}{% endif %}{% if e.projectName %}{% set _ = parts.push(e.projectName) %}{% endif %}{% if e.note %}{% set _ = parts.push(e.note) %}{% endif %}{{ parts | join(" · ") }}{% endmacro %}
+{% set chips = [] %}{% set dayList = [] %}{% set deadlines = [] %}
+{% set monthKey = today.slice(0, 7) %}
+{% for e in all %}
+  {% set _ = chips.push({ date: e.date, time: (e.startsAt | time) if e.startsAt else null, title: e.title, tone: data.statuses.eventCalendar[e.calendar].tone }) %}
+  {% if e.date == today %}{% set _ = dayList.push(e) %}{% endif %}
+  {% if e.calendar == "deadlines" and e.date >= today and deadlines | length < 6 %}{% set _ = deadlines.push(e) %}{% endif %}
+{% endfor %}
+{% set monthName = (data.glossary.months | label)[month - 1] ~ " " ~ year %}
+{% set msg = { loading: "Loading calendar…", errorTitle: "The calendar didn't load", errorText: "Google Calendar didn't answer. Your events are safe — try again in a minute.", retry: "Try again" } %}
+
+{% call appChrome("calendar", scenario=("typical" if scenario == "stress" else scenario), member=member) %}
+  {% call pageHeader("Calendar", "Meetings, deadlines and time off on your projects" if member else "Meetings, deadlines and payments across all projects") %}
+    {{ button("New event", iconLeading="plus", href=("calendar.html" if adding else "calendar-new-event.html"), expanded=adding) }}
+  {% endcall %}
+  {#- Side by side from xl: the calendar takes the rest, the side column is 384 px (fits an agenda row with Join). -#}
+  <div class="grid items-start gap-3 xl:grid-cols-[minmax(0,1fr)_--spacing(96)]">
+    <div class="flex min-w-0 flex-col gap-3">
+      {% call card("month") %}
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-wrap items-center justify-between gap-3"><h2 id="month-title" class="text-xl font-medium tracking-tight text-fg">{{ monthName }}</h2><div class="flex items-center gap-2">{{ button("Today", variant="secondary", size="sm") }}{{ iconButton("Previous month", "chevron-left", variant="muted", size="sm") }}{{ iconButton("Next month", "chevron-right", variant="muted", size="sm") }}</div></div>
+          {{ calendarGrid("cal", year, month, chips, today, selected=today, weekStart=(1 if ws.weekStart == "monday" else 0), labelledby="month-title", state=state, messages=msg) }}
+        </div>
+      {% endcall %}
+      {% call card("deadlines", title="Upcoming deadlines") %}
+        <div class="flex flex-col gap-4">
+          <p class="text-sm text-fg-muted">Project due dates and stage changes</p>
+          {% if loading %}<div aria-busy="true" class="grid gap-2 xl:grid-cols-2 2xl:grid-cols-3"><span class="sr-only">Loading…</span>{% for i in range(0, 3) %}{{ skeleton("block", layout="w-full") }}{% endfor %}</div>
+          {% elif failed %}<p class="text-sm text-fg-secondary">Deadlines show up when the calendar loads.</p>
+          {% elif deadlines | length %}
+          <ul class="grid gap-2 xl:grid-cols-2 2xl:grid-cols-3">{% for e in deadlines %}<li class="flex min-w-0 flex-col">{{ deadlineRow(e.date, e.title, ("my-project.html" if member else "project.html"), sub=(shortDate(e.date) ~ (" · " ~ e.note if e.note else "")), badge=({ label: data.statuses.deadlineRisk[e.risk].label | label, tone: data.statuses.deadlineRisk[e.risk].tone } if e.risk else { label: inDays((dayNumber(e.date) | int) - (dayNumber(today) | int)), tone: "neutral" })) }}</li>{% endfor %}</ul>
+          {% else %}<p class="text-sm text-fg-secondary">No deadlines coming up. Due dates appear here when projects get them.</p>{% endif %}
+        </div>
+      {% endcall %}
+    </div>
+    <div class="flex min-w-0 flex-col gap-3">
+      {% if adding %}
+      {% call card("new-event", title="New event") %}
+        <form class="flex flex-col gap-4" action="calendar.html">
+          {{ formField("ne-title", "Title", input={ value: "Website redesign: content review" }) }}
+          <div class="grid grid-cols-2 gap-3">{{ formField("ne-date", "Date", input={ type: "date", value: today }) }}{{ formField("ne-time", "Time", input={ type: "time", value: "14:00" }) }}</div>
+          {% call formField("ne-cal", "Calendar") %}{{ select("ne-cal", [{ value: "meetings", label: data.statuses.eventCalendar.meetings.label | label }, { value: "deadlines", label: data.statuses.eventCalendar.deadlines.label | label }, { value: "finance", label: data.statuses.eventCalendar.finance.label | label }, { value: "timeoff", label: data.statuses.eventCalendar.timeoff.label | label }], value="meetings") }}{% endcall %}
+          {{ checkbox("ne-meet", "Add a Google Meet link", description="Guests get the link in the invite", checked=true) }}
+          <div class="flex justify-end gap-2">{{ button("Cancel", variant="ghost", size="sm", href="calendar.html") }}{{ button("Add to calendar", size="sm", type="submit") }}</div>
+        </form>
+      {% endcall %}
+      {% endif %}
+      {% call card("sync") %}
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center justify-between gap-3"><h2 id="sync-title" class="text-xl font-medium tracking-tight text-fg">Google Calendar</h2>{{ badge("Connected" if gc.connected else "Not connected", tone=("success" if gc.connected else "neutral")) }}</div>
+          {% if gc.connected %}
+          {{ recordCell(gc.account or gc.name, sub=(("Last synced " ~ (gc.lastSyncedAt | relative) ~ ((" · " ~ (gc.calendarCount | plural({ one: "# calendar", other: "# calendars" }))) if gc.calendarCount else "")) if gc.lastSyncedAt else "Waiting for the first sync"), iconName="calendar") }}
+          <p class="text-sm text-fg-secondary">Two-way sync: events made here appear in Google Calendar, and changes there come back every 5 minutes.</p>
+          <div class="flex flex-wrap gap-2">{{ button("Sync now", variant="secondary", size="sm", iconLeading="refresh-cw") }}{{ button("My calendar settings" if member else "Sync settings", variant="ghost", size="sm", href=("account-calendar.html" if member else "settings.html")) }}</div>
+          {% else %}
+          <p class="text-sm text-fg-secondary">Connect a Google account to see meetings here and put deadlines and invoice due dates on the team calendar.</p>
+          <div>{{ button("Connect Google Calendar", size="sm", iconLeading="link", href="settings.html") }}</div>
+          {% endif %}
+        </div>
+      {% endcall %}
+      {% call card("calendars", title="Calendars") %}
+        <fieldset class="flex flex-col gap-3"><legend class="sr-only">Show calendars</legend>
+          {% for code, c in data.statuses.eventCalendar %}{% set n = [] %}{% for e in all %}{% if e.calendar == code and e.date.slice(0, 7) == monthKey %}{% set _ = n.push(1) %}{% endif %}{% endfor %}{{ checkbox("cal-" ~ code, c.label | label, checked=true, swatch=c.tone, aside=(null if loading or failed else (n | length | number))) }}{% endfor %}
+        </fieldset>
+      {% endcall %}
+      {% call card("agenda") %}
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1"><h2 id="agenda-title" class="text-xl font-medium tracking-tight text-fg">Today</h2><p class="text-sm text-fg-muted">{{ (today ~ "T12:00:00Z") | date("long") }}</p></div>
+          {% if loading %}<div aria-busy="true" class="flex flex-col gap-2"><span class="sr-only">Loading…</span>{% for i in range(0, 3) %}{{ skeleton("block", layout="w-full") }}{% endfor %}</div>
+          {% elif failed %}<p class="text-sm text-fg-secondary">The agenda shows up when the calendar loads.</p>
+          {% elif dayList | length %}
+          <ul class="flex flex-col gap-2">{% for e in dayList | sort(false, false, "startsAt") %}<li>{{ eventRow("All day" if not e.startsAt else (e.startsAt | time), "", e.title, at=e.startsAt, meta=(meta(e) | trim or null), tone=e.calendar, action=({ label: "Join", href: "#join" } if e.meetLink else null)) }}</li>{% endfor %}</ul>
+          {% else %}<p class="text-sm text-fg-secondary">Nothing on this day.</p>{% endif %}
+        </div>
+      {% endcall %}
+    </div>
+  </div>
+{% endcall %}
+{% endblock %}

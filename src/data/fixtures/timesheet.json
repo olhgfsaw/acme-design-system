@@ -1,0 +1,722 @@
+{
+  "entity": "timesheet",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 301,
+        "memberId": 11,
+        "weekStart": "2026-10-26",
+        "status": "draft",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              2,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              3,
+              1.25,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              1.5,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "id": 300,
+        "memberId": 11,
+        "weekStart": "2026-10-19",
+        "status": "approved",
+        "approvedBy": "Abraham Moss",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              3,
+              3,
+              3,
+              2.5
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              2.5,
+              3,
+              2.5,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              2,
+              1.5,
+              2,
+              2,
+              1.5
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              0.5,
+              0.5,
+              1,
+              0.5
+            ]
+          }
+        ]
+      },
+      {
+        "id": 299,
+        "memberId": 11,
+        "weekStart": "2026-10-12",
+        "status": "approved",
+        "approvedBy": "Abraham Moss",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              3,
+              2,
+              3,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              1.5,
+              2,
+              1.5,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              1,
+              0.5,
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "empty": [
+      {
+        "id": 301,
+        "memberId": 11,
+        "weekStart": "2026-10-26",
+        "status": "draft",
+        "rows": []
+      }
+    ],
+    "longStrings": [
+      {
+        "id": 301,
+        "memberId": 11,
+        "weekStart": "2026-10-26",
+        "status": "draft",
+        "rows": [
+          {
+            "projectName": "Website redesign for the international expansion programme",
+            "clientName": "Montgomery-Fitzgerald Architects and Partners",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              2,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "App development for the international expansion programme",
+            "clientName": "Montgomery-Fitzgerald Architects and Partners",
+            "bookedHours": 12,
+            "hours": [
+              3,
+              1.25,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "Landing page design for the international expansion programme",
+            "clientName": "Montgomery-Fitzgerald Architects and Partners",
+            "bookedHours": 8,
+            "hours": [
+              1.5,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin for the international expansion programme",
+            "clientName": "Montgomery-Fitzgerald Architects and Partners",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "id": 300,
+        "memberId": 11,
+        "weekStart": "2026-10-19",
+        "status": "approved",
+        "approvedBy": "Abraham Moss",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              3,
+              3,
+              3,
+              2.5
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              2.5,
+              3,
+              2.5,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              2,
+              1.5,
+              2,
+              2,
+              1.5
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              0.5,
+              0.5,
+              1,
+              0.5
+            ]
+          }
+        ]
+      },
+      {
+        "id": 299,
+        "memberId": 11,
+        "weekStart": "2026-10-12",
+        "status": "approved",
+        "approvedBy": "Abraham Moss",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              3,
+              2,
+              3,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              1.5,
+              2,
+              1.5,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              1,
+              0.5,
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000301,
+        "memberId": 11,
+        "weekStart": "2026-10-26",
+        "status": "draft",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 1200,
+            "hours": [
+              999.75,
+              1200,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 1200,
+            "hours": [
+              999.75,
+              1200,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 1200,
+            "hours": [
+              999.75,
+              1200,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 1200,
+            "hours": [
+              999.75,
+              1200,
+              null,
+              null,
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "id": 300,
+        "memberId": 11,
+        "weekStart": "2026-10-19",
+        "status": "approved",
+        "approvedBy": "Abraham Moss",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              3,
+              3,
+              3,
+              2.5
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              2.5,
+              3,
+              2.5,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              2,
+              1.5,
+              2,
+              2,
+              1.5
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              0.5,
+              0.5,
+              1,
+              0.5
+            ]
+          }
+        ]
+      },
+      {
+        "id": 299,
+        "memberId": 11,
+        "weekStart": "2026-10-12",
+        "status": "approved",
+        "approvedBy": "Abraham Moss",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              3,
+              2,
+              3,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              1.5,
+              2,
+              1.5,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              1,
+              0.5,
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "partial": [
+      {
+        "id": 302,
+        "memberId": 11,
+        "weekStart": "2026-10-26",
+        "status": "draft",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "hours": [
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ]
+      }
+    ],
+    "many": [
+      {
+        "id": 301,
+        "memberId": 11,
+        "weekStart": "2026-10-26",
+        "status": "draft",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              2,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              3,
+              1.25,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              1.5,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ]
+      },
+      {
+        "id": 300,
+        "memberId": 11,
+        "weekStart": "2026-10-19",
+        "status": "approved",
+        "approvedBy": "Abraham Moss",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              3,
+              3,
+              3,
+              2.5
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              2.5,
+              3,
+              2.5,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              2,
+              1.5,
+              2,
+              2,
+              1.5
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              0.5,
+              0.5,
+              1,
+              0.5
+            ]
+          }
+        ]
+      },
+      {
+        "id": 299,
+        "memberId": 11,
+        "weekStart": "2026-10-12",
+        "status": "approved",
+        "approvedBy": "Abraham Moss",
+        "rows": [
+          {
+            "projectName": "Website redesign",
+            "clientName": "Anderson Studio",
+            "bookedHours": 14,
+            "hours": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          },
+          {
+            "projectName": "App development",
+            "clientName": "Northwind Health",
+            "bookedHours": 12,
+            "hours": [
+              3,
+              2,
+              3,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Landing page design",
+            "clientName": "Rahman Logistics",
+            "bookedHours": 8,
+            "hours": [
+              1.5,
+              2,
+              1.5,
+              2,
+              2
+            ]
+          },
+          {
+            "projectName": "Internal: meetings and admin",
+            "clientName": "Not billed",
+            "bookedHours": 0,
+            "hours": [
+              0.5,
+              1,
+              0.5,
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

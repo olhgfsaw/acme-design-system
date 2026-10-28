@@ -8,6 +8,8 @@
   {% call cell("off") %}<div class="w-80">{{ switch("m-sw-1", "Email me a weekly summary") }}</div>{% endcall %}
   {% call cell("on") %}<div class="w-80">{{ switch("m-sw-2", "Email me a weekly summary", checked=true) }}</div>{% endcall %}
   {% call cell("with description") %}<div class="w-80">{{ switch("m-sw-3", "Sync with Google Calendar", description="Meetings you add here appear in your Google Calendar.", checked=true) }}</div>{% endcall %}
+  {% call cell("aside") %}<div class="w-80">{{ switch("m-sw-5", "Notes", description="37 proposals", checked=true, aside="99%") }}</div>{% endcall %}
+  {% call cell("locked") %}<div class="w-80">{{ switch("m-sw-6", "Invoices and payments are always reviewed one by one", description="Required for every workspace. It can't be turned off.", locked=true) }}</div>{% endcall %}
   {% call cell("disabled") %}<div class="w-80">{{ switch("m-sw-4", "Email me a weekly summary", disabled=true) }}</div>{% endcall %}
 {% endcall %}
 {% endblock %}

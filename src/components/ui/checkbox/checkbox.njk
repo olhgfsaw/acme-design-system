@@ -1,8 +1,8 @@
-{#- BaseCheckbox. Props: id, label, description, checked, disabled. Reka Checkbox: a button with role="checkbox" and data-state; the label is linked with for. -#}
-{% macro checkbox(id, label, description=null, checked=false, disabled=false) %}
+{#- BaseCheckbox. Props: id, label, description, checked, disabled, aside (a short value at the end, e.g. workload) + asideTone (muted | danger), swatch (info | danger | success | warning | neutral: a color dot before the label, e.g. a calendar's color; the label still names it). Reka Checkbox: a button with role="checkbox" and data-state; the label is linked with for. -#}
+{% macro checkbox(id, label, description=null, checked=false, disabled=false, aside=null, asideTone="muted", appearance="plain", swatch=null) %}
 {%- set v = variants.checkbox -%}
-<div data-component="BaseCheckbox" class="{{ v.base }}">
+<div data-component="BaseCheckbox" class="{{ (v.base ~ " " ~ v.variants.appearance[appearance]) | trim }}">
   <button type="button" role="checkbox" id="{{ id }}" aria-checked="{{ "true" if checked else "false" }}" data-state="{{ "checked" if checked else "unchecked" }}"{% if description %} aria-describedby="{{ id }}-desc"{% endif %} class="{{ v.slots.box }}"{% if disabled %} disabled{% endif %}>{% if checked %}{{ icon("check", v.slots.check) }}{% endif %}</button>
-  <span class="{{ v.slots.text }}"><label for="{{ id }}" class="{{ v.slots.label }}">{{ label }}</label>{% if description %}<span id="{{ id }}-desc" class="{{ v.slots.description }}">{{ description }}</span>{% endif %}</span>
+  <span class="{{ v.slots.text }}"><label for="{{ id }}" class="{{ v.slots.label }}">{% if swatch %}<span class="{{ v.slots.labelRow }}"><span class="{{ v.slots.swatch }} {{ v.swatch[swatch] }}" aria-hidden="true"></span>{{ label }}</span>{% else %}{{ label }}{% endif %}</label>{% if description %}<span id="{{ id }}-desc" class="{{ v.slots.description }}">{{ description }}</span>{% endif %}</span>{% if aside %}<span class="{{ v.slots.aside }} {{ v.asideTone[asideTone] }}">{{ aside }}</span>{% endif %}
 </div>
 {%- endmacro %}

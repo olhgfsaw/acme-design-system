@@ -27,4 +27,5 @@
 {%- endmacro %}
 
 {#- A plain cell with the table's padding; row components use it for their <td>. -#}
-{% macro tableCell(align="start") %}<td class="{{ variants.dataTable.slots.td }} {{ variants.dataTable.variants.align[align] }}">{{ caller() if caller }}</td>{% endmacro %}
+{#- tableCell. Props: align (start | end), kind (text | numeric: tabular figures | muted: short secondary info that must not wrap (dates) | secondary: longer secondary text that wraps | danger: a number that needs attention). -#}
+{% macro tableCell(align="start", kind="text") %}<td class="{{ variants.dataTable.slots.td }} {{ variants.dataTable.variants.align[align] }} {{ variants.dataTable.kinds[kind] }}">{{ caller() if caller }}</td>{% endmacro %}

@@ -1,0 +1,10 @@
+{#- StageEditor. The stages a project moves through, in order. Props: id, stages [{ name, date }], dates (show a target date per stage; true on a project), reorder (Move up / Move down buttons — the non-drag way to change the order; used for the workspace defaults). Columns: number, name, date, remove (32 / flexible / 176 / 36 px from the spacing scale); on phones the date moves under the name. -#}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/button/button.njk" import button %}
+{% macro stageEditor(id, stages, dates=true, reorder=false) %}
+{%- set v = variants.stageEditor -%}
+<div data-component="StageEditor" class="{{ v.base }}"><ol class="{{ v.base }}">{% for s in stages %}<li class="{{ v.slots.row if dates else v.slots.rowPlain }}"><span class="{{ v.slots.dot }}" aria-hidden="true">{{ loop.index }}</span>{{ input(id ~ "-" ~ loop.index ~ "-name", value=s.name, label="Stage " ~ loop.index ~ " name") }}
+  {%- if dates %}<div class="{{ v.slots.date }}">{{ input(id ~ "-" ~ loop.index ~ "-date", type="date", value=s.date, label="Stage " ~ loop.index ~ " target date") }}</div><div class="{{ v.slots.remove }}">{{ iconButton("Remove stage " ~ (s.name or loop.index), "x", size="sm") }}</div>
+  {%- else %}<div class="{{ v.slots.actions }}">{% if reorder %}{{ iconButton("Move " ~ (s.name or loop.index) ~ " up", "arrow-up", size="sm", disabled=loop.first) }}{{ iconButton("Move " ~ (s.name or loop.index) ~ " down", "arrow-down", size="sm", disabled=loop.last) }}{% endif %}{{ iconButton("Remove " ~ (s.name or loop.index), "x", size="sm") }}</div>{% endif %}</li>{% endfor %}</ol><div>{{ button("Add stage", variant="ghost", size="sm", iconLeading="plus") }}</div></div>
+{%- endmacro %}

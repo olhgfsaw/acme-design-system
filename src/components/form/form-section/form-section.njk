@@ -1,0 +1,5 @@
+{#- FormSection. A group of related fields under a heading. Props: id, title, text, columns (1 | 2; a field spans both with layout "md:col-span-2"), level (heading level, 2). Default slot = the fields. -#}
+{% macro formSection(id, title, text=null, columns="2", level=2) %}
+{%- set v = variants.formSection -%}
+<div data-component="FormSection" role="group" aria-labelledby="{{ id }}-title" class="{{ v.base }}"><div class="{{ v.slots.head }}"><h{{ level }} id="{{ id }}-title" class="{{ v.slots.title }}">{{ title }}</h{{ level }}>{% if text %}<p class="{{ v.slots.text }}">{{ text }}</p>{% endif %}</div><div class="{{ v.variants.columns[columns] }}">{% if caller %}{{ caller() }}{% endif %}</div></div>
+{%- endmacro %}

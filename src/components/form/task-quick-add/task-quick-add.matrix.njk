@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/task-quick-add/task-quick-add.njk" import taskQuickAdd %}
+{% set description = "Add a task to a column without leaving the board." %}
+{% block matrix %}
+
+{% call section("form") %}
+  {% call cell("open in a column") %}<div class="w-72 rounded-md bg-canvas p-2">{{ taskQuickAdd("m-tqa", [{ value: "of", label: "Olivia Foster" }, { value: "jr", label: "James Reed" }], assignee="jr") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

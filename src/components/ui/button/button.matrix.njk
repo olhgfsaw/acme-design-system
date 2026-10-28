@@ -13,6 +13,10 @@
     {% call cell("disabled") %}{{ button(sample.unavailable, variant=variant, disabled=true) }}{% endcall %}
   {% endcall %}
 {% endfor %}
+{% call section("toggle") %}
+  {% call cell("off") %}{{ button("Pin to dashboard", variant="secondary", iconLeading="pin", pressed=false) }}{% endcall %}
+  {% call cell("on") %}{{ button("Pin to dashboard", variant="secondary", iconLeading="pin", pressed=true) }}{% endcall %}
+{% endcall %}
 {% call section("as a link") %}
   {% call cell("secondary · href") %}{{ button(sample.create, variant="secondary", iconLeading="plus", href="#") }}{% endcall %}
   {% call cell("primary · lg · href") %}{{ button(sample.upgradeNow, size="lg", iconTrailing="arrow-right", href="#") }}{% endcall %}

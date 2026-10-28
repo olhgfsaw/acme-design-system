@@ -1,0 +1,59 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "layouts/_format.njk" import shortDate, monogram %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/pattern/project-board/project-board.njk" import projectBoard %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable, tableCell %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/stage-tracker/stage-tracker.njk" import stageTracker %}
+{% from "components/ui/avatar-group/avatar-group.njk" import avatarGroup %}
+{% from "components/ui/segmented/segmented.njk" import segmented %}
+{% from "components/ui/badge/badge.njk" import statusBadge %}
+{% from "components/ui/button/button.njk" import button %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- frame.view: board (default) or list. -#}
+{% set view = frame.view or "board" %}
+{% set projects = data.fixtures.project.scenarios[scenario] %}
+{% set today = project.referenceDate.slice(0, 10) %}
+{% set stageCodes = ["discovery", "design", "development", "review", "launch"] %}
+{% set stages = [] %}{% for s in stageCodes %}{% set _ = stages.push({ name: data.statuses.projectStage[s].label | label }) %}{% endfor %}
+{% set active = [] %}{% for p in projects %}{% if p.status == "in_progress" %}{% set _ = active.push(p) %}{% endif %}{% endfor %}
+{% set cur = (projects | first).currency if projects | length and (projects | first).currency else project.currency %}
+{% set messages = { loading: "Loading…", emptyTitle: "No projects yet", emptyText: "Start a project to plan its stages, tasks and invoices.", create: "New project", errorTitle: "Projects didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" } %}
+
+{% call appChrome("projects", scenario=scenario) %}
+  {% call pageHeader("Projects", (projects | length | plural({ one: "# project", other: "# projects" })) ~ " · " ~ (active | length) ~ " active · " ~ ((projects | sum("budgetMinor")) | money(cur)) ~ " in budgets") %}
+    {{ segmented([{ id: "board", label: "Board", icon: "kanban", href: "projects.html" }, { id: "list", label: "List", icon: "list", href: "projects-list.html" }], view, "View") }}
+    {{ button("New project", iconLeading="plus", href="project-new.html") }}
+  {% endcall %}
+  {% if view == "board" %}
+    {% set columns = [] %}
+    {% for code in stageCodes %}
+      {% set cards = [] %}
+      {% for p in projects %}{% if p.stage == code %}
+        {% set idx = stageCodes.indexOf(p.stage) %}
+        {% set _ = cards.push({ id: "pc-" ~ p.id, title: p.title, href: "project.html", client: p.clientName or "Internal project", budget: (p.budgetMinor | money(p.currency or cur)) if p.budgetMinor is defined else "—", monogram: monogram(p.title), pattern: p.cover, stages: stages, current: idx, percent: p.progressPercent, stageLabel: ("Completed" if p.status == "completed" else stages[idx].name), team: p.team or [], due: shortDate(p.dueDate) if p.dueDate else null, late: p.dueDate and p.dueDate < today and p.status != "completed", badge: ({ label: data.statuses.projectHealth[p.health].label | label, tone: data.statuses.projectHealth[p.health].tone } if p.health == "at_risk" else ({ label: data.statuses.projectStatus[p.status].label | label, tone: data.statuses.projectStatus[p.status].tone } if p.status == "on_hold" else null)) }) %}
+      {% endif %}{% endfor %}
+      {% set _ = columns.push({ id: code, name: stages[loop.index0].name, cards: cards }) %}
+    {% endfor %}
+    {{ projectBoard(columns, state=("empty" if (state == "default" and not projects | length) else state), messages=messages) }}
+  {% else %}
+    <section aria-label="All projects" class="flex min-w-0 flex-col gap-4 rounded-lg bg-surface p-6">
+      {% call dataTable("All projects", [{ label: "Project" }, { label: "Stage" }, { label: "Budget", align: "end" }, { label: "Paid", align: "end" }, { label: "Team" }, { label: "Due" }, { label: "Status" }], state=state, messages={ loading: "Loading…", emptyTitle: messages.emptyTitle, emptyText: messages.emptyText, errorTitle: messages.errorTitle, errorText: messages.errorText, retry: "Try again" }, emptyAction={ label: "New project", href: "project-new.html", icon: "plus" }) %}
+        {% for p in projects %}{% set idx = stageCodes.indexOf(p.stage) %}
+        <tr class="{{ variants.dataTable.slots.row }}">
+          {% call tableCell() %}{{ recordCell(p.title, href="project.html", sub=p.clientName or "Internal project", cover={ id: "lc-" ~ p.id, monogram: monogram(p.title), pattern: p.cover }) }}{% endcall %}
+          {% call tableCell() %}<div class="min-w-40">{{ stageTracker(stages, idx, percent=p.progressPercent, label=("Completed" if p.status == "completed" else stages[idx].name)) }}</div>{% endcall %}
+          {% call tableCell("end", "numeric") %}{{ (p.budgetMinor | money(p.currency or cur)) if p.budgetMinor is defined else "—" }}{% endcall %}
+          {% call tableCell("end", "numeric") %}{{ (p.paidMinor | money(p.currency or cur)) if p.paidMinor is defined else "—" }}{% endcall %}
+          {% call tableCell() %}{% if p.team %}{{ avatarGroup(p.team) }}{% endif %}{% endcall %}
+          {% call tableCell(kind=("danger" if (p.dueDate and p.dueDate < today and p.status != "completed") else "muted")) %}{{ (p.dueDate | date("medium")) if p.dueDate else "Not planned" }}{% endcall %}
+          {% call tableCell() %}{{ statusBadge("projectStatus", p.status) }}{% endcall %}
+        </tr>
+        {% endfor %}
+      {% endcall %}
+    </section>
+  {% endif %}
+{% endcall %}
+{% endblock %}

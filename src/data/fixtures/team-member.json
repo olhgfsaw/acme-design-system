@@ -6,37 +6,179 @@
         "id": 11,
         "name": "Olivia F.",
         "fullName": "Olivia Foster",
-        "workloadPercent": 86
+        "workloadPercent": 86,
+        "role": "Lead designer",
+        "discipline": "design",
+        "access": "member",
+        "hoursThisWeek": 34,
+        "capacityHours": 40,
+        "projects": [
+          "Website redesign",
+          "App development",
+          "Landing page design"
+        ],
+        "email": "olivia.foster@acme.example",
+        "phone": "+1 (415) 555-0186",
+        "location": "San Francisco, CA · Pacific time",
+        "workingHours": "Mon–Fri, 9:00 AM–6:00 PM",
+        "since": "2023-03-06",
+        "skills": [
+          "UI design",
+          "Design systems",
+          "Prototyping",
+          "Accessibility",
+          "Brand identity",
+          "Figma"
+        ],
+        "calendarConnected": true,
+        "timeOff": [
+          {
+            "dates": "Nov 25–27",
+            "reason": "Thanksgiving, 3 days"
+          },
+          {
+            "dates": "Dec 23 – Jan 2",
+            "reason": "Holidays, 7 days"
+          }
+        ],
+        "vacationLeft": 6,
+        "vacationTotal": 20,
+        "projectHours": [
+          {
+            "project": "Website redesign",
+            "hours": 18,
+            "role": "Lead designer"
+          },
+          {
+            "project": "App development",
+            "hours": 10,
+            "role": "UI design"
+          },
+          {
+            "project": "Landing page design",
+            "hours": 6,
+            "role": "Design review"
+          }
+        ],
+        "reportsTo": "Abraham Moss",
+        "sickDaysUsed": 2,
+        "pronouns": "she/her",
+        "about": "Lead designer at Acme. I work on websites and apps from first sketch to launch, and I care a lot about accessible, calm interfaces."
       },
       {
         "id": 12,
         "name": "James R.",
         "fullName": "James Reed",
-        "workloadPercent": 72
+        "workloadPercent": 72,
+        "role": "Frontend developer",
+        "discipline": "engineering",
+        "access": "member",
+        "hoursThisWeek": 29,
+        "capacityHours": 40,
+        "projects": [
+          "Website redesign",
+          "Marketing campaign"
+        ],
+        "email": "james.reed@acme.example"
       },
       {
         "id": 13,
         "name": "Karl H.",
         "fullName": "Karl Hansen",
-        "workloadPercent": 94
+        "workloadPercent": 94,
+        "role": "Backend developer",
+        "discipline": "engineering",
+        "access": "member",
+        "hoursThisWeek": 38,
+        "capacityHours": 40,
+        "projects": [
+          "Website redesign",
+          "App development",
+          "Partner onboarding"
+        ],
+        "email": "karl.hansen@acme.example"
       },
       {
         "id": 14,
         "name": "Abraham M.",
         "fullName": "Abraham Moss",
-        "workloadPercent": 68
+        "workloadPercent": 68,
+        "role": "Project manager",
+        "discipline": "management",
+        "access": "member",
+        "hoursThisWeek": 27,
+        "capacityHours": 40,
+        "projects": [
+          "Website redesign",
+          "Marketing campaign",
+          "Partner onboarding"
+        ],
+        "email": "abraham.moss@acme.example"
       },
       {
         "id": 15,
-        "name": "Emma R.",
-        "fullName": "Emma Ruiz",
-        "workloadPercent": 55
+        "name": "Mia C.",
+        "fullName": "Mia Chen",
+        "workloadPercent": 40,
+        "role": "UX researcher",
+        "discipline": "design",
+        "access": "member",
+        "hoursThisWeek": 16,
+        "capacityHours": 40,
+        "projects": [
+          "Landing page design"
+        ],
+        "email": "mia.chen@acme.example"
       },
       {
         "id": 16,
-        "name": "Noah B.",
-        "fullName": "Noah Bennett",
-        "workloadPercent": 40
+        "name": "Lucas N.",
+        "fullName": "Lucas Novak",
+        "workloadPercent": 78,
+        "role": "Mobile developer",
+        "discipline": "engineering",
+        "access": "member",
+        "hoursThisWeek": 31,
+        "capacityHours": 40,
+        "projects": [
+          "App development"
+        ],
+        "email": "lucas.novak@acme.example"
+      },
+      {
+        "id": 17,
+        "name": "Sofia M.",
+        "fullName": "Sofia Marin",
+        "workloadPercent": 55,
+        "role": "QA engineer",
+        "discipline": "engineering",
+        "access": "member",
+        "hoursThisWeek": 22,
+        "capacityHours": 40,
+        "projects": [
+          "App development"
+        ],
+        "email": "sofia.marin@acme.example",
+        "away": "Off Oct 29–30"
+      },
+      {
+        "id": 18,
+        "name": "Daniel K.",
+        "fullName": "Daniel Kim",
+        "workloadPercent": 50,
+        "role": "Account director",
+        "discipline": "management",
+        "access": "admin",
+        "hoursThisWeek": 20,
+        "capacityHours": 40,
+        "projects": [
+          "Website redesign",
+          "App development",
+          "Marketing campaign",
+          "Landing page design",
+          "Partner onboarding"
+        ],
+        "email": "daniel.kim@acme.example"
       }
     ],
     "empty": [],
@@ -65,7 +207,9 @@
         "id": 900000012,
         "name": "Olivia F.",
         "fullName": "Olivia Foster",
-        "workloadPercent": 0
+        "workloadPercent": 0,
+        "reportsTo": "Abraham Moss",
+        "sickDaysUsed": 2
       }
     ],
     "partial": [
@@ -79,7 +223,9 @@
         "id": 32,
         "name": "Olivia F.",
         "fullName": "Olivia Foster",
-        "workloadPercent": 80
+        "workloadPercent": 80,
+        "reportsTo": "Abraham Moss",
+        "sickDaysUsed": 2
       }
     ],
     "many": {

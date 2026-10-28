@@ -1,0 +1,47 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_space-chrome.njk" import spaceChrome %}
+{% from "layouts/_format.njk" import shortDate, monogram %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/project-card/project-card.njk" import projectCard %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/empty-state/empty-state.njk" import emptyState %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set session = data.fixtures.session.scenarios.typical | selectattr("current") | first %}
+{% set me = data.fixtures.teamMember.scenarios.typical | selectattr("id", "equalto", session.memberId) | first %}
+{% set today = project.referenceDate.slice(0, 10) %}
+{% set weekEnd = "2026-11-01" %}
+{% set stageCodes = ["discovery", "design", "development", "review", "launch"] %}
+{% set stages = [] %}{% for s in stageCodes %}{% set _ = stages.push({ name: data.statuses.projectStage[s].label | label }) %}{% endfor %}
+{% set roles = {} %}{% set mine = [] %}{% set done = [] %}
+{% for p in data.fixtures.project.scenarios[scenario] %}
+  {% set ph = me.projectHours | selectattr("project", "equalto", p.title) | first %}
+  {% if ph and p.status != "completed" %}{% set _ = mine.push({ p: p, ph: ph }) %}{% elif p.status == "completed" and me.fullName in (p.team or []) %}{% set _ = done.push(p) %}{% endif %}
+{% endfor %}
+{% set openAll = [] %}{% for t in data.fixtures.task.scenarios.typical %}{% if t.assigneeName == me.fullName and t.status != "done" %}{% set _ = openAll.push(t) %}{% endif %}{% endfor %}
+
+{% call spaceChrome("projects") %}
+  {% call pageHeader("My projects", (mine | length | plural({ one: "# project you're on", other: "# projects you're on" })) ~ " · " ~ (openAll | length | plural({ one: "# open task assigned to you", other: "# open tasks assigned to you" }))) %}
+    {{ button("My tasks on the board", variant="secondary", iconLeading="square-kanban", href="my-board.html") }}
+  {% endcall %}
+  <div class="flex flex-col gap-3">
+    {% if state == "loading" %}<ul aria-busy="true" class="grid gap-3 md:grid-cols-2 xl:grid-cols-3"><li class="sr-only">Loading…</li>{% for i in range(0, 3) %}<li>{{ skeleton("block", layout="w-full") }}</li>{% endfor %}</ul>
+    {% elif mine | length %}
+    <ul class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">{% for x in mine %}{% set p = x.p %}
+      {% set o = [] %}{% set wk = [] %}{% set rv = [] %}{% for t in data.fixtures.task.scenarios.typical %}{% if t.projectId == p.id and t.assigneeName == me.fullName and t.status != "done" %}{% set _ = o.push(1) %}{% if t.dueDate and t.dueDate <= weekEnd %}{% set _ = wk.push(1) %}{% endif %}{% if t.status == "in_review" %}{% set _ = rv.push(1) %}{% endif %}{% endif %}{% endfor %}
+      {% set h = data.statuses.projectHealth[p.health] %}
+      <li class="flex min-w-0">{{ projectCard("mp-" ~ p.id, p.title, "my-project.html", p.clientName ~ " · " ~ x.ph.role, x.ph.hours ~ " h/week", monogram(p.title), p.cover, stages, stageCodes.indexOf(p.stage), percent=p.progressPercent, team=p.team or [], due=shortDate(p.dueDate) if p.dueDate else null, badge=({ label: h.label | label, tone: h.tone } if p.health and p.health != "normal" else null), stats=[{ label: "Open for you", value: o | length }, { label: "Due this week", value: wk | length }, { label: "In review", value: rv | length }]) }}</li>
+    {% endfor %}</ul>
+    {% else %}<div class="rounded-lg bg-surface p-6">{{ emptyState("No projects yet", "Your admin adds you to projects. They show up here with your tasks and hours.", iconName="folder") }}</div>{% endif %}
+    {% call card("finished") %}
+      <div class="flex flex-col gap-4"><div class="flex flex-col gap-1"><h2 id="finished-title" class="text-xl font-medium tracking-tight text-fg">Finished</h2><p class="text-sm text-fg-secondary">Projects you worked on that are done. Files stay available.</p></div>
+      {% if done | length %}<ul class="flex flex-col gap-3">{% for p in done %}<li class="flex items-center justify-between gap-3">{{ recordCell(p.title, href="my-project.html", sub=p.clientName ~ (" · done " ~ shortDate(p.dueDate) if p.dueDate else ""), cover={ id: "fin-" ~ p.id, monogram: monogram(p.title), pattern: p.cover }) }}{{ badge("Done", tone="success") }}</li>{% endfor %}</ul>
+      {% else %}<p class="text-sm text-fg-secondary">Nothing finished yet.</p>{% endif %}</div>
+    {% endcall %}
+  </div>
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/budget-bar/budget-bar.njk" import budgetBar %}
+{% set description = "How a contract or budget splits: paid, invoiced and unpaid, not invoiced yet." %}
+{% block matrix %}
+
+{% call section("split") %}
+  {% call cell("client finance") %}<div class="w-80">{{ budgetBar("USD", [{ label: "Paid", amountMinor: 2550000, tone: "strong" }, { label: "Invoiced, unpaid", amountMinor: 800000, tone: "accent" }, { label: "Not invoiced yet", amountMinor: 800000, tone: "muted" }], "Paid $25,500, invoiced and unpaid $8,000, not invoiced $8,000") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

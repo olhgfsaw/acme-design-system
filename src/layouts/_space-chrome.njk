@@ -1,0 +1,26 @@
+{#- Chrome of a team member's "My space": TopBar with the My space chip, Capture (goes to the project lead), messages, notifications and the account menu, then SpaceNav. The signed-in member comes from the current session. Usage: {% call spaceChrome("me") %}…{% endcall %}. -#}
+{% from "components/layout/top-bar/top-bar.njk" import topBar %}
+{% from "components/layout/space-nav/space-nav.njk" import spaceNav %}
+{% from "components/layout/user-menu/user-menu.njk" import userMenu %}
+{% from "components/pattern/capture-button/capture-button.njk" import captureButton %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% macro spaceChrome(active) %}
+{%- set session = data.fixtures.session.scenarios.typical | selectattr("current") | first -%}
+{%- set me = data.fixtures.teamMember.scenarios.typical | selectattr("id", "equalto", session.memberId) | first -%}
+{%- set unread = data.fixtures.notification.scenarios.typical | length -%}
+{%- set nav = [
+  { id: "me", label: "My work", icon: "house", href: "me.html" },
+  { id: "time", label: "Time and time off", icon: "clock", href: "my-time.html" },
+  { id: "projects", label: "My projects", icon: "folder", href: "my-projects.html", count: me.projectHours | length, countLabel: "active" },
+  { id: "calendar", label: "Calendar", icon: "calendar", href: "my-calendar.html" },
+  { id: "team", label: "Team", icon: "users", href: "my-team.html" }
+] -%}
+<div data-component="AppShell" class="{{ variants.appShell.base }}">
+  {% call topBar(project.product, "Search your projects, tasks and files...", "Search", homeHref="me.html", context="My space") %}{{ captureButton("capture", note="Goes to your project lead for review") }}{{ iconButton("Messages", "message-circle", variant="secondary") }}{{ iconButton("Notifications, " ~ unread ~ " unread", "bell", variant="secondary", dot=unread > 0) }}{{ userMenu("user-menu", me.fullName, me.role ~ " · Member", [{ label: "My profile", href: "me.html", icon: "user" }, { label: "Account settings", href: "account.html", icon: "settings" }], footer=[{ label: "Log out", href: "sign-in.html", icon: "log-out" }]) }}{% endcall %}
+  {#- The side nav is 240 px wide, so it moves above the content below lg (AppShell switches at md for the narrow NavRail). -#}
+  <div class="flex flex-1 flex-col gap-6 lg:flex-row lg:gap-12">
+    {{ spaceNav(nav, "My space", activeId=active) }}
+    <main class="{{ variants.appShell.slots.main }}">{{ caller() }}</main>
+  </div>
+</div>
+{%- endmacro %}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "File",
+  "x-entity": "file",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "clientId",
+    "name",
+    "type",
+    "sizeBytes",
+    "uploadedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "clientId": {
+      "type": "integer",
+      "description": "Client the file belongs to"
+    },
+    "projectName": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Project it belongs to; absent for client-wide files"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255,
+      "description": "File name with extension"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "pdf",
+        "docx",
+        "xlsx",
+        "png",
+        "jpg",
+        "fig"
+      ],
+      "description": "File type; picks the icon"
+    },
+    "sizeBytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Size in bytes"
+    },
+    "uploadedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it was added (UTC)"
+    },
+    "uploadedBy": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Who added it"
+    }
+  }
+}

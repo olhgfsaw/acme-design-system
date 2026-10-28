@@ -1,0 +1,12 @@
+{
+  "base": "flex min-w-0 max-w-sm items-center gap-3",
+  "variants": {},
+  "slots": {
+    "text": "flex min-w-0 flex-col",
+    "title": "truncate rounded-xs font-medium text-fg hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "titlePlain": "truncate font-medium text-fg",
+    "sub": "truncate text-xs text-fg-muted",
+    "aside": "ms-auto shrink-0 ps-3 text-sm font-medium text-fg tabular-nums"
+  },
+  "defaultVariants": {}
+}

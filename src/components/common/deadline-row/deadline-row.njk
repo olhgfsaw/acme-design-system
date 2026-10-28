@@ -1,0 +1,7 @@
+{#- DeadlineRow. An upcoming due date: date tile, title (a link to the project), a line with the full date and client, and a badge (Late, At risk, In 6 days). Props: iso, title, href, sub, badge ({ label, tone }). -#}
+{% from "components/ui/date-tile/date-tile.njk" import dateTile %}
+{% from "components/ui/badge/badge.njk" import badge as _badge %}
+{% macro deadlineRow(iso, title, href, sub=null, badge=null) %}
+{%- set v = variants.deadlineRow -%}
+<div data-component="DeadlineRow" class="{{ v.base }}">{{ dateTile(iso) }}<span class="{{ v.slots.text }}"><a href="{{ href }}" class="{{ v.slots.title }}">{{ title }}</a>{% if sub %}<span class="{{ v.slots.sub }}">{{ sub }}</span>{% endif %}</span>{% if badge %}{{ _badge(badge.label, tone=badge.tone) }}{% endif %}</div>
+{%- endmacro %}

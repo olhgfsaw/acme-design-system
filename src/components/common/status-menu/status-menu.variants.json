@@ -1,0 +1,24 @@
+{
+  "base": "relative inline-flex",
+  "variants": {
+    "tone": {
+      "draft": "bg-fg-muted",
+      "sent": "bg-info-fg",
+      "paid": "bg-success-fg",
+      "overdue": "bg-danger-fg",
+      "void": "bg-neutral-fg",
+      "partial": "bg-warning-fg"
+    }
+  },
+  "slots": {
+    "trigger": "inline-flex items-center gap-1 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "chevron": "size-4 text-fg-muted",
+    "item": "flex w-full items-start gap-2.5 rounded-sm px-2.5 py-2 text-start hover:bg-surface-subtle active:bg-surface-subtle aria-checked:bg-surface-subtle aria-disabled:opacity-55 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "dot": "mt-1.5 size-2.5 shrink-0 rounded-full",
+    "text": "flex min-w-0 flex-col gap-0.5",
+    "label": "text-sm font-medium text-fg",
+    "hint": "text-xs text-fg-muted",
+    "check": "ms-auto mt-0.5 size-4 shrink-0 text-fg"
+  },
+  "defaultVariants": {}
+}

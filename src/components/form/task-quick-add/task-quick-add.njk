@@ -1,0 +1,8 @@
+{#- TaskQuickAdd. Add a task to a column without leaving the board. Props: id, people [{ value, label }], assignee. -#}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/button/button.njk" import button %}
+{% macro taskQuickAdd(id, people, assignee=null) %}
+{%- set v = variants.taskQuickAdd -%}
+<form data-component="TaskQuickAdd" class="{{ v.base }}"><label for="{{ id }}-title" class="sr-only">Task title</label>{{ input(id ~ "-title", placeholder="What needs doing?") }}<div class="{{ v.slots.row }}"><div class="{{ v.slots.who }}"><label for="{{ id }}-who" class="sr-only">Assignee</label>{{ select(id ~ "-who", people, value=assignee) }}</div>{{ button("Cancel", variant="ghost", size="sm") }}{{ button("Add", size="sm", type="submit") }}</div></form>
+{%- endmacro %}

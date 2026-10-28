@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/task-summary/task-summary.njk" import taskSummary %}
+{% set description = "How a project's tasks split by status." %}
+{% block matrix %}
+
+{% call section("split") %}
+  <div class="w-full max-w-2xl">{{ taskSummary([{ label: "Done", count: 4, tone: "success" }, { label: "In review", count: 2, tone: "warning" }, { label: "In progress", count: 3, tone: "accent" }, { label: "To do", count: 4, tone: "muted" }], "4 done, 2 in review, 3 in progress, 4 to do") }}</div>
+{% endcall %}
+{% endblock %}

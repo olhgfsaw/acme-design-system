@@ -4,7 +4,9 @@
   "slots": {
     "brand": "inline-flex h-12 shrink-0 items-center rounded-md text-xl font-semibold tracking-tight text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
     "search": "order-last w-full md:order-0 md:max-w-xl md:flex-1",
-    "actions": "ms-auto flex items-center gap-3"
+    "actions": "ms-auto flex items-center gap-3",
+    "home": "flex shrink-0 items-center gap-3",
+    "context": "inline-flex h-7 items-center rounded-full bg-accent-subtle px-3 text-xs font-semibold whitespace-nowrap text-fg"
   },
   "defaultVariants": {}
 }

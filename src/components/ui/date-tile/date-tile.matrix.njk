@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/date-tile/date-tile.njk" import dateTile %}
+{% set description = "A small month + day square in lists of dated items." %}
+{% block matrix %}
+
+{% call section("dates") %}
+  {% call cell("single digit") %}<div class="rounded-md bg-canvas p-3">{{ dateTile("2026-11-03") }}</div>{% endcall %}
+  {% call cell("two digits") %}<div class="rounded-md bg-canvas p-3">{{ dateTile("2026-12-12") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

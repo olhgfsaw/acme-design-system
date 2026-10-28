@@ -8,6 +8,7 @@
   {% call cell("xs") %}{{ avatar(sample.accountName, size="xs") }}{% endcall %}
   {% call cell("sm") %}{{ avatar(sample.accountName, size="sm") }}{% endcall %}
   {% call cell("md") %}{{ avatar(sample.accountName) }}{% endcall %}
+  {% call cell("lg") %}{{ avatar(sample.accountName, size="lg") }}{% endcall %}
   {% call cell("md · ring") %}{{ avatar(sample.people[1].name, ring=true) }}{% endcall %}
 {% endcall %}
 {% endblock %}

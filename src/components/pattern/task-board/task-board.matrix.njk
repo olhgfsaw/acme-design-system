@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/pattern/task-board/task-board.njk" import taskBoard %}
+{% set description = "Tasks in status columns. Switch data states with the tabs." %}
+{% block matrix %}
+
+{% call section("board") %}
+  <div class="w-full">{{ taskBoard([{ id: "todo", label: "To do", tasks: [{ id: "m-tb-1", title: "Contact form with validation", tag: "Frontend", due: "Nov 5", assignee: "Karl Hansen" }], adding: true }, { id: "in_progress", label: "In progress", tasks: [{ id: "m-tb-2", title: "Homepage build", tag: "Frontend", due: "Nov 3", subtasks: { done: 2, total: 5 }, assignee: "James Reed" }] }, { id: "in_review", label: "In review", tasks: [] }, { id: "done", label: "Done", tasks: [{ id: "m-tb-3", title: "Wireframes sign-off", tag: "Design", due: "Oct 2", assignee: "Daniel Kim" }] }], people=[{ value: "of", label: "Olivia Foster" }, { value: "jr", label: "James Reed" }], state=state, messages={ loading: "Loading…", emptyColumn: "Drag a task here or move it with its menu", errorTitle: "The board didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" }) }}</div>
+{% endcall %}
+{% endblock %}

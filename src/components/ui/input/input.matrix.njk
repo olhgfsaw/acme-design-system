@@ -17,6 +17,9 @@
   {% call cell("attention") %}<div class="w-72">{{ input("m-att", value="PO-KC-0412", variant="attention", label="Client PO number") }}</div>{% endcall %}
   {% call cell("missing") %}<div class="w-72">{{ input("m-miss", placeholder="Optional", variant="missing", label="Client PO number") }}</div>{% endcall %}
 {% endcall %}
+{% call section("filter") %}
+  {% call cell("in a list") %}<div class="w-72">{{ input("m-filter", type="search", variant="filter", iconLeading="search", placeholder="Search by name or company", label="Search clients") }}</div>{% endcall %}
+{% endcall %}
 {% call section("search") %}
   {% call cell("search · lg") %}<div class="w-96">{{ input("m-search", type="search", variant="search", size="lg", iconLeading="search", placeholder=sample.searchPlaceholder, label=sample.searchLabel) }}</div>{% endcall %}
   {% call cell("search · filled") %}<div class="w-96">{{ input("m-search-filled", type="search", variant="search", size="lg", iconLeading="search", value=sample.companyValue, label=sample.searchLabel) }}</div>{% endcall %}

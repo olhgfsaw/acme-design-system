@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/email-preview/email-preview.njk" import emailPreview %}
+{% set description = "What an email will look like before it is sent." %}
+{% block matrix %}
+
+{% call section("invite") %}
+  <div class="w-96">{{ emailPreview("Daniel Kim via Acme", "Nina Petrova <nina.petrova@acme.example>", "Daniel Kim invited you to Acme", "Join the team on Acme", ["Hi Nina,", "Daniel Kim invited you to join Acme as a Frontend developer.", "You'll start on Website redesign and Marketing campaign."], cta="Accept invite", quote="Welcome aboard! Your first task is the homepage build.", foot="The link works until Nov 4, 2026.") }}</div>
+{% endcall %}
+{% endblock %}

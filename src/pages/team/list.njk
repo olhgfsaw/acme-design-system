@@ -1,0 +1,96 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "layouts/_format.njk" import shortDate %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/member-card/member-card.njk" import memberCard %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/stage-tracker/stage-tracker.njk" import stageTracker %}
+{% from "components/common/empty-state/empty-state.njk" import emptyState %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable, tableCell %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/badge/badge.njk" import statusBadge %}
+{% from "components/ui/avatar-group/avatar-group.njk" import avatarGroup %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set team = data.fixtures.teamMember.scenarios[scenario] %}
+{% set invites = data.fixtures.invite.scenarios[scenario] %}
+{% set projects = data.fixtures.project.scenarios.typical %}
+{% set by = team | groupby("discipline") %}
+{% set over = [] %}{% set overNames = [] %}{% for m in team %}{% if m.workloadPercent and m.workloadPercent >= 90 %}{% set _ = over.push(m) %}{% set _ = overNames.push(m.fullName) %}{% endif %}{% endfor %}
+{% set loads = [] %}{% for m in team %}{% if m.workloadPercent is number %}{% set _ = loads.push(m.workloadPercent) %}{% endif %}{% endfor %}
+{% set stageCodes = ["discovery", "design", "development", "review", "launch"] %}
+{% set stages = [] %}{% for s in stageCodes %}{% set _ = stages.push({ name: data.statuses.projectStage[s].label | label }) %}{% endfor %}
+{% set active = [] %}{% for p in projects %}{% if p.status == "in_progress" %}{% set _ = active.push(p) %}{% endif %}{% endfor %}
+
+{#- frame.member: the team seen from My space — no invites. -#}
+{% set member = frame.member %}
+{% call appChrome("team", scenario=scenario, member=member) %}
+  {% call pageHeader("Team", (team | length | plural({ one: "# person", other: "# people" })) ~ " · " ~ (active | length) ~ " active projects") %}
+    {{ button("Team calendar", variant="secondary", iconLeading="calendar", href=("my-calendar.html" if member else "calendar.html")) }}
+    {% if not member %}{{ button("Invite member", iconLeading="user-plus", href="invite-member.html") }}{% endif %}
+  {% endcall %}
+  <div class="flex flex-col gap-3">
+    <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"{% if state == "loading" %} aria-busy="true"{% endif %}>
+      {% if state == "loading" %}{% for i in range(4) %}{% call card("s" ~ i) %}<div class="flex flex-col gap-2">{{ skeleton("line", layout="w-24") }}{{ skeleton("figure", layout="w-20") }}</div>{% endcall %}{% endfor %}
+      {% elif state != "error" %}
+        {% call card("s-people") %}{{ statBlock("People", team | length | number) }}<p class="text-sm text-fg-secondary">{{ (by.design or []) | length }} design · {{ (by.engineering or []) | length }} engineering · {{ (by.management or []) | length }} management</p>{% endcall %}
+        {% call card("s-load") %}{{ statBlock("Average workload", ((loads | sum) / (loads | length) / 100) | percent if loads | length else "—") }}<p class="text-sm text-fg-secondary">Booked hours against capacity</p>{% endcall %}
+        {% call card("s-hours") %}{{ statBlock("Booked this week", ((team | sum("hoursThisWeek")) | number) ~ " h") }}<p class="text-sm text-fg-secondary">of {{ (team | sum("capacityHours")) | number }} h capacity</p>{% endcall %}
+        {% call card("s-over") %}{{ statBlock("Over capacity", over | length | number) }}<p class="text-sm {{ "font-medium text-danger-fg" if over | length else "text-fg-secondary" }}">{{ (overNames | join(", ")) if over | length else "Nobody is over 90%" }}</p>{% endcall %}
+      {% endif %}
+    </div>
+    <section aria-label="Team members" class="flex min-w-0 flex-col gap-6 rounded-lg bg-surface p-6">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        {{ tabs([{ id: "all", label: "Everyone", count: team | length }, { id: "design", label: "Design", count: (by.design or []) | length }, { id: "engineering", label: "Engineering", count: (by.engineering or []) | length }, { id: "management", label: "Management", count: (by.management or []) | length }], "all", "Filter by discipline", panel="team-grid") }}
+        <div class="w-full sm:w-72">{{ input("team-search", type="search", variant="filter", iconLeading="search", placeholder="Search by name or role", label="Search team", value=("Zoe" if state == "no-results" else "")) }}</div>
+      </div>
+      <div id="team-grid" role="tabpanel" aria-labelledby="all-tab"{% if state == "loading" %} aria-busy="true"{% endif %}>
+      {% if state == "loading" %}<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{% for i in range(4) %}{{ skeleton("block", layout="w-full") }}{% endfor %}</div>
+      {% elif state == "error" %}{{ errorState("The team didn't load", "Something went wrong on our side. Try again in a minute.", "Try again") }}
+      {% elif state == "no-results" %}{% call emptyState("Nobody matches “Zoe”", "Search by first name, last name or role.", iconName="search") %}{{ button("Clear search", variant="secondary", size="sm", iconLeading="rotate-ccw") }}{% endcall %}
+      {% elif team | length %}
+        <ul class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{% for m in team %}{% set badges = [] %}{% if m.access == "admin" %}{% set _ = badges.push({ label: "Admin", tone: "info" }) %}{% endif %}{% if m.away %}{% set _ = badges.push({ label: m.away, tone: "warning" }) %}{% else %}{% set _ = badges.push({ label: "Available", tone: "success" }) %}{% endif %}<li class="flex min-w-0">{{ memberCard(m.fullName, m.role or "Team member", "member.html", (m.projects or []) | length, ((m.hoursThisWeek or 0) | number) ~ " h", m.workloadPercent or 0, projects=m.projects or [], badges=badges) }}</li>{% endfor %}</ul>
+      {% else %}{% call emptyState("Just you so far", "Invite the people you work with to plan projects and workload together.", iconName="users") %}{{ button("Invite member", size="sm", iconLeading="user-plus", href="invite-member.html") }}{% endcall %}{% endif %}
+      </div>
+    </section>
+    {% if state == "default" %}
+    {% if not member %}{% call card("invites", title="Pending invites") %}
+      <div class="flex flex-col gap-4"><p class="text-sm text-fg-muted">They get access when they accept. Links work for 7 days.</p>
+      {% call dataTable("Pending invites", [{ label: "Person" }, { label: "Role" }, { label: "Access" }, { label: "Projects" }, { label: "Sent" }, { label: "Status" }, { label: "Actions", hidden: true, align: "end" }], state=("empty" if not invites | length else "default"), messages={ emptyTitle: "No pending invites", emptyText: "Invites you send wait here until they're accepted." }) %}
+        {% for iv in invites %}
+        <tr class="{{ variants.dataTable.slots.row }}">
+          {% call tableCell() %}{{ recordCell(iv.name, sub=iv.email, avatar=iv.name) }}{% endcall %}
+          {% call tableCell(kind="muted") %}{{ iv.role or "—" }}{% endcall %}
+          {% call tableCell(kind="muted") %}{{ "Admin" if iv.access == "admin" else "Member" }}{% endcall %}
+          {% call tableCell(kind="secondary") %}{{ (iv.projects or []) | join(", ") or "—" }}{% endcall %}
+          {% call tableCell(kind="muted") %}{{ shortDate(iv.sentAt) }}{% endcall %}
+          {% call tableCell() %}{{ statusBadge("inviteStatus", iv.status) }}{% endcall %}
+          {% call tableCell("end") %}<div class="inline-flex gap-2">{{ button("Resend", variant="secondary", size="sm", iconLeading="send", ariaLabel="Resend invite to " ~ iv.name) }}{{ button("Cancel invite", variant="ghost", size="sm", ariaLabel="Cancel invite for " ~ iv.name) }}</div>{% endcall %}
+        </tr>
+        {% endfor %}
+      {% endcall %}</div>
+    {% endcall %}
+    {% endif %}{% call card("staffing", title="Who works on what") %}
+      <div class="flex flex-col gap-4"><p class="text-sm text-fg-muted">People on each active project</p>
+      {% call dataTable("People on each active project", [{ label: "Project" }, { label: "Stage" }, { label: "People" }, { label: "Lead" }, { label: "Status" }]) %}
+        {% for p in active %}{% set idx = stageCodes.indexOf(p.stage) %}
+        <tr class="{{ variants.dataTable.slots.row }}">
+          {% call tableCell() %}{{ recordCell(p.title, href=("my-project.html" if member else "project.html"), sub=p.clientName) }}{% endcall %}
+          {% call tableCell() %}<div class="min-w-40">{{ stageTracker(stages, idx, percent=p.progressPercent, label=stages[idx].name) }}</div>{% endcall %}
+          {% call tableCell() %}{{ avatarGroup(p.team or []) }}{% endcall %}
+          {% call tableCell(kind="muted") %}{{ (p.team or ["—"]) | first }}{% endcall %}
+          {% call tableCell() %}{{ statusBadge("projectHealth", p.health) }}{% endcall %}
+        </tr>
+        {% endfor %}
+      {% endcall %}</div>
+    {% endcall %}
+    {% endif %}
+  </div>
+{% endcall %}
+{% endblock %}

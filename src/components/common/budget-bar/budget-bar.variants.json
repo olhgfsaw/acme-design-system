@@ -1,0 +1,25 @@
+{
+  "base": "flex flex-col gap-4",
+  "variants": {
+    "tone": {
+      "strong": "fill-fg",
+      "accent": "fill-accent",
+      "muted": "fill-surface-subtle",
+      "danger": "fill-danger-fg"
+    }
+  },
+  "dot": {
+    "strong": "bg-fg",
+    "accent": "bg-accent",
+    "muted": "bg-divider",
+    "danger": "bg-danger-fg"
+  },
+  "slots": {
+    "track": "block h-3 w-full rounded-full",
+    "legend": "flex flex-col gap-3",
+    "row": "flex items-center gap-2 text-sm text-fg-secondary",
+    "dot": "size-2.5 shrink-0 rounded-full",
+    "value": "ms-auto font-medium text-fg tabular-nums"
+  },
+  "defaultVariants": {}
+}

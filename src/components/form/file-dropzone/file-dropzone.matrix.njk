@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/file-dropzone/file-dropzone.njk" import fileDropzone %}
+{% set description = "Drop files here or browse; the whole zone opens the picker." %}
+{% block matrix %}
+
+{% call section("layout") %}
+  {% call cell("stack") %}<div class="w-80">{{ fileDropzone("m-dz-1", "Attach documents", "PDF, DOCX, XLSX, PNG or JPG, up to 25 MB each") }}</div>{% endcall %}
+  {% call cell("row") %}<div class="w-full max-w-2xl">{{ fileDropzone("m-dz-2", "Upload documents", "PDF, DOCX, XLSX, PNG or JPG, up to 25 MB each", layout="row") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

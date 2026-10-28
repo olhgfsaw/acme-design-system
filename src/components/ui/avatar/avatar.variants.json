@@ -4,7 +4,9 @@
     "size": {
       "xs": "size-7 text-xs",
       "sm": "size-8 text-xs",
-      "md": "size-12 text-base"
+      "md": "size-12 text-base",
+      "lg": "size-16 text-xl",
+      "xl": "size-20 text-2xl"
     },
     "ring": {
       "true": "ring-2 ring-accent-strong ring-offset-2 ring-offset-surface",

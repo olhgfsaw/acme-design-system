@@ -1,0 +1,111 @@
+{
+  "entity": "notification",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 501,
+        "memberId": 11,
+        "actorName": "James Reed",
+        "text": "commented on Homepage hero",
+        "detail": "“Can we try the darker variant on mobile?”",
+        "at": "2026-10-28T11:20:00Z",
+        "kind": "comment",
+        "href": "my-board.html"
+      },
+      {
+        "id": 502,
+        "memberId": 11,
+        "actorName": "Abraham Moss",
+        "text": "approved your timesheet for Oct 19 – 23",
+        "at": "2026-10-27T16:05:00Z",
+        "kind": "approval",
+        "href": "my-time.html"
+      },
+      {
+        "id": 503,
+        "memberId": 11,
+        "text": "Landing page design is at risk",
+        "detail": "Due Nov 7 · design review is behind",
+        "at": "2026-10-27T09:00:00Z",
+        "kind": "risk",
+        "href": "my-projects.html"
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 501,
+        "memberId": 11,
+        "actorName": "Konstantinopolsky-Alexandrovsky Vladislav",
+        "text": "commented on Homepage hero",
+        "detail": "“Can we try the darker variant on mobile and also check the tablet breakpoint with the long German headline?”",
+        "at": "2026-10-28T11:20:00Z",
+        "kind": "comment",
+        "href": "my-board.html"
+      },
+      {
+        "id": 502,
+        "memberId": 11,
+        "actorName": "Abraham Moss",
+        "text": "approved your timesheet for Oct 19 – 23",
+        "at": "2026-10-27T16:05:00Z",
+        "kind": "approval",
+        "href": "my-time.html"
+      },
+      {
+        "id": 503,
+        "memberId": 11,
+        "text": "Landing page design is at risk",
+        "detail": "Due Nov 7 · design review is behind",
+        "at": "2026-10-27T09:00:00Z",
+        "kind": "risk",
+        "href": "my-projects.html"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 501,
+        "memberId": 11,
+        "actorName": "James Reed",
+        "text": "commented on Homepage hero",
+        "detail": "“Can we try the darker variant on mobile?”",
+        "at": "2026-10-28T11:20:00Z",
+        "kind": "comment",
+        "href": "my-board.html"
+      },
+      {
+        "id": 502,
+        "memberId": 11,
+        "actorName": "Abraham Moss",
+        "text": "approved your timesheet for Oct 19 – 23",
+        "at": "2026-10-27T16:05:00Z",
+        "kind": "approval",
+        "href": "my-time.html"
+      },
+      {
+        "id": 503,
+        "memberId": 11,
+        "text": "Landing page design is at risk",
+        "detail": "Due Nov 7 · design review is behind",
+        "at": "2026-10-27T09:00:00Z",
+        "kind": "risk",
+        "href": "my-projects.html"
+      }
+    ],
+    "partial": [
+      {
+        "id": 504,
+        "memberId": 11,
+        "text": "Something changed on your project",
+        "at": "2026-10-28T08:00:00Z",
+        "kind": "risk"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

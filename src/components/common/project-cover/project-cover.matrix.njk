@@ -4,10 +4,10 @@
 {% set description = "A project's cover: a pattern from the tokens and its monogram. block on the pinned card, strip on board cards, tile in lists." %}
 {% block matrix %}
 
-{% for size in ["block", "strip", "tile"] %}
+{% for size in ["block", "strip", "tile", "header"] %}
   {% call section(size) %}
     {% for pattern in ["ink", "dots", "grid", "rings", "stripes", "plain"] %}
-      {% call cell(pattern) %}<div class="{{ "w-56" if size != "tile" else "" }}">{{ projectCover("m-cv-" ~ size ~ "-" ~ pattern, "WR", pattern=pattern, size=size) }}</div>{% endcall %}
+      {% call cell(pattern) %}<div class="{{ "w-56" if size not in ["tile", "header"] else "" }}">{{ projectCover("m-cv-" ~ size ~ "-" ~ pattern, "WR", pattern=pattern, size=size) }}</div>{% endcall %}
     {% endfor %}
   {% endcall %}
 {% endfor %}

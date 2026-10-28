@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/form-section/form-section.njk" import formSection %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% set description = "Related fields under one heading; one or two columns." %}
+{% block matrix %}
+
+{% call section("columns") %}
+  <div class="w-full max-w-3xl">{% call formSection("m-fs", "Main contact", "The person you agree scope, dates and payments with", level=3) %}{{ formField("m-fs-name", "Full name", required=true, input={ autocomplete: "name" }) }}{{ formField("m-fs-role", "Role", input={ placeholder: "Founder" }) }}{{ formField("m-fs-email", "Email", required=true, input={ type: "email", autocomplete: "email" }, layout="md:col-span-2") }}{% endcall %}</div>
+{% endcall %}
+{% endblock %}

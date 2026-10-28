@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/deadline-row/deadline-row.njk" import deadlineRow %}
+{% set description = "An upcoming due date with its project link and a risk badge." %}
+{% block matrix %}
+
+{% call section("badge") %}
+  {% call cell("neutral") %}<div class="w-80">{{ deadlineRow("2026-11-20", "App development due", "#", sub="Fri, Nov 20 · Northwind Health", badge={ label: "In 23 days", tone: "neutral" }) }}</div>{% endcall %}
+  {% call cell("late") %}<div class="w-80">{{ deadlineRow("2026-11-03", "Booking system due", "#", sub="Tue, Nov 3 · Bennett Fitness · on hold", badge={ label: "Late", tone: "danger" }) }}</div>{% endcall %}
+  {% call cell("long title") %}<div class="w-80">{{ deadlineRow("2026-11-03", "Booking system for Bennett Fitness and Wellness Centers, phase two delivery", "#", sub="Tue, Nov 3 · Bennett Fitness and Wellness Centers International", badge={ label: "At risk", tone: "warning" }) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,5 @@
+{#- SpaceNav. The labelled side navigation of a personal space (a team member's "My space"): icon + text items, an optional count, the current one marked with aria-current. Props: items [{ id, label, icon, href, count, countLabel }], label (nav name and visible kicker), activeId. Sits above the content and wraps into rows below lg. -#}
+{% macro spaceNav(items, label, activeId=null) %}
+{%- set v = variants.spaceNav -%}
+<nav data-component="SpaceNav" aria-label="{{ label }}" class="{{ v.base }}"><p class="{{ v.slots.kicker }}" aria-hidden="true">{{ label }}</p><ul class="{{ v.slots.list }}">{% for i in items %}<li><a href="{{ i.href }}" class="{{ v.slots.item }}"{% if i.id == activeId %} aria-current="page"{% endif %}>{{ icon(i.icon, v.slots.icon) }}<span>{{ i.label }}</span>{% if i.count %}<span class="{{ v.slots.count }}">{{ i.count | number }}<span class="sr-only"> {{ i.countLabel }}</span></span>{% endif %}</a></li>{% endfor %}</ul></nav>
+{%- endmacro %}

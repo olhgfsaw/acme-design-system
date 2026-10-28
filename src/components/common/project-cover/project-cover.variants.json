@@ -12,7 +12,8 @@
     "size": {
       "block": "h-40 items-end rounded-md px-4 pb-3",
       "strip": "h-24 items-end rounded-t-lg px-4 pb-3",
-      "tile": "size-11 items-center justify-center rounded-md"
+      "tile": "size-11 items-center justify-center rounded-md",
+      "header": "size-16 items-center justify-center rounded-lg"
     }
   },
   "patterns": {
@@ -45,7 +46,8 @@
     "svg": "absolute inset-0 size-full",
     "mono": "relative inline-flex rounded-xs text-3xl/10 font-semibold tracking-tight",
     "monoTile": "relative text-sm font-semibold",
-    "foreign": "flex size-full items-end px-4 pb-3"
+    "foreign": "flex size-full items-end px-4 pb-3",
+    "monoHeader": "relative text-xl font-semibold"
   },
   "defaultVariants": {
     "pattern": "plain",

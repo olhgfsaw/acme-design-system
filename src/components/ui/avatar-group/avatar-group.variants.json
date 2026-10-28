@@ -1,0 +1,9 @@
+{
+  "base": "flex items-center",
+  "variants": {},
+  "slots": {
+    "item": "rounded-full ring-2 ring-surface not-first:-ms-2",
+    "more": "inline-flex size-7 items-center justify-center rounded-full bg-surface-subtle text-xs font-semibold text-fg-secondary"
+  },
+  "defaultVariants": {}
+}

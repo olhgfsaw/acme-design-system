@@ -1,0 +1,191 @@
+{
+  "entity": "integration",
+  "scenarios": {
+    "typical": [
+      {
+        "id": "google_calendar",
+        "name": "Google Calendar",
+        "purpose": "Meetings, deadlines and payments in both calendars",
+        "connected": true,
+        "account": "calendar@acme.example",
+        "connectedBy": "Daniel Kim",
+        "connectedAt": "2026-09-14",
+        "lastSyncedAt": "2026-10-28T11:56:00Z",
+        "lastSyncChanges": 3,
+        "calendarCount": 4
+      },
+      {
+        "id": "google_drive",
+        "name": "Google Drive",
+        "purpose": "Back up client files to Drive",
+        "connected": false
+      },
+      {
+        "id": "gmail",
+        "name": "Gmail",
+        "purpose": "Send invoices from billing@acme.example",
+        "connected": true,
+        "account": "billing@acme.example"
+      },
+      {
+        "id": "slack",
+        "name": "Slack",
+        "purpose": "Post stage changes to a channel",
+        "connected": false
+      }
+    ],
+    "empty": [
+      {
+        "id": "google_calendar",
+        "name": "Google Calendar",
+        "purpose": "Meetings, deadlines and payments in both calendars",
+        "connected": false
+      },
+      {
+        "id": "google_drive",
+        "name": "Google Drive",
+        "purpose": "Back up client files to Drive",
+        "connected": false
+      },
+      {
+        "id": "gmail",
+        "name": "Gmail",
+        "purpose": "Send invoices from billing@acme.example",
+        "connected": false,
+        "account": "billing@acme.example"
+      },
+      {
+        "id": "slack",
+        "name": "Slack",
+        "purpose": "Post stage changes to a channel",
+        "connected": false
+      }
+    ],
+    "longStrings": [
+      {
+        "id": "google_calendar",
+        "name": "Google Calendar",
+        "purpose": "Meetings, deadlines and payments in both calendars",
+        "connected": true,
+        "account": "vladislav.konstantinopolsky-alexandrovsky@montgomery-fitzgerald.example",
+        "connectedBy": "Konstantinopolsky-Alexandrovsky Vladislav",
+        "connectedAt": "2026-09-14",
+        "lastSyncedAt": "2026-10-28T11:56:00Z",
+        "lastSyncChanges": 3,
+        "calendarCount": 4
+      },
+      {
+        "id": "google_drive",
+        "name": "Google Drive",
+        "purpose": "Back up client files to Drive",
+        "connected": false
+      },
+      {
+        "id": "gmail",
+        "name": "Gmail",
+        "purpose": "Send invoices and payment reminders from billing@montgomery-fitzgerald-architects.example",
+        "connected": true,
+        "account": "billing@acme.example"
+      },
+      {
+        "id": "slack",
+        "name": "Slack",
+        "purpose": "Post stage changes to a channel",
+        "connected": false
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": "google_calendar",
+        "name": "Google Calendar",
+        "purpose": "Meetings, deadlines and payments in both calendars",
+        "connected": true,
+        "account": "calendar@acme.example",
+        "connectedBy": "Daniel Kim",
+        "connectedAt": "2026-09-14",
+        "lastSyncedAt": "2026-10-28T11:56:00Z",
+        "lastSyncChanges": 124800,
+        "calendarCount": 1200
+      },
+      {
+        "id": "google_drive",
+        "name": "Google Drive",
+        "purpose": "Back up client files to Drive",
+        "connected": false
+      },
+      {
+        "id": "gmail",
+        "name": "Gmail",
+        "purpose": "Send invoices from billing@acme.example",
+        "connected": true,
+        "account": "billing@acme.example"
+      },
+      {
+        "id": "slack",
+        "name": "Slack",
+        "purpose": "Post stage changes to a channel",
+        "connected": false
+      }
+    ],
+    "partial": [
+      {
+        "id": "google_calendar",
+        "name": "Google Calendar",
+        "purpose": "Meetings, deadlines and payments in both calendars",
+        "connected": true
+      },
+      {
+        "id": "google_drive",
+        "name": "Google Drive",
+        "purpose": "Back up client files to Drive",
+        "connected": false
+      },
+      {
+        "id": "gmail",
+        "name": "Gmail",
+        "purpose": "Send invoices from billing@acme.example",
+        "connected": true,
+        "account": "billing@acme.example"
+      },
+      {
+        "id": "slack",
+        "name": "Slack",
+        "purpose": "Post stage changes to a channel",
+        "connected": false
+      }
+    ],
+    "many": [
+      {
+        "id": "google_calendar",
+        "name": "Google Calendar",
+        "purpose": "Meetings, deadlines and payments in both calendars",
+        "connected": true,
+        "account": "calendar@acme.example",
+        "connectedBy": "Daniel Kim",
+        "connectedAt": "2026-09-14",
+        "lastSyncedAt": "2026-10-28T11:56:00Z",
+        "lastSyncChanges": 3,
+        "calendarCount": 4
+      },
+      {
+        "id": "google_drive",
+        "name": "Google Drive",
+        "purpose": "Back up client files to Drive",
+        "connected": false
+      },
+      {
+        "id": "gmail",
+        "name": "Gmail",
+        "purpose": "Send invoices from billing@acme.example",
+        "connected": true,
+        "account": "billing@acme.example"
+      },
+      {
+        "id": "slack",
+        "name": "Slack",
+        "purpose": "Post stage changes to a channel",
+        "connected": false
+      }
+    ]
+  }
+}

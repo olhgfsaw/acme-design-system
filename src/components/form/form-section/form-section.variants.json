@@ -1,0 +1,17 @@
+{
+  "base": "flex flex-col gap-6",
+  "variants": {
+    "columns": {
+      "1": "grid gap-x-5 gap-y-4",
+      "2": "grid gap-x-5 gap-y-4 md:grid-cols-2"
+    }
+  },
+  "slots": {
+    "head": "flex flex-col gap-1",
+    "title": "text-xl font-medium tracking-tight text-fg",
+    "text": "text-sm text-fg-secondary"
+  },
+  "defaultVariants": {
+    "columns": "2"
+  }
+}

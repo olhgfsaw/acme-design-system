@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Capture",
+  "x-entity": "capture",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "memberId",
+    "title",
+    "source",
+    "sentAt",
+    "status",
+    "kind"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "memberId": {
+      "type": "integer",
+      "description": "Who sent it"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "What AI made of it"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "telegram_voice",
+        "telegram_text",
+        "email",
+        "web_capture",
+        "calendar"
+      ]
+    },
+    "sentAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "processing",
+        "pending",
+        "approved",
+        "approved_edited",
+        "rejected",
+        "failed"
+      ]
+    },
+    "note": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "What happened or why"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "voice",
+        "task",
+        "time_entry",
+        "client"
+      ]
+    }
+  }
+}

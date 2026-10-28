@@ -7,6 +7,7 @@
 
 {% call section("actions") %}
   {% call cell("four buttons") %}<div class="w-full max-w-6xl">{% call pageHeader(sample.dashboardTitle, sample.dashboardSubtitle, level=2) %}{{ button(sample.createInvoice, variant="secondary", iconLeading="file-text") }}{{ button(sample.createReport, variant="secondary", iconLeading="clipboard-list") }}{{ button(sample.addClient, variant="secondary", iconLeading="user-plus") }}{{ button(sample.newProject, iconLeading="plus") }}{% endcall %}</div>{% endcall %}
+  {% call cell("record: crumbs, avatar, badge") %}<div class="w-full max-w-6xl">{% call pageHeader("Anderson Studio", "James Anderson, founder · Client since March 2024", level=2, crumbs=[{ label: "Clients", href: "#" }, { label: "Anderson Studio" }], avatar="Anderson Studio", badge={ label: "Active", tone: "success" }) %}{{ button("Edit", variant="secondary", iconLeading="pencil") }}{{ button(sample.newProject, iconLeading="plus") }}{% endcall %}</div>{% endcall %}
   {% call cell("no actions") %}<div class="w-full max-w-6xl">{{ pageHeader(sample.dashboardTitle, sample.dashboardSubtitle, level=2) }}</div>{% endcall %}
 {% endcall %}
 {% endblock %}

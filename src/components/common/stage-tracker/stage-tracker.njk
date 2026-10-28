@@ -1,11 +1,11 @@
-{#- StageTracker. Props: stages [{ name, date }], current (0-based index), percent (overall progress, 0–100), variant (compact: a labelled segmented bar | full: numbered steps with names and dates), inset (compact bar on a tinted card). -#}
-{% macro stageTracker(stages, current, percent=null, variant="compact", inset=false) %}
+{#- StageTracker. Props: stages [{ name, date }], current (0-based index), percent (overall progress, 0–100), variant (compact: a labelled segmented bar | full: numbered steps with names and dates), inset (compact bar on a tinted card), label (replaces the compact heading, e.g. just the stage name in a table). -#}
+{% macro stageTracker(stages, current, percent=null, variant="compact", inset=false, label=null) %}
 {%- set v = variants.stageTracker -%}
 {%- set n = stages | length -%}
 {%- set cur = stages[current] -%}
 {% if variant == "compact" %}
 <div data-component="StageTracker" class="{{ v.base }}">
-  <div class="{{ v.slots.head }}"><span class="{{ v.slots.headName }}">{{ cur.name }} · stage {{ current + 1 }} of {{ n }}</span>{% if percent is not none %}<span class="{{ v.slots.headPercentInset if inset else v.slots.headPercent }}">{{ (percent / 100) | percent }}</span>{% endif %}</div>
+  <div class="{{ v.slots.head }}"><span class="{{ v.slots.headName }}">{{ label or (cur.name ~ " · stage " ~ (current + 1) ~ " of " ~ n) }}</span>{% if percent is not none %}<span class="{{ v.slots.headPercentInset if inset else v.slots.headPercent }}">{{ (percent / 100) | percent }}</span>{% endif %}</div>
   <div role="img" aria-label="Stage {{ current + 1 }} of {{ n }}, {{ cur.name }}{% if percent is not none %}, {{ (percent / 100) | percent }} complete{% endif %}" class="{{ v.slots.track }}">
     {%- for s in stages %}<span class="{{ v.slots.bar }} {{ v.slots.barDone if loop.index0 < current else ((v.slots.barCurrentInset if inset else v.slots.barCurrent) if loop.index0 == current else (v.slots.barTodoInset if inset else v.slots.barTodo)) }}"></span>{% endfor -%}
   </div>

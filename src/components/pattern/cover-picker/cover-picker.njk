@@ -1,0 +1,17 @@
+{#- CoverPicker. The project's cover tile next to its title; it opens a panel to pick a pattern or upload an image. Props: id, monogram, pattern, open. Popover in Nuxt (Reka Popover). -#}
+{% from "components/common/project-cover/project-cover.njk" import projectCover %}
+{% from "components/form/cover-swatches/cover-swatches.njk" import coverSwatches %}
+{% from "components/ui/button/button.njk" import button %}
+{% macro coverPicker(id, monogram, pattern="ink", open=false) %}
+{%- set v = variants.coverPicker -%}
+<div data-component="CoverPicker" class="{{ v.base }}">
+  <button type="button" aria-haspopup="dialog" aria-expanded="{{ "true" if open else "false" }}" aria-label="{{ monogram }}: change cover" class="{{ v.slots.trigger }}">{{ projectCover(id ~ "-tile", monogram, pattern=pattern, size="header") }}<span class="{{ v.slots.edit }}" aria-hidden="true">{{ icon("pencil", "size-3.5") }}</span></button>
+  {%- if open %}
+  <div role="dialog" aria-labelledby="{{ id }}-title" data-state="open" class="{{ v.slots.panel }}">
+    <div class="flex flex-col gap-1"><h2 id="{{ id }}-title" class="{{ v.slots.title }}">Cover</h2><p class="{{ v.slots.text }}">Shown on project cards, the board and the dashboard</p></div>
+    <p id="{{ id }}-patterns" class="sr-only">Patterns</p>{{ coverSwatches(id ~ "-sw", id ~ "-patterns", value=pattern) }}
+    <div class="{{ v.slots.actions }}">{{ button("Upload image", variant="secondary", size="sm", iconLeading="upload") }}</div>
+  </div>
+  {%- endif %}
+</div>
+{%- endmacro %}

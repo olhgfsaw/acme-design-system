@@ -1,0 +1,89 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "layouts/_format.njk" import shortDate %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/stage-tracker/stage-tracker.njk" import stageTracker %}
+{% from "components/common/detail-list/detail-list.njk" import detailList %}
+{% from "components/common/event-row/event-row.njk" import eventRow %}
+{% from "components/common/task-summary/task-summary.njk" import taskSummary %}
+{% from "components/common/inline-panel/inline-panel.njk" import inlinePanel %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable, tableCell %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set m = data.fixtures.teamMember.scenarios.typical | first %}
+{% set today = project.referenceDate.slice(0, 10) %}
+{% set stageCodes = ["discovery", "design", "development", "review", "launch"] %}
+{% set stages = [] %}{% for s in stageCodes %}{% set _ = stages.push({ name: data.statuses.projectStage[s].label | label }) %}{% endfor %}
+{% set projects = [] %}{% for p in data.fixtures.project.scenarios.typical %}{% if p.title in m.projects %}{% set _ = projects.push(p) %}{% endif %}{% endfor %}
+
+{% set meetings = [] %}{% for e in data.fixtures.meeting.scenarios.typical %}{% if e.attendees and m.fullName in e.attendees %}{% set _ = meetings.push(e) %}{% endif %}{% endfor %}
+{% set first = m.fullName.split(" ")[0] %}
+
+{% call appChrome("team", scenario="typical") %}
+  {% if state == "error" %}
+    {% call pageHeader("Team member", crumbs=[{ label: "Team", href: "team.html" }, { label: "Team member" }]) %}{% endcall %}
+    <div class="rounded-lg bg-surface p-6">{{ errorState("This profile didn't load", "Something went wrong on our side. Try again in a minute.", "Try again") }}</div>
+  {% elif state == "loading" %}
+    <div aria-busy="true" class="flex flex-col gap-8"><p class="sr-only">Loading…</p><div class="flex items-center gap-5">{{ skeleton("circle") }}{{ skeleton("title", layout="w-64") }}</div>{% call card("l") %}{{ skeleton("block", layout="w-full") }}{% endcall %}</div>
+  {% else %}
+    {% call pageHeader(m.fullName, m.role ~ " · " ~ (data.statuses.discipline[m.discipline].label | label) ~ " · With Acme since " ~ (m.since | date("long")), crumbs=[{ label: "Team", href: "team.html" }, { label: m.fullName }], avatar=m.fullName, avatarSize="xl", badge={ label: "Available", tone: "success" }) %}
+      {{ button("Email", variant="secondary", iconLeading="mail", href="mailto:" ~ m.email) }}
+      {{ button("Add to project", iconLeading="plus") }}
+    {% endcall %}
+    <div class="grid items-start gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div class="flex min-w-0 flex-col gap-3">
+        <div class="grid gap-3 sm:grid-cols-3">
+          {% call card("s-load") %}{{ statBlock("Workload", (m.workloadPercent / 100) | percent) }}<p class="text-sm text-fg-secondary">Booked against {{ m.capacityHours }} h a week</p>{% endcall %}
+          {% call card("s-hours") %}{{ statBlock("Booked this week", (m.hoursThisWeek | number) ~ " h") }}<p class="text-sm text-fg-secondary">{{ (m.capacityHours - m.hoursThisWeek) | number }} h free</p>{% endcall %}
+          {% call card("s-proj") %}{{ statBlock("Active projects", projects | length | number) }}<p class="text-sm text-fg-secondary">{{ projects | length | plural({ one: "# project this month", other: "# projects this month" }) }}</p>{% endcall %}
+        </div>
+        {% if frame.assigning %}
+          {% call inlinePanel("assign", "Add " ~ first ~ " to a project", "They see the board right away; hours count toward this week's workload") %}
+            <div class="grid items-end gap-4 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)_--spacing(28)_auto]">
+              {% call formField("as-project", "Project") %}{{ select("as-project", [{ value: "103", label: "Marketing campaign" }, { value: "107", label: "Partner onboarding" }], value="103") }}{% endcall %}
+              {{ formField("as-role", "Role on project", input={ value: "Design review" }) }}
+              {{ formField("as-hours", "Hours / week", input={ value: "4", inputmode: "numeric", numeric: true }) }}
+              {{ button("Add", size="sm", iconLeading="plus") }}
+            </div>
+            {% set after = (m.hoursThisWeek + 4) / m.capacityHours %}<p class="text-sm {{ "font-medium text-danger-fg" if after > 0.9 else "text-fg-secondary" }}" role="status">Workload goes to {{ after | percent }}{{ ", over capacity this week" if after > 0.9 else "" }}.</p>
+          {% endcall %}
+        {% endif %}
+        {% call card("projects", title="Current projects", actionHref="projects.html", actionLabel="All projects") %}
+          {% call dataTable("Projects " ~ first ~ " works on", [{ label: "Project" }, { label: "Stage" }, { label: "Hours / week", align: "end" }, { label: "Due" }]) %}
+            {% for p in projects %}{% set idx = stageCodes.indexOf(p.stage) %}
+            <tr class="{{ variants.dataTable.slots.row }}">
+              {% call tableCell() %}{{ recordCell(p.title, href="project.html", sub=p.clientName) }}{% endcall %}
+              {% call tableCell() %}<div class="min-w-40">{{ stageTracker(stages, idx, percent=p.progressPercent, label=stages[idx].name) }}</div>{% endcall %}
+              {% call tableCell("end", "numeric") %}{% for ph in m.projectHours %}{% if ph.project == p.title %}{{ ph.hours | number }} h{% endif %}{% endfor %}{% endcall %}
+              {% call tableCell(kind=("danger" if p.dueDate and p.dueDate < today else "muted")) %}{{ (p.dueDate | date("medium")) if p.dueDate else "Not planned" }}{% endcall %}
+            </tr>
+            {% endfor %}
+          {% endcall %}
+        {% endcall %}
+        {% call card("schedule", title="Schedule", actionHref="calendar.html", actionLabel="Open calendar") %}
+          <div class="flex flex-col gap-2"><p class="text-sm text-fg-muted">From Google Calendar · next 7 days</p>
+          {% for e in meetings %}{{ eventRow("All day" if e.allDay else (e.startsAt | time), "Today" if e.startsAt.slice(0, 10) == today else shortDate(e.startsAt.slice(0, 10)), e.title, at=e.startsAt, meta=(e.place or ""), tone=e.calendar) }}{% endfor %}</div>
+        {% endcall %}
+      </div>
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("contact", title="Contact") %}{{ detailList([{ label: "Email", value: m.email }, { label: "Phone", value: m.phone }, { label: "Location", value: m.location }, { label: "Working hours", value: m.workingHours }, { label: "Google Calendar", value: "Connected" if m.calendarConnected else "Not connected" }], columns="1") }}{% endcall %}
+        {% call card("week", title="This week") %}
+          {% set parts = [] %}{% for ph in m.projectHours %}{% set _ = parts.push({ label: ph.project, count: ph.hours, tone: ["accent", "info", "warning"][loop.index0] }) %}{% endfor %}{% set _ = parts.push({ label: "Free", count: m.capacityHours - m.hoursThisWeek, tone: "muted" }) %}
+          {{ taskSummary(parts, (m.hoursThisWeek | number) ~ " of " ~ m.capacityHours ~ " hours booked this week", unit="h") }}
+        {% endcall %}
+        {% call card("skills", title="Skills") %}<ul class="flex flex-wrap gap-2">{% for s in m.skills %}<li>{{ badge(s, dot=false) }}</li>{% endfor %}</ul>{% endcall %}
+        {% call card("timeoff", title="Time off") %}<div class="flex flex-col gap-4">{% set rows = [] %}{% for t in m.timeOff %}{% set _ = rows.push({ label: t.dates, value: t.reason }) %}{% endfor %}{{ detailList(rows, columns="1") }}<p class="text-sm text-fg-muted">{{ m.vacationLeft }} of {{ m.vacationTotal }} vacation days left this year, after planned days off</p></div>{% endcall %}
+      </div>
+    </div>
+  {% endif %}
+{% endcall %}
+{% endblock %}

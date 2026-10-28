@@ -1,0 +1,126 @@
+{
+  "entity": "workspace",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 1,
+        "name": "Acme Studio LLC",
+        "shortName": "Acme",
+        "address": "500 Market St, Suite 300, San Francisco, CA 94105",
+        "email": "billing@acme.example",
+        "phone": "+1 (415) 555-0100",
+        "website": "acme.example",
+        "taxId": "84-1234567",
+        "currency": "USD",
+        "bank": {
+          "name": "First Pacific Bank",
+          "account": "•••• 4821",
+          "swift": "FPBKUS6S"
+        },
+        "invoicePrefix": "INV",
+        "defaultTermsDays": 30,
+        "defaultTaxPercent": 0,
+        "timezone": "America/Los_Angeles",
+        "weekStart": "sunday",
+        "localAddress": "http://localhost:3000",
+        "filesFolder": "~/Acme/Clients",
+        "filesUsedGb": 2.4,
+        "invoiceNumberFormat": "INV-{YYYY}-{###}",
+        "nextInvoiceNumber": "INV-2026-050",
+        "defaultStages": [
+          "Discovery",
+          "Design",
+          "Development",
+          "Review",
+          "Launch"
+        ]
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 2,
+        "name": "Acme Creative Studio and Digital Product Consultancy International LLC",
+        "shortName": "Acme",
+        "address": "Suite 4100, One Canada Square, Canary Wharf, London E14 5AB, United Kingdom",
+        "email": "billing@acme.example",
+        "phone": "+1 (415) 555-0100",
+        "website": "acme.example",
+        "taxId": "84-1234567",
+        "currency": "USD",
+        "bank": {
+          "name": "First Pacific Bank",
+          "account": "•••• 4821",
+          "swift": "FPBKUS6S"
+        },
+        "invoicePrefix": "INV",
+        "defaultTermsDays": 30,
+        "defaultTaxPercent": 0,
+        "timezone": "America/Los_Angeles",
+        "weekStart": "sunday",
+        "localAddress": "http://localhost:3000",
+        "filesFolder": "~/Acme/Clients",
+        "filesUsedGb": 2.4,
+        "invoiceNumberFormat": "INV-{YYYY}-{###}",
+        "nextInvoiceNumber": "INV-2026-050",
+        "defaultStages": [
+          "Discovery and research with every stakeholder",
+          "Design",
+          "Development and quality assurance",
+          "Review",
+          "Launch"
+        ]
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000001,
+        "name": "Acme Studio LLC",
+        "shortName": "Acme",
+        "address": "500 Market St, Suite 300, San Francisco, CA 94105",
+        "email": "billing@acme.example",
+        "phone": "+1 (415) 555-0100",
+        "website": "acme.example",
+        "taxId": "84-1234567",
+        "currency": "USD",
+        "bank": {
+          "name": "First Pacific Bank",
+          "account": "•••• 4821",
+          "swift": "FPBKUS6S"
+        },
+        "invoicePrefix": "INV",
+        "defaultTermsDays": 30,
+        "defaultTaxPercent": 0,
+        "timezone": "America/Los_Angeles",
+        "weekStart": "sunday",
+        "localAddress": "http://localhost:3000",
+        "filesFolder": "~/Acme/Clients",
+        "filesUsedGb": 2400.5,
+        "invoiceNumberFormat": "INV-{YYYY}-{###}",
+        "nextInvoiceNumber": "INV-2026-050",
+        "defaultStages": [
+          "Discovery",
+          "Design",
+          "Development",
+          "Review",
+          "Launch"
+        ]
+      }
+    ],
+    "partial": [
+      {
+        "id": 3,
+        "name": "Acme",
+        "address": "San Francisco, CA",
+        "email": "hello@acme.example",
+        "currency": "USD"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Integration",
+  "x-entity": "integration",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "purpose",
+    "connected"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "enum": [
+        "google_calendar",
+        "google_drive",
+        "gmail",
+        "slack"
+      ],
+      "description": "Which service"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "purpose": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "What it does for the workspace"
+    },
+    "connected": {
+      "type": "boolean"
+    },
+    "account": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Connected account"
+    },
+    "connectedBy": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "connectedAt": {
+      "type": "string",
+      "format": "date"
+    },
+    "lastSyncedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastSyncChanges": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Events changed in the last sync"
+    },
+    "calendarCount": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

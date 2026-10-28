@@ -1,0 +1,15 @@
+{
+  "base": "w-full border-collapse text-sm",
+  "variants": {},
+  "slots": {
+    "head": "border-b border-divider p-2 text-start text-xs font-medium text-fg-muted",
+    "headCenter": "w-20 border-b border-divider p-2 text-center text-xs font-medium text-fg-muted",
+    "event": "border-b border-divider px-2 py-3 text-start font-normal",
+    "label": "block font-medium text-fg",
+    "note": "block text-xs text-fg-muted",
+    "cell": "border-b border-divider px-2 py-3 text-center",
+    "box": "inline-flex size-4 items-center justify-center rounded-xs border border-control bg-surface text-on-primary data-[state=checked]:border-primary data-[state=checked]:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed disabled:opacity-50",
+    "check": "size-3"
+  },
+  "defaultVariants": {}
+}

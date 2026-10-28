@@ -1,0 +1,70 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/line-item-editor/line-item-editor.njk" import lineItemEditor %}
+{% from "components/common/invoice-totals/invoice-totals.njk" import invoiceTotals %}
+{% from "components/common/budget-bar/budget-bar.njk" import budgetBar %}
+{% from "components/form/form-section/form-section.njk" import formSection %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/textarea/textarea.njk" import textarea %}
+{% from "components/ui/switch/switch.njk" import switch %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{% set clients = [] %}{% for c in data.fixtures.client.scenarios.typical %}{% if c.status != "lead" %}{% set _ = clients.push({ value: c.id ~ "", label: c.companyName or c.name }) %}{% endif %}{% endfor %}
+{% set lines = [{ description: "Front-end build", quantity: 1, rateMinor: 600000, amountMinor: 600000 }, { description: "CMS setup and content migration", quantity: 1, rateMinor: 200000, amountMinor: 200000 }] %}
+{% set total = lines | sum("amountMinor") %}
+{% call appChrome("finance", scenario="typical") %}
+  {% call pageHeader("New invoice", "Bill a project milestone. The amount is counted against the project budget.", crumbs=[{ label: "Finance", href: "finance.html" }, { label: "New invoice" }]) %}{% endcall %}
+  <form class="flex flex-col gap-6" action="invoice.html">
+    <p class="text-sm text-fg-secondary">Fields marked <span class="text-danger-fg" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+    <div class="grid items-start gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("details") %}
+          {% call formSection("inv-details", "Details", "Who pays, for which project, and by when") %}
+            {% call formField("i-client", "Client", required=true) %}{{ select("i-client", clients, value="42", required=true) }}{% endcall %}
+            {% call formField("i-project", "Project", required=true) %}{{ select("i-project", [{ value: "101", label: "Website redesign" }, { value: "105", label: "Brand guidelines" }], value="101", required=true) }}{% endcall %}
+            {{ formField("i-number", "Invoice number", hint="Assigned in order", input={ value: "INV-2026-051", disabled: true }) }}
+            {{ formField("i-issue", "Issue date", input={ type: "date", value: "2026-10-28" }) }}
+            {% call formField("i-terms", "Payment terms") %}{{ select("i-terms", [{ value: "0", label: "Due on receipt" }, { value: "15", label: "Net 15" }, { value: "30", label: "Net 30" }, { value: "45", label: "Net 45" }], value="30") }}{% endcall %}
+            {{ formField("i-due", "Due date", input={ type: "date", value: "2026-11-27" }) }}
+            {{ formField("i-po", "Client PO number", input={ placeholder: "Optional" }) }}
+            {{ formField("i-tax", "Tax rate, %", input={ value: "0", inputmode: "decimal", numeric: true }) }}
+          {% endcall %}
+        {% endcall %}
+        {% call card("lines", title="Line items") %}
+          <div class="flex flex-col gap-4"><p class="text-sm text-fg-secondary">Totals update as you type</p>{{ lineItemEditor("new-lines", "USD", lines, removable=true) }}<hr class="h-px border-0 bg-divider"><div class="flex justify-end">{{ invoiceTotals("USD", [{ label: "Subtotal", amountMinor: total }, { label: "Tax 0%", amountMinor: 0 }], total) }}</div></div>
+        {% endcall %}
+        {% call card("note", title="Note to client") %}
+          <div class="flex flex-col gap-3"><p id="note-hint" class="text-sm text-fg-secondary">Printed at the bottom of the invoice</p><label for="i-notes" class="sr-only">Note to client</label>{{ textarea("i-notes", rows=3, value="Thanks for working with us. Please put the invoice number in the payment reference.", describedby="note-hint") }}</div>
+        {% endcall %}
+      </div>
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("summary", title="Summary") %}
+          <div class="flex flex-col gap-4">
+            <div>{{ badge("Draft", dot=true) }}</div>
+            {{ statBlock("Total due", total | money("USD")) }}
+            <hr class="h-px border-0 bg-divider">
+            <div class="flex flex-col gap-1"><span class="text-xs font-medium text-fg-muted">Bill to</span><span class="text-sm font-medium text-fg">Anderson Studio</span><span class="text-sm text-fg-secondary">James Anderson · accounts@andersonstudio.example</span></div>
+            <hr class="h-px border-0 bg-divider">
+            <div class="flex flex-col gap-1"><span class="text-xs font-medium text-fg-muted">Project budget</span><span class="text-sm font-medium text-fg">Website redesign · $32,000.00</span></div>
+            {{ budgetBar("USD", [{ label: "Invoiced before", amountMinor: 2400000, tone: "strong" }, { label: "This invoice", amountMinor: total, tone: "accent" }, { label: "Left to invoice after this", amountMinor: 3200000 - 2400000 - total, tone: "muted" }], "Invoiced before $24,000.00, this invoice $8,000.00, nothing left to invoice after this") }}
+          </div>
+        {% endcall %}
+        {% call card("sending", title="Sending") %}
+          <div class="flex flex-col gap-4"><p class="text-sm text-fg-secondary">Sent by email with a PDF copy</p>
+            {{ formField("i-email", "Send to", input={ type: "email", value: "accounts@andersonstudio.example", autocomplete: "email" }) }}
+            {{ formField("i-cc", "Copy to", input={ type: "email", placeholder: "Optional" }) }}
+            <div class="flex flex-col">{{ switch("i-remind", "Remind before the due date", description="3 days before, by email", checked=true) }}{{ switch("i-cal", "Add due date to Google Calendar", description="On the Acme · Finance calendar") }}</div>
+          </div>
+        {% endcall %}
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center justify-end gap-3">{{ button("Cancel", variant="ghost", href="finance.html") }}{{ button("Save draft", variant="secondary") }}{{ button("Send invoice", type="submit", iconLeading="send") }}</div>
+  </form>
+{% endcall %}
+{% endblock %}

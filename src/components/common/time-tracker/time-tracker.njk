@@ -1,0 +1,13 @@
+{#- TimeTracker. A running timer for the time sheet: elapsed time, project, start / stop, what you're working on. Props: id, seconds (elapsed), running, projects [{ value, label }], project (selected value), note. Ticking is done in Nuxt; while it runs the project can't change. -#}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% macro timeTracker(id, seconds, running, projects, project=null, note="") %}
+{%- set v = variants.timeTracker -%}
+{%- set h = (seconds / 3600) | int %}{% set m = ((seconds % 3600) / 60) | int %}{% set s = seconds % 60 -%}
+<div data-component="TimeTracker" class="{{ v.base }}">
+  <p role="timer" aria-live="off" class="{{ v.slots.clock }}">{{ ("0" ~ h).slice(-2) }}:{{ ("0" ~ m).slice(-2) }}:{{ ("0" ~ s).slice(-2) }}</p>
+  <div class="{{ v.slots.row }}"><div class="flex flex-col gap-1.5"><label for="{{ id }}-project" class="{{ v.slots.label }}">Project</label>{{ select(id ~ "-project", projects, value=project, disabled=running) }}</div>{{ iconButton("Stop timer" if running else "Start timer", "square" if running else "play", variant="primary") }}</div>
+  {{ input(id ~ "-note", value=note, placeholder="What are you working on?", label="What are you working on?") }}
+</div>
+{%- endmacro %}

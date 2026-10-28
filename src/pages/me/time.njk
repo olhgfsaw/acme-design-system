@@ -1,0 +1,67 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_space-chrome.njk" import spaceChrome %}
+{% from "layouts/_format.njk" import shortDate %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/stat-block/stat-block.njk" import statBlock %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/inline-panel/inline-panel.njk" import inlinePanel %}
+{% from "components/pattern/timesheet-grid/timesheet-grid.njk" import timesheetGrid %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- frame.requesting: the time-off request form is open. -#}
+{% set session = data.fixtures.session.scenarios.typical | selectattr("current") | first %}
+{% set me = data.fixtures.teamMember.scenarios.typical | selectattr("id", "equalto", session.memberId) | first %}
+{% set today = project.referenceDate.slice(0, 10) %}
+{% set weeks = data.fixtures.timesheet.scenarios[scenario] %}
+{% set week = weeks | first %}
+{% set dim = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] %}
+{% macro dayOf(iso, plus) %}{%- set m = iso.slice(5, 7) | int %}{% set d = (iso.slice(8, 10) | int) + plus %}{% if d > dim[m - 1] %}{% set d = d - dim[m - 1] %}{% set m = m % 12 + 1 %}{% endif -%}{{ iso.slice(0, 4) }}-{{ ("0" ~ m).slice(-2) }}-{{ ("0" ~ d).slice(-2) }}{%- endmacro %}
+{% macro weekLabel(iso) %}{%- set end = dayOf(iso, 4) | trim -%}{{ shortDate(iso) }} – {% if end.slice(5, 7) == iso.slice(5, 7) %}{{ end.slice(8, 10) | int }}{% else %}{{ shortDate(end) }}{% endif %}{%- endmacro %}
+{% set wdShort = data.glossary.weekdaysShort | label %}
+{% set days = [] %}{% for i in range(0, 5) %}{% set iso = dayOf(week.weekStart, i) | trim %}{% set _ = days.push({ short: wdShort[i + 1], date: shortDate(iso), iso: iso }) %}{% endfor %}
+{% set rows = [] %}{% for r in week.rows %}{% set _ = rows.push({ name: r.projectName, sub: r.clientName, hours: r.hours, booked: r.bookedHours }) %}{% endfor %}
+{% set st = data.statuses.timesheetStatus[week.status] %}
+{% set ahead = [] %}{% for r in week.rows %}{% for i in range(2, 5) %}{% if r.hours[i] %}{% set _ = ahead.push(1) %}{% endif %}{% endfor %}{% endfor %}
+
+{% call spaceChrome("time") %}
+  {% call pageHeader("Time", "Your timesheet and time off · approved by " ~ me.reportsTo) %}{% endcall %}
+  <div class="grid items-start gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    {% call card("week") %}
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-wrap items-center justify-between gap-3"><div class="flex items-center gap-3"><h2 id="week-title" class="text-xl font-medium tracking-tight text-fg">{{ weekLabel(week.weekStart) }}</h2>{{ badge(st.label | label, tone=st.tone) }}</div><div class="flex items-center gap-2">{{ iconButton("Previous week", "chevron-left", variant="muted", size="sm") }}{{ button("This week", variant="secondary", size="sm") }}{{ iconButton("Next week", "chevron-right", variant="muted", size="sm", disabled=true) }}</div></div>
+        {{ timesheetGrid("ts", "Hours per project and day, " ~ weekLabel(week.weekStart), days, rows, today=today, locked=(week.status != "draft"), state=state, messages={ loading: "Loading…" }) }}
+        {% if week.status == "draft" %}<div class="flex flex-wrap gap-2"><div class="min-w-0 flex-1 sm:max-w-xs">{{ select("ts-add", [{ value: "training", label: "Internal: training" }, { value: "hiring", label: "Internal: hiring" }, { value: "portfolio", label: "Portfolio website · Lopez Architects" }], label="Add a row") }}</div>{{ button("Add row", variant="secondary", iconLeading="plus") }}</div>{% endif %}
+        <div class="flex flex-wrap items-center justify-between gap-3 border-t border-divider pt-4"><p class="text-sm text-fg-secondary">{% if week.status == "approved" %}Approved by {{ week.approvedBy }}. Approved weeks are read-only.{% elif week.status == "submitted" %}Submitted. {{ me.reportsTo }} will review it; you can withdraw until then.{% elif not (ahead | length) %}Wednesday to Friday are empty. Fill them in, then submit by Friday, {{ shortDate(dayOf(week.weekStart, 4) | trim) }}.{% else %}Ready to submit. {{ me.reportsTo }} approves timesheets on Mondays.{% endif %}</p>{% if week.status == "draft" %}{{ button("Submit week", iconLeading="send") }}{% elif week.status == "submitted" %}{{ button("Withdraw", variant="secondary") }}{% endif %}</div>
+      </div>
+    {% endcall %}
+    <div class="flex min-w-0 flex-col gap-3">
+      {% call card("off", title="Time off") %}
+        <div class="flex flex-col gap-4">
+          <div class="grid grid-cols-2 gap-4">{{ statBlock("Vacation left", me.vacationLeft | number) }}{{ statBlock("Sick days used", (me.sickDaysUsed or 0) | number) }}</div>
+          <p class="text-xs text-fg-muted">Of {{ me.vacationTotal }} vacation days in {{ today.slice(0, 4) }}, after planned days off. Sick days have no limit, tell your lead.</p>
+          {% if me.timeOff | length %}<ul class="flex flex-col gap-3">{% for q in me.timeOff %}<li class="flex items-center justify-between gap-3">{{ recordCell(q.dates, sub=q.reason, iconName="plane") }}{{ badge("Approved", tone="success") }}</li>{% endfor %}</ul>{% endif %}
+          {% if frame.requesting %}
+            {% call inlinePanel("off-form", "Request time off", "Goes to " ~ me.reportsTo ~ " for approval") %}
+              <form class="flex flex-col gap-4" action="my-time.html">
+                {% call formField("off-type", "Type") %}{{ select("off-type", [{ value: "vacation", label: "Vacation" }, { value: "sick", label: "Sick day" }, { value: "personal", label: "Personal day" }, { value: "unpaid", label: "Unpaid leave" }], value="vacation") }}{% endcall %}
+                <div class="grid grid-cols-2 gap-3">{{ formField("off-from", "From", input={ type: "date", value: "2026-12-21" }) }}{{ formField("off-to", "To", input={ type: "date", value: "2026-12-22" }) }}</div>
+                <p class="text-sm text-fg-secondary">2 working days · {{ me.vacationLeft - 2 }} vacation days left after this</p>
+                <div class="flex justify-end gap-2">{{ button("Cancel", variant="ghost", size="sm", href="my-time.html") }}{{ button("Send request", size="sm", type="submit") }}</div>
+              </form>
+            {% endcall %}
+          {% else %}<div>{{ button("Request time off", variant="secondary", iconLeading="plus", href="my-time-off.html") }}</div>{% endif %}
+        </div>
+      {% endcall %}
+      {% call card("history", title="Recent weeks") %}
+        <ul class="flex flex-col gap-3">{% for wk in weeks.slice(1) %}{% set tot = [] %}{% for r in wk.rows %}{% set _ = tot.push(r.hours | sum) %}{% endfor %}{% set s = data.statuses.timesheetStatus[wk.status] %}<li class="flex items-center justify-between gap-3"><span class="flex min-w-0 flex-col"><span class="text-sm font-medium text-fg">{{ weekLabel(wk.weekStart) }}</span><span class="text-xs text-fg-muted tabular-nums">{{ tot | sum | number }} h</span></span>{{ badge(s.label | label, tone=s.tone) }}</li>{% else %}<li class="text-sm text-fg-secondary">Past weeks show up here after you submit them.</li>{% endfor %}</ul>
+      {% endcall %}
+    </div>
+  </div>
+{% endcall %}
+{% endblock %}

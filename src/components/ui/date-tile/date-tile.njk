@@ -1,0 +1,5 @@
+{#- DateTile. A small month + day square in lists of dated items. Props: iso (YYYY-MM-DD). Decorative: the row's text says the date in full. -#}
+{% macro dateTile(iso) %}
+{%- set v = variants.dateTile -%}
+<span data-component="DateTile" aria-hidden="true" class="{{ v.base }}"><span class="{{ v.slots.month }}">{{ (data.glossary.monthsShort | label)[(iso.slice(5, 7) | int) - 1] }}</span><span class="{{ v.slots.day }}">{{ iso.slice(8, 10) | int }}</span></span>
+{%- endmacro %}

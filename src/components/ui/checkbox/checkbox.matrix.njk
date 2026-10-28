@@ -8,6 +8,9 @@
   {% call cell("unchecked") %}{{ checkbox("m-cb-1", "Send a copy to the client") }}{% endcall %}
   {% call cell("checked") %}{{ checkbox("m-cb-2", "Send a copy to the client", checked=true) }}{% endcall %}
   {% call cell("with description") %}<div class="w-72">{{ checkbox("m-cb-3", "Billable", description="Hours on this task go on the client's invoice.", checked=true) }}</div>{% endcall %}
+  {% call cell("with aside") %}<div class="w-72">{{ checkbox("m-cb-5", "Karl Hansen", description="Backend developer", checked=true, aside="94% booked", asideTone="danger") }}</div>{% endcall %}
+  {% call cell("card") %}<div class="w-72">{{ checkbox("m-cb-6", "Website redesign", description="Anderson Studio · Development", checked=true, appearance="card") }}</div>{% endcall %}
+  {% call cell("swatch, aside") %}<div class="w-72">{{ checkbox("m-cb-7", "Meetings", checked=true, swatch="info", aside="14") }}</div>{% endcall %}
   {% call cell("disabled") %}{{ checkbox("m-cb-4", "Send a copy to the client", disabled=true) }}{% endcall %}
 {% endcall %}
 {% endblock %}

@@ -1,0 +1,25 @@
+{
+  "base": "grid grid-cols-[--spacing(20)_minmax(0,1fr)_auto] items-start gap-3 rounded-md bg-canvas px-3.5 py-3",
+  "variants": {
+    "tone": {
+      "team": "bg-accent-strong",
+      "client": "bg-info-fg",
+      "milestone": "bg-success-fg",
+      "personal": "bg-fg-muted",
+      "timeoff": "bg-warning-fg",
+      "meetings": "bg-info-fg",
+      "deadlines": "bg-danger-fg",
+      "finance": "bg-success-fg"
+    }
+  },
+  "slots": {
+    "time": "flex flex-col gap-0.5 text-sm font-semibold tabular-nums text-fg",
+    "day": "text-xs font-normal text-fg-muted",
+    "body": "flex min-w-0 flex-col gap-1",
+    "title": "flex min-w-0 items-center gap-2 text-sm font-medium text-fg",
+    "titleText": "truncate",
+    "dot": "size-2.5 shrink-0 rounded-full",
+    "meta": "text-xs text-fg-muted"
+  },
+  "defaultVariants": {}
+}

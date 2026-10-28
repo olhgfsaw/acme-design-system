@@ -1,0 +1,161 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_space-chrome.njk" import spaceChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/detail-list/detail-list.njk" import detailList %}
+{% from "components/common/record-cell/record-cell.njk" import recordCell %}
+{% from "components/common/step-list/step-list.njk" import stepList %}
+{% from "components/common/inline-alert/inline-alert.njk" import inlineAlert %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable, tableCell %}
+{% from "components/form/form-field/form-field.njk" import formField %}
+{% from "components/form/password-rules/password-rules.njk" import passwordRules %}
+{% from "components/form/notification-matrix/notification-matrix.njk" import notificationMatrix %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/ui/avatar/avatar.njk" import avatar %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/textarea/textarea.njk" import textarea %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/switch/switch.njk" import switch %}
+{% from "components/ui/checkbox/checkbox.njk" import checkbox %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% from "components/ui/code-tag/code-tag.njk" import codeTag %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- frame.tab: profile (default) | security | notifications | calendar | capture. -#}
+{% set tab = frame.tab or "profile" %}
+{% set sessions = data.fixtures.session.scenarios.typical %}
+{% set session = sessions | selectattr("current") | first %}
+{% set me = data.fixtures.teamMember.scenarios.typical | selectattr("id", "equalto", session.memberId) | first %}
+{% set h2 = "text-xl font-medium tracking-tight text-fg" %}{% set sub = "text-sm text-fg-secondary" %}
+{% set tz = [{ value: "America/Los_Angeles", label: "Pacific time, Los Angeles" }, { value: "America/Denver", label: "Mountain time, Denver" }, { value: "America/Chicago", label: "Central time, Chicago" }, { value: "America/New_York", label: "Eastern time, New York" }] %}
+{% macro head(id, title, text=null, tile=null, aside=null) %}<div class="flex flex-wrap items-start justify-between gap-3"><div class="flex min-w-0 items-start gap-3">{% if tile %}{{ iconTile(tile) }}{% endif %}<div class="flex min-w-0 flex-col gap-1"><h2 id="{{ id }}-title" class="{{ h2 }}">{{ title }}</h2>{% if text %}<p class="{{ sub }}">{{ text }}</p>{% endif %}</div></div>{% if aside %}{{ aside | safe }}{% endif %}</div>{% endmacro %}
+
+{% call spaceChrome(null) %}
+  {% call pageHeader("Account", me.fullName ~ " · " ~ me.role ~ " · " ~ me.email, avatar=me.fullName) %}{% endcall %}
+  {{ tabs([{ id: "profile", label: "Profile", href: "account.html" }, { id: "security", label: "Sign-in and security", href: "account-security.html" }, { id: "notifications", label: "Notifications", href: "account-notifications.html" }, { id: "calendar", label: "My calendar", href: "account-calendar.html" }, { id: "capture", label: "Capture", href: "account-capture.html" }], tab, "Account sections") }}
+
+  {% if tab == "profile" %}
+  <div class="grid items-start gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    {% call card("profile") %}
+      <form class="flex flex-col gap-6" action="account.html">
+        {{ head("profile", "Profile", "Your teammates and clients see this on projects and in meeting invites") }}
+        <div class="flex flex-wrap items-center gap-4">{{ avatar(me.fullName, size="lg", decorative=true) }}<div class="flex flex-col gap-1">{{ button("Upload a photo", variant="secondary", size="sm", iconLeading="upload") }}<p class="text-xs text-fg-muted">Square JPG or PNG, at least 256 px</p></div></div>
+        <div class="grid gap-x-5 gap-y-4 md:grid-cols-2">
+          {{ formField("pf-name", "Full name", required=true, input={ value: me.fullName, autocomplete: "name" }) }}
+          {{ formField("pf-pronouns", "Pronouns", hint="Optional", input={ value: me.pronouns or "" }) }}
+          {{ formField("pf-phone", "Phone", input={ type: "tel", value: me.phone, autocomplete: "tel" }) }}
+          {{ formField("pf-location", "Location", input={ value: me.location }) }}
+          {% call formField("pf-about", "About", hint=((me.about or "") | length) ~ " of 280 characters", layout="md:col-span-2") %}{{ textarea("pf-about", rows=3, value=me.about, describedby="pf-about-hint") }}{% endcall %}
+        </div>
+        <fieldset class="flex flex-col gap-3"><legend class="mb-3 text-sm font-medium text-fg">Skills</legend><ul class="flex flex-wrap gap-2">{% for k in me.skills %}<li class="inline-flex items-center gap-1">{{ badge(k, dot=false) }}{{ iconButton("Remove " ~ k, "x", size="sm") }}</li>{% endfor %}</ul><div class="flex max-w-sm gap-2">{{ input("pf-skill", placeholder="Add a skill", label="Add a skill") }}{{ button("Add", variant="secondary") }}</div></fieldset>
+        <div class="flex justify-end">{{ button("Save changes", type="submit") }}</div>
+      </form>
+    {% endcall %}
+    <div class="flex min-w-0 flex-col gap-3">
+      {% call card("work") %}<div class="flex flex-col gap-4">{{ head("work", "Work", "Set by your admin") }}{{ detailList([{ label: "Role", value: me.role }, { label: "Team", value: (data.statuses.discipline[me.discipline].label | label) ~ " · reports to " ~ me.reportsTo }, { label: "Access", value: "Member: sees own projects, no finance" }, { label: "With Acme since", value: (me.since ~ "T12:00:00Z") | date("long") }], columns="1") }}</div>{% endcall %}
+      {% call card("hours") %}
+        <div class="flex flex-col gap-4">{{ head("hours", "Working hours", "Meetings outside these hours ask you first") }}
+          <fieldset><legend class="sr-only">Working days</legend><div class="flex flex-wrap gap-1">{% for d in data.glossary.weekdays | label %}{{ button((data.glossary.weekdaysShort | label)[loop.index0], variant="secondary", size="sm", pressed=(loop.index0 > 0 and loop.index0 < 6)) }}{% endfor %}</div></fieldset>
+          <div class="grid grid-cols-2 gap-3">{{ formField("wh-start", "Start", input={ type: "time", value: "09:00" }) }}{{ formField("wh-end", "End", input={ type: "time", value: "18:00" }) }}</div>
+          {% call formField("ac-tz", "Time zone") %}{{ select("ac-tz", tz, value="America/Los_Angeles") }}{% endcall %}
+          <p class="text-sm text-fg-secondary">45 h a week · Monday to Friday</p>
+        </div>
+      {% endcall %}
+    </div>
+  </div>
+
+  {% elif tab == "security" %}
+  <div class="grid items-start gap-3 xl:grid-cols-2">
+    {% call card("password") %}
+      <form class="flex flex-col gap-4" action="account-security.html">{{ head("password", "Password", "Last changed on Jun 3, 2026") }}
+        {{ formField("pw-current", "Current password", required=true, input={ type: "password", autocomplete: "current-password" }) }}
+        {% call formField("pw-new", "New password", required=true) %}{{ input("pw-new", type="password", value="studio2026", autocomplete="new-password", describedby="pw-rules", required=true) }}{{ passwordRules("pw-rules", [{ text: "At least 10 characters", met: true }, { text: "A number", met: true }, { text: "Different from the current one", met: true }]) }}{% endcall %}
+        {{ formField("pw-repeat", "Repeat new password", error="Passwords don't match. Type the new password again.", required=true, input={ type: "password", value: "studio2025", autocomplete: "new-password" }) }}
+        <div class="flex justify-end">{{ button("Update password", type="submit") }}</div>
+      </form>
+    {% endcall %}
+    <div class="flex min-w-0 flex-col gap-3">
+      {% call card("mfa") %}<div class="flex flex-col gap-4">{{ switch("mfa", "Two-step verification", description="Ask for a code from an authenticator app when you sign in on a new device") }}</div>{% endcall %}
+      {% call card("methods", title="Sign-in methods") %}
+        <ul class="flex flex-col gap-4"><li>{{ recordCell("Email and password", sub=me.email, iconName="mail") }}</li><li class="flex items-center justify-between gap-3">{{ recordCell("Google account", sub="Connected · " ~ me.email, iconName="globe") }}{{ button("Disconnect", variant="secondary", size="sm", ariaLabel="Disconnect Google account") }}</li></ul>
+      {% endcall %}
+      {% call card("sessions", title="Where you're signed in") %}
+        <div class="flex flex-col gap-4"><ul class="flex flex-col gap-4">{% for x in sessions %}<li class="flex items-center justify-between gap-3">{{ recordCell((x.client ~ " on " if x.client else "") ~ x.device, sub=(x.location or "Unknown place") ~ " · " ~ ("active now" if x.current else (x.lastActiveAt | relative)), iconName=("smartphone" if x.kind == "phone" else "laptop")) }}{% if x.current %}{{ badge("This device", tone="success") }}{% else %}{{ button("Sign out", variant="secondary", size="sm", ariaLabel="Sign out " ~ x.device) }}{% endif %}</li>{% endfor %}</ul>
+        {% if sessions | length > 1 %}<div>{{ button("Sign out everywhere else", variant="ghost", size="sm", iconLeading="log-out") }}</div>{% endif %}</div>
+      {% endcall %}
+    </div>
+  </div>
+
+  {% elif tab == "notifications" %}
+  <div class="grid items-start gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    {% call card("events") %}
+      <div class="flex flex-col gap-4">{{ head("events", "What you hear about", "Only things on your projects. Clients never see these.") }}
+      {{ notificationMatrix("nm", "Notifications by channel", [{ id: "app", label: "In Acme" }, { id: "email", label: "Email" }], [
+        { id: "assigned", label: "Assigned to a task", note: "When someone gives you a task", on: ["app", "email"] },
+        { id: "mention", label: "Mentioned in a comment", note: "On files, tasks and stages", on: ["app", "email"] },
+        { id: "stage", label: "Project stage changes", note: "On projects you work on", on: ["app"] },
+        { id: "meeting", label: "Meeting changes", note: "New, moved or cancelled meetings", on: ["app"] },
+        { id: "file", label: "New file from a client", note: "Uploads on your projects", on: ["app"] },
+        { id: "time", label: "Time off and timesheets", note: "Approvals and rejections", on: ["app", "email"] }]) }}</div>
+    {% endcall %}
+    {% call card("timing", title="Timing") %}
+      <div class="flex flex-col gap-2">
+        {% call formField("nt-digest", "Daily summary email", layout="mb-2") %}{{ select("nt-digest", [{ value: "off", label: "Off" }, { value: "8", label: "Every morning at 8:00 AM" }, { value: "17", label: "Every evening at 5:00 PM" }], value="8") }}{% endcall %}
+        {{ switch("nt-quiet", "Quiet outside working hours", description="Hold notifications until 9:00 AM", checked=true) }}
+        {{ switch("nt-ts", "Friday timesheet reminder", description="At 4:00 PM if the week isn't submitted", checked=true) }}
+      </div>
+    {% endcall %}
+  </div>
+
+  {% elif tab == "calendar" %}
+  <div class="grid items-start gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    {% call card("gcal") %}
+      <div class="flex flex-col gap-6">
+        {% set connected = badge("Connected", tone="success") %}
+        {{ head("gcal", "My Google Calendar", me.email ~ " · synced " ~ ("2026-10-28T11:58:00Z" | relative), tile="calendar", aside=connected) }}
+        <div class="flex flex-col">{% for o in [["show", "Show my meetings in Acme", "On your home page and in the team calendar"], ["busy", "Share busy times with the team", "Teammates see “Busy”, never the event title"], ["push", "Add my Acme tasks and reviews to Google Calendar", "Task due dates and stage reviews you are part of"]] %}{{ switch("cal-" ~ o[0], o[1], description=o[2], checked=true) }}{% endfor %}</div>
+        <hr class="h-px border-0 bg-divider">
+        <fieldset class="flex flex-col gap-3"><legend class="mb-3 text-base font-medium text-fg">Calendars Acme can read</legend>{% for c in [["primary", me.fullName, "Main calendar", true], ["focus", "Focus time", "Blocks you set for deep work", true], ["family", "Family", "Personal, off by default", false]] %}{{ checkbox("mycal-" ~ c[0], c[1], description=c[2], checked=c[3]) }}{% endfor %}</fieldset>
+        <div class="flex flex-wrap justify-between gap-2">{{ button("Disconnect", variant="ghost", size="sm", iconLeading="unlink") }}{{ button("Sync now", variant="secondary", size="sm", iconLeading="refresh-cw") }}</div>
+      </div>
+    {% endcall %}
+    {% call card("privacy", title="Who sees what") %}
+      <div class="flex flex-col gap-4">{{ detailList([{ label: "Teammates", value: "Busy or free" }, { label: "Project managers", value: "Busy or free" }, { label: "Clients", value: "Nothing" }, { label: "Acme meetings", value: "Full details" }], columns="1") }}<p class="text-xs text-fg-muted">Event titles from your personal calendars never leave your account.</p></div>
+    {% endcall %}
+  </div>
+
+  {% else %}
+  {% set caps = data.fixtures.capture.scenarios[scenario] %}
+  {% set capIcon = { voice: "audio-lines", task: "square-check", time_entry: "clock", client: "briefcase" } %}
+  <div class="grid items-start gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <div class="flex min-w-0 flex-col gap-3">
+      {% call card("telegram") %}
+        <div class="flex flex-col gap-6">
+          {% set notLinked = badge("Not linked", tone="neutral") %}
+          {{ head("telegram", "Telegram", "Send voice notes, text and files to the Acme bot", tile="send", aside=notLinked) }}
+          {{ stepList(["Open @AcmeCaptureBot in Telegram. Search for it, or scan the code on your phone.", "Send the bot this code. It works for 10 minutes.", "Wait for “Linked” from the bot. This page updates by itself."]) }}
+          <div class="flex flex-wrap items-center gap-2">{{ codeTag("482 913") }}{{ button("Copy", variant="secondary", size="sm", iconLeading="copy", ariaLabel="Copy code 4 8 2 9 1 3") }}{{ button("New code", variant="ghost", size="sm") }}{{ button("Check again", variant="secondary", size="sm", iconLeading="refresh-cw") }}</div>
+        </div>
+      {% endcall %}
+      {% call card("forward") %}
+        <div class="flex flex-col gap-4">{{ head("forward", "Forward by email", "Forward emails, receipts and PDFs. Acme reads the message and the attachments.", tile="mail") }}
+          {% call formField("fw-addr", "Your forwarding address", hint="Only mail sent from " ~ me.email ~ " is accepted. Anything else is ignored.") %}<div class="flex gap-2">{{ input("fw-addr", value="capture+olivia.k7m2@in.acme.app", describedby="fw-addr-hint") }}{{ button("Copy", variant="secondary", iconLeading="copy", ariaLabel="Copy forwarding address") }}</div>{% endcall %}
+        </div>
+      {% endcall %}
+      {% call card("captures") %}
+        <div class="flex flex-col gap-4">{{ head("captures", "My recent captures", "Your project lead reviews them. Nothing changes before that.") }}
+        {% call dataTable("My recent captures", [{ label: "Capture" }, { label: "Status" }], state=state, messages={ loading: "Loading…", emptyTitle: "Nothing captured yet", emptyText: "Use the mic in the top bar, Telegram or email. What you send shows up here.", errorTitle: "Captures didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" }, rowCount=4) %}
+          {% for c in caps %}{% set s = data.statuses.captureStatus[c.status] %}<tr class="{{ variants.dataTable.slots.row }}">{% call tableCell() %}{{ recordCell(c.title, sub=(data.statuses.proposalSource[c.source].label | label) ~ " · " ~ (c.sentAt | relative), iconName=capIcon[c.kind]) }}{% endcall %}{% call tableCell(kind="secondary") %}<div class="flex flex-col items-start gap-1">{{ badge(s.label | label, tone=s.tone) }}{% if c.note %}<span>{{ c.note }}</span>{% endif %}</div>{% endcall %}</tr>{% endfor %}
+        {% endcall %}</div>
+      {% endcall %}
+    </div>
+    {% call card("how", title="How capture works") %}
+      <div class="flex flex-col gap-4">{{ stepList(["Say or send what happened: the mic button in the top bar, Telegram, or email.", "AI turns it into a proposal: a task, a time entry or a note, with every field marked.", "Your project lead approves it. You see the result here and get a notification."]) }}{{ inlineAlert("Invoices and payments go to an admin", "You can mention them, but you can't approve them.", tone="info") }}</div>
+    {% endcall %}
+  </div>
+  {% endif %}
+{% endcall %}
+{% endblock %}

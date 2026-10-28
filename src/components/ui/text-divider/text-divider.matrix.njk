@@ -1,0 +1,8 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/text-divider/text-divider.njk" import textDivider %}
+{% set description = "A rule with a short label between two ways of doing the same thing." %}
+{% block matrix %}
+
+{% call section("label") %}{% call cell("or with email") %}<div class="w-80">{{ textDivider("or with email") }}</div>{% endcall %}{% endcall %}
+{% endblock %}

@@ -8,6 +8,7 @@
   "required": [
     "id",
     "name",
+    "status",
     "revenueMinor",
     "currency"
   ],
@@ -19,17 +20,132 @@
     "name": {
       "type": "string",
       "maxLength": 200,
-      "description": "Client display name"
+      "description": "Main contact's full name"
+    },
+    "companyName": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "The client's company; absent for private clients"
+    },
+    "contactRole": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "Main contact's role"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "lead"
+      ],
+      "x-dict": "clientStatus",
+      "description": "Relationship status"
     },
     "revenueMinor": {
       "type": "integer",
       "minimum": 0,
-      "description": "Revenue from the client this month in minor units of currency"
+      "description": "Paid this month, minor units"
     },
     "currency": {
       "type": "string",
       "pattern": "^[A-Z]{3}$",
       "description": "ISO 4217 code"
+    },
+    "contractMinor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total value of all projects, minor units; absent for leads"
+    },
+    "paidMinor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Paid to date, minor units"
+    },
+    "outstandingMinor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Invoiced and unpaid, minor units"
+    },
+    "overdueMinor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Part of outstanding that is past due, minor units"
+    },
+    "projectCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Projects in total"
+    },
+    "activeProjectCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Projects in progress"
+    },
+    "lastActivity": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Latest event, in a few words"
+    },
+    "lastActivityAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it happened (UTC)"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Main contact's email"
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "Phone with country code"
+    },
+    "website": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Domain without https"
+    },
+    "address": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "Postal address"
+    },
+    "since": {
+      "type": "string",
+      "format": "date",
+      "description": "First project or signed contract"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Team notes about working with the client"
+    },
+    "notesBy": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Who last edited the notes"
+    },
+    "notesAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the notes were last edited (UTC)"
+    },
+    "billingEmail": {
+      "type": "string",
+      "format": "email",
+      "description": "Where invoices go"
+    },
+    "paymentTermsDays": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Default payment terms in days"
+    },
+    "taxId": {
+      "type": "string",
+      "maxLength": 60,
+      "description": "Tax ID"
     },
     "avatarUrl": {
       "type": [
@@ -37,12 +153,7 @@
         "null"
       ],
       "format": "uri",
-      "description": "Photo or logo; absent or null shows initials"
-    },
-    "companyName": {
-      "type": "string",
-      "maxLength": 200,
-      "description": "The client's company; absent for private clients"
+      "description": "Logo; absent or null shows initials"
     }
   }
 }

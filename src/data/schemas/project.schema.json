@@ -36,7 +36,8 @@
         "website",
         "app",
         "marketing",
-        "landing"
+        "landing",
+        "brand"
       ],
       "description": "Kind of work; picks the icon in lists"
     },
@@ -104,6 +105,52 @@
       "type": "string",
       "format": "date-time",
       "description": "When the current user last opened it (UTC); absent if never"
+    },
+    "budgetMinor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Agreed budget, minor units"
+    },
+    "paidMinor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Paid so far, minor units"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 code"
+    },
+    "team": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "People on the project, lead first"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date",
+      "description": "When work started"
+    },
+    "billing": {
+      "type": "string",
+      "enum": [
+        "fixed",
+        "hourly",
+        "retainer"
+      ],
+      "description": "How the client pays"
+    },
+    "stageDates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "date"
+      },
+      "minItems": 5,
+      "maxItems": 5,
+      "description": "Target date of each stage, in stage order"
     }
   }
 }

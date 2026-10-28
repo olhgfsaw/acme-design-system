@@ -1,0 +1,5 @@
+{#- TextDivider. A rule with a short label in the middle, between two ways of doing the same thing ("or with email"). Props: label. -#}
+{% macro textDivider(label) %}
+{%- set v = variants.textDivider -%}
+<div data-component="TextDivider" class="{{ v.base }}"><span class="{{ v.slots.line }}" aria-hidden="true"></span><span>{{ label }}</span><span class="{{ v.slots.line }}" aria-hidden="true"></span></div>
+{%- endmacro %}

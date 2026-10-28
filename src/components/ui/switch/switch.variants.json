@@ -6,7 +6,10 @@
     "label": "cursor-pointer text-sm font-medium text-fg",
     "description": "text-xs text-fg-muted",
     "track": "relative inline-flex h-6 w-10 shrink-0 items-center rounded-full bg-control transition-colors data-[state=checked]:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed disabled:opacity-50",
-    "thumb": "pointer-events-none block size-4 translate-x-1 rounded-full bg-surface motion-safe:transition-transform data-[state=checked]:translate-x-5 data-[state=checked]:bg-on-primary"
+    "thumb": "pointer-events-none block size-4 translate-x-1 rounded-full bg-surface motion-safe:transition-transform data-[state=checked]:translate-x-5 data-[state=checked]:bg-on-primary",
+    "end": "flex shrink-0 items-center gap-3",
+    "aside": "text-xs font-medium tabular-nums text-fg-secondary",
+    "lock": "size-4 text-fg-muted"
   },
   "defaultVariants": {}
 }

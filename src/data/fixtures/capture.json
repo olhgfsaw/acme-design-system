@@ -1,0 +1,199 @@
+{
+  "entity": "capture",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 851,
+        "memberId": 11,
+        "title": "Voice note 0:31",
+        "source": "telegram_voice",
+        "sentAt": "2026-10-28T11:58:00Z",
+        "status": "processing",
+        "note": "Transcribing, about a minute",
+        "kind": "voice"
+      },
+      {
+        "id": 852,
+        "memberId": 11,
+        "title": "New task · Fix header on mobile · Website redesign",
+        "source": "telegram_text",
+        "sentAt": "2026-10-28T09:00:00Z",
+        "status": "pending",
+        "note": "With Abraham Moss as project lead",
+        "kind": "task"
+      },
+      {
+        "id": 853,
+        "memberId": 11,
+        "title": "Time entry · 1.5 h Design critique → Website redesign",
+        "source": "calendar",
+        "sentAt": "2026-10-27T17:00:00Z",
+        "status": "approved",
+        "note": "Logged on your timesheet",
+        "kind": "time_entry"
+      },
+      {
+        "id": 854,
+        "memberId": 11,
+        "title": "Move “Homepage hero copy” to Review",
+        "source": "telegram_voice",
+        "sentAt": "2026-10-25T10:20:00Z",
+        "status": "approved_edited",
+        "note": "Card moved, assignee changed to James Reed",
+        "kind": "task"
+      },
+      {
+        "id": 855,
+        "memberId": 11,
+        "title": "New client · Studio Nord",
+        "source": "web_capture",
+        "sentAt": "2026-10-24T15:10:00Z",
+        "status": "rejected",
+        "note": "“Leads are added by account directors”",
+        "kind": "client"
+      },
+      {
+        "id": 856,
+        "memberId": 11,
+        "title": "Voice note 0:08",
+        "source": "telegram_voice",
+        "sentAt": "2026-10-23T08:45:00Z",
+        "status": "failed",
+        "note": "Too noisy. Try again or type it.",
+        "kind": "voice"
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 852,
+        "memberId": 11,
+        "title": "New task · Fix the header navigation on mobile and tablet breakpoints including the long German labels · Website redesign for Anderson Studio",
+        "source": "telegram_text",
+        "sentAt": "2026-10-28T09:00:00Z",
+        "status": "pending",
+        "note": "With Abraham Moss as project lead",
+        "kind": "task"
+      },
+      {
+        "id": 853,
+        "memberId": 11,
+        "title": "Time entry · 1.5 h Design critique → Website redesign",
+        "source": "calendar",
+        "sentAt": "2026-10-27T17:00:00Z",
+        "status": "approved",
+        "note": "Logged on your timesheet",
+        "kind": "time_entry"
+      },
+      {
+        "id": 854,
+        "memberId": 11,
+        "title": "Move “Homepage hero copy” to Review",
+        "source": "telegram_voice",
+        "sentAt": "2026-10-25T10:20:00Z",
+        "status": "approved_edited",
+        "note": "Card moved, assignee changed to James Reed",
+        "kind": "task"
+      },
+      {
+        "id": 855,
+        "memberId": 11,
+        "title": "New client · Studio Nord",
+        "source": "web_capture",
+        "sentAt": "2026-10-24T15:10:00Z",
+        "status": "rejected",
+        "note": "“Leads are added by account directors”",
+        "kind": "client"
+      },
+      {
+        "id": 856,
+        "memberId": 11,
+        "title": "Voice note 0:08",
+        "source": "telegram_voice",
+        "sentAt": "2026-10-23T08:45:00Z",
+        "status": "failed",
+        "note": "Too noisy. Try again or type it.",
+        "kind": "voice"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 851,
+        "memberId": 11,
+        "title": "Voice note 0:31",
+        "source": "telegram_voice",
+        "sentAt": "2026-10-28T11:58:00Z",
+        "status": "processing",
+        "note": "Transcribing, about a minute",
+        "kind": "voice"
+      },
+      {
+        "id": 852,
+        "memberId": 11,
+        "title": "New task · Fix header on mobile · Website redesign",
+        "source": "telegram_text",
+        "sentAt": "2026-10-28T09:00:00Z",
+        "status": "pending",
+        "note": "With Abraham Moss as project lead",
+        "kind": "task"
+      },
+      {
+        "id": 853,
+        "memberId": 11,
+        "title": "Time entry · 1.5 h Design critique → Website redesign",
+        "source": "calendar",
+        "sentAt": "2026-10-27T17:00:00Z",
+        "status": "approved",
+        "note": "Logged on your timesheet",
+        "kind": "time_entry"
+      },
+      {
+        "id": 854,
+        "memberId": 11,
+        "title": "Move “Homepage hero copy” to Review",
+        "source": "telegram_voice",
+        "sentAt": "2026-10-25T10:20:00Z",
+        "status": "approved_edited",
+        "note": "Card moved, assignee changed to James Reed",
+        "kind": "task"
+      },
+      {
+        "id": 855,
+        "memberId": 11,
+        "title": "New client · Studio Nord",
+        "source": "web_capture",
+        "sentAt": "2026-10-24T15:10:00Z",
+        "status": "rejected",
+        "note": "“Leads are added by account directors”",
+        "kind": "client"
+      },
+      {
+        "id": 856,
+        "memberId": 11,
+        "title": "Voice note 0:08",
+        "source": "telegram_voice",
+        "sentAt": "2026-10-23T08:45:00Z",
+        "status": "failed",
+        "note": "Too noisy. Try again or type it.",
+        "kind": "voice"
+      }
+    ],
+    "partial": [
+      {
+        "id": 857,
+        "memberId": 11,
+        "title": "Capture",
+        "source": "web_capture",
+        "sentAt": "2026-10-28T08:00:00Z",
+        "status": "pending",
+        "kind": "task"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

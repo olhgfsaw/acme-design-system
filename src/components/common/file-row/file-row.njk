@@ -1,0 +1,7 @@
+{#- FileRow. One attached file. Props: name, meta ("PDF · 184 KB · Oct 2"), iconName (by type), download (show the download button), remove (show the remove button). -#}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% macro fileRow(name, meta, iconName="file", download=true, remove=true) %}
+{%- set v = variants.fileRow -%}
+<div data-component="FileRow" class="{{ v.base }}">{{ iconTile(iconName, size="sm") }}<span class="{{ v.slots.text }}"><span class="{{ v.slots.name }}" title="{{ name }}">{{ name }}</span><span class="{{ v.slots.meta }}">{{ meta }}</span></span><span class="{{ v.slots.actions }}">{% if download %}{{ iconButton("Download " ~ name, "download", size="sm") }}{% endif %}{% if remove %}{{ iconButton("Remove " ~ name, "trash-2", size="sm") }}{% endif %}</span></div>
+{%- endmacro %}

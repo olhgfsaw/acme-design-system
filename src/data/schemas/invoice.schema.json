@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Invoice",
+  "x-entity": "invoice",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "number",
+    "clientName",
+    "issuedAt",
+    "dueAt",
+    "amountMinor",
+    "currency",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "number": {
+      "type": "string",
+      "pattern": "^INV-\\d{4}-\\d{3,}$",
+      "description": "Invoice number, assigned in order"
+    },
+    "clientName": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Client company"
+    },
+    "projectName": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Project it bills; absent for general work"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "What the invoice covers, in a few words"
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date",
+      "description": "Issue date"
+    },
+    "dueAt": {
+      "type": "string",
+      "format": "date",
+      "description": "Due date"
+    },
+    "amountMinor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total, minor units"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 code"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "sent",
+        "paid",
+        "overdue"
+      ],
+      "x-dict": "invoiceStatus",
+      "description": "Where the invoice is"
+    },
+    "paidAt": {
+      "type": "string",
+      "format": "date",
+      "description": "When it was paid; only for paid"
+    },
+    "termsDays": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Payment terms in days"
+    },
+    "taxPercent": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Tax rate"
+    },
+    "milestone": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Which project milestone it bills"
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "description",
+          "quantity",
+          "rateMinor",
+          "amountMinor"
+        ],
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "What"
+          },
+          "detail": {
+            "type": "string",
+            "description": "One line of detail"
+          },
+          "quantity": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Quantity"
+          },
+          "rateMinor": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Rate, minor units"
+          },
+          "amountMinor": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Amount, minor units"
+          }
+        }
+      },
+      "description": "Line items; absent in lists"
+    },
+    "note": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Note printed at the bottom"
+    },
+    "reminderSentAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last reminder (UTC)"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/bar-chart/bar-chart.njk" import barChart %}
+{% set description = "Values side by side; the highlighted bar is the one that matters." %}
+{% block matrix %}
+
+{% call section("months") %}
+  {% call cell("paid by month") %}<div class="w-80">{{ barChart(["May", "Jun", "Jul", "Aug", "Sep", "Oct"], [1840000, 2210000, 1960000, 2630000, 2480000, 3070000], "Paid by month, May to October", highlight=5, currency="USD", seriesLabel="Paid") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}
