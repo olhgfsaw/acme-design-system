@@ -1,0 +1,12 @@
+{
+  "base": "w-full border-collapse text-sm",
+  "variants": {},
+  "slots": {
+    "th": "pb-2 text-start text-xs font-medium text-fg-muted",
+    "rowhead": "py-2 pe-4 text-start font-normal text-fg-secondary",
+    "before": "py-2 pe-4 text-fg-muted tabular-nums line-through decoration-divider",
+    "arrow": "py-2 pe-4 text-fg-muted",
+    "after": "py-2 font-medium text-fg tabular-nums"
+  },
+  "defaultVariants": {}
+}

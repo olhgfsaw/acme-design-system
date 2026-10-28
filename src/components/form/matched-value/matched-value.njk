@@ -1,0 +1,5 @@
+{#- MatchedValue. A field whose value is a record AI matched: the record opens as a link, Change swaps it for a picker. Props: id, value (display text), href, label (the field name, for "Change <label>"), describedby. -#}
+{% macro matchedValue(id, value, href, label, describedby=null) %}
+{%- set v = variants.matchedValue -%}
+<div data-component="MatchedValue" class="{{ v.base }}"><a id="{{ id }}" href="{{ href }}" class="{{ v.slots.link }}"{% if describedby %} aria-describedby="{{ describedby }}"{% endif %}>{{ value }}</a><button type="button" aria-label="Change {{ label }}" class="{{ v.slots.change }}">Change</button></div>
+{%- endmacro %}

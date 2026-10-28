@@ -1,0 +1,5 @@
+{#- SourceQuote. The exact words of a capture. Props: label (Transcript, Typed in Capture), text. -#}
+{% macro sourceQuote(label, text) %}
+{%- set v = variants.sourceQuote -%}
+<figure data-component="SourceQuote" class="{{ v.base }}"><figcaption class="{{ v.slots.label }}">{{ label }}</figcaption><blockquote class="{{ v.slots.quote }}">{{ text }}</blockquote></figure>
+{%- endmacro %}

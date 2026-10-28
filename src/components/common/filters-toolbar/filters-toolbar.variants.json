@@ -1,0 +1,11 @@
+{
+  "base": "flex flex-wrap items-end justify-between gap-4",
+  "variants": {},
+  "slots": {
+    "filters": "flex flex-wrap items-end gap-3",
+    "field": "flex w-48 flex-col gap-1.5",
+    "label": "text-sm font-medium text-fg",
+    "count": "text-sm text-fg-muted"
+  },
+  "defaultVariants": {}
+}

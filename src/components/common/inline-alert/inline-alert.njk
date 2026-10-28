@@ -1,0 +1,5 @@
+{#- InlineAlert. A message in place, at the section it concerns. Props: tone (info | success | warning | danger), title, text, urgent (role="alert" for something that changed under the person). -#}
+{% macro inlineAlert(title, text=null, tone="info", urgent=false) %}
+{%- set v = variants.inlineAlert -%}
+<div data-component="InlineAlert" data-tone="{{ tone }}"{% if urgent %} role="alert"{% endif %} class="{{ v.base }} {{ v.variants.tone[tone] }}">{{ icon("triangle-alert" if tone in ["warning", "danger"] else ("circle-check-big" if tone == "success" else "info"), v.slots.icon ~ " " ~ v.iconTone[tone]) }}<div class="{{ v.slots.body }}"><p class="{{ v.slots.title }}">{{ title }}</p>{% if text %}<p class="{{ v.slots.text }}">{{ text }}</p>{% endif %}</div></div>
+{%- endmacro %}

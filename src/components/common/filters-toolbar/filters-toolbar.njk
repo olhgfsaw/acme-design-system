@@ -1,0 +1,14 @@
+{#- FiltersToolbar. Props: id, label (group name), filters [{ id, label, options [{ value, label }], value }], count (formatted: "7 items" or "Showing 2 of 7"), resetLabel (shown when any filter is set). Instant filters: each select applies at once. -#}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/button/button.njk" import button %}
+{% macro filtersToolbar(id, label, filters, count, resetLabel="Clear filters") %}
+{%- set v = variants.filtersToolbar -%}
+{%- set active = [] %}{% for f in filters %}{% if f.value and f.value != "all" %}{% set _ = active.push(f.id) %}{% endif %}{% endfor -%}
+<div data-component="FiltersToolbar" class="{{ v.base }}">
+  <div role="group" aria-label="{{ label }}" class="{{ v.slots.filters }}">
+    {%- for f in filters %}<div class="{{ v.slots.field }}"><label for="{{ id }}-{{ f.id }}" class="{{ v.slots.label }}">{{ f.label }}</label>{{ select(id ~ "-" ~ f.id, f.options, value=f.value) }}</div>{% endfor %}
+    {%- if active | length %}{{ button(resetLabel, variant="ghost", size="sm", iconLeading="rotate-ccw") }}{% endif %}
+  </div>
+  <p role="status" class="{{ v.slots.count }}">{{ count }}</p>
+</div>
+{%- endmacro %}

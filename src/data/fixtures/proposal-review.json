@@ -1,0 +1,742 @@
+{
+  "entity": "proposalReview",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 901,
+        "proposalId": 801,
+        "variant": "create",
+        "position": 1,
+        "queueSize": 7,
+        "title": "New invoice · Klark Coffee Co.",
+        "subtitle": "From a Telegram voice note by Daniel Kim, 25 minutes ago. Check the marked fields, then create it.",
+        "formTitle": "Details",
+        "formHint": "Who pays, for which project, and by when",
+        "currency": "USD",
+        "taxPercent": 0,
+        "fields": [
+          {
+            "key": "client",
+            "label": "Client",
+            "control": "matched",
+            "value": "Klark Coffee Co.",
+            "display": "Klark Coffee Co.",
+            "href": "#client",
+            "provenance": "match",
+            "note": "Heard “Klark Coffee”, matched to the client"
+          },
+          {
+            "key": "project",
+            "label": "Project",
+            "control": "matched",
+            "value": "Marketing campaign",
+            "display": "Marketing campaign",
+            "href": "#project",
+            "provenance": "match",
+            "note": "Heard “the October campaign work”, matched to the project"
+          },
+          {
+            "key": "number",
+            "label": "Invoice number",
+            "control": "readonly",
+            "value": "INV-2026-050",
+            "note": "Assigned in order"
+          },
+          {
+            "key": "issue",
+            "label": "Issue date",
+            "control": "date",
+            "value": "2026-10-28",
+            "note": "Today"
+          },
+          {
+            "key": "terms",
+            "label": "Payment terms",
+            "control": "select",
+            "value": "30",
+            "options": [
+              {
+                "value": "0",
+                "label": "Due on receipt"
+              },
+              {
+                "value": "14",
+                "label": "Net 14"
+              },
+              {
+                "value": "30",
+                "label": "Net 30"
+              },
+              {
+                "value": "45",
+                "label": "Net 45"
+              }
+            ],
+            "provenance": "msg",
+            "note": "“Same terms as last time”: Net 30, as on INV-2026-049"
+          },
+          {
+            "key": "due",
+            "label": "Due date",
+            "control": "date",
+            "value": "2026-11-27",
+            "provenance": "guess",
+            "note": "Worked out from Net 30. The message gives no date."
+          },
+          {
+            "key": "po",
+            "label": "Client PO number",
+            "control": "text",
+            "value": "PO-KC-0412",
+            "provenance": "guess",
+            "note": "Copied from INV-2026-049. October may have its own PO."
+          },
+          {
+            "key": "tax",
+            "label": "Tax rate, %",
+            "control": "text",
+            "value": "0",
+            "note": "Default from Settings"
+          }
+        ],
+        "lines": [
+          {
+            "description": "October campaign work",
+            "quantity": 1,
+            "rateMinor": 900000,
+            "amountMinor": 900000,
+            "descProvenance": "msg",
+            "descNote": "“the October campaign work”",
+            "rateProvenance": "msg",
+            "rateNote": "“nine thousand dollars”"
+          }
+        ],
+        "primaryLabel": "Create invoice as Draft",
+        "primaryNote": "Creates INV-2026-050 as Draft. Nothing is sent to the client.",
+        "source": {
+          "channel": "telegram_voice",
+          "authorName": "Daniel Kim",
+          "receivedAt": "2026-10-28T11:35:00Z",
+          "voiceSeconds": 42,
+          "quoteLabel": "Transcript",
+          "quote": "“Invoice Klark Coffee for the October campaign work, nine thousand dollars, same terms as last time. The scope is in the PDF.”",
+          "file": {
+            "name": "Klark October scope.pdf",
+            "meta": "PDF · 2 pages · 184 KB",
+            "summary": "Scope: 3 social videos, 12 posts, in-store posters. Fee $9,000."
+          }
+        },
+        "understood": "A new invoice for Klark Coffee Co. on Marketing campaign: one line for the October campaign work, $9,000. Terms are taken from the last Klark invoice. The due date and PO number are not in the message, so they are guesses. After this, the $18,000 budget is fully invoiced.",
+        "activity": [
+          {
+            "text": "Voice note and 1 file received from Daniel Kim in Telegram",
+            "at": "2026-10-28T11:35:00Z"
+          },
+          {
+            "text": "Transcribed, matched Klark Coffee Co. and Marketing campaign",
+            "at": "2026-10-28T11:35:00Z",
+            "tone": "info"
+          },
+          {
+            "text": "Proposal ready · 2 fields to check",
+            "at": "2026-10-28T11:36:00Z",
+            "tone": "warning"
+          }
+        ]
+      },
+      {
+        "id": 902,
+        "proposalId": 802,
+        "variant": "update",
+        "position": 2,
+        "queueSize": 7,
+        "title": "Record payment · INV-2026-047",
+        "subtitle": "From an email Daniel Kim forwarded an hour ago, with the payment confirmation attached.",
+        "formTitle": "Payment",
+        "formHint": "Everything here was found in the forwarded email and its PDF",
+        "currency": "USD",
+        "fields": [
+          {
+            "key": "invoice",
+            "label": "Invoice",
+            "control": "matched",
+            "value": "INV-2026-047",
+            "display": "INV-2026-047 · Northwind Health",
+            "href": "#invoice",
+            "provenance": "match",
+            "note": "Reference INV-2026-047 in the PDF"
+          },
+          {
+            "key": "amount",
+            "label": "Amount",
+            "control": "text",
+            "value": "$14,000.00",
+            "provenance": "msg",
+            "note": "“USD 14,000.00” in the PDF"
+          },
+          {
+            "key": "paid",
+            "label": "Payment date",
+            "control": "date",
+            "value": "2026-10-27",
+            "provenance": "msg",
+            "note": "Value date in the PDF"
+          },
+          {
+            "key": "method",
+            "label": "Method",
+            "control": "select",
+            "value": "bank",
+            "options": [
+              {
+                "value": "bank",
+                "label": "Bank transfer"
+              },
+              {
+                "value": "card",
+                "label": "Card"
+              },
+              {
+                "value": "check",
+                "label": "Check"
+              },
+              {
+                "value": "other",
+                "label": "Other"
+              }
+            ],
+            "provenance": "msg",
+            "note": "“Wire transfer” in the PDF"
+          },
+          {
+            "key": "ref",
+            "label": "Bank reference",
+            "control": "text",
+            "value": "NWH-PAY-88213",
+            "provenance": "msg",
+            "note": "Transaction ID in the PDF"
+          }
+        ],
+        "changesTitle": "What changes on INV-2026-047",
+        "changes": [
+          {
+            "label": "Status",
+            "before": "Sent",
+            "after": "Paid"
+          },
+          {
+            "label": "Amount due",
+            "before": "$14,000.00",
+            "after": "$0.00"
+          },
+          {
+            "label": "Paid on",
+            "before": "Not paid",
+            "after": "Oct 27, 2026"
+          }
+        ],
+        "primaryLabel": "Record payment",
+        "primaryNote": "Marks INV-2026-047 as Paid. Nothing is sent to the client.",
+        "source": {
+          "channel": "email",
+          "authorName": "Daniel Kim",
+          "receivedAt": "2026-10-28T11:00:00Z",
+          "email": {
+            "subject": "Fwd: Payment confirmation INV-2026-047",
+            "from": "Sarah Johnson, finance@northwindhealth.example · forwarded by Daniel Kim",
+            "body": "Hi Daniel, please find the confirmation for the October payment attached. Thanks, Sarah"
+          },
+          "file": {
+            "name": "Northwind payment confirmation.pdf",
+            "meta": "PDF · 1 page · 96 KB",
+            "summary": "Wire transfer · USD 14,000.00 · Ref. INV-2026-047 · Oct 27, 2026"
+          }
+        },
+        "understood": "Northwind Health paid $14,000 by wire on Oct 27 for INV-2026-047. That covers the whole invoice, so it becomes Paid. No other invoice for Northwind is open.",
+        "activity": [
+          {
+            "text": "Email forwarded by Daniel Kim to capture",
+            "at": "2026-10-28T11:00:00Z"
+          },
+          {
+            "text": "Read the attached PDF, matched INV-2026-047",
+            "at": "2026-10-28T11:00:00Z",
+            "tone": "info"
+          },
+          {
+            "text": "Proposal ready · all matched",
+            "at": "2026-10-28T11:01:00Z",
+            "tone": "success"
+          }
+        ]
+      },
+      {
+        "id": 903,
+        "proposalId": 803,
+        "variant": "duplicate",
+        "position": 3,
+        "queueSize": 7,
+        "title": "Duplicate the July invoice into August",
+        "subtitle": "From web capture by Daniel Kim, 2 hours ago. Two July invoices match, so pick one first.",
+        "fields": [],
+        "question": "Which invoice?",
+        "questionHint": "Two invoices from July match “the July invoice”. Pick the one to copy into August.",
+        "choices": [
+          {
+            "value": "028",
+            "title": "INV-2026-028",
+            "amountMinor": 450000,
+            "line": "Klark Coffee Co. · Marketing campaign",
+            "meta": [
+              "Issued Jul 20 · Paid · Net 30",
+              "1 line · Marketing campaign, July retainer"
+            ]
+          },
+          {
+            "value": "030",
+            "title": "INV-2026-030",
+            "amountMinor": 475000,
+            "line": "Anderson Studio · Brand guidelines",
+            "meta": [
+              "Issued Jul 28 · Paid · Net 30",
+              "1 line · Brand guidelines, July design work"
+            ]
+          }
+        ],
+        "currency": "USD",
+        "primaryLabel": "Create invoice as Draft",
+        "primaryNote": "Pick the July invoice first.",
+        "blocked": true,
+        "source": {
+          "channel": "web_capture",
+          "authorName": "Daniel Kim",
+          "receivedAt": "2026-10-28T10:00:00Z",
+          "quoteLabel": "Typed in Capture",
+          "quote": "“Duplicate the July invoice into August”"
+        },
+        "understood": "Copy a July invoice into August with the same lines and amounts, dates moved one month. Two July invoices match: INV-2026-028 for Klark Coffee Co. and INV-2026-030 for Anderson Studio.",
+        "activity": [
+          {
+            "text": "Typed by Daniel Kim in web capture",
+            "at": "2026-10-28T10:00:00Z"
+          },
+          {
+            "text": "Found 2 invoices from July",
+            "at": "2026-10-28T10:00:00Z",
+            "tone": "info"
+          },
+          {
+            "text": "Proposal ready · needs your answer",
+            "at": "2026-10-28T10:01:00Z",
+            "tone": "info"
+          }
+        ]
+      },
+      {
+        "id": 904,
+        "proposalId": 805,
+        "variant": "conflict",
+        "position": 5,
+        "queueSize": 7,
+        "title": "Landing page design · new due date",
+        "subtitle": "From a Telegram voice note by Abraham Moss, yesterday. The project changed since then.",
+        "fields": [
+          {
+            "key": "reason",
+            "label": "Reason, added to the project activity",
+            "control": "text",
+            "value": "Rahman needs more time for the copy",
+            "provenance": "msg",
+            "note": "“Rahman needs more time for the copy”",
+            "wide": true
+          }
+        ],
+        "conflict": {
+          "title": "This project changed after the proposal was made",
+          "text": "Olivia Foster moved the due date to Nov 27 today at 10:12 AM. The proposal is from Abraham Moss's voice note yesterday and still says Dec 4.",
+          "field": "Due date · Landing page design",
+          "context": "Rahman Logistics · stage 2 of 5, Design",
+          "values": [
+            {
+              "kind": "was",
+              "label": "Was, when proposed",
+              "value": "Nov 20, 2026",
+              "meta": "Yesterday, 6:40 PM"
+            },
+            {
+              "kind": "now",
+              "label": "Now",
+              "value": "Nov 27, 2026",
+              "meta": "Changed by Olivia Foster · today, 10:12 AM"
+            },
+            {
+              "kind": "new",
+              "label": "Proposed",
+              "value": "Dec 4, 2026",
+              "meta": "From Abraham Moss's voice note"
+            }
+          ]
+        },
+        "primaryLabel": "Apply proposal anyway",
+        "primaryNote": "Sets the due date to Dec 4. Olivia Foster and Abraham Moss are notified either way.",
+        "source": {
+          "channel": "telegram_voice",
+          "authorName": "Abraham Moss",
+          "receivedAt": "2026-10-27T18:40:00Z",
+          "voiceSeconds": 19,
+          "quoteLabel": "Transcript",
+          "quote": "“Landing page design: move the due date to December 4. Rahman needs more time for the copy.”"
+        },
+        "understood": "Move the Landing page design due date from Nov 20 to Dec 4 because the client needs more time for the copy. Since then, Olivia Foster changed the date to Nov 27, so decide which date wins.",
+        "activity": [
+          {
+            "text": "Voice note received from Abraham Moss in Telegram",
+            "at": "2026-10-27T18:40:00Z"
+          },
+          {
+            "text": "Proposal ready · all matched",
+            "at": "2026-10-27T18:41:00Z",
+            "tone": "success"
+          },
+          {
+            "text": "Olivia Foster changed the due date to Nov 27",
+            "at": "2026-10-28T10:12:00Z",
+            "tone": "warning"
+          },
+          {
+            "text": "Marked as conflict",
+            "at": "2026-10-28T10:12:00Z",
+            "tone": "danger"
+          }
+        ]
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 911,
+        "proposalId": 801,
+        "variant": "create",
+        "position": 1,
+        "queueSize": 7,
+        "title": "New invoice · Alexandria Montgomery-Fitzgerald Consulting Group International · October retainer",
+        "subtitle": "From an email forwarded by Konstantinopolsky-Alexandrovsky Vladislav. Check the marked fields, then create it.",
+        "formTitle": "Details",
+        "formHint": "Who pays, for which project, and by when",
+        "currency": "USD",
+        "taxPercent": 0,
+        "fields": [
+          {
+            "key": "client",
+            "label": "Client",
+            "control": "matched",
+            "value": "Klark Coffee Co.",
+            "display": "Klark Coffee Co.",
+            "href": "#client",
+            "provenance": "match",
+            "note": "Heard “Klark Coffee”, matched to the client"
+          },
+          {
+            "key": "project",
+            "label": "Project",
+            "control": "matched",
+            "value": "Marketing campaign",
+            "display": "Marketing campaign",
+            "href": "#project",
+            "provenance": "match",
+            "note": "Heard “the October campaign work”, matched to the project"
+          },
+          {
+            "key": "number",
+            "label": "Invoice number",
+            "control": "readonly",
+            "value": "INV-2026-050",
+            "note": "Assigned in order"
+          },
+          {
+            "key": "issue",
+            "label": "Issue date",
+            "control": "date",
+            "value": "2026-10-28",
+            "note": "Today"
+          },
+          {
+            "key": "terms",
+            "label": "Payment terms",
+            "control": "select",
+            "value": "30",
+            "options": [
+              {
+                "value": "0",
+                "label": "Due on receipt"
+              },
+              {
+                "value": "14",
+                "label": "Net 14"
+              },
+              {
+                "value": "30",
+                "label": "Net 30"
+              },
+              {
+                "value": "45",
+                "label": "Net 45"
+              }
+            ],
+            "provenance": "msg",
+            "note": "“Same terms as last time”: Net 30, as on INV-2026-049"
+          },
+          {
+            "key": "due",
+            "label": "Due date",
+            "control": "date",
+            "value": "2026-11-27",
+            "provenance": "guess",
+            "note": "Worked out from Net 30. The message gives no date."
+          },
+          {
+            "key": "po",
+            "label": "Client PO number",
+            "control": "text",
+            "value": "PO-KC-0412",
+            "provenance": "guess",
+            "note": "Copied from INV-2026-049. October may have its own PO."
+          },
+          {
+            "key": "tax",
+            "label": "Tax rate, %",
+            "control": "text",
+            "value": "0",
+            "note": "Default from Settings"
+          }
+        ],
+        "lines": [
+          {
+            "description": "October retainer for the international customer support knowledge base content migration and editorial review",
+            "quantity": 1,
+            "rateMinor": 1250000,
+            "amountMinor": 1250000,
+            "descProvenance": "guess",
+            "descNote": "Worked out from the retainer agreement attached last year",
+            "rateProvenance": "match",
+            "rateNote": "Same rate as September"
+          }
+        ],
+        "primaryLabel": "Create invoice as Draft",
+        "primaryNote": "Creates INV-2026-050 as Draft. Nothing is sent to the client.",
+        "source": {
+          "channel": "telegram_voice",
+          "authorName": "Daniel Kim",
+          "receivedAt": "2026-10-28T11:35:00Z",
+          "voiceSeconds": 42,
+          "quoteLabel": "Transcript",
+          "quote": "“Invoice Klark Coffee for the October campaign work, nine thousand dollars, same terms as last time. The scope is in the PDF.”",
+          "file": {
+            "name": "Klark October scope.pdf",
+            "meta": "PDF · 2 pages · 184 KB",
+            "summary": "Scope: 3 social videos, 12 posts, in-store posters. Fee $9,000."
+          }
+        },
+        "understood": "A new invoice for Klark Coffee Co. on Marketing campaign: one line for the October campaign work, $9,000. Terms are taken from the last Klark invoice. The due date and PO number are not in the message, so they are guesses. After this, the $18,000 budget is fully invoiced.",
+        "activity": [
+          {
+            "text": "Voice note and 1 file received from Daniel Kim in Telegram",
+            "at": "2026-10-28T11:35:00Z"
+          },
+          {
+            "text": "Transcribed, matched Klark Coffee Co. and Marketing campaign",
+            "at": "2026-10-28T11:35:00Z",
+            "tone": "info"
+          },
+          {
+            "text": "Proposal ready · 2 fields to check",
+            "at": "2026-10-28T11:36:00Z",
+            "tone": "warning"
+          }
+        ]
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 912,
+        "proposalId": 801,
+        "variant": "create",
+        "position": 999,
+        "queueSize": 1240,
+        "title": "New invoice · Klark Coffee Co.",
+        "subtitle": "From a Telegram voice note by Daniel Kim, 25 minutes ago. Check the marked fields, then create it.",
+        "formTitle": "Details",
+        "formHint": "Who pays, for which project, and by when",
+        "currency": "USD",
+        "taxPercent": 0,
+        "fields": [
+          {
+            "key": "client",
+            "label": "Client",
+            "control": "matched",
+            "value": "Klark Coffee Co.",
+            "display": "Klark Coffee Co.",
+            "href": "#client",
+            "provenance": "match",
+            "note": "Heard “Klark Coffee”, matched to the client"
+          },
+          {
+            "key": "project",
+            "label": "Project",
+            "control": "matched",
+            "value": "Marketing campaign",
+            "display": "Marketing campaign",
+            "href": "#project",
+            "provenance": "match",
+            "note": "Heard “the October campaign work”, matched to the project"
+          },
+          {
+            "key": "number",
+            "label": "Invoice number",
+            "control": "readonly",
+            "value": "INV-2026-050",
+            "note": "Assigned in order"
+          },
+          {
+            "key": "issue",
+            "label": "Issue date",
+            "control": "date",
+            "value": "2026-10-28",
+            "note": "Today"
+          },
+          {
+            "key": "terms",
+            "label": "Payment terms",
+            "control": "select",
+            "value": "30",
+            "options": [
+              {
+                "value": "0",
+                "label": "Due on receipt"
+              },
+              {
+                "value": "14",
+                "label": "Net 14"
+              },
+              {
+                "value": "30",
+                "label": "Net 30"
+              },
+              {
+                "value": "45",
+                "label": "Net 45"
+              }
+            ],
+            "provenance": "msg",
+            "note": "“Same terms as last time”: Net 30, as on INV-2026-049"
+          },
+          {
+            "key": "due",
+            "label": "Due date",
+            "control": "date",
+            "value": "2026-11-27",
+            "provenance": "guess",
+            "note": "Worked out from Net 30. The message gives no date."
+          },
+          {
+            "key": "po",
+            "label": "Client PO number",
+            "control": "text",
+            "value": "PO-KC-0412",
+            "provenance": "guess",
+            "note": "Copied from INV-2026-049. October may have its own PO."
+          },
+          {
+            "key": "tax",
+            "label": "Tax rate, %",
+            "control": "text",
+            "value": "0",
+            "note": "Default from Settings"
+          }
+        ],
+        "lines": [
+          {
+            "description": "Annual platform licence",
+            "quantity": 12,
+            "rateMinor": 10287654321,
+            "amountMinor": 123451851852,
+            "rateProvenance": "msg",
+            "rateNote": "From the contract"
+          }
+        ],
+        "primaryLabel": "Create invoice as Draft",
+        "primaryNote": "Creates INV-2026-050 as Draft. Nothing is sent to the client.",
+        "source": {
+          "channel": "telegram_voice",
+          "authorName": "Daniel Kim",
+          "receivedAt": "2026-10-28T11:35:00Z",
+          "voiceSeconds": 42,
+          "quoteLabel": "Transcript",
+          "quote": "“Invoice Klark Coffee for the October campaign work, nine thousand dollars, same terms as last time. The scope is in the PDF.”",
+          "file": {
+            "name": "Klark October scope.pdf",
+            "meta": "PDF · 2 pages · 184 KB",
+            "summary": "Scope: 3 social videos, 12 posts, in-store posters. Fee $9,000."
+          }
+        },
+        "understood": "A new invoice for Klark Coffee Co. on Marketing campaign: one line for the October campaign work, $9,000. Terms are taken from the last Klark invoice. The due date and PO number are not in the message, so they are guesses. After this, the $18,000 budget is fully invoiced.",
+        "activity": [
+          {
+            "text": "Voice note and 1 file received from Daniel Kim in Telegram",
+            "at": "2026-10-28T11:35:00Z"
+          },
+          {
+            "text": "Transcribed, matched Klark Coffee Co. and Marketing campaign",
+            "at": "2026-10-28T11:35:00Z",
+            "tone": "info"
+          },
+          {
+            "text": "Proposal ready · 2 fields to check",
+            "at": "2026-10-28T11:36:00Z",
+            "tone": "warning"
+          }
+        ]
+      }
+    ],
+    "partial": [
+      {
+        "id": 913,
+        "proposalId": 861,
+        "variant": "create",
+        "position": 1,
+        "queueSize": 1,
+        "title": "New task",
+        "subtitle": "From web capture.",
+        "fields": [
+          {
+            "key": "title",
+            "label": "Task",
+            "control": "text",
+            "value": "Set up the repository",
+            "provenance": "msg"
+          }
+        ],
+        "primaryLabel": "Create task",
+        "primaryNote": "Adds it to To do on the board.",
+        "source": {
+          "channel": "web_capture",
+          "authorName": "Daniel Kim",
+          "receivedAt": "2026-10-28T10:00:00Z"
+        },
+        "understood": "A new task on Internal tooling.",
+        "activity": [
+          {
+            "text": "Typed in web capture",
+            "at": "2026-10-28T10:00:00Z"
+          }
+        ]
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

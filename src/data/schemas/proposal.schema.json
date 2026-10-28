@@ -8,11 +8,11 @@
   "required": [
     "id",
     "title",
+    "kind",
     "source",
     "authorName",
     "createdAt",
-    "action",
-    "check"
+    "status"
   ],
   "properties": {
     "id": {
@@ -22,7 +22,19 @@
     "title": {
       "type": "string",
       "maxLength": 200,
-      "description": "What the proposal would do, in one line"
+      "description": "What the proposal would do, in one line; for a capture still processing, what was received"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "invoice",
+        "payment",
+        "task",
+        "project",
+        "client",
+        "time_entry"
+      ],
+      "description": "The record it creates or changes; picks the icon. Tasks and time entries are low-risk and can be approved together"
     },
     "source": {
       "type": "string",
@@ -30,7 +42,8 @@
         "telegram_voice",
         "telegram_text",
         "email",
-        "web_capture"
+        "web_capture",
+        "calendar"
       ],
       "x-dict": "proposalSource",
       "description": "Where the capture came from"
@@ -43,7 +56,19 @@
     "createdAt": {
       "type": "string",
       "format": "date-time",
-      "description": "When the proposal was ready (UTC)"
+      "description": "When the capture arrived (UTC)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "processing",
+        "failed",
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "x-dict": "proposalStatus",
+      "description": "Where it is: AI still working, couldn't understand, waiting for review, or decided"
     },
     "action": {
       "type": "string",
@@ -53,33 +78,48 @@
         "duplicate"
       ],
       "x-dict": "proposalAction",
-      "description": "What approving it does"
+      "description": "What approving it does; absent while processing or failed"
     },
     "check": {
       "type": "string",
       "enum": [
         "to_check",
         "matched",
-        "needs_answer"
+        "needs_answer",
+        "conflict",
+        "unreadable"
       ],
       "x-dict": "proposalCheck",
-      "description": "What the reviewer has to do"
+      "description": "What the reviewer has to do; absent while processing"
     },
     "fieldsToCheck": {
       "type": "integer",
       "minimum": 1,
       "description": "How many guessed fields to check; only with check = to_check"
     },
-    "kind": {
+    "checkDetail": {
       "type": "string",
-      "enum": [
-        "invoice",
-        "payment",
-        "project",
-        "client",
-        "task"
-      ],
-      "description": "The record it creates or changes; picks the icon"
+      "maxLength": 200,
+      "description": "One line on what to check, or on the processing step"
+    },
+    "decidedBy": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Who approved or rejected it; only when decided"
+    },
+    "decidedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it was decided (UTC); only when decided"
+    },
+    "resultDetail": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "What approving did, or why it was rejected; only when decided"
+    },
+    "edited": {
+      "type": "boolean",
+      "description": "Approved after the reviewer changed values; absent means false"
     }
   }
 }

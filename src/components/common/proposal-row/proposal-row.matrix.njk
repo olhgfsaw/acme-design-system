@@ -1,0 +1,18 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable %}
+{% from "components/common/proposal-row/proposal-row.njk" import proposalRow %}
+{% set description = "One proposal in the inbox: what it would do, what to check, and the action. Money items are reviewed one by one; low-risk ones can be selected together." %}
+{% block matrix %}
+
+{% set cols = [{ label: "Select", hidden: true }, { label: "Proposal" }, { label: "Action" }, { label: "Check" }, { label: "Open", hidden: true, align: "end" }] %}
+{% call section("rows") %}
+  <div class="w-full pb-80">{% call dataTable("Pending proposals", cols) %}
+    {{ proposalRow("m-pr-1", "Voice note 0:42 and Klark October scope.pdf", "Web capture · Daniel Kim · just now", "audio-lines", state="processing", checkDetail="Transcribing the voice note, about a minute") }}
+    {{ proposalRow("m-pr-2", "New invoice · Klark Coffee Co. · $9,000", "Telegram voice · Daniel Kim · 25 min ago", "file-text", href="#", action="Create", check="2 fields to check", checkTone="warning", checkDetail="Due date and PO number are guessed", cta="Review", lockText="Money items are reviewed one by one") }}
+    {{ proposalRow("m-pr-3", "New task · Fix header on mobile · Website redesign", "Telegram text · Olivia Foster · 3 hours ago", "square-check", href="#", action="Create", check="All matched", checkTone="success", checkDetail="Assignee James Reed", cta="Review", selectable=true, selected=true, lockText="Can be approved together with other low-risk items") }}
+    {{ proposalRow("m-pr-4", "Landing page design · due Nov 20 → Dec 4", "Telegram voice · Abraham Moss · yesterday", "folder", href="#", action="Update", check="Conflict", checkTone="danger", checkDetail="Olivia Foster changed the due date today", cta="Resolve", lockText="Open it to review") }}
+    {{ proposalRow("m-pr-5", "Voice note 0:08", "Telegram voice · Abraham Moss · 4 hours ago", "audio-lines", check="Couldn't understand", checkTone="danger", checkDetail="Too much background noise to transcribe", state="failed", fill=[{ label: "Invoice", href: "#", icon: "file-text" }, { label: "Task", href: "#", icon: "square-check" }, { label: "Time entry", href: "#", icon: "clock" }], fillOpen=true) }}
+  {% endcall %}</div>
+{% endcall %}
+{% endblock %}

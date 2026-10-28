@@ -1,0 +1,12 @@
+{
+  "base": "flex w-full max-w-xs flex-col gap-2",
+  "variants": {},
+  "slots": {
+    "row": "flex items-baseline justify-between gap-4 text-sm",
+    "label": "text-fg-secondary",
+    "value": "text-fg tabular-nums",
+    "rule": "my-1 h-px border-0 bg-divider",
+    "total": "flex items-baseline justify-between gap-4 text-base font-semibold text-fg tabular-nums"
+  },
+  "defaultVariants": {}
+}

@@ -1,0 +1,15 @@
+{
+  "base": "grid grid-cols-[--spacing(22)_minmax(0,1fr)] items-center gap-4 rounded-md border border-divider p-3",
+  "variants": {},
+  "slots": {
+    "page": "block h-28 w-full rounded-sm bg-surface shadow-xs ring-1 ring-divider",
+    "bar": "fill-surface-subtle",
+    "barDark": "fill-fg-muted",
+    "barHl": "fill-accent",
+    "text": "flex min-w-0 flex-col gap-1",
+    "name": "truncate text-sm font-medium text-fg",
+    "meta": "text-xs text-fg-muted",
+    "summary": "text-sm text-fg-secondary"
+  },
+  "defaultVariants": {}
+}

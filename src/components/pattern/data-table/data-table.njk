@@ -1,0 +1,30 @@
+{#- DataTable. Props: caption, columns [{ label, align: start | end, hidden (visually hidden header) }], state (default | loading | empty | no-results | error), messages { loading, emptyTitle, emptyText, noResultsTitle, noResultsText, reset, errorTitle, errorText, retry }, emptyAction ({ label, href, icon }), rowCount (skeleton rows). Default slot = the rows (<tr class="group/row"> from row components; cells come from tableCell). Below lg the rows become cards (data-mobile-view="cards"): headers stay for screen readers, cells stack. -#}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/common/empty-state/empty-state.njk" import emptyState %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% macro dataTable(caption, columns, state="default", messages={}, emptyAction=null, rowCount=5) %}
+{%- set v = variants.dataTable -%}
+{% if state == "empty" %}
+<div data-component="DataTable" class="{{ v.slots.state }}">{% call emptyState(messages.emptyTitle, messages.emptyText, iconName="inbox") %}{% if emptyAction %}{{ button(emptyAction.label, variant="secondary", size="sm", iconLeading=emptyAction.icon, href=emptyAction.href) }}{% endif %}{% endcall %}</div>
+{% elif state == "no-results" %}
+<div data-component="DataTable" class="{{ v.slots.state }}">{% call emptyState(messages.noResultsTitle, messages.noResultsText, iconName="search") %}{{ button(messages.reset, variant="secondary", size="sm", iconLeading="rotate-ccw") }}{% endcall %}</div>
+{% elif state == "error" %}
+<div data-component="DataTable" class="{{ v.slots.state }}">{{ errorState(messages.errorTitle, messages.errorText, messages.retry) }}</div>
+{% else %}
+<div data-component="DataTable" data-mobile-view="cards" class="{{ v.base }}"{% if state == "loading" %} aria-busy="true"{% endif %}>
+  <table class="{{ v.slots.table }}">
+    <caption class="sr-only">{{ caption }}{% if state == "loading" %} · {{ messages.loading }}{% endif %}</caption>
+    <thead class="{{ v.slots.thead }}"><tr>{% for c in columns %}<th scope="col" class="{{ v.slots.th }} {{ v.variants.align[c.align or "start"] }}">{% if c.hidden %}<span class="sr-only">{{ c.label }}</span>{% else %}{{ c.label }}{% endif %}</th>{% endfor %}</tr></thead>
+    <tbody class="{{ v.slots.tbody }}">
+    {%- if state == "loading" %}
+      {%- for r in range(rowCount) %}<tr class="{{ v.slots.row }}">{% for c in columns %}<td class="{{ v.slots.skeletonCell }}">{{ skeleton("line", layout=("w-16 ms-auto" if c.align == "end" else ("w-full" if loop.index == 2 else "w-20"))) }}</td>{% endfor %}</tr>{% endfor %}
+    {%- elif caller %}{{ caller() }}{% endif %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{%- endmacro %}
+
+{#- A plain cell with the table's padding; row components use it for their <td>. -#}
+{% macro tableCell(align="start") %}<td class="{{ variants.dataTable.slots.td }} {{ variants.dataTable.variants.align[align] }}">{{ caller() if caller }}</td>{% endmacro %}

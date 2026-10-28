@@ -1,0 +1,9 @@
+{#- RadioCards. Choose one of a few records shown as cards. Props: id, labelledby (the question's heading id), options [{ value, title, aside, line, meta [] }], value. Reka RadioGroup: role="radio", data-state checked / unchecked. -#}
+{% macro radioCards(id, labelledby, options, value=null) %}
+{%- set v = variants.radioCards -%}
+<div role="radiogroup" aria-labelledby="{{ labelledby }}" data-component="RadioCards" class="{{ v.base }}">
+  {%- for o in options %}{% set on = o.value == value %}
+  <button type="button" role="radio" aria-checked="{{ "true" if on else "false" }}" data-state="{{ "checked" if on else "unchecked" }}" tabindex="{{ "0" if (on or (not value and loop.first)) else "-1" }}" class="{{ v.slots.card }}"><span class="{{ v.slots.head }}"><span>{{ o.title }}</span>{% if o.aside %}<span class="{{ v.slots.aside }}">{{ o.aside }}</span>{% endif %}</span>{% if o.line %}<span class="{{ v.slots.line }}">{{ o.line }}</span>{% endif %}{% for m in o.meta %}<span class="{{ v.slots.meta }}">{{ m }}</span>{% endfor %}</button>
+  {%- endfor %}
+</div>
+{%- endmacro %}

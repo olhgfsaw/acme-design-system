@@ -1,0 +1,19 @@
+{
+  "base": "flex min-w-0 flex-col gap-1.5",
+  "variants": {
+    "tone": {
+      "default": "text-fg-muted",
+      "guess": "text-warning-fg",
+      "miss": "text-danger-fg"
+    }
+  },
+  "slots": {
+    "head": "flex items-center justify-between gap-2",
+    "label": "text-sm font-medium text-fg",
+    "note": "flex flex-wrap items-center gap-x-2 gap-y-1 text-xs",
+    "confirm": "inline-flex h-6 items-center rounded-full border border-warning-border bg-surface px-2.5 text-xs font-medium text-fg hover:bg-warning-bg active:bg-warning-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+  },
+  "defaultVariants": {
+    "tone": "default"
+  }
+}

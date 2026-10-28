@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/activity-list/activity-list.njk" import activityList %}
+{% set description = "What happened to a record, oldest first." %}
+{% block matrix %}
+
+{% call section("items") %}
+  {% call cell("proposal") %}<div class="w-80">{{ activityList([{ text: "Voice note and 1 file received from Daniel Kim in Telegram", at: "2026-10-27T14:35:00Z", when: "Oct 27, 2:35 PM" }, { text: "Transcribed, matched Klark Coffee Co. and Marketing campaign", at: "2026-10-27T14:35:00Z", when: "Oct 27, 2:35 PM", tone: "info" }, { text: "Proposal ready · 2 fields to check", at: "2026-10-27T14:36:00Z", when: "Oct 27, 2:36 PM", tone: "warning" }]) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

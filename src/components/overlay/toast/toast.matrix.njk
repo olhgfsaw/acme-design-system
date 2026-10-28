@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/overlay/toast/toast.njk" import toast %}
+{% set description = "A short confirmation at the bottom of the screen, with Undo for reversible actions." %}
+{% block matrix %}
+
+{% call section("kind") %}
+  {% call cell("with undo") %}{{ toast("2 proposals approved", actionLabel="Undo", fixed=false) }}{% endcall %}
+  {% call cell("plain") %}{{ toast("Sent to Inbox. The proposal will be ready in a minute.", fixed=false) }}{% endcall %}
+{% endcall %}
+{% endblock %}

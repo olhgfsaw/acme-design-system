@@ -1,0 +1,11 @@
+{#- BulkActionBar. Props: id, label (group name), selectLabel ("Select low-risk (2)" or "2 selected"), selected (count), canSelect (any selectable rows), rule (why some rows can't be selected), approveLabel. -#}
+{% from "components/ui/checkbox/checkbox.njk" import checkbox %}
+{% from "components/ui/button/button.njk" import button %}
+{% macro bulkActionBar(id, label, selectLabel, selected=0, canSelect=true, rule=null, approveLabel="Approve") %}
+{%- set v = variants.bulkActionBar -%}
+<div role="group" aria-label="{{ label }}" data-component="BulkActionBar" class="{{ v.base }}">
+  {{ checkbox(id ~ "-all", selectLabel, checked=(selected > 0), disabled=(not canSelect)) }}
+  {%- if rule %}<span class="{{ v.slots.rule }}">{{ icon("info", "size-3.5") }}{{ rule }}</span>{% endif %}
+  <div class="{{ v.slots.actions }}">{{ button("Clear", variant="secondary", size="sm", disabled=(selected == 0)) }}{{ button(approveLabel, size="sm", iconLeading="check", disabled=(selected == 0)) }}</div>
+</div>
+{%- endmacro %}

@@ -1,0 +1,24 @@
+{#- App chrome shared by every signed-in screen: TopBar (search, Capture, messages, notifications, account menu) and NavRail. Usage: {% call appChrome("inbox") %}…page content…{% endcall %}. The Inbox count comes from pending proposals. -#}
+{% from "components/layout/app-shell/app-shell.njk" import appShell %}
+{% from "components/layout/top-bar/top-bar.njk" import topBar %}
+{% from "components/layout/nav-rail/nav-rail.njk" import navRail %}
+{% from "components/layout/user-menu/user-menu.njk" import userMenu %}
+{% from "components/pattern/capture-button/capture-button.njk" import captureButton %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% macro appChrome(active, scenario="typical", capture={}) %}
+{%- set pending = [] %}{% for q in data.fixtures.proposal.scenarios[scenario] %}{% if q.status == "pending" %}{% set _ = pending.push(q) %}{% endif %}{% endfor -%}
+{%- set n = pending | length -%}
+{%- set nav = [
+  { id: "dashboard", label: "Dashboard", icon: "layout-dashboard", href: "dashboard-overview.html" },
+  { id: "inbox", label: ("Inbox, " ~ n ~ " to review") if n else "Inbox", icon: "inbox", href: "inbox.html", count: n },
+  { id: "clients", label: "Clients", icon: "briefcase", href: "#clients" },
+  { id: "projects", label: "Projects", icon: "folder", href: "#projects" },
+  { id: "team", label: "Team", icon: "users", href: "#team" },
+  { id: "finance", label: "Finance", icon: "wallet", href: "#finance" },
+  { id: "calendar", label: "Calendar", icon: "calendar", href: "#calendar" },
+  { id: "settings", label: "Settings", icon: "settings", href: "#settings" }
+] -%}
+{%- set tb %}{% call topBar(project.product, "Search clients, projects, invoices...", "Search", homeHref="dashboard-overview.html") %}{{ captureButton("capture", open=capture.open, text=capture.text or "", attachments=capture.attachments or []) }}{{ iconButton("Messages", "message-circle", variant="secondary") }}{{ iconButton("Notifications, 3 unread", "bell", variant="secondary", dot=true) }}{{ userMenu("user-menu", "Daniel Kim", "Account director · Admin", [{ label: "My profile", href: "#me", icon: "user" }, { label: "Time and time off", href: "#time", icon: "clock" }, { label: "Account settings", href: "#account", icon: "settings" }], footer=[{ label: "Log out", href: "#logout", icon: "log-out" }]) }}{% endcall %}{% endset -%}
+{%- set rail %}{{ navRail(nav, "Main", activeId=active) }}{% endset -%}
+{% call appShell(tb, rail) %}{{ caller() }}{% endcall %}
+{%- endmacro %}

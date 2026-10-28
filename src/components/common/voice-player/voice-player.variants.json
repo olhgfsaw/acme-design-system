@@ -1,0 +1,12 @@
+{
+  "base": "flex items-center gap-3 rounded-full bg-canvas py-2 ps-2 pe-3",
+  "variants": {},
+  "slots": {
+    "play": "inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-active pointer-coarse:size-11 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "wave": "block h-7 min-w-0 flex-1",
+    "bar": "fill-control",
+    "barOn": "fill-fg",
+    "time": "shrink-0 text-xs text-fg-muted tabular-nums"
+  },
+  "defaultVariants": {}
+}

@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/value-compare/value-compare.njk" import valueCompare %}
+{% set description = "Was, now and proposed values side by side, for resolving a conflict." %}
+{% block matrix %}
+
+{% call section("conflict") %}
+  <div class="w-full max-w-4xl">{{ valueCompare([{ kind: "was", label: "Was, when proposed", value: "Nov 20, 2026", meta: "Yesterday, 6:40 PM" }, { kind: "now", label: "Now", value: "Nov 27, 2026", meta: "Changed by Olivia Foster · today, 10:12 AM" }, { kind: "new", label: "Proposed", value: "Dec 4, 2026", meta: "From Abraham Moss's voice note" }]) }}</div>
+{% endcall %}
+{% endblock %}

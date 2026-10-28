@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/line-item-editor/line-item-editor.njk" import lineItemEditor %}
+{% set description = "Invoice lines: description, quantity, rate and amount, with marks for AI-filled values." %}
+{% block matrix %}
+
+{% call section("lines") %}
+  <div class="w-full max-w-3xl">{{ lineItemEditor("m-li", "USD", [{ description: "October campaign work", quantity: 1, rateMinor: 900000, amountMinor: 900000, descProvenance: "msg", descNote: "“the October campaign work”", rateProvenance: "msg", rateNote: "“nine thousand dollars”" }, { description: "Brand guidelines, August design work", quantity: 2, rateMinor: 237500, amountMinor: 475000, descProvenance: "guess", descNote: "Renamed from “Brand guidelines, July design work”", rateProvenance: "match", rateNote: "Same rate as July" }]) }}</div>
+{% endcall %}
+{% endblock %}

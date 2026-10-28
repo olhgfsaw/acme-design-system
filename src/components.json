@@ -28,7 +28,11 @@
       "loading",
       "iconLeading",
       "iconTrailing",
-      "href"
+      "href",
+      "ariaLabel",
+      "haspopup",
+      "expanded",
+      "describedby"
     ],
     "states": [
       "default",
@@ -121,7 +125,9 @@
     "variants": {
       "variant": [
         "outline",
-        "search"
+        "search",
+        "attention",
+        "missing"
       ],
       "size": [
         "sm",
@@ -718,7 +724,13 @@
     "description": "Pick one value from a short list; always inside FormField. Reka Select in Nuxt.",
     "category": "ui",
     "path": "src/components/ui/select",
-    "variants": {},
+    "variants": {
+      "variant": [
+        "outline",
+        "attention",
+        "missing"
+      ]
+    },
     "slots": [],
     "props": [
       "id",
@@ -729,7 +741,8 @@
       "required",
       "disabled",
       "describedby",
-      "label"
+      "label",
+      "variant"
     ],
     "states": [
       "default",
@@ -1028,6 +1041,451 @@
       "recording"
     ],
     "reka": "Popover",
+    "status": "draft"
+  },
+  "DataTable": {
+    "description": "Lists records in a table with a caption and headers, and shows loading, empty, no-results and error states.",
+    "category": "pattern",
+    "path": "src/components/pattern/data-table",
+    "variants": {},
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "caption",
+      "columns",
+      "state",
+      "messages",
+      "emptyAction",
+      "rowCount"
+    ],
+    "states": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "dataStates": [
+      "loading",
+      "empty",
+      "no-results",
+      "error"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ProposalRow": {
+    "description": "One proposal in the inbox table: the capture, what approving does, what to check and the review action; also the processing and couldn't-understand states.",
+    "category": "common",
+    "path": "src/components/common/proposal-row",
+    "variants": {
+      "tone": [
+        "default",
+        "failed"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "id",
+      "title",
+      "meta",
+      "icon",
+      "href",
+      "action",
+      "check",
+      "checkTone",
+      "checkDetail",
+      "cta",
+      "selectable",
+      "selected",
+      "lockText",
+      "state",
+      "fill",
+      "fillOpen",
+      "history",
+      "decidedBy",
+      "link"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "FiltersToolbar": {
+    "description": "Instant filters above a list with the result count and a Clear filters action once any filter is set.",
+    "category": "common",
+    "path": "src/components/common/filters-toolbar",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "label",
+      "filters",
+      "count",
+      "resetLabel"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "BulkActionBar": {
+    "description": "Acts on several selected rows at once: shows the selection, why some rows can't be included, and the bulk action.",
+    "category": "common",
+    "path": "src/components/common/bulk-action-bar",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "label",
+      "selectLabel",
+      "selected",
+      "canSelect",
+      "rule",
+      "approveLabel"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ToastMessage": {
+    "description": "A short confirmation at the bottom of the screen, with Undo for reversible actions.",
+    "category": "overlay",
+    "path": "src/components/overlay/toast",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "message",
+      "actionLabel",
+      "fixed"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": "Toast",
+    "status": "draft"
+  },
+  "ProvenanceMark": {
+    "description": "Shows where an AI-filled value came from: the message, a matched record, a guess, missing, or confirmed or edited by a person.",
+    "category": "ui",
+    "path": "src/components/ui/provenance-mark",
+    "variants": {
+      "variant": [
+        "msg",
+        "match",
+        "guess",
+        "miss",
+        "ok",
+        "edit"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "kind",
+      "label",
+      "title"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ProvenanceLegend": {
+    "description": "Explains and counts the provenance marks on an AI-filled form.",
+    "category": "common",
+    "path": "src/components/common/provenance-legend",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "items"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ProvenanceField": {
+    "description": "A form field filled by AI with a mark for where its value came from, a note on what to check, and Confirm for guesses.",
+    "category": "form",
+    "path": "src/components/form/provenance-field",
+    "variants": {
+      "tone": [
+        "default",
+        "guess",
+        "miss"
+      ]
+    },
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "id",
+      "label",
+      "provenance",
+      "note",
+      "canConfirm",
+      "markTitle",
+      "layout"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "MatchedValue": {
+    "description": "Shows a record AI matched for a field as a link, with Change to pick another.",
+    "category": "form",
+    "path": "src/components/form/matched-value",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "value",
+      "href",
+      "label",
+      "describedby"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "LineItemEditor": {
+    "description": "Edits invoice lines (description, quantity, rate, amount) and shows where AI-filled values came from.",
+    "category": "common",
+    "path": "src/components/common/line-item-editor",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "currency",
+      "lines"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "InvoiceTotals": {
+    "description": "Shows an invoice's subtotal, tax and total, updating as lines change.",
+    "category": "common",
+    "path": "src/components/common/invoice-totals",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "currency",
+      "rows",
+      "totalMinor",
+      "totalLabel"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ChangeSummary": {
+    "description": "Shows, field by field, what an update changes on a record: before and after.",
+    "category": "common",
+    "path": "src/components/common/change-summary",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "caption",
+      "rows"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "RadioCards": {
+    "description": "Choose one of a few records shown as cards with the details that tell them apart.",
+    "category": "form",
+    "path": "src/components/form/radio-cards",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "labelledby",
+      "options",
+      "value"
+    ],
+    "states": [
+      "default",
+      "checked",
+      "hover",
+      "focus"
+    ],
+    "reka": "RadioGroup",
+    "status": "draft"
+  },
+  "ValueCompare": {
+    "description": "Shows the was, now and proposed values of a field side by side to resolve a conflict.",
+    "category": "common",
+    "path": "src/components/common/value-compare",
+    "variants": {
+      "kind": [
+        "was",
+        "now",
+        "new"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "items"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "VoicePlayer": {
+    "description": "Plays a voice note with its waveform and time.",
+    "category": "common",
+    "path": "src/components/common/voice-player",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "seconds",
+      "wave",
+      "position",
+      "playing"
+    ],
+    "states": [
+      "default",
+      "playing",
+      "focus"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "SourceQuote": {
+    "description": "Shows the exact words of a capture: a transcript or typed text.",
+    "category": "common",
+    "path": "src/components/common/source-quote",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "label",
+      "text"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "FilePreview": {
+    "description": "An attached document with a page thumbnail, its size and the key line AI read from it.",
+    "category": "common",
+    "path": "src/components/common/file-preview",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "name",
+      "meta",
+      "summary",
+      "lines"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "ActivityList": {
+    "description": "A compact list of what happened to a record, oldest first, with a tone dot per event.",
+    "category": "common",
+    "path": "src/components/common/activity-list",
+    "variants": {
+      "tone": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "items"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "InlineAlert": {
+    "description": "A message shown at the section it concerns, in one of four tones; urgent ones are announced.",
+    "category": "common",
+    "path": "src/components/common/inline-alert",
+    "variants": {
+      "tone": [
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "title",
+      "text",
+      "tone",
+      "urgent"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "DetailList": {
+    "description": "Label–value pairs that describe a record, in one or two columns.",
+    "category": "common",
+    "path": "src/components/common/detail-list",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "items",
+      "columns"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "InlinePanel": {
+    "description": "A short form that opens in place of a modal, such as rejecting with a reason or recording a payment.",
+    "category": "common",
+    "path": "src/components/common/inline-panel",
+    "variants": {},
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "id",
+      "title",
+      "text"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
     "status": "draft"
   }
 }

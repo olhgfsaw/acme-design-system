@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/filters-toolbar/filters-toolbar.njk" import filtersToolbar %}
+{% set description = "Instant filters above a list, the result count, and Clear filters once any is set." %}
+{% block matrix %}
+
+{% set types = [{ value: "all", label: "All types" }, { value: "invoice", label: "Invoice" }, { value: "payment", label: "Payment" }] %}
+{% set channels = [{ value: "all", label: "All channels" }, { value: "telegram", label: "Telegram" }, { value: "email", label: "Email" }] %}
+{% call section("state") %}
+  {% call cell("no filter") %}<div class="w-full max-w-3xl">{{ filtersToolbar("m-ft-1", "Filter proposals", [{ id: "type", label: "Type", options: types, value: "all" }, { id: "channel", label: "Channel", options: channels, value: "all" }], "7 items") }}</div>{% endcall %}
+  {% call cell("filtered") %}<div class="w-full max-w-3xl">{{ filtersToolbar("m-ft-2", "Filter proposals", [{ id: "type", label: "Type", options: types, value: "payment" }, { id: "channel", label: "Channel", options: channels, value: "all" }], "Showing 2 of 7") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

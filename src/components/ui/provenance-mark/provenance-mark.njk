@@ -1,0 +1,5 @@
+{#- ProvenanceMark. Props: kind (msg: taken from the message | match: matched to a record | guess: AI's guess, check it | miss: not found | ok: confirmed by a person | edit: changed by a person), label (overrides the default text, e.g. "From message · 3"), title (where exactly the value came from). The text always names the kind; color only supports it. -#}
+{% macro provenanceMark(kind, label=null, title=null) %}
+{%- set v = variants.provenanceMark -%}
+<span data-component="ProvenanceMark" data-variant="{{ kind }}" class="{{ v.base }} {{ v.variants.kind[kind] }}"{% if title %} title="{{ title }}"{% endif %}>{{ icon(v.icons[kind], "size-3") }}{{ label or v.labels[kind] }}</span>
+{%- endmacro %}

@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/invoice-totals/invoice-totals.njk" import invoiceTotals %}
+{% set description = "Subtotal, tax and the total of an invoice." %}
+{% block matrix %}
+
+{% call section("totals") %}
+  {% call cell("with tax") %}<div class="w-80">{{ invoiceTotals("USD", [{ label: "Subtotal", amountMinor: 900000 }, { label: "Tax 0%", amountMinor: 0 }], 900000) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

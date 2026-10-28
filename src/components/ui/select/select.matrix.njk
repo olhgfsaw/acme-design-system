@@ -8,6 +8,7 @@
 {% call section("states") %}
   {% call cell("default") %}<div class="w-64">{{ select("m-sel-1", opts, value="net30", label="Payment terms") }}</div>{% endcall %}
   {% call cell("invalid") %}<div class="w-64">{{ select("m-sel-2", opts, invalid=true, label="Payment terms") }}</div>{% endcall %}
+  {% call cell("attention") %}<div class="w-64">{{ select("m-sel-4", opts, value="net30", variant="attention", label="Payment terms") }}</div>{% endcall %}
   {% call cell("disabled") %}<div class="w-64">{{ select("m-sel-3", opts, value="net15", disabled=true, label="Payment terms") }}</div>{% endcall %}
 {% endcall %}
 {% endblock %}

@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/provenance-mark/provenance-mark.njk" import provenanceMark %}
+{% set description = "Where an AI-filled value came from. The label names it; color only supports it." %}
+{% block matrix %}
+
+{% call section("kind") %}
+  {% for k in ["msg", "match", "guess", "miss", "ok", "edit"] %}{% call cell(k) %}{{ provenanceMark(k) }}{% endcall %}{% endfor %}
+{% endcall %}
+{% endblock %}

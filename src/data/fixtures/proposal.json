@@ -3,113 +3,251 @@
   "scenarios": {
     "typical": [
       {
+        "id": 820,
+        "title": "Voice note 0:42 and Klark October scope.pdf",
+        "kind": "invoice",
+        "source": "web_capture",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-28T11:58:00Z",
+        "status": "processing",
+        "checkDetail": "Transcribing the voice note, about a minute"
+      },
+      {
         "id": 801,
         "title": "New invoice · Klark Coffee Co. · $9,000",
+        "kind": "invoice",
         "source": "telegram_voice",
         "authorName": "Daniel Kim",
         "createdAt": "2026-10-28T11:35:00Z",
+        "status": "pending",
         "action": "create",
         "check": "to_check",
         "fieldsToCheck": 2,
-        "kind": "invoice"
+        "checkDetail": "Due date and PO number are guessed"
       },
       {
         "id": 802,
         "title": "Record payment · Northwind Health · $14,000",
+        "kind": "payment",
         "source": "email",
         "authorName": "Daniel Kim",
         "createdAt": "2026-10-28T11:00:00Z",
+        "status": "pending",
         "action": "update",
         "check": "matched",
-        "kind": "payment"
+        "checkDetail": "Matched to INV-2026-047"
       },
       {
         "id": 803,
         "title": "Duplicate the July invoice into August",
+        "kind": "invoice",
         "source": "web_capture",
         "authorName": "Daniel Kim",
         "createdAt": "2026-10-28T10:00:00Z",
+        "status": "pending",
         "action": "duplicate",
         "check": "needs_answer",
-        "kind": "invoice"
+        "checkDetail": "Two July invoices match"
       },
       {
         "id": 804,
-        "title": "New project · Bennett Fitness spring promo",
+        "title": "New task · Fix header on mobile · Website redesign",
+        "kind": "task",
         "source": "telegram_text",
         "authorName": "Olivia Foster",
-        "createdAt": "2026-10-28T08:20:00Z",
+        "createdAt": "2026-10-28T09:00:00Z",
+        "status": "pending",
         "action": "create",
-        "check": "to_check",
-        "fieldsToCheck": 1,
-        "kind": "project"
+        "check": "matched",
+        "checkDetail": "Assignee James Reed"
+      },
+      {
+        "id": 821,
+        "title": "Voice note 0:08",
+        "kind": "task",
+        "source": "telegram_voice",
+        "authorName": "Abraham Moss",
+        "createdAt": "2026-10-28T08:00:00Z",
+        "status": "failed",
+        "check": "unreadable",
+        "checkDetail": "Too much background noise to transcribe"
       },
       {
         "id": 805,
-        "title": "New client · Harbor Dental",
-        "source": "email",
-        "authorName": "Daniel Kim",
-        "createdAt": "2026-10-27T16:45:00Z",
-        "action": "create",
-        "check": "matched",
-        "kind": "client"
+        "title": "Landing page design · due Nov 20 → Dec 4",
+        "kind": "project",
+        "source": "telegram_voice",
+        "authorName": "Abraham Moss",
+        "createdAt": "2026-10-27T18:40:00Z",
+        "status": "pending",
+        "action": "update",
+        "check": "conflict",
+        "checkDetail": "Olivia Foster changed the due date today"
       },
       {
         "id": 806,
-        "title": "Move “Homepage build” to review",
-        "source": "telegram_voice",
-        "authorName": "James Reed",
-        "createdAt": "2026-10-27T15:10:00Z",
-        "action": "update",
-        "check": "matched",
-        "kind": "task"
+        "title": "New client · Harbor & Pine Bakery",
+        "kind": "client",
+        "source": "email",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-27T16:45:00Z",
+        "status": "pending",
+        "action": "create",
+        "check": "to_check",
+        "fieldsToCheck": 1,
+        "checkDetail": "Billing email is guessed"
       },
       {
         "id": 807,
-        "title": "Record payment · Anderson Studio · $4,750",
+        "title": "Time entry · 1 h Anderson weekly → Website redesign",
+        "kind": "time_entry",
+        "source": "calendar",
+        "authorName": "Karl Hansen",
+        "createdAt": "2026-10-27T15:00:00Z",
+        "status": "pending",
+        "action": "create",
+        "check": "matched",
+        "checkDetail": "Matched to the calendar event"
+      },
+      {
+        "id": 830,
+        "title": "New invoice · Klark Coffee Co. · $4,500",
+        "kind": "invoice",
+        "source": "telegram_voice",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-24T10:00:00Z",
+        "status": "approved",
+        "action": "create",
+        "check": "matched",
+        "decidedBy": "Daniel Kim",
+        "decidedAt": "2026-10-24T10:30:00Z",
+        "resultDetail": "INV-2026-049 created as Draft · due date fixed",
+        "edited": true
+      },
+      {
+        "id": 831,
+        "title": "Record payment · Lopez Architects · $4,200",
+        "kind": "payment",
         "source": "email",
         "authorName": "Daniel Kim",
-        "createdAt": "2026-10-27T09:30:00Z",
+        "createdAt": "2026-10-23T09:00:00Z",
+        "status": "approved",
         "action": "update",
+        "check": "matched",
+        "decidedBy": "Daniel Kim",
+        "decidedAt": "2026-10-23T09:20:00Z",
+        "resultDetail": "INV-2026-045 marked Paid"
+      },
+      {
+        "id": 832,
+        "title": "New task · Moodboard v2 · Brand guidelines",
+        "kind": "task",
+        "source": "telegram_text",
+        "authorName": "Abraham Moss",
+        "createdAt": "2026-10-22T14:00:00Z",
+        "status": "approved",
+        "action": "create",
+        "check": "matched",
+        "decidedBy": "Olivia Foster",
+        "decidedAt": "2026-10-22T15:00:00Z",
+        "resultDetail": "Added to To do on the board"
+      },
+      {
+        "id": 833,
+        "title": "Time entry · 2 h Northwind sprint review → App development",
+        "kind": "time_entry",
+        "source": "calendar",
+        "authorName": "James Reed",
+        "createdAt": "2026-10-21T17:00:00Z",
+        "status": "approved",
+        "action": "create",
+        "check": "matched",
+        "decidedBy": "Olivia Foster",
+        "decidedAt": "2026-10-21T18:00:00Z",
+        "resultDetail": "Logged on Oct 21"
+      },
+      {
+        "id": 840,
+        "title": "New invoice · Bennett Fitness · $6,000",
+        "kind": "invoice",
+        "source": "telegram_voice",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-25T11:00:00Z",
+        "status": "rejected",
+        "action": "create",
         "check": "to_check",
         "fieldsToCheck": 1,
-        "kind": "payment"
+        "decidedBy": "Daniel Kim",
+        "decidedAt": "2026-10-25T11:30:00Z",
+        "resultDetail": "Already billed in INV-2026-042"
+      },
+      {
+        "id": 841,
+        "title": "New client · Northwind Health",
+        "kind": "client",
+        "source": "email",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-22T10:00:00Z",
+        "status": "rejected",
+        "action": "create",
+        "check": "matched",
+        "decidedBy": "Daniel Kim",
+        "decidedAt": "2026-10-22T10:05:00Z",
+        "resultDetail": "This client already exists"
       }
     ],
     "empty": [],
     "longStrings": [
       {
-        "id": 811,
+        "id": 851,
         "title": "New invoice · Alexandria Montgomery-Fitzgerald Consulting Group International · October retainer and extra content migration work",
+        "kind": "invoice",
         "source": "email",
         "authorName": "Konstantinopolsky-Alexandrovsky Vladislav",
         "createdAt": "2026-10-28T11:35:00Z",
+        "status": "pending",
         "action": "create",
         "check": "to_check",
         "fieldsToCheck": 4,
-        "kind": "invoice"
+        "checkDetail": "Due date, PO number, tax rate and the second line's rate are guessed from last year's invoices"
+      },
+      {
+        "id": 852,
+        "title": "Time entry · 3 h quarterly business review with the international customer success leadership team",
+        "kind": "time_entry",
+        "source": "calendar",
+        "authorName": "Bartholomew Oyelaran-Whitmore",
+        "createdAt": "2026-10-28T09:00:00Z",
+        "status": "pending",
+        "action": "create",
+        "check": "matched",
+        "checkDetail": "Matched to the calendar event"
       }
     ],
     "largeNumbers": [
       {
         "id": 900000801,
         "title": "Record payment · Northwind Health · $1,234,567,890",
+        "kind": "payment",
         "source": "email",
         "authorName": "Daniel Kim",
         "createdAt": "2026-10-28T11:00:00Z",
+        "status": "pending",
         "action": "update",
         "check": "to_check",
         "fieldsToCheck": 999,
-        "kind": "payment"
+        "checkDetail": "999 fields are guessed"
       }
     ],
     "partial": [
       {
-        "id": 821,
+        "id": 861,
         "title": "Duplicate the July invoice into August",
+        "kind": "invoice",
         "source": "web_capture",
         "authorName": "Daniel Kim",
         "createdAt": "2026-10-28T10:00:00Z",
+        "status": "pending",
         "action": "duplicate",
         "check": "needs_answer"
       }

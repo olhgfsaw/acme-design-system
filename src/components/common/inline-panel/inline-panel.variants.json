@@ -1,0 +1,10 @@
+{
+  "base": "flex flex-col gap-4 rounded-md border border-divider bg-surface p-4",
+  "variants": {},
+  "slots": {
+    "head": "flex flex-col gap-1",
+    "title": "text-base font-medium text-fg",
+    "text": "text-sm text-fg-secondary"
+  },
+  "defaultVariants": {}
+}

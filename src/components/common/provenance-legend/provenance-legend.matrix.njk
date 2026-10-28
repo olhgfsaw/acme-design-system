@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/provenance-legend/provenance-legend.njk" import provenanceLegend %}
+{% set description = "Counts each kind of mark on an AI-filled form." %}
+{% block matrix %}
+
+{% call section("counts") %}
+  <div class="w-full max-w-4xl rounded-lg bg-canvas p-3">{{ provenanceLegend("m-pl", [{ kind: "msg", count: 3, text: "Said or written in the capture" }, { kind: "match", count: 2, text: "Found in your records" }, { kind: "guess", count: 2, text: "Worked out by AI. Check these" }, { kind: "miss", count: 0, text: "Not found. Add it or leave it empty" }]) }}</div>
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/voice-player/voice-player.njk" import voicePlayer %}
+{% set description = "Plays a voice note; the waveform fills as it plays." %}
+{% block matrix %}
+
+{% set wave = [30, 55, 42, 70, 88, 62, 45, 74, 92, 66, 40, 58, 82, 72, 48, 36, 64, 90, 78, 52, 44, 68, 84, 60, 38, 50, 76, 34, 58, 70, 46, 62, 80, 54, 42, 66, 74, 50, 36, 44] %}
+{% call section("state") %}
+  {% call cell("ready") %}<div class="w-80">{{ voicePlayer(42, wave) }}</div>{% endcall %}
+  {% call cell("playing") %}<div class="w-80">{{ voicePlayer(42, wave, position=17, playing=true) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

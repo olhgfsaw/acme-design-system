@@ -1,0 +1,15 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/provenance-field/provenance-field.njk" import provenanceField %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/select/select.njk" import select %}
+{% set description = "A field filled by AI: the mark says where the value came from, the note says what to check." %}
+{% block matrix %}
+
+{% call section("provenance") %}
+  {% call cell("from message") %}<div class="w-72">{% call provenanceField("m-pf-1", "Payment terms", provenance="msg", note="“Same terms as last time”: Net 30, as on INV-2026-049") %}{{ select("m-pf-1", [{ value: "30", label: "Net 30" }, { value: "14", label: "Net 14" }], value="30", describedby="m-pf-1-note") }}{% endcall %}</div>{% endcall %}
+  {% call cell("guessed, can confirm") %}<div class="w-72">{% call provenanceField("m-pf-2", "Client PO number", provenance="guess", note="Copied from INV-2026-049. October may have its own PO.", canConfirm=true) %}{{ input("m-pf-2", value="PO-KC-0412", variant="attention", describedby="m-pf-2-note") }}{% endcall %}</div>{% endcall %}
+  {% call cell("missing") %}<div class="w-72">{% call provenanceField("m-pf-3", "Client PO number", provenance="miss", note="The July PO was not copied. Add the August PO or leave it empty.") %}{{ input("m-pf-3", placeholder="Optional", variant="missing", describedby="m-pf-3-note") }}{% endcall %}</div>{% endcall %}
+  {% call cell("plain") %}<div class="w-72">{% call provenanceField("m-pf-4", "Invoice number", note="Assigned in order") %}{{ input("m-pf-4", value="INV-2026-050", describedby="m-pf-4-note") }}{% endcall %}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

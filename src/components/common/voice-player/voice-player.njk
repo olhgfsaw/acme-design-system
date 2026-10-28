@@ -1,0 +1,11 @@
+{#- VoicePlayer. Props: seconds (length), wave (bar heights 0–100), position (seconds played; the bars before it are dark), playing. -#}
+{% macro voicePlayer(seconds, wave, position=0, playing=false) %}
+{%- set v = variants.voicePlayer -%}
+{%- set n = wave | length -%}
+{%- set shown = position if (playing or position) else seconds -%}
+<div data-component="VoicePlayer" class="{{ v.base }}">
+  <button type="button" aria-label="{{ "Pause voice note" if playing else ("Play voice note, " ~ seconds ~ " seconds") }}" class="{{ v.slots.play }}">{{ icon("pause" if playing else "play", "size-4") }}</button>
+  <svg class="{{ v.slots.wave }}" viewBox="0 0 {{ n * 4 }} 28" preserveAspectRatio="none" aria-hidden="true" focusable="false">{% for h in wave %}<rect x="{{ loop.index0 * 4 }}" y="{{ (28 - h * 0.28) / 2 }}" width="2.5" height="{{ h * 0.28 }}" rx="1" class="{{ v.slots.barOn if (loop.index0 / n) < (position / seconds) else v.slots.bar }}"></rect>{% endfor %}</svg>
+  <span class="{{ v.slots.time }}">{{ (shown / 60) | int }}:{{ ("0" ~ (shown % 60)) if (shown % 60) < 10 else (shown % 60) }}</span>
+</div>
+{%- endmacro %}

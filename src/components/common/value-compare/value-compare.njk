@@ -1,0 +1,5 @@
+{#- ValueCompare. A conflict between values side by side. Props: items [{ kind: was | now | new, label, value, meta }]. -#}
+{% macro valueCompare(items) %}
+{%- set v = variants.valueCompare -%}
+<div data-component="ValueCompare" class="{{ v.base }}">{% for it in items %}<div class="{{ v.slots.tile }} {{ v.variants.kind[it.kind] }}"><span class="{{ v.slots.label }}">{{ it.label }}</span><span class="{{ v.slots.valueWas if it.kind == "was" else v.slots.value }}">{{ it.value }}</span>{% if it.meta %}<span class="{{ v.slots.meta }}">{{ it.meta }}</span>{% endif %}</div>{% endfor %}</div>
+{%- endmacro %}

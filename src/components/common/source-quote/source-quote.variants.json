@@ -1,0 +1,9 @@
+{
+  "base": "flex flex-col gap-2",
+  "variants": {},
+  "slots": {
+    "label": "text-xs text-fg-muted",
+    "quote": "rounded-e-md border-s-4 border-accent bg-canvas px-4 py-3 text-sm/6 text-fg"
+  },
+  "defaultVariants": {}
+}

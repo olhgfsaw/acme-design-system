@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/radio-cards/radio-cards.njk" import radioCards %}
+{% set description = "Pick one of a few records, each shown with what tells them apart." %}
+{% block matrix %}
+
+{% set opts = [{ value: "028", title: "INV-2026-028", aside: "$4,500.00", line: "Klark Coffee Co. · Marketing campaign", meta: ["Issued Jul 20 · Paid · Net 30", "1 line · Marketing campaign, July retainer"] }, { value: "030", title: "INV-2026-030", aside: "$4,750.00", line: "Anderson Studio · Brand guidelines", meta: ["Issued Jul 28 · Paid · Net 30", "1 line · Brand guidelines, July design work"] }] %}
+{% call section("state") %}
+  <div class="flex w-full max-w-3xl flex-col gap-3"><p id="m-rc-q1" class="text-sm font-medium text-fg">Nothing picked</p>{{ radioCards("m-rc-1", "m-rc-q1", opts) }}</div>
+  <div class="flex w-full max-w-3xl flex-col gap-3"><p id="m-rc-q2" class="text-sm font-medium text-fg">Second picked</p>{{ radioCards("m-rc-2", "m-rc-q2", opts, value="030") }}</div>
+{% endcall %}
+{% endblock %}

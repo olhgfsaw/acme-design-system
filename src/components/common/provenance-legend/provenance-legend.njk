@@ -1,0 +1,9 @@
+{#- ProvenanceLegend. Props: id, items [{ kind, count, text }]. Sits above an AI-filled form and counts each kind of mark in it. -#}
+{% from "components/ui/provenance-mark/provenance-mark.njk" import provenanceMark %}
+{% macro provenanceLegend(id, items) %}
+{%- set v = variants.provenanceLegend -%}
+<section data-component="ProvenanceLegend" aria-labelledby="{{ id }}-title" class="{{ v.base }}">
+  <div class="{{ v.slots.head }}"><h2 id="{{ id }}-title" class="{{ v.slots.title }}">Filled in by AI</h2><span class="{{ v.slots.sub }}">Every marked field shows where its value came from</span></div>
+  <ul class="{{ v.slots.list }}">{% for g in items %}<li class="{{ v.slots.item }}">{{ provenanceMark(g.kind, label=variants.provenanceMark.labels[g.kind] ~ " · " ~ g.count) }}<span class="{{ v.slots.sub }}">{{ g.text }}</span></li>{% endfor %}</ul>
+</section>
+{%- endmacro %}

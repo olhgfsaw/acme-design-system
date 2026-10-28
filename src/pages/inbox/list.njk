@@ -1,0 +1,84 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% from "components/common/filters-toolbar/filters-toolbar.njk" import filtersToolbar %}
+{% from "components/common/bulk-action-bar/bulk-action-bar.njk" import bulkActionBar %}
+{% from "components/common/proposal-row/proposal-row.njk" import proposalRow %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- Which tab this frame shows: pending (default), approved or rejected. -#}
+{% set tab = frame.tab or "pending" %}
+{% set all = data.fixtures.proposal.scenarios[scenario] %}
+{% set byStatus = all | groupby("status") %}
+{% set pending = (byStatus.pending or []) %}
+{% set history = (byStatus[tab] or []) if tab != "pending" else [] %}
+{% set kindIcon = { invoice: "file-text", payment: "wallet", task: "square-check", project: "folder", client: "briefcase", time_entry: "clock" } %}
+{% set kindLabel = { invoice: "Invoice", payment: "Payment", task: "Task", project: "Project", client: "Client", time_entry: "Time entry" } %}
+{% set lowRisk = ["task", "time_entry"] %}
+{% set money = ["invoice", "payment"] %}
+{% set ctaFor = { needs_answer: "Answer", conflict: "Resolve" } %}
+{% set reviewHref = { "801": "proposal-create.html", "802": "proposal-update.html", "803": "proposal-duplicate.html", "805": "proposal-conflict.html" } %}
+{#- In the no-results state the filters are set: Type = Payment, Channel = Telegram. -#}
+{% set filtered = state == "no-results" %}
+{% set lowCount = [] %}{% for q in pending %}{% if q.kind in lowRisk %}{% set _ = lowCount.push(q.id) %}{% endif %}{% endfor %}
+{% set shown = 0 if filtered else (pending | length if tab == "pending" else history | length) %}
+{% set total = pending | length if tab == "pending" else history | length %}
+{% set messages = {
+  loading: "Loading…",
+  emptyTitle: "Inbox is clear", emptyText: "Nothing to review. New proposals from voice, text and files show up here.",
+  noResultsTitle: "No proposals match these filters", noResultsText: "Nothing for Payment from Telegram. Try another type or channel.", reset: "Clear filters",
+  errorTitle: "The inbox didn't load", errorText: "Something went wrong on our side. Your captures are safe — try again in a minute.", retry: "Try again"
+} %}
+
+{% macro meta(q) %}{{ data.statuses.proposalSource[q.source].label | label }} · {{ q.authorName }} · {{ q.createdAt | relative }}{% endmacro %}
+{% macro checkLabel(q) %}{% if q.check == "to_check" and q.fieldsToCheck %}{{ q.fieldsToCheck | plural({ one: "# field to check", other: "# fields to check" }) }}{% else %}{{ data.statuses.proposalCheck[q.check].label | label }}{% endif %}{% endmacro %}
+
+{% call appChrome("inbox", scenario=scenario) %}
+  {% call pageHeader("Inbox", "Proposals from voice, text and files. Nothing changes until someone approves it.") %}
+    {{ button("AI capture settings", variant="secondary", iconLeading="sliders-horizontal", href="#settings") }}
+  {% endcall %}
+
+  <section aria-label="Proposals" class="flex min-w-0 flex-col gap-6 rounded-lg bg-surface p-6">
+    {{ tabs([
+      { id: "pending", label: "Pending", count: pending | length, href: "inbox.html" },
+      { id: "approved", label: "Approved", href: "inbox-approved.html" },
+      { id: "rejected", label: "Rejected", href: "inbox-rejected.html" }
+    ], tab, "Proposals by status") }}
+
+    {% if state != "error" and not (state == "empty") %}
+    {{ filtersToolbar("inbox-filters", "Filter proposals", [
+      { id: "type", label: "Type", value: "payment" if filtered else "all", options: [{ value: "all", label: "All types" }, { value: "invoice", label: "Invoice" }, { value: "payment", label: "Payment" }, { value: "task", label: "Task" }, { value: "client", label: "Client" }, { value: "time_entry", label: "Time entry" }, { value: "project", label: "Project" }] },
+      { id: "channel", label: "Channel", value: "telegram" if filtered else "all", options: [{ value: "all", label: "All channels" }, { value: "web", label: "Web" }, { value: "telegram", label: "Telegram" }, { value: "email", label: "Email" }, { value: "calendar", label: "Calendar" }] },
+      { id: "author", label: "Author", value: "all", options: [{ value: "all", label: "Anyone" }, { value: "daniel", label: "Daniel Kim" }, { value: "olivia", label: "Olivia Foster" }, { value: "james", label: "James Reed" }, { value: "karl", label: "Karl Hansen" }, { value: "abraham", label: "Abraham Moss" }] }
+    ], "Showing 0" if filtered else (total | plural({ one: "# item", other: "# items" }))) }}
+    {% endif %}
+
+    {% if tab == "pending" %}
+      {% if state == "default" and pending | length %}
+        {{ bulkActionBar("inbox-bulk", "Approve several at once", ("Select low-risk (" ~ (lowCount | length) ~ ")"), canSelect=(lowCount | length) > 0, rule="Bulk approve works for tasks, time entries and notes. Money items are reviewed one by one.") }}
+      {% endif %}
+      {% call dataTable("Pending proposals", [{ label: "Select", hidden: true }, { label: "Proposal" }, { label: "Action" }, { label: "Check" }, { label: "Open", hidden: true, align: "end" }], state=("empty" if (state == "default" and not (all | length)) else state), messages=messages, emptyAction={ label: "Capture something", href: "dashboard-overview.html", icon: "mic" }, rowCount=6) %}
+        {% for q in all %}
+          {% if q.status == "processing" %}
+            {{ proposalRow("p-" ~ q.id, q.title, meta(q), "audio-lines", state="processing", checkDetail=q.checkDetail) }}
+          {% elif q.status == "failed" %}
+            {{ proposalRow("p-" ~ q.id, q.title, meta(q), "audio-lines", check=checkLabel(q), checkTone="danger", checkDetail=q.checkDetail, state="failed", fill=[{ label: "Invoice", href: "#new-invoice", icon: "file-text" }, { label: "Payment", href: "#invoice", icon: "wallet" }, { label: "Task", href: "#board", icon: "square-check" }, { label: "Client", href: "#new-client", icon: "briefcase" }, { label: "Time entry", href: "#time", icon: "clock" }, { label: "Project change", href: "#project", icon: "folder" }]) }}
+          {% elif q.status == "pending" %}
+            {% set low = q.kind in lowRisk %}
+            {{ proposalRow("p-" ~ q.id, q.title, meta(q), kindIcon[q.kind], href=reviewHref[q.id ~ ""] or "proposal-create.html", action=data.statuses.proposalAction[q.action].label | label, check=checkLabel(q), checkTone=data.statuses.proposalCheck[q.check].tone, checkDetail=q.checkDetail, cta=ctaFor[q.check] or "Review", selectable=low, lockText=("Can be approved together with other low-risk items" if low else ("Money items are reviewed one by one" if q.kind in money else "Open it to review. Bulk approve is for tasks, time entries and notes."))) }}
+          {% endif %}
+        {% endfor %}
+      {% endcall %}
+    {% else %}
+      {% call dataTable(("Approved proposals" if tab == "approved" else "Rejected proposals"), [{ label: "Proposal" }, { label: "Action" }, { label: "Result" }, { label: "Decided by" }, { label: "Open", hidden: true, align: "end" }], state=state, messages={ loading: "Loading…", emptyTitle: "Nothing decided yet", emptyText: "Approved and rejected proposals stay here for reference.", errorTitle: "The inbox didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again", noResultsTitle: "Nothing here for these filters", noResultsText: "Try another type or channel.", reset: "Clear filters" }) %}
+        {% for q in history %}
+          {{ proposalRow("h-" ~ q.id, q.title, meta(q), kindIcon[q.kind], action=data.statuses.proposalAction[q.action].label | label, check=("Edited, then approved" if q.edited else (data.statuses.proposalStatus[q.status].label | label)), checkTone=("success" if tab == "approved" else "neutral"), checkDetail=q.resultDetail, history=true, decidedBy=q.decidedBy ~ " · " ~ (q.decidedAt | date("medium")), link=({ label: "Open " ~ (kindLabel[q.kind] | lower), href: "#" ~ q.kind } if tab == "approved" else null)) }}
+        {% endfor %}
+      {% endcall %}
+    {% endif %}
+  </section>
+{% endcall %}
+{% endblock %}

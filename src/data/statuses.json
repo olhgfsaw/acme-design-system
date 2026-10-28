@@ -127,6 +127,12 @@
         "en": "Web capture"
       },
       "tone": "neutral"
+    },
+    "calendar": {
+      "label": {
+        "en": "Calendar"
+      },
+      "tone": "neutral"
     }
   },
   "proposalAction": {
@@ -167,6 +173,50 @@
         "en": "Needs your answer"
       },
       "tone": "info"
+    },
+    "conflict": {
+      "label": {
+        "en": "Conflict"
+      },
+      "tone": "danger"
+    },
+    "unreadable": {
+      "label": {
+        "en": "Couldn't understand"
+      },
+      "tone": "danger"
+    }
+  },
+  "proposalStatus": {
+    "processing": {
+      "label": {
+        "en": "Processing"
+      },
+      "tone": "info"
+    },
+    "failed": {
+      "label": {
+        "en": "Couldn't understand"
+      },
+      "tone": "danger"
+    },
+    "pending": {
+      "label": {
+        "en": "Pending"
+      },
+      "tone": "warning"
+    },
+    "approved": {
+      "label": {
+        "en": "Approved"
+      },
+      "tone": "success"
+    },
+    "rejected": {
+      "label": {
+        "en": "Rejected"
+      },
+      "tone": "neutral"
     }
   }
 }

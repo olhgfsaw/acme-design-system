@@ -1,0 +1,22 @@
+{
+  "base": "w-full",
+  "variants": {
+    "align": {
+      "start": "text-start",
+      "end": "text-end"
+    }
+  },
+  "slots": {
+    "table": "w-full border-collapse text-sm text-fg max-lg:block",
+    "th": "border-b border-divider px-3 pb-3 text-xs font-medium whitespace-nowrap text-fg-secondary first:ps-0 last:pe-0",
+    "td": "border-b border-divider p-3 align-middle group-last/row:border-b-0 group-last/row:pb-0 first:ps-0 last:pe-0 max-lg:block max-lg:border-0 max-lg:p-0 max-lg:text-start",
+    "row": "group/row max-lg:flex max-lg:flex-col max-lg:gap-2 max-lg:border-b max-lg:border-divider max-lg:py-4 max-lg:first:pt-0 max-lg:last:border-b-0 max-lg:last:pb-0",
+    "state": "py-4",
+    "skeletonCell": "border-b border-divider px-3 py-4 first:ps-0 last:pe-0 max-lg:block max-lg:border-0 max-lg:p-0 max-lg:text-start",
+    "thead": "max-lg:sr-only",
+    "tbody": "max-lg:block"
+  },
+  "defaultVariants": {
+    "align": "start"
+  }
+}

@@ -1,0 +1,527 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProposalReview",
+  "x-entity": "proposalReview",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "proposalId",
+    "variant",
+    "position",
+    "queueSize",
+    "title",
+    "subtitle",
+    "fields",
+    "primaryLabel",
+    "primaryNote",
+    "source",
+    "understood",
+    "activity"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "proposalId": {
+      "type": "integer",
+      "description": "The proposal under review"
+    },
+    "variant": {
+      "type": "string",
+      "enum": [
+        "create",
+        "update",
+        "duplicate",
+        "conflict"
+      ],
+      "description": "Which review layout the proposal needs"
+    },
+    "position": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Place in the pending queue"
+    },
+    "queueSize": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Proposals waiting in total"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Page title"
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "Where it came from and what to do"
+    },
+    "formTitle": {
+      "type": "string",
+      "description": "Heading of the details card; absent when the variant has none"
+    },
+    "formHint": {
+      "type": "string",
+      "description": "One line under the details heading"
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key",
+          "label",
+          "control",
+          "value"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Field key, unique in the proposal"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Field label"
+          },
+          "control": {
+            "type": "string",
+            "enum": [
+              "text",
+              "date",
+              "select",
+              "matched",
+              "readonly"
+            ],
+            "description": "How the value is edited"
+          },
+          "value": {
+            "type": "string",
+            "description": "Current value as the control holds it"
+          },
+          "display": {
+            "type": "string",
+            "description": "Matched record's name; only for control = matched"
+          },
+          "href": {
+            "type": "string",
+            "description": "Link to the matched record; only for control = matched"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "value",
+                "label"
+              ],
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "description": "Option value"
+                },
+                "label": {
+                  "type": "string",
+                  "description": "Option label"
+                }
+              }
+            },
+            "description": "Choices; only for control = select"
+          },
+          "provenance": {
+            "type": "string",
+            "enum": [
+              "msg",
+              "match",
+              "guess",
+              "miss",
+              "ok",
+              "edit"
+            ],
+            "description": "Where the value came from: msg the capture, match a record, guess AI's guess, miss not found, ok confirmed, edit changed by a person"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Where the value came from or what to check"
+          },
+          "wide": {
+            "type": "boolean",
+            "description": "Takes the whole form row"
+          }
+        }
+      },
+      "description": "The form, in order"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 code for money fields"
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "description",
+          "quantity",
+          "rateMinor",
+          "amountMinor"
+        ],
+        "properties": {
+          "description": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Line description"
+          },
+          "quantity": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Quantity"
+          },
+          "rateMinor": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Rate in minor units"
+          },
+          "amountMinor": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Quantity × rate in minor units"
+          },
+          "descProvenance": {
+            "type": "string",
+            "enum": [
+              "msg",
+              "match",
+              "guess",
+              "miss",
+              "ok",
+              "edit"
+            ],
+            "description": "Where the value came from: msg the capture, match a record, guess AI's guess, miss not found, ok confirmed, edit changed by a person"
+          },
+          "descNote": {
+            "type": "string",
+            "description": "Where the description came from"
+          },
+          "rateProvenance": {
+            "type": "string",
+            "enum": [
+              "msg",
+              "match",
+              "guess",
+              "miss",
+              "ok",
+              "edit"
+            ],
+            "description": "Where the value came from: msg the capture, match a record, guess AI's guess, miss not found, ok confirmed, edit changed by a person"
+          },
+          "rateNote": {
+            "type": "string",
+            "description": "Where the rate came from"
+          }
+        }
+      },
+      "description": "Invoice lines; absent when the proposal has none"
+    },
+    "taxPercent": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Tax rate for the totals"
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "before",
+          "after"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Field"
+          },
+          "before": {
+            "type": "string",
+            "description": "Value now"
+          },
+          "after": {
+            "type": "string",
+            "description": "Value after approving"
+          }
+        }
+      },
+      "description": "What an update changes; only for variant = update"
+    },
+    "changesTitle": {
+      "type": "string",
+      "description": "Heading of the changes card"
+    },
+    "choices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "value",
+          "title",
+          "line",
+          "meta"
+        ],
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Choice id"
+          },
+          "title": {
+            "type": "string",
+            "description": "Record number"
+          },
+          "amountMinor": {
+            "type": "integer",
+            "description": "Record amount, minor units"
+          },
+          "line": {
+            "type": "string",
+            "description": "Client and project"
+          },
+          "meta": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "What tells the choices apart"
+          }
+        }
+      },
+      "description": "Records to pick from; only for variant = duplicate"
+    },
+    "question": {
+      "type": "string",
+      "description": "The question the reviewer answers; only for variant = duplicate"
+    },
+    "questionHint": {
+      "type": "string",
+      "description": "Why the question is asked"
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "text",
+        "field",
+        "values"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "What changed meanwhile"
+        },
+        "text": {
+          "type": "string",
+          "description": "Who changed it and when"
+        },
+        "field": {
+          "type": "string",
+          "description": "The contested field and record"
+        },
+        "context": {
+          "type": "string",
+          "description": "Record context"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "label",
+              "value"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "was",
+                  "now",
+                  "new"
+                ],
+                "description": "Value role"
+              },
+              "label": {
+                "type": "string",
+                "description": "Tile label"
+              },
+              "value": {
+                "type": "string",
+                "description": "Formatted value"
+              },
+              "meta": {
+                "type": "string",
+                "description": "Who and when"
+              }
+            }
+          },
+          "description": "Was, now and proposed"
+        }
+      },
+      "description": "Only for variant = conflict"
+    },
+    "primaryLabel": {
+      "type": "string",
+      "description": "The approve button"
+    },
+    "primaryNote": {
+      "type": "string",
+      "description": "What approving does, under the button"
+    },
+    "blocked": {
+      "type": "boolean",
+      "description": "Approve is disabled until a question is answered"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "channel",
+        "authorName",
+        "receivedAt"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "x-dict": "proposalSource",
+          "enum": [
+            "telegram_voice",
+            "telegram_text",
+            "email",
+            "web_capture",
+            "calendar"
+          ],
+          "description": "Capture channel"
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Who sent it"
+        },
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When it arrived (UTC)"
+        },
+        "voiceSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Length of the voice note; absent without one"
+        },
+        "quoteLabel": {
+          "type": "string",
+          "description": "Transcript or Typed in Capture"
+        },
+        "quote": {
+          "type": "string",
+          "description": "The exact words"
+        },
+        "email": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "subject",
+            "from",
+            "body"
+          ],
+          "properties": {
+            "subject": {
+              "type": "string",
+              "description": "Subject"
+            },
+            "from": {
+              "type": "string",
+              "description": "Sender and forwarder"
+            },
+            "body": {
+              "type": "string",
+              "description": "Body text"
+            }
+          },
+          "description": "Only for email captures"
+        },
+        "file": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "meta"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "File name"
+            },
+            "meta": {
+              "type": "string",
+              "description": "Type, pages, size"
+            },
+            "summary": {
+              "type": "string",
+              "description": "Key line read from it"
+            }
+          },
+          "description": "An attached file"
+        }
+      },
+      "description": "The capture the proposal came from"
+    },
+    "understood": {
+      "type": "string",
+      "maxLength": 600,
+      "description": "What AI understood, in plain words"
+    },
+    "activity": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text",
+          "at"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "What happened"
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When (UTC)"
+          },
+          "tone": {
+            "type": "string",
+            "enum": [
+              "neutral",
+              "info",
+              "success",
+              "warning",
+              "danger"
+            ],
+            "description": "Dot tone"
+          }
+        }
+      },
+      "description": "History of the proposal, oldest first"
+    }
+  }
+}

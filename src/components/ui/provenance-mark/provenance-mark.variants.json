@@ -1,0 +1,32 @@
+{
+  "base": "inline-flex h-5 shrink-0 items-center gap-1 rounded-sm px-1.5 text-xs font-medium whitespace-nowrap",
+  "variants": {
+    "kind": {
+      "msg": "bg-accent-subtle text-fg",
+      "match": "bg-info-bg text-info-fg",
+      "guess": "bg-warning-bg text-warning-fg",
+      "miss": "bg-danger-bg text-danger-fg",
+      "ok": "bg-success-bg text-success-fg",
+      "edit": "bg-neutral-bg text-neutral-fg"
+    }
+  },
+  "icons": {
+    "msg": "message-square",
+    "match": "link",
+    "guess": "sparkles",
+    "miss": "circle-alert",
+    "ok": "check",
+    "edit": "pencil"
+  },
+  "labels": {
+    "msg": "From message",
+    "match": "Matched",
+    "guess": "Guessed",
+    "miss": "Missing",
+    "ok": "Confirmed",
+    "edit": "Edited by you"
+  },
+  "defaultVariants": {
+    "kind": "msg"
+  }
+}

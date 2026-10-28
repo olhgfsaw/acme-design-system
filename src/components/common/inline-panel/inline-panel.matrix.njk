@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/inline-panel/inline-panel.njk" import inlinePanel %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/textarea/textarea.njk" import textarea %}
+{% set description = "A short form that opens in place, instead of a modal." %}
+{% block matrix %}
+
+{% call section("reject") %}
+  {% call cell("with reason") %}<div class="w-96">{% call inlinePanel("m-ip", "Reject this proposal?", "Nothing is changed. The capture stays in the Rejected tab.") %}<div class="flex flex-col gap-1.5"><label for="m-ip-reason" class="text-sm font-medium text-fg">What was wrong? <span class="font-normal text-fg-muted">Optional</span></label>{{ textarea("m-ip-reason", rows=3, placeholder="For example: this was already billed in INV-2026-049", describedby="m-ip-hint") }}<p id="m-ip-hint" class="text-xs text-fg-muted">Sent to the AI as feedback, so the next proposal is closer.</p></div><div class="flex flex-wrap gap-2">{{ button("Reject proposal", size="sm") }}{{ button("Keep it", variant="secondary", size="sm") }}</div>{% endcall %}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{
+  "base": "flex flex-col gap-4",
+  "variants": {
+    "tone": {
+      "neutral": "bg-fg-muted",
+      "info": "bg-info-fg",
+      "success": "bg-success-fg",
+      "warning": "bg-warning-fg",
+      "danger": "bg-danger-fg"
+    }
+  },
+  "slots": {
+    "item": "flex gap-3",
+    "dot": "mt-1.5 size-2.5 shrink-0 rounded-full",
+    "body": "flex min-w-0 flex-col gap-1",
+    "text": "text-sm text-fg",
+    "when": "text-xs text-fg-muted"
+  },
+  "defaultVariants": {}
+}

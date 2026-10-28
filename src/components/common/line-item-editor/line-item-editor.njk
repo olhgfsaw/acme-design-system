@@ -1,0 +1,24 @@
+{#- LineItemEditor. Props: id, currency, lines [{ description, quantity, rateMinor, amountMinor, descProvenance, descNote, rateProvenance, rateNote }]. Columns: description, quantity, rate, amount; on phones the description takes a full row. The grid template mirrors the design's fixed number columns (80 / 128 / 112 px from the spacing scale). -#}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/provenance-mark/provenance-mark.njk" import provenanceMark %}
+{% macro lineItemEditor(id, currency, lines) %}
+{%- set v = variants.lineItemEditor -%}
+<div data-component="LineItemEditor" class="{{ v.base }}">
+  <div class="{{ v.slots.head }}" aria-hidden="true"><span>Description</span><span class="{{ v.slots.end }}">Qty</span><span class="{{ v.slots.end }}">Rate</span><span class="{{ v.slots.end }}">Amount</span></div>
+  <ol class="{{ v.slots.list }}">
+    {%- for l in lines %}{% set n = loop.index %}
+    <li class="{{ v.slots.item }}">
+      <div class="{{ v.slots.row }}">
+        <div class="{{ v.slots.desc }}">{{ input(id ~ "-" ~ n ~ "-desc", value=l.description, label="Line " ~ n ~ " description", variant=("attention" if l.descProvenance == "guess" else "outline"), describedby=id ~ "-" ~ n ~ "-note") }}</div>
+        {{ input(id ~ "-" ~ n ~ "-qty", value=l.quantity | number, label="Line " ~ n ~ " quantity", inputmode="decimal", numeric=true) }}
+        {{ input(id ~ "-" ~ n ~ "-rate", value=l.rateMinor | money(currency), label="Line " ~ n ~ " rate", inputmode="decimal", numeric=true) }}
+        <span class="{{ v.slots.amount }}">{{ l.amountMinor | money(currency) }}</span>
+      </div>
+      {%- if l.descProvenance or l.rateProvenance %}
+      <div id="{{ id }}-{{ n }}-note" class="{{ v.slots.note }}">{% if l.descProvenance %}{{ provenanceMark(l.descProvenance) }}<span>{{ l.descNote }}</span>{% endif %}{% if l.rateProvenance %}{{ provenanceMark(l.rateProvenance) }}<span>{{ l.rateNote }}</span>{% endif %}</div>
+      {%- endif %}
+    </li>
+    {%- endfor %}
+  </ol>
+</div>
+{%- endmacro %}

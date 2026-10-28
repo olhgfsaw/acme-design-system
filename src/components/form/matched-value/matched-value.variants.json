@@ -1,0 +1,9 @@
+{
+  "base": "flex h-9 min-w-0 items-center justify-between gap-2 rounded-md border border-control bg-surface ps-3 pe-1",
+  "variants": {},
+  "slots": {
+    "link": "truncate rounded-xs text-sm text-fg underline decoration-divider underline-offset-4 hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "change": "inline-flex h-7 shrink-0 items-center rounded-full px-2.5 text-sm font-medium text-fg-secondary hover:bg-surface-subtle hover:text-fg active:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+  },
+  "defaultVariants": {}
+}

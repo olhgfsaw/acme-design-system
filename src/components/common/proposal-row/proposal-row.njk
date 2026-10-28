@@ -1,0 +1,23 @@
+{#- ProposalRow. A table row of the inbox. Props: id, title, href, meta ("Telegram voice · Daniel Kim · 25 min ago"), iconName, action (badge text), check + checkTone + checkDetail, cta (Review | Answer | Resolve), selectable (low-risk items can be approved together; others carry lockText), selected, state (default | processing | failed), fill (for a failed capture: items [{ label, href, icon }] of the "Fill in manually" menu), fillOpen. History rows: result + resultTone, decidedBy, link { label, href }. -#}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/overlay/dropdown/dropdown.njk" import dropdown, dropdownItem, dropdownHeader, dropdownSeparator %}
+{% macro proposalRow(id, title, meta, iconName, href=null, action=null, check=null, checkTone="neutral", checkDetail=null, cta=null, selectable=false, selected=false, lockText=null, state="default", fill=[], fillOpen=false, history=false, decidedBy=null, link=null) %}
+{%- set v = variants.proposalRow -%}
+<tr data-component="ProposalRow" data-state="{{ state }}" class="{{ v.base }}">
+  {%- if not history %}
+  <td class="{{ v.slots.td }}">{% if state == "default" %}<span class="flex items-center"><button type="button" role="checkbox" id="{{ id }}-sel" aria-checked="{{ "true" if selected else "false" }}" data-state="{{ "checked" if selected else "unchecked" }}" aria-label="Select: {{ title }}" aria-describedby="{{ id }}-why" class="{{ variants.checkbox.slots.box }}"{% if not selectable %} disabled{% endif %}>{% if selected %}{{ icon("check", variants.checkbox.slots.check) }}{% endif %}</button><span id="{{ id }}-why" class="sr-only">{{ lockText }}</span></span>{% else %}<span class="sr-only">Not selectable</span>{% endif %}</td>
+  {%- endif %}
+  <td class="{{ v.slots.td }}"><div class="{{ v.slots.cell }}"><span class="{{ v.slots.type }} {{ v.variants.tone["failed" if state == "failed" else "default"] }}" aria-hidden="true">{{ icon(iconName, "size-4") }}</span><span class="{{ v.slots.text }}">{% if href %}<a href="{{ href }}" class="{{ v.slots.title }}" title="{{ title }}">{{ title }}</a>{% else %}<span class="{{ v.slots.titlePlain }}" title="{{ title }}">{{ title }}</span>{% endif %}<span class="{{ v.slots.meta }}">{{ meta }}</span></span></div></td>
+  <td class="{{ v.slots.td }}">{% if action %}{{ badge(action, dot=false) }}{% else %}<span class="{{ v.slots.meta }}">Not known yet</span>{% endif %}</td>
+  <td class="{{ v.slots.td }}"><div class="{{ v.slots.check }}">{% if state == "processing" %}<span data-component="BaseBadge" data-tone="info" data-size="sm" class="{{ variants.badge.base }} {{ variants.badge.variants.tone.info }} {{ variants.badge.variants.size.sm }}">{{ icon("loader-circle", v.slots.spin) }}Processing…</span>{% else %}{{ badge(check, tone=checkTone, dot=false) }}{% endif %}{% if checkDetail %}<span class="{{ v.slots.meta }}">{{ checkDetail }}</span>{% endif %}</div></td>
+  {%- if history %}<td class="{{ v.slots.td }} whitespace-nowrap text-fg-secondary">{{ decidedBy }}</td>{% endif %}
+  <td class="{{ v.slots.tdEnd }}">
+    {%- if state == "failed" and fill | length %}
+      {%- set trig %}{{ button("Fill in manually", variant="secondary", size="sm", iconTrailing="chevron-down", haspopup="menu", expanded=fillOpen) }}{% endset %}
+      {% call dropdown(id ~ "-fill", "Fill in manually as", trig, open=fillOpen, align="end") %}{{ dropdownHeader("What was it about?", "Opens an empty form. The capture stays attached.") }}{{ dropdownSeparator() }}{% for it in fill %}{{ dropdownItem(it.label, href=it.href, iconName=it.icon) }}{% endfor %}{% endcall %}
+    {%- elif cta and href %}{{ button(cta, variant="secondary", size="sm", href=href, ariaLabel=cta ~ ": " ~ title) }}
+    {%- elif link %}<a href="{{ link.href }}" class="{{ v.slots.link }}">{{ link.label }}</a>{% endif %}
+  </td>
+</tr>
+{%- endmacro %}

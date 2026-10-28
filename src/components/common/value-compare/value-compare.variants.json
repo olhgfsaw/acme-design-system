@@ -1,0 +1,18 @@
+{
+  "base": "grid gap-3 md:grid-cols-3",
+  "variants": {
+    "kind": {
+      "was": "bg-canvas",
+      "now": "bg-warning-bg",
+      "new": "bg-accent-subtle"
+    }
+  },
+  "slots": {
+    "tile": "flex min-w-0 flex-col gap-1 rounded-md p-4",
+    "label": "text-xs text-fg-secondary",
+    "value": "text-xl font-medium tracking-tight text-fg tabular-nums",
+    "valueWas": "text-xl font-medium tracking-tight text-fg-secondary tabular-nums line-through decoration-divider",
+    "meta": "text-xs text-fg-secondary"
+  },
+  "defaultVariants": {}
+}

@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/source-quote/source-quote.njk" import sourceQuote %}
+{% set description = "The exact words of a capture." %}
+{% block matrix %}
+
+{% call section("quote") %}
+  {% call cell("transcript") %}<div class="w-96">{{ sourceQuote("Transcript", "“Invoice Klark Coffee for the October campaign work, nine thousand dollars, same terms as last time. The scope is in the PDF.”") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

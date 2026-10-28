@@ -1,0 +1,9 @@
+{#- InvoiceTotals. Props: currency, rows [{ label, amountMinor }] (subtotal, tax, discount), totalMinor, totalLabel. Updates live as lines change (aria-live). -#}
+{% macro invoiceTotals(currency, rows, totalMinor, totalLabel="Total") %}
+{%- set v = variants.invoiceTotals -%}
+<div data-component="InvoiceTotals" aria-live="polite" class="{{ v.base }}">
+  {%- for r in rows %}<div class="{{ v.slots.row }}"><span class="{{ v.slots.label }}">{{ r.label }}</span><span class="{{ v.slots.value }}">{{ r.amountMinor | money(currency) }}</span></div>{% endfor %}
+  <hr class="{{ v.slots.rule }}">
+  <div class="{{ v.slots.total }}"><span>{{ totalLabel }}</span><span>{{ totalMinor | money(currency) }}</span></div>
+</div>
+{%- endmacro %}

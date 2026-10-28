@@ -1,0 +1,6 @@
+{#- DetailList. Label–value pairs of a record. Props: items [{ label, value, avatar (name: shows a small avatar before the value) }], columns (1 | 2). -#}
+{% from "components/ui/avatar/avatar.njk" import avatar %}
+{% macro detailList(items, columns="2") %}
+{%- set v = variants.detailList -%}
+<dl data-component="DetailList" class="{{ v.base }} {{ v.variants.columns[columns] }}">{% for it in items %}<div class="min-w-0"><dt class="{{ v.slots.term }}">{{ it.label }}</dt><dd class="{{ v.slots.value }}">{% if it.avatar %}{{ avatar(it.avatar, size="xs", decorative=true) }}{% endif %}{{ it.value }}</dd></div>{% endfor %}</dl>
+{%- endmacro %}

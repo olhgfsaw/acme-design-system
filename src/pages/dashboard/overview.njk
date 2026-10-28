@@ -1,10 +1,6 @@
 {% extends "layouts/frame.njk" %}
-{% from "components/layout/app-shell/app-shell.njk" import appShell %}
-{% from "components/layout/top-bar/top-bar.njk" import topBar %}
-{% from "components/layout/nav-rail/nav-rail.njk" import navRail %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
 {% from "components/layout/page-header/page-header.njk" import pageHeader %}
-{% from "components/layout/user-menu/user-menu.njk" import userMenu %}
-{% from "components/pattern/capture-button/capture-button.njk" import captureButton %}
 {% from "components/common/card/card.njk" import card %}
 {% from "components/common/stat-block/stat-block.njk" import statBlock %}
 {% from "components/common/area-chart/area-chart.njk" import areaChart %}
@@ -19,7 +15,6 @@
 {% from "components/common/error-state/error-state.njk" import errorState %}
 {% from "components/ui/legend-toggle/legend-toggle.njk" import legendToggle %}
 {% from "components/ui/avatar-stack/avatar-stack.njk" import avatarStack %}
-{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
 {% from "components/ui/button/button.njk" import button %}
 {% from "components/ui/skeleton/skeleton.njk" import skeleton %}
 {% set bodyClass = "antialiased" %}
@@ -29,7 +24,7 @@
 {% set months = data.fixtures.revenueMonth.scenarios[scenario].slice(-6) %}
 {% set projects = data.fixtures.project.scenarios[scenario] %}
 {% set tasks = data.fixtures.task.scenarios[scenario] %}
-{% set proposals = data.fixtures.proposal.scenarios[scenario] %}
+{% set proposals = [] %}{% for q in data.fixtures.proposal.scenarios[scenario] %}{% if q.status == "pending" %}{% set _ = proposals.push(q) %}{% endif %}{% endfor %}
 {% set team = data.fixtures.teamMember.scenarios[scenario].slice(0, 4) %}
 {% set clients = data.fixtures.client.scenarios[scenario].slice(0, 5) %}
 {% set meeting = data.fixtures.meeting.scenarios[scenario] | first %}
@@ -49,16 +44,7 @@
 {% set topClient = clients | sort(true, false, "revenueMinor") | first %}
 {% set pinned = (projects | selectattr("pinned") | first) %}
 {% set messages = { loading: "Loading…", emptyTitle: "No data for this period", emptyText: "The chart fills in as soon as the first payments arrive.", errorTitle: "The chart didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" } %}
-{% set nav = [
-  { id: "dashboard", label: "Dashboard", icon: "layout-dashboard", href: "#dashboard" },
-  { id: "inbox", label: ("Inbox, " ~ (proposals | length) ~ " to review") if proposals | length else "Inbox", icon: "inbox", href: "#inbox", count: proposals | length },
-  { id: "clients", label: "Clients", icon: "briefcase", href: "#clients" },
-  { id: "projects", label: "Projects", icon: "folder", href: "#projects" },
-  { id: "team", label: "Team", icon: "users", href: "#team" },
-  { id: "finance", label: "Finance", icon: "wallet", href: "#finance" },
-  { id: "calendar", label: "Calendar", icon: "calendar", href: "#calendar" },
-  { id: "settings", label: "Settings", icon: "settings", href: "#settings" }
-] %}
+
 
 {#- Pinned project: its stage, open tasks and the next three by due date -#}
 {% if pinned %}
@@ -78,14 +64,10 @@
 {% set inboxItems = [] %}
 {% for q in (proposals | sort(true, false, "createdAt")).slice(0, 3) %}
   {% set checkLabel = (q.fieldsToCheck | plural({ one: "# field to check", other: "# fields to check" })) if q.check == "to_check" and q.fieldsToCheck else (data.statuses.proposalCheck[q.check].label | label) %}
-  {% set _ = inboxItems.push({ title: q.title, href: "#proposal", meta: (data.statuses.proposalSource[q.source].label | label) ~ " · " ~ q.authorName ~ " · " ~ (q.createdAt | relative), icon: proposalIcon[q.kind] or "inbox", action: data.statuses.proposalAction[q.action].label | label, check: checkLabel, checkTone: data.statuses.proposalCheck[q.check].tone }) %}
+  {% set _ = inboxItems.push({ title: q.title, href: "proposal-create.html", meta: (data.statuses.proposalSource[q.source].label | label) ~ " · " ~ q.authorName ~ " · " ~ (q.createdAt | relative), icon: proposalIcon[q.kind] or "inbox", action: data.statuses.proposalAction[q.action].label | label, check: checkLabel, checkTone: data.statuses.proposalCheck[q.check].tone }) %}
 {% endfor %}
 
-{#- Chrome -#}
-{% set tb %}{% call topBar(project.product, "Search clients, projects, invoices...", "Search") %}{{ captureButton("capture") }}{{ iconButton("Messages", "message-circle", variant="secondary") }}{{ iconButton("Notifications, 3 unread", "bell", variant="secondary", dot=true) }}{{ userMenu("user-menu", "Daniel Kim", "Account director · Admin", [{ label: "My profile", href: "#me", icon: "user" }, { label: "Time and time off", href: "#time", icon: "clock" }, { label: "Account settings", href: "#account", icon: "settings" }], footer=[{ label: "Log out", href: "#logout", icon: "log-out" }]) }}{% endcall %}{% endset %}
-{% set rail %}{{ navRail(nav, "Main", activeId="dashboard") }}{% endset %}
-
-{% call appShell(tb, rail) %}
+{% call appChrome("dashboard", scenario=scenario, capture=frame.capture or {}) %}
   {% call pageHeader("Dashboard overview", "Here's what's happening with your business today") %}
     {{ button("Create invoice", variant="secondary", iconLeading="file-text", href="#new-invoice") }}
     {{ button("Add client", variant="secondary", iconLeading="user-plus", href="#new-client") }}
@@ -179,7 +161,7 @@
       {% if state == "loading" %}
         {% call card("inbox-loading") %}<div class="flex flex-col gap-4">{{ skeleton("title", layout="w-1/3") }}<div class="grid gap-3 lg:grid-cols-3">{% for i in range(3) %}{{ skeleton("block", layout="w-full") }}{% endfor %}</div></div>{% endcall %}
       {% else %}
-        {{ inboxCard("inbox", proposals | length, inboxItems, "#inbox") }}
+        {{ inboxCard("inbox", proposals | length, inboxItems, "inbox.html") }}
       {% endif %}
     </div>
   </div>

@@ -1,0 +1,165 @@
+{% extends "layouts/frame.njk" %}
+{% from "layouts/_app-chrome.njk" import appChrome %}
+{% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/common/breadcrumbs/breadcrumbs.njk" import breadcrumbs %}
+{% from "components/common/card/card.njk" import card %}
+{% from "components/common/provenance-legend/provenance-legend.njk" import provenanceLegend %}
+{% from "components/form/provenance-field/provenance-field.njk" import provenanceField %}
+{% from "components/form/matched-value/matched-value.njk" import matchedValue %}
+{% from "components/form/radio-cards/radio-cards.njk" import radioCards %}
+{% from "components/common/line-item-editor/line-item-editor.njk" import lineItemEditor %}
+{% from "components/common/invoice-totals/invoice-totals.njk" import invoiceTotals %}
+{% from "components/common/change-summary/change-summary.njk" import changeSummary %}
+{% from "components/common/value-compare/value-compare.njk" import valueCompare %}
+{% from "components/common/inline-alert/inline-alert.njk" import inlineAlert %}
+{% from "components/common/voice-player/voice-player.njk" import voicePlayer %}
+{% from "components/common/source-quote/source-quote.njk" import sourceQuote %}
+{% from "components/common/file-preview/file-preview.njk" import filePreview %}
+{% from "components/common/detail-list/detail-list.njk" import detailList %}
+{% from "components/common/activity-list/activity-list.njk" import activityList %}
+{% from "components/common/error-state/error-state.njk" import errorState %}
+{% from "components/common/empty-state/empty-state.njk" import emptyState %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/input/input.njk" import input %}
+{% from "components/ui/select/select.njk" import select %}
+{% from "components/ui/skeleton/skeleton.njk" import skeleton %}
+{% set bodyClass = "antialiased" %}
+{% block body %}
+{#- Which proposal this frame shows: frame.record = create | update | duplicate | conflict (typical); other scenarios show their first record. -#}
+{% set records = data.fixtures.proposalReview.scenarios[scenario] %}
+{% set picked = [] %}{% for x in records %}{% if scenario != "typical" or x.variant == frame.record %}{% set _ = picked.push(x) %}{% endif %}{% endfor %}
+{% set r = picked | first %}
+{% set found = [] %}{% for q in data.fixtures.proposal.scenarios.typical %}{% if r and q.id == r.proposalId %}{% set _ = found.push(q) %}{% endif %}{% endfor %}
+{% set proposal = found | first %}
+{% set channelIcon = { telegram_voice: "send", telegram_text: "send", email: "mail", web_capture: "globe", calendar: "calendar" } %}
+{% set wave = [30, 55, 42, 70, 88, 62, 45, 74, 92, 66, 40, 58, 82, 72, 48, 36, 64, 90, 78, 52, 44, 68, 84, 60, 38, 50, 76, 34, 58, 70, 46, 62, 80, 54, 42, 66, 74, 50, 36, 44] %}
+{% set pdfLines = [{ width: 60, kind: "dark" }, { width: 90 }, { width: 80 }, { width: 85 }, { width: 70, kind: "hl" }, { width: 90 }, { width: 50 }, { width: 75 }, { width: 88 }, { width: 40 }] %}
+
+{% macro field(f, idPrefix="f") %}
+  {%- set id = idPrefix ~ "-" ~ f.key -%}
+  {%- set variant = "attention" if f.provenance == "guess" else ("missing" if f.provenance == "miss" else "outline") -%}
+  {% call provenanceField(id, f.label, provenance=f.provenance, note=f.note, canConfirm=(f.provenance == "guess"), layout=("md:col-span-2" if f.wide else "")) %}
+    {%- if f.control == "matched" %}{{ matchedValue(id, f.display, f.href, f.label, describedby=(id ~ "-note") if f.note else null) }}
+    {%- elif f.control == "select" %}{{ select(id, f.options, value=f.value, variant=variant, describedby=(id ~ "-note") if f.note else null) }}
+    {%- elif f.control == "readonly" %}{{ input(id, value=f.value, disabled=true, describedby=(id ~ "-note") if f.note else null) }}
+    {%- else %}{{ input(id, type=("date" if f.control == "date" else "text"), value=f.value, variant=variant, placeholder=("Optional" if f.provenance == "miss" else ""), describedby=(id ~ "-note") if f.note else null) }}{% endif -%}
+  {% endcall %}
+{% endmacro %}
+
+{% call appChrome("inbox", scenario="typical") %}
+  {% if state == "error" %}
+    {% call pageHeader("Proposal", "From the inbox") %}{% endcall %}
+    <div class="rounded-lg bg-surface p-6">{{ errorState("This proposal didn't load", "Something went wrong on our side. The capture is safe — try again in a minute.", "Try again") }}</div>
+  {% elif not r %}
+    {% call pageHeader("Proposal", "From the inbox") %}{% endcall %}
+    <div class="rounded-lg bg-surface p-6">{% call emptyState("This proposal is already decided", "Someone approved or rejected it. It is in the Approved or Rejected tab.", iconName="inbox") %}{{ button("Back to inbox", variant="secondary", size="sm", iconLeading="arrow-left", href="inbox.html") }}{% endcall %}</div>
+  {% elif state == "loading" %}
+    <div aria-busy="true" class="flex flex-col gap-8 md:gap-12"><p class="sr-only">Loading…</p>
+      <div class="flex flex-col gap-3">{{ skeleton("line", layout="w-40") }}{{ skeleton("title", layout="w-96 max-w-full") }}{{ skeleton("line", layout="w-2/3") }}</div>
+      <div class="grid gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        {% call card("loading-form") %}<div class="grid gap-4 md:grid-cols-2">{% for i in range(6) %}<div class="flex flex-col gap-2">{{ skeleton("line", layout="w-24") }}{{ skeleton("figure", layout="w-full") }}</div>{% endfor %}</div>{% endcall %}
+        {% call card("loading-source") %}<div class="flex flex-col gap-3">{{ skeleton("title", layout="w-1/2") }}{{ skeleton("block", layout="w-full") }}{{ skeleton("line", layout="w-full") }}</div>{% endcall %}
+      </div>
+    </div>
+  {% else %}
+    {%- set checkLabel = ((proposal.fieldsToCheck | plural({ one: "# field to check", other: "# fields to check" })) if proposal and proposal.check == "to_check" and proposal.fieldsToCheck else ((data.statuses.proposalCheck[proposal.check].label | label) if proposal else "")) -%}
+    <div data-component="PageHeader" class="{{ variants.pageHeader.base }}">
+      <div class="flex flex-col gap-4">
+        {{ breadcrumbs([{ label: "Inbox", href: "inbox.html" }, { label: "Proposal " ~ r.position }]) }}
+        <div class="{{ variants.pageHeader.slots.text }}">
+          {% if proposal %}<div class="flex flex-wrap items-center gap-2">{{ badge(data.statuses.proposalAction[proposal.action].label | label, dot=false) }}{{ badge(checkLabel, tone=data.statuses.proposalCheck[proposal.check].tone, dot=false) }}</div>{% endif %}
+          <h1 class="{{ variants.pageHeader.slots.title }}">{{ r.title }}</h1>
+          <p class="{{ variants.pageHeader.slots.description }}">{{ r.subtitle }}</p>
+        </div>
+      </div>
+      <div data-slot="actions" class="flex items-center gap-2"><span class="text-sm text-fg-muted tabular-nums">{{ r.position | number }} of {{ r.queueSize | number }}</span>{{ iconButton("Previous proposal", "chevron-left", variant="secondary", size="sm") }}{{ iconButton("Next proposal", "chevron-right", variant="secondary", size="sm") }}</div>
+    </div>
+
+    {#- Main column 2 : side column 1 from the design (640 / 320 px basis). -#}
+    <div class="grid items-start gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div class="flex min-w-0 flex-col gap-3">
+        {% set byKind = { msg: [], match: [], guess: [], miss: [] } %}
+        {% for f in r.fields %}{% if f.provenance in ["msg", "match", "guess", "miss"] %}{% set _ = byKind[f.provenance].push(f.key) %}{% endif %}{% endfor %}
+        {% for l in r.lines or [] %}{% for k in [l.descProvenance, l.rateProvenance] %}{% if k in ["msg", "match", "guess", "miss"] %}{% set _ = byKind[k].push(k) %}{% endif %}{% endfor %}{% endfor %}
+        {% if (byKind.msg | length) + (byKind.match | length) + (byKind.guess | length) + (byKind.miss | length) %}
+          {{ provenanceLegend("legend", [
+            { kind: "msg", count: byKind.msg | length, text: "Said or written in the capture" },
+            { kind: "match", count: byKind.match | length, text: "Found in your records" },
+            { kind: "guess", count: byKind.guess | length, text: "Worked out by AI. Check these" },
+            { kind: "miss", count: byKind.miss | length, text: "Not found. Add it or leave it empty" }
+          ]) }}
+        {% endif %}
+
+        {% if r.variant == "conflict" %}
+          {{ inlineAlert(r.conflict.title, r.conflict.text, tone="warning", urgent=true) }}
+          {% call card("conflict", title=r.conflict.field) %}
+            <div class="flex flex-col gap-6">
+              {% if r.conflict.context %}<p class="text-sm text-fg-secondary">{{ r.conflict.context }}</p>{% endif %}
+              {{ valueCompare(r.conflict.values) }}
+              <div class="grid gap-x-5 gap-y-4 md:grid-cols-2">{% for f in r.fields %}{{ field(f) }}{% endfor %}</div>
+            </div>
+          {% endcall %}
+        {% elif r.variant == "duplicate" %}
+          {% call card("question", title=r.question) %}
+            <div class="flex flex-col gap-6"><p class="text-sm text-fg-secondary">{{ r.questionHint }}</p>
+              {% set opts = [] %}{% for c in r.choices %}{% set _ = opts.push({ value: c.value, title: c.title, aside: c.amountMinor | money(r.currency), line: c.line, meta: c.meta }) %}{% endfor %}
+              {{ radioCards("dup", "question-title", opts) }}
+            </div>
+          {% endcall %}
+        {% else %}
+          {% call card("details", title=r.formTitle) %}
+            <div class="flex flex-col gap-6"><p class="text-sm text-fg-secondary">{{ r.formHint }}</p>
+              <div class="grid gap-x-5 gap-y-4 md:grid-cols-2">{% for f in r.fields %}{{ field(f) }}{% endfor %}</div>
+            </div>
+          {% endcall %}
+        {% endif %}
+
+        {% if r.lines %}
+          {% call card("lines", title="Line items") %}
+            {% set subtotal = r.lines | sum("amountMinor") %}
+            <div class="flex flex-col gap-4">
+              <p class="text-sm text-fg-secondary">{{ r.lines | length | plural({ one: "One line, as said in the capture", other: "# lines, as said in the capture" }) }}</p>
+              {{ lineItemEditor("lines", r.currency, r.lines) }}
+              <hr class="h-px border-0 bg-divider">
+              <div class="flex justify-end">{{ invoiceTotals(r.currency, [{ label: "Subtotal", amountMinor: subtotal }, { label: "Tax " ~ ((r.taxPercent or 0) / 100) | percent, amountMinor: (subtotal * (r.taxPercent or 0) / 100) | round | int }], subtotal + ((subtotal * (r.taxPercent or 0) / 100) | round | int)) }}</div>
+            </div>
+          {% endcall %}
+        {% endif %}
+
+        {% if r.changes %}
+          {% call card("changes", title=r.changesTitle) %}
+            <div class="flex flex-col gap-4"><p class="text-sm text-fg-secondary">Nothing changes until you approve it</p>{{ changeSummary(r.changesTitle, r.changes) }}</div>
+          {% endcall %}
+        {% endif %}
+
+        <div class="flex flex-wrap items-start justify-end gap-3 pt-3">
+          {{ button("Reject", variant="ghost", iconLeading="x") }}
+          {{ button("Save changes", variant="secondary") }}
+          {% if r.variant == "conflict" %}{{ button("Keep current", variant="secondary") }}{% endif %}
+          <div class="flex max-w-full flex-col items-end gap-2">{{ button(r.primaryLabel, disabled=r.blocked, describedby="primary-note") }}<p id="primary-note" class="text-end text-xs text-fg-muted">{{ r.primaryNote }}</p></div>
+        </div>
+      </div>
+
+      <div class="flex min-w-0 flex-col gap-3">
+        {% call card("source", title="Source") %}
+          <div class="flex flex-col gap-4">
+            <div>{{ badge(data.statuses.proposalSource[r.source.channel].label | label, dot=false, iconName=channelIcon[r.source.channel]) }}</div>
+            {% if r.source.email %}<div class="flex flex-col gap-1 rounded-md bg-canvas p-4"><span class="text-sm font-medium text-fg">{{ r.source.email.subject }}</span><span class="text-xs text-fg-muted">{{ r.source.email.from }}</span><p class="mt-2 text-sm text-fg-secondary">{{ r.source.email.body }}</p></div>{% endif %}
+            {% if r.source.voiceSeconds %}{{ voicePlayer(r.source.voiceSeconds, wave) }}{% endif %}
+            {% if r.source.quote %}{{ sourceQuote(r.source.quoteLabel, r.source.quote) }}{% endif %}
+            {% if r.source.file %}{{ filePreview(r.source.file.name, r.source.file.meta, r.source.file.summary, pdfLines) }}{% endif %}
+            {{ detailList([{ label: "Author", value: r.source.authorName, avatar: r.source.authorName }, { label: "Received", value: r.source.receivedAt | datetime }]) }}
+          </div>
+        {% endcall %}
+        {% call card("understood", title="What AI understood") %}<p class="text-sm/6 text-fg">{{ r.understood }}</p>{% endcall %}
+        {% call card("activity", title="Activity") %}
+          {% set items = [] %}{% for a in r.activity %}{% set _ = items.push({ text: a.text, at: a.at, when: a.at | datetime, tone: a.tone }) %}{% endfor %}
+          {{ activityList(items) }}
+        {% endcall %}
+      </div>
+    </div>
+  {% endif %}
+{% endcall %}
+{% endblock %}

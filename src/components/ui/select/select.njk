@@ -1,7 +1,7 @@
-{#- BaseSelect. Props: id, options [{ value, label }], value (selected), name, invalid, required, disabled, describedby, label (aria-label only without a visible label). A native select styled as a field; Reka Select in Nuxt. -#}
-{% macro select(id, options, value=null, name=null, invalid=false, required=false, disabled=false, describedby=null, label=null) %}
+{#- BaseSelect. Props: id, options [{ value, label }], value (selected), name, invalid, required, disabled, describedby, label (aria-label only without a visible label), variant (outline | attention | missing). A native select styled as a field; Reka Select in Nuxt. -#}
+{% macro select(id, options, value=null, name=null, invalid=false, required=false, disabled=false, describedby=null, label=null, variant="outline") %}
 {%- set v = variants.select -%}
-<div class="{{ v.slots.wrapper }}"><select id="{{ id }}" name="{{ name or id }}" data-component="BaseSelect" class="{{ v.base }}"
+<div class="{{ v.slots.wrapper }}"><select id="{{ id }}" name="{{ name or id }}" data-component="BaseSelect" data-variant="{{ variant }}" class="{{ v.base }} {{ v.variants.variant[variant] }}"
   {%- if label %} aria-label="{{ label }}"{% endif %}
   {%- if invalid %} aria-invalid="true"{% endif %}
   {%- if required %} required{% endif %}

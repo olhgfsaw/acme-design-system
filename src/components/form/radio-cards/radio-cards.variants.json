@@ -1,0 +1,12 @@
+{
+  "base": "grid gap-3 md:grid-cols-2",
+  "variants": {},
+  "slots": {
+    "card": "flex flex-col gap-1.5 rounded-md border border-divider bg-surface p-4 text-start transition-colors hover:border-control active:border-control data-[state=checked]:border-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "head": "flex items-baseline justify-between gap-3 text-base font-medium text-fg",
+    "aside": "tabular-nums",
+    "line": "text-sm text-fg",
+    "meta": "text-xs text-fg-muted"
+  },
+  "defaultVariants": {}
+}

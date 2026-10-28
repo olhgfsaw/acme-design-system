@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/form/matched-value/matched-value.njk" import matchedValue %}
+{% set description = "A matched record shown as a link, with Change." %}
+{% block matrix %}
+
+{% call section("value") %}
+  {% call cell("client") %}<div class="w-72">{{ matchedValue("m-mv-1", "Klark Coffee Co.", "#", "Client") }}</div>{% endcall %}
+  {% call cell("long") %}<div class="w-72">{{ matchedValue("m-mv-2", "INV-2026-047 · Northwind Health · $14,000", "#", "Invoice") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

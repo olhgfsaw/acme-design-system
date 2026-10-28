@@ -1,0 +1,16 @@
+{
+  "base": "grid gap-x-6 gap-y-4",
+  "variants": {
+    "columns": {
+      "1": "grid-cols-1",
+      "2": "grid-cols-1 sm:grid-cols-2"
+    }
+  },
+  "slots": {
+    "term": "flex items-center gap-2 text-xs text-fg-muted",
+    "value": "mt-1 flex items-center gap-2 text-sm text-fg wrap-anywhere"
+  },
+  "defaultVariants": {
+    "columns": "2"
+  }
+}

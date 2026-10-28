@@ -1,0 +1,5 @@
+{#- ActivityList. What happened to a record, oldest first. Props: items [{ text, at (ISO), when (formatted), tone }]. The dot only supports the text. -#}
+{% macro activityList(items) %}
+{%- set v = variants.activityList -%}
+<ol data-component="ActivityList" class="{{ v.base }}">{% for a in items %}<li class="{{ v.slots.item }}"><span class="{{ v.slots.dot }} {{ v.variants.tone[a.tone or "neutral"] }}" aria-hidden="true"></span><div class="{{ v.slots.body }}"><span class="{{ v.slots.text }}">{{ a.text }}</span><time datetime="{{ a.at }}" class="{{ v.slots.when }}">{{ a.when }}</time></div></li>{% endfor %}</ol>
+{%- endmacro %}

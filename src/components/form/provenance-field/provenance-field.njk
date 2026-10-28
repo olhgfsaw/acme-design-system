@@ -1,0 +1,10 @@
+{#- ProvenanceField. A form field filled by AI. Props: id (of the control), label, provenance (a ProvenanceMark kind or null), markTitle, note (where the value came from), canConfirm (a guessed value the person can accept as is), wide (spans the form row: layout only). Default slot = the control, with aria-describedby="<id>-note". Guessed and missing values use the attention / missing variants of BaseInput and BaseSelect. -#}
+{% from "components/ui/provenance-mark/provenance-mark.njk" import provenanceMark %}
+{% macro provenanceField(id, label, provenance=null, note=null, canConfirm=false, markTitle=null, layout="") %}
+{%- set v = variants.provenanceField -%}
+<div data-component="ProvenanceField" class="{{ (v.base ~ " " ~ layout) | trim }}">
+  <div class="{{ v.slots.head }}"><label for="{{ id }}" class="{{ v.slots.label }}">{{ label }}</label>{% if provenance %}{{ provenanceMark(provenance, title=markTitle) }}{% endif %}</div>
+  {% if caller %}{{ caller() }}{% endif %}
+  {%- if note %}<div id="{{ id }}-note" class="{{ v.slots.note }} {{ v.variants.tone[provenance if provenance in ["guess", "miss"] else "default"] }}"><span>{{ note }}</span>{% if canConfirm %}<button type="button" aria-label="Confirm {{ label }}" class="{{ v.slots.confirm }}">Confirm</button>{% endif %}</div>{% endif %}
+</div>
+{%- endmacro %}

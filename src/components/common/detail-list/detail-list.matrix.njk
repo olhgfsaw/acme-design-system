@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/detail-list/detail-list.njk" import detailList %}
+{% set description = "Label–value pairs of a record." %}
+{% block matrix %}
+
+{% call section("columns") %}
+  {% call cell("two") %}<div class="w-80">{{ detailList([{ label: "Author", value: "Daniel Kim", avatar: "Daniel Kim" }, { label: "Received", value: "Oct 27, 2:35 PM" }]) }}</div>{% endcall %}
+  {% call cell("one") %}<div class="w-80">{{ detailList([{ label: "Billing email", value: "accounts@klarkcoffee.example" }, { label: "Address", value: "18 Harbor Street, Portland, OR 97204" }], columns="1") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

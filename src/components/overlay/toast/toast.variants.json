@@ -1,0 +1,14 @@
+{
+  "base": "inline-flex items-center gap-4 rounded-full bg-primary ps-5 text-sm font-medium whitespace-nowrap text-on-primary shadow-lg",
+  "variants": {
+    "kind": {
+      "action": "py-2 pe-2",
+      "plain": "py-3 pe-5"
+    }
+  },
+  "slots": {
+    "region": "fixed inset-x-0 bottom-6 z-40 flex justify-center px-4",
+    "action": "inline-flex h-8 items-center rounded-full bg-surface px-3.5 text-sm font-medium text-fg hover:bg-surface-subtle active:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+  },
+  "defaultVariants": {}
+}

@@ -11,6 +11,22 @@ Log written by `/import-design`. Newest first. One entry per import.
 - Frames: added …, changed … (approved: … — needs the client again)
 -->
 
+## 2026-10-28 — design-import/2026-10-28/ (stage 2 of 8: Inbox)
+- Source: same design, artboards Inbox, Proposal, QuickCapture, TelegramBot, CaptureButton.
+- Applied:
+  - Screens (draft): Inbox · pending (states loading, empty, no-results, error, stress), Inbox · approved, Inbox · rejected, Proposal · new invoice / record payment / needs an answer / conflict (loading, error; stress on the first). Shared chrome moved to `layouts/_app-chrome.njk`; the dashboard uses it and counts only pending proposals.
+  - New components (draft): DataTable, ProposalRow, FiltersToolbar, BulkActionBar, ToastMessage, ProvenanceMark, ProvenanceLegend, ProvenanceField, MatchedValue, LineItemEditor, InvoiceTotals, ChangeSummary, RadioCards, ValueCompare, VoicePlayer, SourceQuote, FilePreview, ActivityList, InlineAlert, DetailList, InlinePanel.
+  - Changed components: BaseInput and BaseSelect get `attention` (guessed value) and `missing` variants; BaseButton gets `ariaLabel`, `haspopup`, `expanded`, `describedby`.
+  - Data: proposal gets status, kind, check detail and the decision; new proposal-review contract (fields with provenance, lines, changes, choices, conflict, source, activity); statuses proposalStatus, proposalCheck conflict / unreadable, proposalSource calendar.
+- Renamed: FillMenu → BaseDropdown inside ProposalRow; the design's activity list → ActivityList (ActivityTimeline in patterns.md is the larger pattern with a line and icons).
+- Snaps: quote border 3 → 4 px; thumbnail column 88 px kept via the spacing scale in a grid template; line-item columns 72 / 132 / 116 → 80 / 128 / 112 px; provenance mark text 11 → 12 px.
+- Not applied:
+  - Quick capture, open as a full-page frame: the open panel covers the page, so text under it can't be contrast-checked. The open states live on the CaptureButton matrix.
+  - Telegram bot: it is Telegram's interface, not this product's.
+  - Tables on phones and tablets show rows as cards (data-mobile-view="cards") instead of scrolling sideways.
+  - The proposal "done" card, recording timer, playback, undo toast timing and filter behavior: static here, Nuxt behavior.
+- Frames: added inbox, inbox-approved, inbox-rejected, proposal-create, proposal-update, proposal-duplicate, proposal-conflict; dashboard-overview changed (shared chrome, pending count).
+
 ## 2026-10-28 — design-import/2026-10-28/ (stage 1 of 8)
 - Source: https://claude.ai/artifact/JtvjNW5danUWAVZHs6XcmE#page-dcb81aee8d83 (version 1793194370-9e63) — 34 artboards, platform.css, built on the published Acme system. Imported in stages; this stage: shared foundation + Dashboard. Next: Inbox → Clients → Projects → Finance → Team → Calendar and Settings → Sign in and employee space.
 - Applied:

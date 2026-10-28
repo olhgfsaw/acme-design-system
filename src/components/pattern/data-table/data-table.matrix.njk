@@ -1,0 +1,16 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/pattern/data-table/data-table.njk" import dataTable, tableCell %}
+{% set description = "The table shell: caption, headers, rows from row components, and every data state. Switch states with the tabs." %}
+{% block matrix %}
+
+{% set cols = [{ label: "Invoice" }, { label: "Client" }, { label: "Status" }, { label: "Amount", align: "end" }] %}
+{% set messages = { loading: "Loading…", emptyTitle: "No invoices yet", emptyText: "Invoices you create show up here with their status.", noResultsTitle: "No invoices match these filters", noResultsText: "Try another status or clear the filters.", reset: "Clear filters", errorTitle: "Invoices didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" } %}
+{% call section("table") %}
+  <div class="w-full max-w-3xl">{% call dataTable("Invoices", cols, state=state, messages=messages, emptyAction={ label: "Create invoice", href: "#", icon: "plus" }) %}
+    {% for r in [["INV-2026-047", "Northwind Health", "Paid", 1400000], ["INV-2026-049", "Klark Coffee Co.", "Draft", 450000], ["INV-2026-050", "Anderson Studio", "Sent", 475000]] %}
+    <tr class="{{ variants.dataTable.slots.row }}">{% call tableCell() %}{{ r[0] }}{% endcall %}{% call tableCell() %}{{ r[1] }}{% endcall %}{% call tableCell() %}{{ r[2] }}{% endcall %}{% call tableCell("end") %}<span class="tabular-nums">{{ r[3] | money }}</span>{% endcall %}</tr>
+    {% endfor %}
+  {% endcall %}</div>
+{% endcall %}
+{% endblock %}

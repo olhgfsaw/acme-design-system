@@ -3,7 +3,9 @@
   "variants": {
     "variant": {
       "outline": "rounded-md border border-control bg-surface px-3 text-sm shadow-xs",
-      "search": "rounded-full border border-transparent bg-surface-subtle ps-12 pe-5 text-base"
+      "search": "rounded-full border border-transparent bg-surface-subtle ps-12 pe-5 text-base",
+      "attention": "rounded-md border border-warning-border bg-warning-bg px-3 text-sm shadow-xs",
+      "missing": "rounded-md border border-danger-border bg-surface px-3 text-sm shadow-xs"
     },
     "size": {
       "sm": "h-8 pointer-coarse:h-11",

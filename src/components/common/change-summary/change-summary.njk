@@ -1,0 +1,9 @@
+{#- ChangeSummary. What an update changes on a record. Props: caption, rows [{ label, before, after }] (formatted values). -#}
+{% macro changeSummary(caption, rows) %}
+{%- set v = variants.changeSummary -%}
+<table data-component="ChangeSummary" class="{{ v.base }}">
+  <caption class="sr-only">{{ caption }}</caption>
+  <thead><tr><th scope="col" class="{{ v.slots.th }}">Field</th><th scope="col" class="{{ v.slots.th }}">Before</th><td aria-hidden="true"></td><th scope="col" class="{{ v.slots.th }}">After</th></tr></thead>
+  <tbody>{% for r in rows %}<tr><th scope="row" class="{{ v.slots.rowhead }}">{{ r.label }}</th><td class="{{ v.slots.before }}">{{ r.before }}</td><td class="{{ v.slots.arrow }}" aria-hidden="true">{{ icon("arrow-right", "size-4") }}</td><td class="{{ v.slots.after }}">{{ r.after }}</td></tr>{% endfor %}</tbody>
+</table>
+{%- endmacro %}

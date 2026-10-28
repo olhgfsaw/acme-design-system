@@ -1,0 +1,8 @@
+{#- FilePreview. An attached document with a page thumbnail. Props: name, meta ("PDF · 2 pages · 184 KB"), summary (the key line AI read from it), lines [{ width (0–100), kind: line | dark | hl }] for the thumbnail. The thumbnail column is 88 px wide, from the spacing scale. -#}
+{% macro filePreview(name, meta, summary=null, lines=[]) %}
+{%- set v = variants.filePreview -%}
+<figure data-component="FilePreview" class="{{ v.base }}">
+  <svg class="{{ v.slots.page }}" viewBox="0 0 100 112" preserveAspectRatio="none" aria-hidden="true" focusable="false">{% for l in lines %}<rect x="10" y="{{ 10 + loop.index0 * 9 }}" width="{{ l.width * 0.8 }}" height="{{ 6 if l.kind == "hl" else 4 }}" rx="2" class="{{ v.slots.barHl if l.kind == "hl" else (v.slots.barDark if l.kind == "dark" else v.slots.bar) }}"></rect>{% endfor %}</svg>
+  <figcaption class="{{ v.slots.text }}"><span class="{{ v.slots.name }}" title="{{ name }}">{{ name }}</span><span class="{{ v.slots.meta }}">{{ meta }}</span>{% if summary %}<span class="{{ v.slots.summary }}">{{ summary }}</span>{% endif %}</figcaption>
+</figure>
+{%- endmacro %}

@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/file-preview/file-preview.njk" import filePreview %}
+{% set description = "An attached document with a page thumbnail and what AI read from it." %}
+{% block matrix %}
+
+{% set lines = [{ width: 60, kind: "dark" }, { width: 90 }, { width: 80 }, { width: 85 }, { width: 70, kind: "hl" }, { width: 90 }, { width: 50 }, { width: 75 }, { width: 88 }, { width: 40 }] %}
+{% call section("file") %}
+  {% call cell("pdf") %}<div class="w-96">{{ filePreview("Klark October scope.pdf", "PDF · 2 pages · 184 KB", "Scope: 3 social videos, 12 posts, in-store posters. Fee $9,000.", lines) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

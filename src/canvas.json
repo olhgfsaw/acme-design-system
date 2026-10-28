@@ -23,6 +23,126 @@
           "status": "draft"
         }
       ]
+    },
+    {
+      "id": "inbox",
+      "title": "Inbox",
+      "frames": [
+        {
+          "id": "inbox",
+          "title": "Inbox · pending",
+          "page": "pages/inbox/list.njk",
+          "states": [
+            "loading",
+            "empty",
+            "no-results",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1240,
+          "status": "draft"
+        },
+        {
+          "id": "proposal-create",
+          "title": "Proposal · new invoice",
+          "page": "pages/inbox/proposal.njk",
+          "record": "create",
+          "states": [
+            "loading",
+            "error",
+            "stress"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1500,
+          "status": "draft"
+        },
+        {
+          "id": "proposal-update",
+          "title": "Proposal · record payment",
+          "page": "pages/inbox/proposal.njk",
+          "record": "update",
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1400,
+          "status": "draft"
+        },
+        {
+          "id": "proposal-duplicate",
+          "title": "Proposal · needs an answer",
+          "page": "pages/inbox/proposal.njk",
+          "record": "duplicate",
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1200,
+          "status": "draft"
+        },
+        {
+          "id": "proposal-conflict",
+          "title": "Proposal · conflict",
+          "page": "pages/inbox/proposal.njk",
+          "record": "conflict",
+          "states": [
+            "loading",
+            "error"
+          ],
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1300,
+          "status": "draft"
+        },
+        {
+          "id": "inbox-approved",
+          "title": "Inbox · approved",
+          "page": "pages/inbox/list.njk",
+          "tab": "approved",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 1000,
+          "status": "draft"
+        },
+        {
+          "id": "inbox-rejected",
+          "title": "Inbox · rejected",
+          "page": "pages/inbox/list.njk",
+          "tab": "rejected",
+          "viewports": [
+            1440,
+            768,
+            390
+          ],
+          "height": 900,
+          "status": "draft"
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,5 @@
+{#- InlinePanel. A short form that opens in place instead of a modal (reject with a reason, record a payment, invite). Props: id, title, text. Default slot = the fields and the two buttons. -#}
+{% macro inlinePanel(id, title, text=null) %}
+{%- set v = variants.inlinePanel -%}
+<section data-component="InlinePanel" aria-labelledby="{{ id }}-title" class="{{ v.base }}"><div class="{{ v.slots.head }}"><h2 id="{{ id }}-title" class="{{ v.slots.title }}">{{ title }}</h2>{% if text %}<p class="{{ v.slots.text }}">{{ text }}</p>{% endif %}</div>{% if caller %}{{ caller() }}{% endif %}</section>
+{%- endmacro %}

@@ -1,0 +1,25 @@
+{
+  "base": "group/row max-lg:flex max-lg:flex-col max-lg:gap-2 max-lg:border-b max-lg:border-divider max-lg:py-4 max-lg:first:pt-0 max-lg:last:border-b-0 max-lg:last:pb-0",
+  "variants": {
+    "tone": {
+      "default": "bg-canvas text-fg-secondary",
+      "failed": "bg-danger-bg text-danger-fg"
+    }
+  },
+  "slots": {
+    "td": "border-b border-divider p-3 align-middle group-last/row:border-b-0 group-last/row:pb-0 first:ps-0 last:pe-0 max-lg:block max-lg:border-0 max-lg:p-0 max-lg:text-start",
+    "tdEnd": "border-b border-divider p-3 text-end align-middle group-last/row:border-b-0 group-last/row:pb-0 first:ps-0 last:pe-0 max-lg:block max-lg:border-0 max-lg:p-0 max-lg:text-start",
+    "cell": "flex min-w-0 items-center gap-3",
+    "type": "inline-flex size-10 shrink-0 items-center justify-center rounded-md",
+    "text": "flex min-w-0 flex-col",
+    "title": "truncate rounded-xs font-medium text-fg hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "titlePlain": "truncate font-medium text-fg",
+    "meta": "text-xs text-fg-muted",
+    "check": "flex flex-col items-start gap-1",
+    "spin": "size-3 motion-safe:animate-spin",
+    "link": "rounded-xs text-sm text-fg underline decoration-divider underline-offset-4 hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+  },
+  "defaultVariants": {
+    "tone": "default"
+  }
+}

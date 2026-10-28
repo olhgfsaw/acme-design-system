@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/bulk-action-bar/bulk-action-bar.njk" import bulkActionBar %}
+{% set description = "Act on several rows at once: the count, why some rows can't be included, Clear and the action." %}
+{% block matrix %}
+
+{% call section("state") %}
+  {% call cell("nothing selected") %}<div class="w-full max-w-3xl">{{ bulkActionBar("m-bab-1", "Approve several at once", "Select low-risk (2)", rule="Bulk approve works for tasks, time entries and notes. Money items are reviewed one by one.") }}</div>{% endcall %}
+  {% call cell("two selected") %}<div class="w-full max-w-3xl">{{ bulkActionBar("m-bab-2", "Approve several at once", "2 selected", selected=2, rule="Bulk approve works for tasks, time entries and notes. Money items are reviewed one by one.", approveLabel="Approve 2") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}
