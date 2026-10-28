@@ -44,5 +44,129 @@
       },
       "tone": "danger"
     }
+  },
+  "projectStage": {
+    "discovery": {
+      "label": {
+        "en": "Discovery"
+      },
+      "tone": "neutral"
+    },
+    "design": {
+      "label": {
+        "en": "Design"
+      },
+      "tone": "neutral"
+    },
+    "development": {
+      "label": {
+        "en": "Development"
+      },
+      "tone": "neutral"
+    },
+    "review": {
+      "label": {
+        "en": "Review"
+      },
+      "tone": "neutral"
+    },
+    "launch": {
+      "label": {
+        "en": "Launch"
+      },
+      "tone": "neutral"
+    }
+  },
+  "taskStatus": {
+    "todo": {
+      "label": {
+        "en": "To do"
+      },
+      "tone": "neutral"
+    },
+    "in_progress": {
+      "label": {
+        "en": "In progress"
+      },
+      "tone": "info"
+    },
+    "in_review": {
+      "label": {
+        "en": "In review"
+      },
+      "tone": "warning"
+    },
+    "done": {
+      "label": {
+        "en": "Done"
+      },
+      "tone": "success"
+    }
+  },
+  "proposalSource": {
+    "telegram_voice": {
+      "label": {
+        "en": "Telegram voice"
+      },
+      "tone": "neutral"
+    },
+    "telegram_text": {
+      "label": {
+        "en": "Telegram"
+      },
+      "tone": "neutral"
+    },
+    "email": {
+      "label": {
+        "en": "Email"
+      },
+      "tone": "neutral"
+    },
+    "web_capture": {
+      "label": {
+        "en": "Web capture"
+      },
+      "tone": "neutral"
+    }
+  },
+  "proposalAction": {
+    "create": {
+      "label": {
+        "en": "Create"
+      },
+      "tone": "neutral"
+    },
+    "update": {
+      "label": {
+        "en": "Update"
+      },
+      "tone": "neutral"
+    },
+    "duplicate": {
+      "label": {
+        "en": "Duplicate"
+      },
+      "tone": "neutral"
+    }
+  },
+  "proposalCheck": {
+    "to_check": {
+      "label": {
+        "en": "Fields to check"
+      },
+      "tone": "warning"
+    },
+    "matched": {
+      "label": {
+        "en": "All matched"
+      },
+      "tone": "success"
+    },
+    "needs_answer": {
+      "label": {
+        "en": "Needs your answer"
+      },
+      "tone": "info"
+    }
   }
 }

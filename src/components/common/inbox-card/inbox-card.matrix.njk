@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/inbox-card/inbox-card.njk" import inboxCard %}
+{% set description = "Proposals waiting for review, with the newest three." %}
+{% block matrix %}
+
+{% set items = [{ title: "New invoice · Klark Coffee Co. · $9,000", href: "#", meta: "Telegram voice · Daniel Kim · 25 min ago", icon: "file-text", action: "Create", check: "2 fields to check", checkTone: "warning" }, { title: "Record payment · Northwind Health · $14,000", href: "#", meta: "Email · Daniel Kim · 1 hour ago", icon: "mail", action: "Update", check: "All matched", checkTone: "success" }, { title: "Duplicate the July invoice into August", href: "#", meta: "Web capture · Daniel Kim · 2 hours ago", icon: "globe", action: "Duplicate", check: "Needs your answer", checkTone: "info" }] %}
+{% call section("count") %}
+  <div class="w-full">{{ inboxCard("m-ibx-1", 7, items, "#") }}</div>
+  <div class="w-full">{{ inboxCard("m-ibx-2", 0, [], "#") }}</div>
+{% endcall %}
+{% endblock %}

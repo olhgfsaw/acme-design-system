@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/tabs/tabs.njk" import tabs %}
+{% set description = "Underline tabs. Buttons switch panels (Reka Tabs); links move between sections (aria-current)." %}
+{% block matrix %}
+
+{% call section("panels") %}
+  {% call cell("second active, with counts") %}<div class="w-full max-w-xl">{{ tabs([{ id: "m-t-overview", label: "Overview" }, { id: "m-t-invoices", label: "Invoices", count: 12 }, { id: "m-t-files", label: "Files", count: 4 }], "m-t-invoices", "Client sections") }}<div id="m-t-overview-panel" role="tabpanel" aria-labelledby="m-t-overview-tab" hidden></div><div id="m-t-invoices-panel" role="tabpanel" aria-labelledby="m-t-invoices-tab"></div><div id="m-t-files-panel" role="tabpanel" aria-labelledby="m-t-files-tab" hidden></div></div>{% endcall %}
+{% endcall %}
+{% call section("links") %}
+  {% call cell("current page") %}<div class="w-full max-w-xl">{{ tabs([{ id: "profile", label: "Profile", href: "#profile" }, { id: "security", label: "Sign-in and security", href: "#security" }, { id: "notifications", label: "Notifications", href: "#notifications" }], "profile", "Account") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

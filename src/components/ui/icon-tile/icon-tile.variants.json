@@ -2,6 +2,7 @@
   "base": "inline-flex shrink-0 items-center justify-center rounded-md text-fg-secondary",
   "variants": {
     "size": {
+      "sm": "size-9",
       "md": "size-11",
       "lg": "size-14"
     },

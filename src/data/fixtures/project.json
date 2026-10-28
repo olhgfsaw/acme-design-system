@@ -5,92 +5,89 @@
       {
         "id": 101,
         "title": "Website redesign",
-        "clientName": "James Anderson",
+        "clientName": "Anderson Studio",
         "kind": "website",
         "status": "in_progress",
         "health": "normal",
-        "progressPercent": 51
+        "stage": "development",
+        "cover": "ink",
+        "progressPercent": 51,
+        "dueDate": "2026-12-12",
+        "pinned": true,
+        "openedAt": "2026-10-28T09:10:00Z"
       },
       {
         "id": 102,
         "title": "App development",
-        "clientName": "Sarah Johnson",
+        "clientName": "Northwind Health",
         "kind": "app",
         "status": "in_progress",
         "health": "on_track",
-        "progressPercent": 84
+        "stage": "review",
+        "cover": "dots",
+        "progressPercent": 84,
+        "dueDate": "2026-11-20",
+        "openedAt": "2026-10-27T16:40:00Z"
       },
       {
         "id": 103,
-        "title": "Spring campaign",
-        "clientName": "Michael Klark",
+        "title": "Marketing campaign",
+        "clientName": "Klark Coffee Co.",
         "kind": "marketing",
         "status": "in_progress",
         "health": "normal",
-        "progressPercent": 66
+        "stage": "development",
+        "cover": "rings",
+        "progressPercent": 66,
+        "dueDate": "2026-11-30",
+        "openedAt": "2026-10-26T11:05:00Z"
       },
       {
         "id": 104,
         "title": "Landing page design",
-        "clientName": "Abdur Rahman",
+        "clientName": "Rahman Logistics",
         "kind": "landing",
         "status": "in_progress",
         "health": "at_risk",
-        "progressPercent": 29
+        "stage": "design",
+        "cover": "stripes",
+        "progressPercent": 29,
+        "dueDate": "2026-11-14"
       },
       {
         "id": 105,
-        "title": "Customer portal",
-        "clientName": "Emily Carter",
-        "kind": "app",
-        "status": "in_progress",
-        "health": "normal",
-        "progressPercent": 40
+        "title": "Brand guidelines",
+        "clientName": "Anderson Studio",
+        "kind": "marketing",
+        "status": "completed",
+        "health": "on_track",
+        "stage": "launch",
+        "cover": "grid",
+        "progressPercent": 100,
+        "dueDate": "2026-09-30"
       },
       {
         "id": 106,
-        "title": "Brand refresh",
-        "clientName": "Northwind Traders",
-        "kind": "marketing",
-        "status": "completed",
-        "health": "on_track",
-        "progressPercent": 100
-      },
-      {
-        "id": 107,
-        "title": "Pricing page",
-        "clientName": "Sarah Johnson",
-        "kind": "landing",
-        "status": "completed",
-        "health": "on_track",
-        "progressPercent": 100
-      },
-      {
-        "id": 108,
         "title": "Help center",
-        "clientName": "James Anderson",
+        "clientName": "Bennett Fitness",
         "kind": "website",
         "status": "in_review",
         "health": "normal",
-        "progressPercent": 95
+        "stage": "review",
+        "cover": "plain",
+        "progressPercent": 95,
+        "dueDate": "2026-11-06"
       },
       {
-        "id": 109,
+        "id": 107,
         "title": "Partner onboarding",
-        "clientName": "Contoso Ltd.",
+        "clientName": "Lopez Architects",
         "kind": "app",
         "status": "on_hold",
         "health": "at_risk",
+        "stage": "discovery",
+        "cover": "plain",
         "progressPercent": 12
-      },
-      {
-        "id": 110,
-        "title": "Holiday newsletter",
-        "clientName": "Michael Klark",
-        "kind": "marketing",
-        "status": "completed",
-        "health": "on_track",
-        "progressPercent": 100
       }
     ],
     "empty": [],
@@ -102,7 +99,12 @@
         "kind": "website",
         "status": "in_progress",
         "health": "normal",
-        "progressPercent": 51
+        "stage": "development",
+        "cover": "ink",
+        "progressPercent": 51,
+        "dueDate": "2026-12-12",
+        "pinned": true,
+        "openedAt": "2026-10-28T09:10:00Z"
       },
       {
         "id": 202,
@@ -111,7 +113,10 @@
         "kind": "app",
         "status": "in_progress",
         "health": "at_risk",
-        "progressPercent": 7
+        "stage": "design",
+        "cover": "dots",
+        "progressPercent": 7,
+        "dueDate": "2026-11-02"
       },
       {
         "id": 203,
@@ -120,6 +125,8 @@
         "kind": "marketing",
         "status": "in_review",
         "health": "on_track",
+        "stage": "review",
+        "cover": "grid",
         "progressPercent": 98
       }
     ],
@@ -127,19 +134,25 @@
       {
         "id": 900000001,
         "title": "Website redesign",
-        "clientName": "James Anderson",
+        "clientName": "Anderson Studio",
         "kind": "website",
         "status": "in_progress",
         "health": "normal",
-        "progressPercent": 100
+        "stage": "launch",
+        "cover": "ink",
+        "progressPercent": 100,
+        "dueDate": "2026-12-12",
+        "pinned": true
       },
       {
         "id": 900000002,
         "title": "App development",
-        "clientName": "Sarah Johnson",
+        "clientName": "Northwind Health",
         "kind": "app",
         "status": "in_progress",
         "health": "on_track",
+        "stage": "discovery",
+        "cover": "dots",
         "progressPercent": 0
       }
     ],
@@ -150,6 +163,8 @@
         "kind": "app",
         "status": "in_progress",
         "health": "normal",
+        "stage": "discovery",
+        "cover": "plain",
         "progressPercent": 0
       },
       {
@@ -158,6 +173,8 @@
         "kind": "landing",
         "status": "on_hold",
         "health": "normal",
+        "stage": "design",
+        "cover": "stripes",
         "progressPercent": 10
       }
     ],

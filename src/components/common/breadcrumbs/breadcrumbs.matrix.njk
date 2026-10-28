@@ -1,0 +1,11 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/breadcrumbs/breadcrumbs.njk" import breadcrumbs %}
+{% set description = "Where this page sits; the last item is the current page." %}
+{% block matrix %}
+
+{% call section("depth") %}
+  {% call cell("two levels") %}{{ breadcrumbs([{ label: "Clients", href: "#" }, { label: "Klark Coffee Co." }]) }}{% endcall %}
+  {% call cell("three levels") %}{{ breadcrumbs([{ label: "Projects", href: "#" }, { label: "Website redesign", href: "#" }, { label: "Board" }]) }}{% endcall %}
+{% endcall %}
+{% endblock %}

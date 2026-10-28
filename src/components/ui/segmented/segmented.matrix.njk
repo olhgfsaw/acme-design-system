@@ -1,0 +1,14 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/segmented/segmented.njk" import segmented %}
+{% set description = "A short switch between views of the same data." %}
+{% block matrix %}
+
+{% call section("buttons") %}
+  {% call cell("first on") %}{{ segmented([{ id: "list", label: "List", icon: "list" }, { id: "board", label: "Board", icon: "kanban" }], "list", "Project view") }}{% endcall %}
+  {% call cell("second on") %}{{ segmented([{ id: "month", label: "Month" }, { id: "week", label: "Week" }, { id: "day", label: "Day" }], "week", "Calendar range") }}{% endcall %}
+{% endcall %}
+{% call section("links") %}
+  {% call cell("current page") %}{{ segmented([{ id: "list", label: "List", icon: "list", href: "#list" }, { id: "board", label: "Board", icon: "kanban", href: "#board" }], "board", "Project view") }}{% endcall %}
+{% endcall %}
+{% endblock %}

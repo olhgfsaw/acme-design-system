@@ -1,0 +1,11 @@
+{#- BaseSegmented. Props: items [{ id, label, icon, href }], active (id), label. A short switch between views (List · Board, Month · Week). Buttons: Reka ToggleGroup type single (data-state on / off). With href: links, the current one has aria-current="page". -#}
+{% macro segmented(items, active, label) %}
+{%- set v = variants.segmented -%}
+{%- set links = (items | first).href -%}
+<div role="group" aria-label="{{ label }}" data-component="BaseSegmented" class="{{ v.base }}">
+  {%- for it in items %}{% set on = it.id == active %}
+  {%- if links %}<a href="{{ it.href }}"{% if on %} aria-current="page"{% endif %} class="{{ v.slots.item }}">{% if it.icon %}{{ icon(it.icon, "size-4") }}{% endif %}{{ it.label }}</a>
+  {%- else %}<button type="button" aria-pressed="{{ "true" if on else "false" }}" data-state="{{ "on" if on else "off" }}" class="{{ v.slots.item }}">{% if it.icon %}{{ icon(it.icon, "size-4") }}{% endif %}{{ it.label }}</button>{% endif %}
+  {%- endfor %}
+</div>
+{%- endmacro %}

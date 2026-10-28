@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task",
+  "x-entity": "task",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "projectId",
+    "title",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "projectId": {
+      "type": "integer",
+      "description": "The project whose board holds the task"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "What needs doing"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "todo",
+        "in_progress",
+        "in_review",
+        "done"
+      ],
+      "x-dict": "taskStatus",
+      "description": "Board column; labels and tones in statuses.json"
+    },
+    "dueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Due date; absent when not set"
+    },
+    "assigneeName": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 120,
+      "description": "Who does it; null when unassigned"
+    }
+  }
+}

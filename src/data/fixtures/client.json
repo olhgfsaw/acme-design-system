@@ -4,57 +4,49 @@
     "typical": [
       {
         "id": 41,
-        "name": "James Anderson",
-        "revenueMinor": 2150000,
+        "name": "Sarah Johnson",
+        "companyName": "Northwind Health",
+        "revenueMinor": 4200000,
         "currency": "USD",
         "avatarUrl": null
       },
       {
         "id": 42,
-        "name": "Sarah Johnson",
-        "revenueMinor": 2780000,
+        "name": "James Anderson",
+        "companyName": "Anderson Studio",
+        "revenueMinor": 3150000,
         "currency": "USD",
         "avatarUrl": null
       },
       {
         "id": 43,
-        "name": "Michael Klark",
-        "revenueMinor": 3250000,
+        "name": "Noah Bennett",
+        "companyName": "Bennett Fitness",
+        "revenueMinor": 2480000,
         "currency": "USD",
         "avatarUrl": null
       },
       {
         "id": 44,
-        "name": "Abdur Rahman",
-        "revenueMinor": 1460000,
+        "name": "Michael Klark",
+        "companyName": "Klark Coffee Co.",
+        "revenueMinor": 2260000,
         "currency": "USD",
         "avatarUrl": null
       },
       {
         "id": 45,
-        "name": "Emily Carter",
-        "revenueMinor": 980000,
+        "name": "Emma Lopez",
+        "companyName": "Lopez Architects",
+        "revenueMinor": 1710000,
         "currency": "USD",
         "avatarUrl": null
       },
       {
         "id": 46,
-        "name": "Northwind Traders",
-        "revenueMinor": 1720000,
-        "currency": "USD",
-        "avatarUrl": null
-      },
-      {
-        "id": 47,
-        "name": "Contoso Ltd.",
-        "revenueMinor": 640000,
-        "currency": "USD",
-        "avatarUrl": null
-      },
-      {
-        "id": 48,
-        "name": "Fabrikam Inc.",
-        "revenueMinor": 1130000,
+        "name": "Abdur Rahman",
+        "companyName": "Rahman Logistics",
+        "revenueMinor": 980000,
         "currency": "USD",
         "avatarUrl": null
       }

@@ -1,0 +1,124 @@
+{
+  "entity": "proposal",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 801,
+        "title": "New invoice · Klark Coffee Co. · $9,000",
+        "source": "telegram_voice",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-28T11:35:00Z",
+        "action": "create",
+        "check": "to_check",
+        "fieldsToCheck": 2,
+        "kind": "invoice"
+      },
+      {
+        "id": 802,
+        "title": "Record payment · Northwind Health · $14,000",
+        "source": "email",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-28T11:00:00Z",
+        "action": "update",
+        "check": "matched",
+        "kind": "payment"
+      },
+      {
+        "id": 803,
+        "title": "Duplicate the July invoice into August",
+        "source": "web_capture",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "action": "duplicate",
+        "check": "needs_answer",
+        "kind": "invoice"
+      },
+      {
+        "id": 804,
+        "title": "New project · Bennett Fitness spring promo",
+        "source": "telegram_text",
+        "authorName": "Olivia Foster",
+        "createdAt": "2026-10-28T08:20:00Z",
+        "action": "create",
+        "check": "to_check",
+        "fieldsToCheck": 1,
+        "kind": "project"
+      },
+      {
+        "id": 805,
+        "title": "New client · Harbor Dental",
+        "source": "email",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-27T16:45:00Z",
+        "action": "create",
+        "check": "matched",
+        "kind": "client"
+      },
+      {
+        "id": 806,
+        "title": "Move “Homepage build” to review",
+        "source": "telegram_voice",
+        "authorName": "James Reed",
+        "createdAt": "2026-10-27T15:10:00Z",
+        "action": "update",
+        "check": "matched",
+        "kind": "task"
+      },
+      {
+        "id": 807,
+        "title": "Record payment · Anderson Studio · $4,750",
+        "source": "email",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-27T09:30:00Z",
+        "action": "update",
+        "check": "to_check",
+        "fieldsToCheck": 1,
+        "kind": "payment"
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 811,
+        "title": "New invoice · Alexandria Montgomery-Fitzgerald Consulting Group International · October retainer and extra content migration work",
+        "source": "email",
+        "authorName": "Konstantinopolsky-Alexandrovsky Vladislav",
+        "createdAt": "2026-10-28T11:35:00Z",
+        "action": "create",
+        "check": "to_check",
+        "fieldsToCheck": 4,
+        "kind": "invoice"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000801,
+        "title": "Record payment · Northwind Health · $1,234,567,890",
+        "source": "email",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-28T11:00:00Z",
+        "action": "update",
+        "check": "to_check",
+        "fieldsToCheck": 999,
+        "kind": "payment"
+      }
+    ],
+    "partial": [
+      {
+        "id": 821,
+        "title": "Duplicate the July invoice into August",
+        "source": "web_capture",
+        "authorName": "Daniel Kim",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "action": "duplicate",
+        "check": "needs_answer"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{#- PinnedProject. Props: id, project { title, href, client, due, monogram, cover, boardHref } (null shows the empty card), stages, current, percent, tasks (TaskList items), openCount, recent [{ title, href, meta }] and allHref (empty card), unpinLabel, undo (the name of the project just unpinned). One per dashboard, in the first column. -#}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/common/project-cover/project-cover.njk" import projectCover %}
+{% from "components/common/stage-tracker/stage-tracker.njk" import stageTracker %}
+{% from "components/common/task-list/task-list.njk" import taskList %}
+{% macro pinnedProject(id, project=null, stages=[], current=0, percent=null, tasks=[], openCount=0, recent=[], allHref="#", undo=null) %}
+{%- set v = variants.pinnedProject -%}
+<section data-component="PinnedProject" aria-labelledby="{{ id }}-title" class="{{ v.base }}">
+  <div class="{{ v.slots.top }}"><p class="{{ v.slots.kicker }}">{{ icon("pin", "size-4") }}Pinned project</p>{% if project %}{{ iconButton("Unpin " ~ project.title ~ " from the dashboard", "pin-off", variant="surface", size="sm") }}{% endif %}</div>
+  {%- if project %}
+  <div class="{{ v.slots.titleBlock }}"><h2 id="{{ id }}-title" class="{{ v.slots.title }}"><a href="{{ project.href }}" class="{{ v.slots.titleLink }}">{{ project.title }}</a></h2><p class="{{ v.slots.text }}">{{ project.client }}{% if project.due %} · Due {{ project.due }}{% endif %}</p></div>
+  <div class="{{ v.slots.progress }}">{{ projectCover(id ~ "-cover", project.monogram, pattern=project.cover, href=project.href, label="Open " ~ project.title) }}{% if stages | length %}{{ stageTracker(stages, current, percent=percent, inset=true) }}{% endif %}</div>
+  <div class="{{ v.slots.sheet }}">
+    <div class="{{ v.slots.sheetHead }}"><h3 class="{{ v.slots.sheetTitle }}">Up next on the board</h3><span class="{{ v.slots.count }}">{{ openCount | number }} open</span></div>
+    {%- if tasks | length %}{{ taskList(tasks, "Up next on the board") }}{% else %}<p class="{{ v.slots.text }}">No open tasks on the board.</p>{% endif %}
+    {{ button("Open board", size="lg", iconLeading="kanban", href=project.boardHref, layout="w-full") }}
+  </div>
+  {%- else %}
+  <div class="{{ v.slots.titleBlock }}"><h2 id="{{ id }}-title" class="{{ v.slots.title }}">Nothing pinned yet</h2><p class="{{ v.slots.text }}">Open a project and press Pin to dashboard. It stays here with its progress and the next tasks from its board.</p></div>
+  <div role="status">{% if undo %}<div class="{{ v.slots.undo }}"><span class="{{ v.slots.undoText }}">{{ undo }} unpinned</span>{{ button("Undo", variant="secondary", size="sm") }}</div>{% endif %}</div>
+  <div class="{{ v.slots.sheet }}">
+    <h3 class="{{ v.slots.sheetTitle }}">Recently opened</h3>
+    {%- if recent | length %}
+    <ul class="{{ v.slots.recent }}">{% for r in recent %}<li class="{{ v.slots.recentItem }}"><span class="{{ v.slots.recentBody }}"><a href="{{ r.href }}" class="{{ v.slots.recentTitle }}" title="{{ r.title }}">{{ r.title }}</a><span class="{{ v.slots.recentMeta }}">{{ r.meta }}</span></span>{{ icon("chevron-right", v.slots.chevron) }}</li>{% endfor %}</ul>
+    {%- else %}<p class="{{ v.slots.text }}">Projects you open appear here.</p>{% endif %}
+    {{ button("All projects", size="lg", iconTrailing="arrow-right", href=allHref, layout="w-full") }}
+  </div>
+  {%- endif %}
+</section>
+{%- endmacro %}

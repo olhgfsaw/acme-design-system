@@ -11,6 +11,21 @@ Log written by `/import-design`. Newest first. One entry per import.
 - Frames: added …, changed … (approved: … — needs the client again)
 -->
 
+## 2026-10-28 — design-import/2026-10-28/ (stage 1 of 8)
+- Source: https://claude.ai/artifact/JtvjNW5danUWAVZHs6XcmE#page-dcb81aee8d83 (version 1793194370-9e63) — 34 artboards, platform.css, built on the published Acme system. Imported in stages; this stage: shared foundation + Dashboard. Next: Inbox → Clients → Projects → Finance → Team → Calendar and Settings → Sign in and employee space.
+- Applied:
+  - Dashboard: pinned project (cover, stage bar, next tasks, Open board) replaces the promo; Inbox card across the bottom; Team workload replaces Team performance; card headers link to their section; top bar gets Capture and the account menu; Inbox count on the rail; actions are links.
+  - New components (draft): BaseTextarea, BaseSelect, BaseCheckbox, BaseSwitch, BaseTabs, BaseSegmented, Breadcrumbs, BaseDropdown, UserMenu, ProjectCover, StageTracker, TaskList, PinnedProject, InboxCard, CaptureButton.
+  - Changed components (every use changes): BaseButton and BaseIconButton render links with `href`; BaseIconButton announces a popup (`haspopup`, `expanded`); BaseAvatar size `xs`; IconTile size `sm`; NavRail item `count`; BaseCard `actionHref` / `actionLabel`; CountdownTimer 60 → 48 px.
+  - Data: referenceDate → 2026-10-28; project gets stage, cover, due date, pinned, opened; new task and proposal contracts; team member workload replaces performance; client company; revenue May–Oct 2026; statuses projectStage, taskStatus, proposalSource, proposalAction, proposalCheck.
+- Renamed to the base-set names: FormTextarea → BaseTextarea, FormSelect → BaseSelect.
+- Snaps: countdown 52 → text-5xl (48); cover height 168 → h-40 (160); cover strip 88 / 112 → h-24 (96); monogram 28 → text-3xl (30); stage dot ring 5 → 4 px; checkbox 18 → size-4 (16), corner 5 → rounded-xs (2); task rows 10 → 12 px; avatar 28 → size-7 (28, text 11 → 12).
+- Not applied:
+  - CSS-gradient cover patterns → drawn in SVG from the same tokens; on grid, rings and stripes the monogram sits on a surface chip (the dark-theme tone backgrounds are translucent, so text over the pattern can't be checked).
+  - Behavior (open / close menus and capture, unpin with undo, recording timer, series toggles) — static states here, Reka in Nuxt.
+  - Nav links point to sections that are not imported yet (`#inbox`, `#clients` …).
+- Frames: changed dashboard-overview (draft); added 15 component matrices.
+
 ## 2026-10-21 — design-import/2026-10-21-2/
 - Source: Dashboard Overview https://claude.ai/artifact/JtvjNW5danUWAVZHs6XcmE#artboard-15dd8cd198dd (Main.dc.html; built on the old Acme system, mapped by value).
 - Applied:

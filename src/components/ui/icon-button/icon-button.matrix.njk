@@ -11,6 +11,9 @@
     {% call cell("disabled") %}<div class="rounded-md bg-canvas p-3">{{ iconButton(sample.delete, "trash-2", variant=variant, disabled=true) }}</div>{% endcall %}
   {% endcall %}
 {% endfor %}
+{% call section("as a link") %}
+  {% call cell("muted · sm · href") %}<div class="rounded-md bg-surface p-3">{{ iconButton(sample.expand, "arrow-up-right", variant="muted", size="sm", href="#") }}</div>{% endcall %}
+{% endcall %}
 {% call section("unread dot") %}
   {% call cell("secondary · md") %}{{ iconButton(sample.notificationsUnread, "bell", variant="secondary", dot=true) }}{% endcall %}
 {% endcall %}

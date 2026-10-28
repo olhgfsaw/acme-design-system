@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Proposal",
+  "x-entity": "proposal",
+  "x-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "source",
+    "authorName",
+    "createdAt",
+    "action",
+    "check"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "What the proposal would do, in one line"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "telegram_voice",
+        "telegram_text",
+        "email",
+        "web_capture"
+      ],
+      "x-dict": "proposalSource",
+      "description": "Where the capture came from"
+    },
+    "authorName": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "Who sent the capture"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the proposal was ready (UTC)"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "create",
+        "update",
+        "duplicate"
+      ],
+      "x-dict": "proposalAction",
+      "description": "What approving it does"
+    },
+    "check": {
+      "type": "string",
+      "enum": [
+        "to_check",
+        "matched",
+        "needs_answer"
+      ],
+      "x-dict": "proposalCheck",
+      "description": "What the reviewer has to do"
+    },
+    "fieldsToCheck": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "How many guessed fields to check; only with check = to_check"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "invoice",
+        "payment",
+        "project",
+        "client",
+        "task"
+      ],
+      "description": "The record it creates or changes; picks the icon"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{#- InboxCard. Props: id, count (proposals waiting), items [{ title, href, meta, icon, action, check, checkTone }] (the newest three), href (the inbox). Proposals come from voice, text and files; nothing changes until someone approves them. -#}
+{% from "components/ui/icon-tile/icon-tile.njk" import iconTile %}
+{% from "components/ui/badge/badge.njk" import badge %}
+{% from "components/ui/button/button.njk" import button %}
+{% macro inboxCard(id, count, items, href) %}
+{%- set v = variants.inboxCard -%}
+<section data-component="InboxCard" aria-labelledby="{{ id }}-title" class="{{ v.base }}">
+  <div class="{{ v.slots.head }}">
+    <div class="{{ v.slots.headText }}">{{ iconTile("inbox") }}<div class="{{ v.slots.titleBlock }}"><h2 id="{{ id }}-title" class="{{ v.slots.title }}">{% if count %}{{ count | plural({ one: "# proposal to review", other: "# proposals to review" }) }}{% else %}Inbox is clear{% endif %}</h2><p class="{{ v.slots.text }}">From voice, text and files. Nothing changes until someone approves it.</p></div></div>
+    {{ button("Review inbox", iconTrailing="arrow-right", href=href) }}
+  </div>
+  {%- if items | length %}
+  <ul class="{{ v.slots.grid }}" aria-label="Newest proposals">
+    {%- for it in items %}
+    <li class="{{ v.slots.item }}"><div class="{{ v.slots.itemHead }}">{{ iconTile(it.icon, size="sm", tone="card") }}<span class="{{ v.slots.itemBody }}"><a href="{{ it.href }}" class="{{ v.slots.itemTitle }}" title="{{ it.title }}">{{ it.title }}</a><span class="{{ v.slots.itemMeta }}">{{ it.meta }}</span></span></div><div class="{{ v.slots.badges }}">{{ badge(it.action, dot=false) }}{{ badge(it.check, tone=it.checkTone, dot=false) }}</div></li>
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+</section>
+{%- endmacro %}

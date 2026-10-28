@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/textarea/textarea.njk" import textarea %}
+{% set description = "Multi-line text. Always with a visible label (FormField); aria-label here for the matrix only." %}
+{% block matrix %}
+
+{% call section("states") %}
+  {% call cell("empty") %}<div class="w-80">{{ textarea("m-ta-1", placeholder="Tell Acme what happened…", label="Note") }}</div>{% endcall %}
+  {% call cell("filled") %}<div class="w-80">{{ textarea("m-ta-2", value="Invoice Klark Coffee for the October campaign work, $9,000, same terms as last time.", label="Note") }}</div>{% endcall %}
+  {% call cell("invalid") %}<div class="w-80">{{ textarea("m-ta-3", invalid=true, label="Note") }}</div>{% endcall %}
+  {% call cell("disabled") %}<div class="w-80">{{ textarea("m-ta-4", value=sample.readOnly, disabled=true, label="Note") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

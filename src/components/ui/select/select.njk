@@ -1,0 +1,12 @@
+{#- BaseSelect. Props: id, options [{ value, label }], value (selected), name, invalid, required, disabled, describedby, label (aria-label only without a visible label). A native select styled as a field; Reka Select in Nuxt. -#}
+{% macro select(id, options, value=null, name=null, invalid=false, required=false, disabled=false, describedby=null, label=null) %}
+{%- set v = variants.select -%}
+<div class="{{ v.slots.wrapper }}"><select id="{{ id }}" name="{{ name or id }}" data-component="BaseSelect" class="{{ v.base }}"
+  {%- if label %} aria-label="{{ label }}"{% endif %}
+  {%- if invalid %} aria-invalid="true"{% endif %}
+  {%- if required %} required{% endif %}
+  {%- if disabled %} disabled{% endif %}
+  {%- if describedby %} aria-describedby="{{ describedby }}"{% endif %}>
+  {%- for o in options %}<option value="{{ o.value }}"{% if o.value == value %} selected{% endif %}>{{ o.label }}</option>{% endfor -%}
+</select>{{ icon("chevron-down", v.slots.chevron) }}</div>
+{%- endmacro %}

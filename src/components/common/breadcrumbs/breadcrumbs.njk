@@ -1,0 +1,9 @@
+{#- Breadcrumbs. Props: items [{ label, href }] — the last one is the current page and has no href. -#}
+{% macro breadcrumbs(items) %}
+{%- set v = variants.breadcrumbs -%}
+<nav aria-label="Breadcrumb" data-component="Breadcrumbs"><ol class="{{ v.base }}">
+  {%- for it in items %}
+  <li class="flex items-center gap-2">{% if not loop.first %}{{ icon("chevron-right", v.slots.separator) }}{% endif %}{% if loop.last %}<span aria-current="page" class="{{ v.slots.current }}">{{ it.label }}</span>{% else %}<a href="{{ it.href }}" class="{{ v.slots.link }}">{{ it.label }}</a>{% endif %}</li>
+  {%- endfor %}
+</ol></nav>
+{%- endmacro %}

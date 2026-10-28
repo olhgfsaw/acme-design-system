@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/switch/switch.njk" import switch %}
+{% set description = "An on / off setting that takes effect at once. data-state checked / unchecked as in Reka Switch." %}
+{% block matrix %}
+
+{% call section("states") %}
+  {% call cell("off") %}<div class="w-80">{{ switch("m-sw-1", "Email me a weekly summary") }}</div>{% endcall %}
+  {% call cell("on") %}<div class="w-80">{{ switch("m-sw-2", "Email me a weekly summary", checked=true) }}</div>{% endcall %}
+  {% call cell("with description") %}<div class="w-80">{{ switch("m-sw-3", "Sync with Google Calendar", description="Meetings you add here appear in your Google Calendar.", checked=true) }}</div>{% endcall %}
+  {% call cell("disabled") %}<div class="w-80">{{ switch("m-sw-4", "Email me a weekly summary", disabled=true) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

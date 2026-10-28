@@ -1,0 +1,24 @@
+{#- BaseDropdown. Props: id, label (menu name), trigger (rendered trigger with aria-haspopup="menu", aria-expanded and aria-controls="<id>"), open, align (start | end). Default slot = items: dropdownHeader, dropdownItem, dropdownSeparator. Reka DropdownMenu: positioning, keyboard and outside click live in Nuxt. -#}
+{% macro dropdown(id, label, trigger, open=false, align="start") %}
+{%- set v = variants.dropdown -%}
+<div data-component="BaseDropdown" class="{{ v.base }}">
+  {{ trigger | safe }}
+  {%- if open %}
+  <div id="{{ id }}" role="menu" aria-label="{{ label }}" data-state="open" class="{{ v.slots.content }} {{ v.variants.align[align] }}">{% if caller %}{{ caller() }}{% endif %}</div>
+  {%- endif %}
+</div>
+{%- endmacro %}
+
+{% macro dropdownItem(label, href=null, iconName=null, highlighted=false) %}
+{%- set v = variants.dropdown -%}
+{%- if href %}<a href="{{ href }}"{% else %}<button type="button"{% endif %} role="menuitem"{% if highlighted %} data-highlighted{% endif %} class="{{ v.slots.item }}">{% if iconName %}{{ icon(iconName, v.slots.itemIcon) }}{% endif %}<span>{{ label }}</span>{% if href %}</a>{% else %}</button>{% endif %}
+{%- endmacro %}
+
+{% macro dropdownHeader(title, text=null) %}
+{%- set v = variants.dropdown -%}
+<div class="{{ v.slots.header }}"><span class="{{ v.slots.headerTitle }}">{{ title }}</span>{% if text %}<span class="{{ v.slots.headerText }}">{{ text }}</span>{% endif %}</div>
+{%- endmacro %}
+
+{% macro dropdownSeparator() %}
+<div role="separator" class="{{ variants.dropdown.slots.separator }}"></div>
+{%- endmacro %}

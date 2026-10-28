@@ -1,0 +1,14 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/overlay/dropdown/dropdown.njk" import dropdown, dropdownItem, dropdownHeader, dropdownSeparator %}
+{% from "components/ui/button/button.njk" import button %}
+{% set description = "Contextual actions under a trigger. Shown open; the highlighted item is where the keyboard is." %}
+{% block matrix %}
+
+{% call section("open") %}
+  {% call cell("align start, second highlighted") %}<div class="h-72">
+    {% set trig %}<button type="button" aria-haspopup="menu" aria-expanded="true" aria-controls="m-dd-1" data-component="BaseButton" data-variant="secondary" data-size="sm" class="{{ variants.button.base }} {{ variants.button.variants.variant.secondary }} {{ variants.button.variants.size.sm }}">{{ icon("ellipsis", "size-4") }}<span>Actions</span></button>{% endset %}
+    {% call dropdown("m-dd-1", "Invoice actions", trig, open=true) %}{{ dropdownItem("Duplicate", iconName="copy") }}{{ dropdownItem("Download PDF", iconName="download", highlighted=true) }}{{ dropdownSeparator() }}{{ dropdownItem("Archive", iconName="archive") }}{% endcall %}
+  </div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{
+  "base": "relative flex flex-col gap-6 overflow-hidden rounded-lg bg-accent-subtle p-6",
+  "variants": {},
+  "slots": {
+    "top": "flex items-center justify-between gap-3",
+    "kicker": "inline-flex items-center gap-2 text-sm font-medium text-fg-secondary",
+    "titleBlock": "flex flex-col gap-1",
+    "title": "text-xl font-medium tracking-tight text-fg",
+    "titleLink": "rounded-xs hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "text": "text-sm text-fg-secondary",
+    "progress": "flex flex-col gap-4",
+    "sheet": "-mx-6 -mb-6 mt-auto flex flex-col gap-4 rounded-t-lg bg-surface p-6",
+    "sheetHead": "flex items-center justify-between gap-3",
+    "sheetTitle": "text-base font-medium text-fg",
+    "count": "inline-flex h-5 min-w-5 items-center justify-center rounded-sm bg-neutral-bg px-1.5 text-xs font-medium text-neutral-fg tabular-nums",
+    "recent": "flex flex-col",
+    "recentItem": "flex items-center justify-between gap-3 border-b border-divider py-3 first:pt-0 last:border-b-0",
+    "recentBody": "flex min-w-0 flex-col",
+    "recentTitle": "truncate rounded-xs text-sm font-medium text-fg hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "recentMeta": "text-xs text-fg-muted",
+    "chevron": "size-4 shrink-0 text-fg-muted",
+    "undo": "flex items-center justify-between gap-3 rounded-md bg-surface px-4 py-3",
+    "undoText": "text-sm text-fg"
+  },
+  "defaultVariants": {}
+}

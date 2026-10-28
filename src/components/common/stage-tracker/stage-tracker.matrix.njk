@@ -1,0 +1,15 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/stage-tracker/stage-tracker.njk" import stageTracker %}
+{% set description = "Where a project is among its stages: a compact bar for cards, numbered steps for the project page." %}
+{% block matrix %}
+
+{% set stages = [{ name: "Discovery", date: "Sep 8" }, { name: "Design", date: "Sep 29" }, { name: "Development", date: "Oct 20" }, { name: "Review", date: "Nov 24" }, { name: "Launch", date: "Dec 12" }] %}
+{% call section("compact") %}
+  {% call cell("on a white card") %}<div class="w-72">{{ stageTracker(stages, 2, percent=51) }}</div>{% endcall %}
+  {% call cell("inset (tinted card)") %}<div class="w-72 rounded-md bg-accent-subtle p-4">{{ stageTracker(stages, 2, percent=51, inset=true) }}</div>{% endcall %}
+{% endcall %}
+{% call section("full") %}
+  {% call cell("stage 3 of 5") %}<div class="w-full max-w-3xl">{{ stageTracker(stages, 2, variant="full") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -27,7 +27,8 @@
       "disabled",
       "loading",
       "iconLeading",
-      "iconTrailing"
+      "iconTrailing",
+      "href"
     ],
     "states": [
       "default",
@@ -64,7 +65,10 @@
       "variant",
       "size",
       "disabled",
-      "dot"
+      "dot",
+      "href",
+      "haspopup",
+      "expanded"
     ],
     "states": [
       "default",
@@ -182,6 +186,7 @@
     "path": "src/components/ui/avatar",
     "variants": {
       "size": [
+        "xs",
         "sm",
         "md"
       ]
@@ -240,6 +245,7 @@
     "path": "src/components/ui/icon-tile",
     "variants": {
       "size": [
+        "sm",
         "md",
         "lg"
       ],
@@ -322,7 +328,9 @@
       "id",
       "title",
       "expandLabel",
-      "level"
+      "level",
+      "actionHref",
+      "actionLabel"
     ],
     "states": [
       "default"
@@ -677,6 +685,349 @@
       "default"
     ],
     "reka": null,
+    "status": "draft"
+  },
+  "BaseTextarea": {
+    "description": "Multi-line text input, always inside FormField so it has a label, hint and error.",
+    "category": "ui",
+    "path": "src/components/ui/textarea",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "name",
+      "value",
+      "placeholder",
+      "rows",
+      "invalid",
+      "required",
+      "disabled",
+      "describedby",
+      "label"
+    ],
+    "states": [
+      "default",
+      "focus",
+      "invalid",
+      "disabled"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "BaseSelect": {
+    "description": "Pick one value from a short list; always inside FormField. Reka Select in Nuxt.",
+    "category": "ui",
+    "path": "src/components/ui/select",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "options",
+      "value",
+      "name",
+      "invalid",
+      "required",
+      "disabled",
+      "describedby",
+      "label"
+    ],
+    "states": [
+      "default",
+      "focus",
+      "invalid",
+      "disabled"
+    ],
+    "reka": "Select",
+    "status": "draft"
+  },
+  "BaseCheckbox": {
+    "description": "A yes / no choice with a visible label and optional description.",
+    "category": "ui",
+    "path": "src/components/ui/checkbox",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "label",
+      "description",
+      "checked",
+      "disabled"
+    ],
+    "states": [
+      "default",
+      "checked",
+      "focus",
+      "disabled"
+    ],
+    "reka": "Checkbox",
+    "status": "draft"
+  },
+  "BaseSwitch": {
+    "description": "An on / off setting that takes effect immediately, with a visible label.",
+    "category": "ui",
+    "path": "src/components/ui/switch",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "label",
+      "description",
+      "checked",
+      "disabled"
+    ],
+    "states": [
+      "default",
+      "checked",
+      "focus",
+      "disabled"
+    ],
+    "reka": "Switch",
+    "status": "draft"
+  },
+  "BaseTabs": {
+    "description": "Underline tabs: switch panels inside a page, or move between the sections of one area.",
+    "category": "ui",
+    "path": "src/components/ui/tabs",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "items",
+      "active",
+      "label"
+    ],
+    "states": [
+      "default",
+      "active",
+      "hover",
+      "focus"
+    ],
+    "reka": "Tabs",
+    "status": "draft"
+  },
+  "BaseSegmented": {
+    "description": "A short pill switch between views of the same data, such as List and Board.",
+    "category": "ui",
+    "path": "src/components/ui/segmented",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "items",
+      "active",
+      "label"
+    ],
+    "states": [
+      "default",
+      "on",
+      "hover",
+      "focus"
+    ],
+    "reka": "ToggleGroup",
+    "status": "draft"
+  },
+  "Breadcrumbs": {
+    "description": "Shows where a page sits in the product and links back up the path.",
+    "category": "common",
+    "path": "src/components/common/breadcrumbs",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "items"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "BaseDropdown": {
+    "description": "A menu of contextual actions or links that opens under its trigger.",
+    "category": "overlay",
+    "path": "src/components/overlay/dropdown",
+    "variants": {
+      "align": [
+        "start",
+        "end"
+      ]
+    },
+    "slots": [
+      "default"
+    ],
+    "props": [
+      "id",
+      "label",
+      "trigger",
+      "open",
+      "align"
+    ],
+    "states": [
+      "default",
+      "open",
+      "highlighted"
+    ],
+    "reka": "DropdownMenu",
+    "status": "draft"
+  },
+  "UserMenu": {
+    "description": "The account avatar in the top bar; it opens the profile, time-off and settings links and Log out.",
+    "category": "layout",
+    "path": "src/components/layout/user-menu",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "name",
+      "role",
+      "items",
+      "footer",
+      "open"
+    ],
+    "states": [
+      "default",
+      "open",
+      "focus"
+    ],
+    "reka": "DropdownMenu",
+    "status": "draft"
+  },
+  "ProjectCover": {
+    "description": "A project's cover: a token-drawn pattern with the project monogram, as a block, a card strip or a list tile.",
+    "category": "common",
+    "path": "src/components/common/project-cover",
+    "variants": {
+      "pattern": [
+        "ink",
+        "dots",
+        "grid",
+        "rings",
+        "stripes",
+        "plain"
+      ],
+      "size": [
+        "block",
+        "strip",
+        "tile"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "id",
+      "monogram",
+      "pattern",
+      "size",
+      "href",
+      "label"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "StageTracker": {
+    "description": "Shows which stage a project is in: a compact segmented bar for cards or numbered steps with dates for the project page.",
+    "category": "common",
+    "path": "src/components/common/stage-tracker",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "stages",
+      "current",
+      "percent",
+      "variant",
+      "inset"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "TaskList": {
+    "description": "A short list of the next tasks from a board with status, due date and assignee.",
+    "category": "common",
+    "path": "src/components/common/task-list",
+    "variants": {
+      "tone": [
+        "accent",
+        "warning",
+        "success",
+        "danger",
+        "neutral"
+      ]
+    },
+    "slots": [],
+    "props": [
+      "tasks",
+      "label"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "PinnedProject": {
+    "description": "The project pinned to the dashboard with its stage, progress and the next tasks from its board; without a pin it lists recently opened projects.",
+    "category": "common",
+    "path": "src/components/common/pinned-project",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "project",
+      "stages",
+      "current",
+      "percent",
+      "tasks",
+      "openCount",
+      "recent",
+      "allHref",
+      "undo"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "InboxCard": {
+    "description": "How many proposals wait for review in the inbox, with the newest three and a link to review them.",
+    "category": "common",
+    "path": "src/components/common/inbox-card",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "count",
+      "items",
+      "href"
+    ],
+    "states": [
+      "default"
+    ],
+    "reka": null,
+    "status": "draft"
+  },
+  "CaptureButton": {
+    "description": "Quick capture from the top bar: voice, text or files that AI turns into a proposal for review in Inbox.",
+    "category": "pattern",
+    "path": "src/components/pattern/capture-button",
+    "variants": {},
+    "slots": [],
+    "props": [
+      "id",
+      "open",
+      "text",
+      "attachments",
+      "recording",
+      "note"
+    ],
+    "states": [
+      "default",
+      "open",
+      "recording"
+    ],
+    "reka": "Popover",
     "status": "draft"
   }
 }

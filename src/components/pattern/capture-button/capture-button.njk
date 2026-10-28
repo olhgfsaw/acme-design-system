@@ -1,0 +1,23 @@
+{#- CaptureButton. Props: id, open, text, attachments [{ label, kind: "voice" | "file" }], recording (clock string or null), note (where the capture goes: Inbox for admins, the project lead for members). Say or type what happened; AI turns it into a proposal for review. Popover in Nuxt (Reka Popover); shown open here. The panel width is capped with calc(100vw - 2rem) so it never leaves a narrow screen. -#}
+{% from "components/ui/icon-button/icon-button.njk" import iconButton %}
+{% from "components/ui/button/button.njk" import button %}
+{% from "components/ui/textarea/textarea.njk" import textarea %}
+{% macro captureButton(id, open=false, text="", attachments=[], recording=null, note="Goes to Inbox. Nothing changes until someone approves it.") %}
+{%- set v = variants.captureButton -%}
+<div data-component="CaptureButton" class="{{ v.base }}">
+  {{ iconButton("Capture", "mic", variant="secondary", haspopup="dialog", expanded=open) }}
+  {%- if open %}
+  <div role="dialog" aria-labelledby="{{ id }}-title" data-state="open" class="{{ v.slots.panel }}">
+    <div class="{{ v.slots.head }}"><div class="{{ v.slots.titleBlock }}"><h2 id="{{ id }}-title" class="{{ v.slots.title }}">Capture</h2><p class="{{ v.slots.text }}">Say or type what happened. AI turns it into a proposal for review.</p></div>{{ iconButton("Close", "x", size="sm") }}</div>
+    <label for="{{ id }}-text" class="sr-only">Tell Acme what happened</label>
+    {{ textarea(id ~ "-text", value=text, placeholder="Tell Acme what happened…") }}
+    <div role="status">{% if recording %}<div class="{{ v.slots.recording }}"><span class="{{ v.slots.recDot }}" aria-hidden="true"></span><span class="{{ v.slots.recLabel }}">Recording</span><span class="{{ v.slots.recClock }}">{{ recording }}</span>{{ button("Stop", variant="secondary", size="sm", iconLeading="square") }}</div>{% endif %}</div>
+    {%- if attachments | length %}
+    <ul class="{{ v.slots.chips }}" aria-label="Attached">{% for a in attachments %}<li class="{{ v.slots.chip }}">{{ icon("audio-lines" if a.kind == "voice" else "file", v.slots.chipIcon) }}<span class="{{ v.slots.chipLabel }}">{{ a.label }}</span><button type="button" aria-label="Remove {{ a.label }}" class="{{ v.slots.chipRemove }}">{{ icon("x", "size-3") }}</button></li>{% endfor %}</ul>
+    {%- endif %}
+    <div class="{{ v.slots.actions }}">{{ button("Record voice", variant="secondary", size="sm", iconLeading="mic", disabled=(recording is not none)) }}{{ button("Attach files", variant="secondary", size="sm", iconLeading="paperclip") }}{{ button("Send", size="sm", iconLeading="send", disabled=(not text and not (attachments | length)), layout="ms-auto") }}</div>
+    <p class="{{ v.slots.text }}">{{ note }}</p>
+  </div>
+  {%- endif %}
+</div>
+{%- endmacro %}

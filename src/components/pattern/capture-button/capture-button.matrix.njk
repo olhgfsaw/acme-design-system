@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/pattern/capture-button/capture-button.njk" import captureButton %}
+{% set description = "Quick capture in the top bar: voice, text or files become a proposal in Inbox. Shown closed, open with content, and recording." %}
+{% block matrix %}
+
+{% call section("state") %}
+  {% call cell("closed") %}{{ captureButton("m-cap-1") }}{% endcall %}
+  {% call cell("open, empty") %}<div class="flex w-96 flex-col items-end pb-16">{{ captureButton("m-cap-2", open=true) }}<div class="h-80"></div></div>{% endcall %}
+  {% call cell("open, with text and files") %}<div class="flex w-96 flex-col items-end pb-16">{{ captureButton("m-cap-3", open=true, text="Invoice Klark Coffee for the October campaign work, $9,000, same terms as last time.", attachments=[{ label: "Voice note 0:42", kind: "voice" }, { label: "Klark October scope.pdf", kind: "file" }]) }}<div class="h-96"></div></div>{% endcall %}
+  {% call cell("recording") %}<div class="flex w-96 flex-col items-end pb-16">{{ captureButton("m-cap-4", open=true, recording="00:12", note="Goes to review by your project lead. Track it in Account · Capture.") }}<div class="h-96"></div></div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,5 +1,5 @@
-{#- IconTile. Props: iconName, size (md | lg), tone (muted on cards | card on the canvas or inside HelpCallout). Decorative: the row's text names the thing. -#}
+{#- IconTile. Props: iconName, size (sm | md | lg), tone (muted on cards | card on the canvas or inside HelpCallout). Decorative: the row's text names the thing. -#}
 {% macro iconTile(iconName, size="md", tone="muted") %}
 {%- set v = variants.iconTile -%}
-<span data-component="IconTile" data-size="{{ size }}" data-tone="{{ tone }}" aria-hidden="true" class="{{ v.base }} {{ v.variants.size[size] }} {{ v.variants.tone[tone] }}">{{ icon(iconName, "size-6" if size == "lg" else "size-5") }}</span>
+<span data-component="IconTile" data-size="{{ size }}" data-tone="{{ tone }}" aria-hidden="true" class="{{ v.base }} {{ v.variants.size[size] }} {{ v.variants.tone[tone] }}">{{ icon(iconName, "size-6" if size == "lg" else ("size-4" if size == "sm" else "size-5")) }}</span>
 {%- endmacro %}

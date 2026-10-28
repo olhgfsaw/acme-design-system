@@ -38,6 +38,11 @@
       ],
       "format": "uri",
       "description": "Photo or logo; absent or null shows initials"
+    },
+    "companyName": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "The client's company; absent for private clients"
     }
   }
 }

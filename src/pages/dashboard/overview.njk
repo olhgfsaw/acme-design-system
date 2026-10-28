@@ -3,6 +3,8 @@
 {% from "components/layout/top-bar/top-bar.njk" import topBar %}
 {% from "components/layout/nav-rail/nav-rail.njk" import navRail %}
 {% from "components/layout/page-header/page-header.njk" import pageHeader %}
+{% from "components/layout/user-menu/user-menu.njk" import userMenu %}
+{% from "components/pattern/capture-button/capture-button.njk" import captureButton %}
 {% from "components/common/card/card.njk" import card %}
 {% from "components/common/stat-block/stat-block.njk" import statBlock %}
 {% from "components/common/area-chart/area-chart.njk" import areaChart %}
@@ -11,25 +13,28 @@
 {% from "components/common/meter-bar/meter-bar.njk" import meterBar %}
 {% from "components/common/project-item/project-item.njk" import projectItem %}
 {% from "components/common/countdown-timer/countdown-timer.njk" import countdownTimer %}
-{% from "components/common/promo-card/promo-card.njk" import promoCard %}
-{% from "components/common/help-callout/help-callout.njk" import helpCallout %}
+{% from "components/common/pinned-project/pinned-project.njk" import pinnedProject %}
+{% from "components/common/inbox-card/inbox-card.njk" import inboxCard %}
 {% from "components/common/empty-state/empty-state.njk" import emptyState %}
 {% from "components/common/error-state/error-state.njk" import errorState %}
 {% from "components/ui/legend-toggle/legend-toggle.njk" import legendToggle %}
 {% from "components/ui/avatar-stack/avatar-stack.njk" import avatarStack %}
-{% from "components/ui/avatar/avatar.njk" import avatar %}
 {% from "components/ui/icon-button/icon-button.njk" import iconButton %}
 {% from "components/ui/button/button.njk" import button %}
 {% from "components/ui/skeleton/skeleton.njk" import skeleton %}
 {% set bodyClass = "antialiased" %}
 {% block body %}
 {#- Data -#}
+{% set today = project.referenceDate.slice(0, 10) %}
 {% set months = data.fixtures.revenueMonth.scenarios[scenario].slice(-6) %}
 {% set projects = data.fixtures.project.scenarios[scenario] %}
+{% set tasks = data.fixtures.task.scenarios[scenario] %}
+{% set proposals = data.fixtures.proposal.scenarios[scenario] %}
 {% set team = data.fixtures.teamMember.scenarios[scenario].slice(0, 4) %}
 {% set clients = data.fixtures.client.scenarios[scenario].slice(0, 5) %}
 {% set meeting = data.fixtures.meeting.scenarios[scenario] | first %}
 {% set monthNames = data.glossary.monthsShort | label %}
+{% set stageCodes = ["discovery", "design", "development", "review", "launch"] %}
 {% set labels = [] %}{% set revenue = [] %}{% set expense = [] %}
 {% for m in months %}{% set _ = labels.push(monthNames[(m.month.slice(5, 7) | int) - 1]) %}{% set _ = revenue.push(m.revenueMinor) %}{% set _ = expense.push(m.expenseMinor) %}{% endfor %}
 {% set byStatus = projects | groupby("status") %}
@@ -38,47 +43,73 @@
 {% for code in ["in_progress", "completed", "in_review", "on_hold"] %}{% set _ = segments.push({ label: data.statuses.projectStatus[code].label | label, count: (byStatus[code] or []) | length, tone: statusTone[code] }) %}{% endfor %}
 {% set healthTone = { normal: "accent", on_track: "success", at_risk: "danger" } %}
 {% set kindIcon = { website: "globe", app: "code", marketing: "megaphone", landing: "layout-template" } %}
-{% set topMember = team | sort(true, false, "performancePercent") | first %}
+{% set taskTone = { todo: "neutral", in_progress: "accent", in_review: "warning", done: "success" } %}
+{% set proposalIcon = { invoice: "file-text", payment: "wallet", project: "folder", client: "user-plus", task: "square-check" } %}
+{% set topMember = team | sort(true, false, "workloadPercent") | first %}
 {% set topClient = clients | sort(true, false, "revenueMinor") | first %}
+{% set pinned = (projects | selectattr("pinned") | first) %}
 {% set messages = { loading: "Loading…", emptyTitle: "No data for this period", emptyText: "The chart fills in as soon as the first payments arrive.", errorTitle: "The chart didn't load", errorText: "Something went wrong on our side. Try again in a minute.", retry: "Try again" } %}
 {% set nav = [
   { id: "dashboard", label: "Dashboard", icon: "layout-dashboard", href: "#dashboard" },
-  { id: "analytics", label: "Analytics", icon: "chart-column", href: "#analytics" },
+  { id: "inbox", label: ("Inbox, " ~ (proposals | length) ~ " to review") if proposals | length else "Inbox", icon: "inbox", href: "#inbox", count: proposals | length },
+  { id: "clients", label: "Clients", icon: "briefcase", href: "#clients" },
   { id: "projects", label: "Projects", icon: "folder", href: "#projects" },
   { id: "team", label: "Team", icon: "users", href: "#team" },
   { id: "finance", label: "Finance", icon: "wallet", href: "#finance" },
-  { id: "billing", label: "Billing", icon: "credit-card", href: "#billing" },
   { id: "calendar", label: "Calendar", icon: "calendar", href: "#calendar" },
   { id: "settings", label: "Settings", icon: "settings", href: "#settings" }
 ] %}
 
+{#- Pinned project: its stage, open tasks and the next three by due date -#}
+{% if pinned %}
+  {% set stages = [] %}{% for code in stageCodes %}{% set _ = stages.push({ name: data.statuses.projectStage[code].label | label }) %}{% endfor %}
+  {% set open = [] %}{% for t in tasks %}{% if t.projectId == pinned.id and t.status != "done" %}{% set _ = open.push(t) %}{% endif %}{% endfor %}
+  {% set next = [] %}
+  {% for t in (open | sort(false, false, "dueDate")).slice(0, 3) %}
+    {% set _ = next.push({ title: t.title, href: "#board", due: (monthNames[(t.dueDate.slice(5, 7) | int) - 1] ~ " " ~ (t.dueDate.slice(8, 10) | int)) if t.dueDate else "not set", overdue: t.dueDate and t.dueDate < today, status: data.statuses.taskStatus[t.status].label | label, tone: taskTone[t.status], assignee: t.assigneeName }) %}
+  {% endfor %}
+  {% set words = pinned.title.split(" ") %}
+  {% set pinnedCard = { title: pinned.title, href: "#project", client: pinned.clientName or "Internal project", due: (monthNames[(pinned.dueDate.slice(5, 7) | int) - 1] ~ " " ~ (pinned.dueDate.slice(8, 10) | int)) if pinned.dueDate else null, monogram: ((words[0] | first) ~ ((words[1] or "") | first)) | upper, cover: pinned.cover, boardHref: "#board" } %}
+{% endif %}
+{% set recent = [] %}
+{% for p in (projects | selectattr("openedAt") | sort(true, false, "openedAt")).slice(0, 3) %}{% set _ = recent.push({ title: p.title, href: "#project", meta: (p.clientName or "Internal project") ~ " · " ~ (data.statuses.projectStage[p.stage].label | label) }) %}{% endfor %}
+
+{#- Inbox: newest three proposals -#}
+{% set inboxItems = [] %}
+{% for q in (proposals | sort(true, false, "createdAt")).slice(0, 3) %}
+  {% set checkLabel = (q.fieldsToCheck | plural({ one: "# field to check", other: "# fields to check" })) if q.check == "to_check" and q.fieldsToCheck else (data.statuses.proposalCheck[q.check].label | label) %}
+  {% set _ = inboxItems.push({ title: q.title, href: "#proposal", meta: (data.statuses.proposalSource[q.source].label | label) ~ " · " ~ q.authorName ~ " · " ~ (q.createdAt | relative), icon: proposalIcon[q.kind] or "inbox", action: data.statuses.proposalAction[q.action].label | label, check: checkLabel, checkTone: data.statuses.proposalCheck[q.check].tone }) %}
+{% endfor %}
+
 {#- Chrome -#}
-{% set tb %}{% call topBar(project.product, "Search anything here...", "Search") %}{{ iconButton("Messages", "message-circle", variant="secondary") }}{{ iconButton("Notifications, unread", "bell", variant="secondary", dot=true) }}{{ avatar("Your account") }}{% endcall %}{% endset %}
-{% set rail %}{{ navRail(nav, "Main", activeId="dashboard", footer=[{ id: "logout", label: "Log out", icon: "log-out", href: "#logout" }]) }}{% endset %}
+{% set tb %}{% call topBar(project.product, "Search clients, projects, invoices...", "Search") %}{{ captureButton("capture") }}{{ iconButton("Messages", "message-circle", variant="secondary") }}{{ iconButton("Notifications, 3 unread", "bell", variant="secondary", dot=true) }}{{ userMenu("user-menu", "Daniel Kim", "Account director · Admin", [{ label: "My profile", href: "#me", icon: "user" }, { label: "Time and time off", href: "#time", icon: "clock" }, { label: "Account settings", href: "#account", icon: "settings" }], footer=[{ label: "Log out", href: "#logout", icon: "log-out" }]) }}{% endcall %}{% endset %}
+{% set rail %}{{ navRail(nav, "Main", activeId="dashboard") }}{% endset %}
 
 {% call appShell(tb, rail) %}
   {% call pageHeader("Dashboard overview", "Here's what's happening with your business today") %}
-    {{ button("Create invoice", variant="secondary", iconLeading="file-text") }}
-    {{ button("Create a report", variant="secondary", iconLeading="clipboard-list") }}
-    {{ button("Add client", variant="secondary", iconLeading="user-plus") }}
-    {{ button("New project", iconLeading="plus") }}
+    {{ button("Create invoice", variant="secondary", iconLeading="file-text", href="#new-invoice") }}
+    {{ button("Add client", variant="secondary", iconLeading="user-plus", href="#new-client") }}
+    {{ button("New project", iconLeading="plus", href="#new-project") }}
   {% endcall %}
 
   {% if state == "error" %}
   <div class="rounded-lg bg-surface p-6">{{ errorState("The dashboard didn't load", "Something went wrong on our side. Your data is safe — try again in a minute.", "Try again") }}</div>
   {% else %}
-  {#- 4 : 3 : 3 : 3 columns from the design: the promo column is wider than the three data columns. -#}
+  {#- 4 : 3 : 3 : 3 columns from the design: the pinned project column is wider than the three data columns. -#}
   <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-[minmax(0,4fr)_repeat(3,minmax(0,3fr))]"{% if state == "loading" %} aria-busy="true"{% endif %}>
     {% if state == "loading" %}<p class="sr-only">Loading…</p>{% endif %}
 
     <div class="grid xl:row-span-2">
-      {% call promoCard("promo", "Upgrade to Pro", text="Get advanced analytics and powerful features.", closeLabel="Dismiss upgrade offer", offerTitle="Free trial", offerBadge="7 days", offerBadgeIcon="crown") %}
-        {{ helpCallout("Need help deciding?", "Compare plans or contact sales") }}
-        {{ button("Upgrade now", size="lg", iconTrailing="arrow-right", layout="w-full") }}
-      {% endcall %}
+      {% if state == "loading" %}
+        {% call card("pinned-loading") %}<div class="flex flex-col gap-4">{{ skeleton("line", layout="w-32") }}{{ skeleton("title", layout="w-3/4") }}{{ skeleton("block", layout="w-full") }}{{ skeleton("line", layout="w-full") }}{% for i in range(3) %}{{ skeleton("line", layout="w-full") }}{% endfor %}</div>{% endcall %}
+      {% elif pinned %}
+        {{ pinnedProject("pinned", project=pinnedCard, stages=stages, current=stageCodes.indexOf(pinned.stage), percent=pinned.progressPercent, tasks=next, openCount=open | length) }}
+      {% else %}
+        {{ pinnedProject("pinned", recent=recent, allHref="#projects") }}
+      {% endif %}
     </div>
 
-    {% call card("revenue", title="Revenue overview", expandLabel="Expand revenue overview", layout="xl:col-span-2") %}
+    {% call card("revenue", title="Revenue overview", actionHref="#finance", actionLabel="Open finance", layout="xl:col-span-2") %}
       <div class="flex flex-col gap-6 xl:flex-row">
         <div class="flex shrink-0 flex-col justify-between gap-6 pt-4">
           {% if state == "loading" %}
@@ -100,26 +131,26 @@
       </div>
     {% endcall %}
 
-    {% call card("status", title="Project status", expandLabel="Expand project status") %}
+    {% call card("status", title="Project status", actionHref="#projects", actionLabel="Open projects") %}
       <div class="flex flex-col gap-5 pt-2">
-        {{ gaugeChart(segments, "Projects by status", caption="Active projects", messages=messages, state=state) }}
+        {{ gaugeChart(segments, "Projects by status", caption="Projects", messages=messages, state=state) }}
         {% if state == "default" and projects | length %}{{ chartLegend(segments) }}{% endif %}
       </div>
     {% endcall %}
 
-    {% call card("team", title="Team performance", expandLabel="Expand team performance") %}
+    {% call card("team", title="Team workload", actionHref="#team", actionLabel="Open team") %}
       {% if state == "loading" %}
         <div class="flex flex-col gap-4">{% for i in range(4) %}<div class="flex flex-col gap-2">{{ skeleton("line", layout="w-24") }}{{ skeleton("title", layout="w-full") }}</div>{% endfor %}</div>
       {% elif team | length %}
         <ul class="flex flex-col gap-4">
-          {% for m in team %}<li>{{ meterBar("team-" ~ m.id, m.name, m.performancePercent or 0, highlight=(m.id == topMember.id), valueLabel=(null if m.performancePercent is not none else "Not rated")) }}</li>{% endfor %}
+          {% for m in team %}<li>{{ meterBar("team-" ~ m.id, m.name, [m.workloadPercent or 0, 100] | sort | first, highlight=(m.id == topMember.id), valueLabel=(null if m.workloadPercent is not none else "No hours set")) }}</li>{% endfor %}
         </ul>
       {% else %}
-        {{ emptyState("No team members yet", "Invite your team to see how each person tracks against this month's goals.", iconName="users") }}
+        {{ emptyState("No team members yet", "Invite your team to see how much of each person's month is booked.", iconName="users") }}
       {% endif %}
     {% endcall %}
 
-    {% call card("active", title="Active projects", expandLabel="Expand active projects") %}
+    {% call card("active", title="Active projects", actionHref="#projects", actionLabel="Open all projects") %}
       {% if state == "loading" %}
         <div class="flex flex-col gap-4">{% for i in range(4) %}<div class="flex items-center gap-3">{{ skeleton("tile") }}<div class="flex flex-1 flex-col gap-2">{{ skeleton("line", layout="w-3/4") }}{{ skeleton("line", layout="w-1/2") }}</div></div>{% endfor %}</div>
       {% elif (byStatus.in_progress or []) | length %}
@@ -127,21 +158,29 @@
           {% for p in (byStatus.in_progress).slice(0, 4) %}<li>{{ projectItem(p.title, ("Client: " ~ p.clientName) if p.clientName else "Internal project", kindIcon[p.kind], p.progressPercent, tone=healthTone[p.health], statusLabel=(null if p.health == "normal" else (data.statuses.projectHealth[p.health].label | label))) }}</li>{% endfor %}
         </ul>
       {% else %}
-        {% call emptyState("No active projects", "Projects you start appear here with their progress.", iconName="folder") %}{{ button("New project", size="sm", iconLeading="plus") }}{% endcall %}
+        {% call emptyState("No active projects", "Projects you start appear here with their progress.", iconName="folder") %}{{ button("New project", size="sm", iconLeading="plus", href="#new-project") }}{% endcall %}
       {% endif %}
     {% endcall %}
 
     <div class="flex min-w-0 flex-col gap-3">
-      {% call card("meeting", title="Next meeting in", expandLabel="Expand next meeting") %}
+      {% call card("meeting", title="Next meeting in", actionHref="#calendar", actionLabel="Open calendar") %}
         {% if state == "loading" %}{{ skeleton("block", layout="w-full") }}
-        {% elif meeting %}{{ countdownTimer(meeting.startsInSeconds, "Time until " ~ (meeting.title or "the next meeting")) }}
+        {% elif meeting %}<div class="flex flex-col gap-2">{{ countdownTimer(meeting.startsInSeconds, "Time until " ~ (meeting.title or "the next meeting")) }}<p class="text-sm text-fg-secondary">{{ meeting.title or "Meeting" }} · {{ meeting.startsAt | time }}</p></div>
         {% else %}{{ emptyState("No meetings scheduled", "Your next meeting shows up here.", iconName="calendar") }}{% endif %}
       {% endcall %}
-      {% call card("clients", title="Top clients", expandLabel="Expand top clients", layout="flex-1") %}
+      {% call card("clients", title="Top clients", actionHref="#clients", actionLabel="Open clients", layout="flex-1") %}
         {% if state == "loading" %}<div class="flex gap-2 pt-14">{% for i in range(5) %}{{ skeleton("circle") }}{% endfor %}</div>
-        {% elif clients | length %}{{ avatarStack(clients, "Top clients this month", highlight=clients.indexOf(topClient), tag=topClient.revenueMinor | money(topClient.currency)) }}
+        {% elif clients | length %}{{ avatarStack(clients, "Top clients by revenue", highlight=clients.indexOf(topClient), tag=topClient.revenueMinor | money(topClient.currency)) }}
         {% else %}{{ emptyState("No clients yet", "Clients appear here once they're billed.", iconName="user-plus") }}{% endif %}
       {% endcall %}
+    </div>
+
+    <div class="grid md:col-span-2 xl:col-span-4">
+      {% if state == "loading" %}
+        {% call card("inbox-loading") %}<div class="flex flex-col gap-4">{{ skeleton("title", layout="w-1/3") }}<div class="grid gap-3 lg:grid-cols-3">{% for i in range(3) %}{{ skeleton("block", layout="w-full") }}{% endfor %}</div></div>{% endcall %}
+      {% else %}
+        {{ inboxCard("inbox", proposals | length, inboxItems, "#inbox") }}
+      {% endif %}
     </div>
   </div>
   {% endif %}

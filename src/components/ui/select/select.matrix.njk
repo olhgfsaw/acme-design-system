@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/select/select.njk" import select %}
+{% set description = "Choose one of a short list. Always with a visible label (FormField)." %}
+{% block matrix %}
+
+{% set opts = [{ value: "net15", label: "Net 15" }, { value: "net30", label: "Net 30" }, { value: "receipt", label: "Due on receipt" }] %}
+{% call section("states") %}
+  {% call cell("default") %}<div class="w-64">{{ select("m-sel-1", opts, value="net30", label="Payment terms") }}</div>{% endcall %}
+  {% call cell("invalid") %}<div class="w-64">{{ select("m-sel-2", opts, invalid=true, label="Payment terms") }}</div>{% endcall %}
+  {% call cell("disabled") %}<div class="w-64">{{ select("m-sel-3", opts, value="net15", disabled=true, label="Payment terms") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{#- TaskList. Props: tasks [{ title, href, due (formatted), overdue (bool), status (label), tone (accent | warning | success | danger | neutral), assignee }], label. Next tasks from a board: the dot follows the status, the status is also written out. -#}
+{% from "components/ui/avatar/avatar.njk" import avatar %}
+{% macro taskList(tasks, label) %}
+{%- set v = variants.taskList -%}
+<ul data-component="TaskList" aria-label="{{ label }}" class="{{ v.base }}">
+  {%- for t in tasks %}
+  <li class="{{ v.slots.item }}"><span class="{{ v.slots.dot }} {{ v.variants.tone[t.tone] }}" aria-hidden="true"></span><span class="{{ v.slots.body }}"><a href="{{ t.href }}" class="{{ v.slots.title }}" title="{{ t.title }}">{{ t.title }}</a><span class="{{ v.slots.meta }}">{% if t.overdue %}<span class="{{ v.slots.overdue }}">Overdue, {{ t.due }}</span>{% else %}Due {{ t.due }}{% endif %} · {{ t.status }}</span></span>{% if t.assignee %}{{ avatar(t.assignee, size="xs") }}{% endif %}</li>
+  {%- endfor %}
+</ul>
+{%- endmacro %}

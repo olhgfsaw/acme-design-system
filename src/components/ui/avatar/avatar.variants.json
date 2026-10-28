@@ -2,6 +2,7 @@
   "base": "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-accent-subtle font-semibold text-fg",
   "variants": {
     "size": {
+      "xs": "size-7 text-xs",
       "sm": "size-8 text-xs",
       "md": "size-12 text-base"
     },

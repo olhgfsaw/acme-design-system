@@ -1,0 +1,11 @@
+{#- BaseTextarea. Props: id, name, value, placeholder, rows, invalid, required, disabled, describedby, label (aria-label, only where no visible label exists). Use inside FormField ({% call %}). -#}
+{% macro textarea(id, name=null, value="", placeholder="", rows=4, invalid=false, required=false, disabled=false, describedby=null, label=null) %}
+{%- set v = variants.textarea -%}
+<textarea id="{{ id }}" name="{{ name or id }}" rows="{{ rows }}" data-component="BaseTextarea" class="{{ v.base }}"
+  {%- if placeholder %} placeholder="{{ placeholder }}"{% endif %}
+  {%- if label %} aria-label="{{ label }}"{% endif %}
+  {%- if invalid %} aria-invalid="true"{% endif %}
+  {%- if required %} required{% endif %}
+  {%- if disabled %} disabled{% endif %}
+  {%- if describedby %} aria-describedby="{{ describedby }}"{% endif %}>{{ value }}</textarea>
+{%- endmacro %}

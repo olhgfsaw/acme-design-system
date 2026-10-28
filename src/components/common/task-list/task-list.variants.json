@@ -1,0 +1,21 @@
+{
+  "base": "flex flex-col",
+  "variants": {
+    "tone": {
+      "accent": "bg-accent-strong",
+      "warning": "bg-warning-fg",
+      "success": "bg-success-fg",
+      "danger": "bg-danger-fg",
+      "neutral": "bg-neutral-fg"
+    }
+  },
+  "slots": {
+    "item": "flex items-center gap-3 border-b border-divider py-3 first:pt-0 last:border-b-0 last:pb-0",
+    "dot": "size-2.5 shrink-0 rounded-full",
+    "body": "flex min-w-0 flex-1 flex-col",
+    "title": "truncate rounded-xs text-sm font-medium text-fg hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "meta": "text-xs text-fg-muted",
+    "overdue": "font-medium text-danger-fg"
+  },
+  "defaultVariants": {}
+}

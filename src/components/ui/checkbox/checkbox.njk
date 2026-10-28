@@ -1,0 +1,8 @@
+{#- BaseCheckbox. Props: id, label, description, checked, disabled. Reka Checkbox: a button with role="checkbox" and data-state; the label is linked with for. -#}
+{% macro checkbox(id, label, description=null, checked=false, disabled=false) %}
+{%- set v = variants.checkbox -%}
+<div data-component="BaseCheckbox" class="{{ v.base }}">
+  <button type="button" role="checkbox" id="{{ id }}" aria-checked="{{ "true" if checked else "false" }}" data-state="{{ "checked" if checked else "unchecked" }}"{% if description %} aria-describedby="{{ id }}-desc"{% endif %} class="{{ v.slots.box }}"{% if disabled %} disabled{% endif %}>{% if checked %}{{ icon("check", v.slots.check) }}{% endif %}</button>
+  <span class="{{ v.slots.text }}"><label for="{{ id }}" class="{{ v.slots.label }}">{{ label }}</label>{% if description %}<span id="{{ id }}-desc" class="{{ v.slots.description }}">{{ description }}</span>{% endif %}</span>
+</div>
+{%- endmacro %}

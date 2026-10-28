@@ -1,0 +1,19 @@
+{
+  "base": "flex min-w-0 flex-col gap-6 rounded-lg bg-surface p-6",
+  "variants": {},
+  "slots": {
+    "head": "flex flex-wrap items-center justify-between gap-4",
+    "headText": "flex min-w-0 items-center gap-4",
+    "titleBlock": "flex min-w-0 flex-col gap-1",
+    "title": "text-xl font-medium tracking-tight text-fg",
+    "text": "text-sm text-fg-secondary",
+    "grid": "grid gap-3 lg:grid-cols-3",
+    "item": "flex min-w-0 flex-col gap-3 rounded-md bg-canvas p-4",
+    "itemHead": "flex items-start gap-3",
+    "itemBody": "flex min-w-0 flex-col",
+    "itemTitle": "truncate rounded-xs text-sm font-medium text-fg hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "itemMeta": "text-xs text-fg-muted",
+    "badges": "flex flex-wrap items-center gap-2"
+  },
+  "defaultVariants": {}
+}

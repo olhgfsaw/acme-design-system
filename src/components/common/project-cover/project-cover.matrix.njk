@@ -1,0 +1,17 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/project-cover/project-cover.njk" import projectCover %}
+{% set description = "A project's cover: a pattern from the tokens and its monogram. block on the pinned card, strip on board cards, tile in lists." %}
+{% block matrix %}
+
+{% for size in ["block", "strip", "tile"] %}
+  {% call section(size) %}
+    {% for pattern in ["ink", "dots", "grid", "rings", "stripes", "plain"] %}
+      {% call cell(pattern) %}<div class="{{ "w-56" if size != "tile" else "" }}">{{ projectCover("m-cv-" ~ size ~ "-" ~ pattern, "WR", pattern=pattern, size=size) }}</div>{% endcall %}
+    {% endfor %}
+  {% endcall %}
+{% endfor %}
+{% call section("as a link") %}
+  {% call cell("block · href") %}<div class="w-56">{{ projectCover("m-cv-link", "WR", pattern="ink", href="#", label="Open Website redesign") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

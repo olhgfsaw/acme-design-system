@@ -1,0 +1,25 @@
+{#- StageTracker. Props: stages [{ name, date }], current (0-based index), percent (overall progress, 0–100), variant (compact: a labelled segmented bar | full: numbered steps with names and dates), inset (compact bar on a tinted card). -#}
+{% macro stageTracker(stages, current, percent=null, variant="compact", inset=false) %}
+{%- set v = variants.stageTracker -%}
+{%- set n = stages | length -%}
+{%- set cur = stages[current] -%}
+{% if variant == "compact" %}
+<div data-component="StageTracker" class="{{ v.base }}">
+  <div class="{{ v.slots.head }}"><span class="{{ v.slots.headName }}">{{ cur.name }} · stage {{ current + 1 }} of {{ n }}</span>{% if percent is not none %}<span class="{{ v.slots.headPercentInset if inset else v.slots.headPercent }}">{{ (percent / 100) | percent }}</span>{% endif %}</div>
+  <div role="img" aria-label="Stage {{ current + 1 }} of {{ n }}, {{ cur.name }}{% if percent is not none %}, {{ (percent / 100) | percent }} complete{% endif %}" class="{{ v.slots.track }}">
+    {%- for s in stages %}<span class="{{ v.slots.bar }} {{ v.slots.barDone if loop.index0 < current else ((v.slots.barCurrentInset if inset else v.slots.barCurrent) if loop.index0 == current else (v.slots.barTodoInset if inset else v.slots.barTodo)) }}"></span>{% endfor -%}
+  </div>
+</div>
+{% else %}
+<ol data-component="StageTracker" class="{{ v.slots.list }}">
+  {%- for s in stages %}{% set done = loop.index0 < current %}{% set here = loop.index0 == current %}
+  <li class="{{ v.slots.step }}"{% if here %} aria-current="step"{% endif %}>
+    {%- if not loop.last %}<span class="{{ v.slots.line }} {{ v.slots.lineDone if done else v.slots.lineTodo }}" aria-hidden="true"></span>{% endif %}
+    <span class="{{ v.slots.dot }} {{ v.slots.dotDone if done else (v.slots.dotCurrent if here else v.slots.dotTodo) }}" aria-hidden="true">{% if done %}{{ icon("check", "size-4") }}{% else %}{{ loop.index }}{% endif %}</span>
+    <span class="{{ v.slots.label }} {{ v.slots.labelDone if (done or here) else v.slots.labelTodo }}">{{ s.name }}<span class="sr-only">{{ ", done" if done else (", current stage" if here else "") }}</span></span>
+    {%- if s.date %}<span class="{{ v.slots.date }}">{{ s.date }}</span>{% endif %}
+  </li>
+  {%- endfor %}
+</ol>
+{% endif %}
+{%- endmacro %}

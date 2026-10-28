@@ -1,0 +1,12 @@
+{#- UserMenu. Props: id, name, role ("Account director · Admin"), items [{ label, href, icon }], footer (items after a separator: log out), open. The account avatar in TopBar opens a BaseDropdown aligned to the end. -#}
+{% from "components/ui/avatar/avatar.njk" import avatar %}
+{% from "components/overlay/dropdown/dropdown.njk" import dropdown, dropdownItem, dropdownHeader, dropdownSeparator %}
+{% macro userMenu(id, name, role, items, footer=[], open=false) %}
+{%- set v = variants.userMenu -%}
+{%- set trig %}<button type="button" aria-haspopup="menu" aria-expanded="{{ "true" if open else "false" }}" aria-controls="{{ id }}" data-component="UserMenu" class="{{ v.base }}">{{ avatar(name, decorative=true) }}<span class="sr-only">{{ name }}, account menu</span></button>{% endset -%}
+{% call dropdown(id, name, trig, open=open, align="end") %}
+  {{ dropdownHeader(name, role) }}{{ dropdownSeparator() }}
+  {%- for it in items %}{{ dropdownItem(it.label, href=it.href, iconName=it.icon) }}{% endfor %}
+  {%- if footer | length %}{{ dropdownSeparator() }}{% for it in footer %}{{ dropdownItem(it.label, href=it.href, iconName=it.icon) }}{% endfor %}{% endif %}
+{% endcall %}
+{%- endmacro %}

@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/pinned-project/pinned-project.njk" import pinnedProject %}
+{% set description = "The project pinned to the dashboard: progress and the next tasks from its board. Without a pin it suggests recently opened projects." %}
+{% block matrix %}
+
+{% set stages = [{ name: "Discovery" }, { name: "Design" }, { name: "Development" }, { name: "Review" }, { name: "Launch" }] %}
+{% set tasks = [{ title: "Header and navigation", href: "#", due: "Oct 27", overdue: true, status: "In review", tone: "warning", assignee: "James Reed" }, { title: "Responsive check of page templates", href: "#", due: "Oct 30", status: "In progress", tone: "accent", assignee: "Olivia Foster" }, { title: "Homepage build", href: "#", due: "Nov 3", status: "In progress", tone: "accent", assignee: "James Reed" }] %}
+{% call section("state") %}
+  {% call cell("pinned") %}<div class="flex w-80">{{ pinnedProject("m-pin-1", project={ title: "Website redesign", href: "#", client: "Anderson Studio", due: "Dec 12", monogram: "WR", cover: "ink", boardHref: "#" }, stages=stages, current=2, percent=51, tasks=tasks, openCount=9) }}</div>{% endcall %}
+  {% call cell("nothing pinned, just unpinned") %}<div class="flex w-80">{{ pinnedProject("m-pin-2", recent=[{ title: "Website redesign", href: "#", meta: "Anderson Studio · Development" }, { title: "App development", href: "#", meta: "Northwind Health · Review" }], undo="Website redesign") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

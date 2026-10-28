@@ -1,0 +1,13 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/ui/checkbox/checkbox.njk" import checkbox %}
+{% set description = "A yes / no choice with a visible label. data-state checked / unchecked as in Reka Checkbox." %}
+{% block matrix %}
+
+{% call section("states") %}
+  {% call cell("unchecked") %}{{ checkbox("m-cb-1", "Send a copy to the client") }}{% endcall %}
+  {% call cell("checked") %}{{ checkbox("m-cb-2", "Send a copy to the client", checked=true) }}{% endcall %}
+  {% call cell("with description") %}<div class="w-72">{{ checkbox("m-cb-3", "Billable", description="Hours on this task go on the client's invoice.", checked=true) }}</div>{% endcall %}
+  {% call cell("disabled") %}{{ checkbox("m-cb-4", "Send a copy to the client", disabled=true) }}{% endcall %}
+{% endcall %}
+{% endblock %}

@@ -1,8 +1,8 @@
-{#- BaseIconButton. Props: label (required → aria-label; say what is unread when dot is on), icon, variant, size, disabled, dot (unread marker). -#}
-{% macro iconButton(label, iconName, variant="ghost", size="md", disabled=false, layout="", dot=false) %}
+{#- BaseIconButton. Props: label (required → aria-label; say what is unread when dot is on), icon, variant, size, disabled, dot (unread marker), href (a link to a section), haspopup + expanded (the button opens a menu or dialog). -#}
+{% macro iconButton(label, iconName, variant="ghost", size="md", disabled=false, layout="", dot=false, href=null, haspopup=null, expanded=null) %}
 {%- set v = variants.iconButton -%}
-<button type="button" aria-label="{{ label }}" data-component="BaseIconButton" data-variant="{{ variant }}" data-size="{{ size }}" class="{{ (v.base ~ " " ~ v.variants.variant[variant] ~ " " ~ v.variants.size[size] ~ " " ~ layout) | trim }}"{% if disabled %} disabled{% endif %}>
+{%- if href %}<a href="{{ href }}"{% else %}<button type="button"{% endif %} aria-label="{{ label }}"{% if haspopup %} aria-haspopup="{{ haspopup }}" aria-expanded="{{ "true" if expanded else "false" }}"{% endif %} data-component="BaseIconButton" data-variant="{{ variant }}" data-size="{{ size }}" class="{{ (v.base ~ " " ~ v.variants.variant[variant] ~ " " ~ v.variants.size[size] ~ " " ~ layout) | trim }}"{% if disabled %} disabled{% endif %}>
   {{- icon(iconName, "size-4" if size == "sm" else "size-5") -}}
   {%- if dot %}<span class="{{ v.slots.dot }}" aria-hidden="true"></span>{% endif -%}
-</button>
+{% if href %}</a>{% else %}</button>{% endif %}
 {%- endmacro %}

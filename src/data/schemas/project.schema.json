@@ -11,6 +11,8 @@
     "kind",
     "status",
     "health",
+    "stage",
+    "cover",
     "progressPercent"
   ],
   "properties": {
@@ -64,6 +66,44 @@
       "minimum": 0,
       "maximum": 100,
       "description": "Share of the work done, 0–100"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "discovery",
+        "design",
+        "development",
+        "review",
+        "launch"
+      ],
+      "x-dict": "projectStage",
+      "description": "Current stage, in this order; labels in statuses.json"
+    },
+    "dueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Planned launch date; absent while not planned"
+    },
+    "cover": {
+      "type": "string",
+      "enum": [
+        "ink",
+        "dots",
+        "grid",
+        "rings",
+        "stripes",
+        "plain"
+      ],
+      "description": "Cover pattern chosen for the project"
+    },
+    "pinned": {
+      "type": "boolean",
+      "description": "Pinned to the current user's dashboard; absent means false"
+    },
+    "openedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the current user last opened it (UTC); absent if never"
     }
   }
 }

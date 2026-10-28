@@ -8,7 +8,8 @@
   "required": [
     "id",
     "name",
-    "performancePercent"
+    "fullName",
+    "workloadPercent"
   ],
   "properties": {
     "id": {
@@ -20,14 +21,19 @@
       "maxLength": 120,
       "description": "Short display name: first name and initial"
     },
-    "performancePercent": {
+    "fullName": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Full name for screen readers and profiles"
+    },
+    "workloadPercent": {
       "type": [
         "integer",
         "null"
       ],
       "minimum": 0,
-      "maximum": 100,
-      "description": "Share of this month's goals met, 0–100; null when not rated yet"
+      "maximum": 200,
+      "description": "Share of this month's working hours already booked; over 100 means overbooked; null when no hours are set"
     }
   }
 }

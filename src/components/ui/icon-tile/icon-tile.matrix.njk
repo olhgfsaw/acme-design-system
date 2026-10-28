@@ -6,7 +6,7 @@
 
 {% for tone in ["muted", "card"] %}
   {% call section(tone) %}
-    {% for size in ["md", "lg"] %}
+    {% for size in ["sm", "md", "lg"] %}
       {% call cell(size) %}<div class="rounded-md {{ "bg-surface" if tone == "muted" else "bg-canvas" }} p-3">{{ iconTile("globe", size=size, tone=tone) }}</div>{% endcall %}
     {% endfor %}
   {% endcall %}

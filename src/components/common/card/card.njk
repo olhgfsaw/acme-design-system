@@ -1,10 +1,10 @@
-{#- BaseCard. Props: id, title, expandLabel (adds the round expand button; name what it expands), level (heading level, 2 by default), layout. Default slot = body. One idea per card; cards are separated by canvas, never borders. -#}
+{#- BaseCard. Props: id, title, expandLabel (adds the round expand button; name what it expands), actionHref + actionLabel (a round link to the card's section: "Open finance"), level (heading level, 2 by default), layout. Default slot = body. One idea per card; cards are separated by canvas, never borders. -#}
 {% from "components/ui/icon-button/icon-button.njk" import iconButton %}
-{% macro card(id, title=null, expandLabel=null, level=2, layout="") %}
+{% macro card(id, title=null, expandLabel=null, level=2, layout="", actionHref=null, actionLabel=null) %}
 {%- set v = variants.card -%}
 <section data-component="BaseCard"{% if title %} aria-labelledby="{{ id }}-title"{% endif %} class="{{ (v.base ~ " " ~ layout) | trim }}">
   {%- if title %}
-  <div data-slot="header" class="{{ v.slots.header }}"><h{{ level }} id="{{ id }}-title" class="{{ v.slots.title }}">{{ title }}</h{{ level }}>{% if expandLabel %}{{ iconButton(expandLabel, "maximize-2", variant="muted", size="sm") }}{% endif %}</div>
+  <div data-slot="header" class="{{ v.slots.header }}"><h{{ level }} id="{{ id }}-title" class="{{ v.slots.title }}">{{ title }}</h{{ level }}>{% if actionHref %}{{ iconButton(actionLabel, "arrow-up-right", variant="muted", size="sm", href=actionHref) }}{% elif expandLabel %}{{ iconButton(expandLabel, "maximize-2", variant="muted", size="sm") }}{% endif %}</div>
   {%- endif %}
   <div data-slot="body" class="{{ v.slots.body }}">{% if caller %}{{ caller() }}{% endif %}</div>
 </section>

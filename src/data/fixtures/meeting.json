@@ -4,15 +4,15 @@
     "typical": [
       {
         "id": 71,
-        "title": "Weekly client review",
-        "startsAt": "2026-01-16T03:25:34Z",
-        "startsInSeconds": 55534
+        "title": "Anderson weekly",
+        "startsAt": "2026-10-28T15:00:00Z",
+        "startsInSeconds": 10800
       },
       {
         "id": 72,
         "title": "Design critique",
-        "startsAt": "2026-01-16T15:00:00Z",
-        "startsInSeconds": 97200
+        "startsAt": "2026-10-29T10:00:00Z",
+        "startsInSeconds": 79200
       }
     ],
     "empty": [],

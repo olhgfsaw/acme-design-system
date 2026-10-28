@@ -1,0 +1,137 @@
+{
+  "entity": "task",
+  "scenarios": {
+    "typical": [
+      {
+        "id": 701,
+        "projectId": 101,
+        "title": "Header and navigation",
+        "status": "in_review",
+        "dueDate": "2026-10-27",
+        "assigneeName": "James Reed"
+      },
+      {
+        "id": 702,
+        "projectId": 101,
+        "title": "Responsive check of page templates",
+        "status": "in_progress",
+        "dueDate": "2026-10-30",
+        "assigneeName": "Olivia Foster"
+      },
+      {
+        "id": 703,
+        "projectId": 101,
+        "title": "Homepage build",
+        "status": "in_progress",
+        "dueDate": "2026-11-03",
+        "assigneeName": "James Reed"
+      },
+      {
+        "id": 704,
+        "projectId": 101,
+        "title": "Contact form with validation",
+        "status": "todo",
+        "dueDate": "2026-11-05",
+        "assigneeName": "Karl Hansen"
+      },
+      {
+        "id": 705,
+        "projectId": 101,
+        "title": "Blog listing and article pages",
+        "status": "todo",
+        "dueDate": "2026-11-10",
+        "assigneeName": "Olivia Foster"
+      },
+      {
+        "id": 706,
+        "projectId": 101,
+        "title": "Cookie banner and consent",
+        "status": "todo",
+        "dueDate": "2026-11-12",
+        "assigneeName": "James Reed"
+      },
+      {
+        "id": 707,
+        "projectId": 101,
+        "title": "Image optimisation pass",
+        "status": "todo",
+        "dueDate": "2026-11-14"
+      },
+      {
+        "id": 708,
+        "projectId": 101,
+        "title": "404 and empty pages",
+        "status": "todo",
+        "dueDate": "2026-11-18",
+        "assigneeName": "Karl Hansen"
+      },
+      {
+        "id": 709,
+        "projectId": 101,
+        "title": "Analytics events",
+        "status": "todo",
+        "dueDate": "2026-11-20",
+        "assigneeName": "Abraham Moss"
+      },
+      {
+        "id": 710,
+        "projectId": 101,
+        "title": "Wireframes sign-off",
+        "status": "done",
+        "dueDate": "2026-10-02",
+        "assigneeName": "Daniel Kim"
+      },
+      {
+        "id": 711,
+        "projectId": 102,
+        "title": "App store screenshots",
+        "status": "in_progress",
+        "dueDate": "2026-11-04",
+        "assigneeName": "Olivia Foster"
+      }
+    ],
+    "empty": [],
+    "longStrings": [
+      {
+        "id": 721,
+        "projectId": 201,
+        "title": "Responsive check of every page template on small phones, tablets in both orientations and wide monitors",
+        "status": "in_progress",
+        "dueDate": "2026-10-30",
+        "assigneeName": "Konstantinopolsky-Alexandrovsky Vladislav"
+      },
+      {
+        "id": 722,
+        "projectId": 201,
+        "title": "Accessibility review of the checkout with screen readers",
+        "status": "in_review",
+        "dueDate": "2026-10-20",
+        "assigneeName": "Bartholomew Oyelaran-Whitmore"
+      }
+    ],
+    "largeNumbers": [
+      {
+        "id": 900000701,
+        "projectId": 900000001,
+        "title": "Header and navigation",
+        "status": "in_progress",
+        "dueDate": "2026-11-03",
+        "assigneeName": "James Reed"
+      }
+    ],
+    "partial": [
+      {
+        "id": 731,
+        "projectId": 301,
+        "title": "Set up the repository",
+        "status": "todo"
+      }
+    ],
+    "many": {
+      "$generate": {
+        "from": "typical",
+        "count": 240
+      }
+    }
+  }
+}

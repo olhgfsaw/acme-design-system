@@ -1,0 +1,54 @@
+{
+  "base": "relative flex shrink-0 overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+  "variants": {
+    "pattern": {
+      "ink": "bg-primary text-on-primary",
+      "dots": "bg-accent-subtle text-fg",
+      "grid": "bg-success-bg text-fg",
+      "rings": "bg-warning-bg text-fg",
+      "stripes": "bg-info-bg text-fg",
+      "plain": "bg-neutral-bg text-fg"
+    },
+    "size": {
+      "block": "h-40 items-end rounded-md px-4 pb-3",
+      "strip": "h-24 items-end rounded-t-lg px-4 pb-3",
+      "tile": "size-11 items-center justify-center rounded-md"
+    }
+  },
+  "patterns": {
+    "ink": {
+      "mono": "bg-primary",
+      "line": "stroke-on-primary"
+    },
+    "dots": {
+      "mono": "bg-accent-subtle",
+      "line": "fill-accent"
+    },
+    "grid": {
+      "mono": "bg-surface px-2",
+      "line": "stroke-success-border"
+    },
+    "rings": {
+      "mono": "bg-surface px-2",
+      "line": "stroke-warning-border"
+    },
+    "stripes": {
+      "mono": "bg-surface px-2",
+      "line": "stroke-info-border"
+    },
+    "plain": {
+      "mono": "",
+      "line": ""
+    }
+  },
+  "slots": {
+    "svg": "absolute inset-0 size-full",
+    "mono": "relative inline-flex rounded-xs text-3xl/10 font-semibold tracking-tight",
+    "monoTile": "relative text-sm font-semibold",
+    "foreign": "flex size-full items-end px-4 pb-3"
+  },
+  "defaultVariants": {
+    "pattern": "plain",
+    "size": "block"
+  }
+}

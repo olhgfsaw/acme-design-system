@@ -1,0 +1,22 @@
+{
+  "base": "relative inline-flex",
+  "variants": {},
+  "slots": {
+    "panel": "absolute inset-e-0 top-full z-30 mt-2 flex w-96 max-w-[calc(100vw-2rem)] flex-col gap-3 rounded-md border border-divider bg-surface-overlay p-4 shadow-lg",
+    "head": "flex items-start justify-between gap-3",
+    "titleBlock": "flex flex-col gap-1",
+    "title": "text-sm font-medium text-fg",
+    "text": "text-xs text-fg-muted",
+    "recording": "flex items-center gap-3 rounded-md bg-danger-bg py-2 ps-3 pe-2 text-danger-fg",
+    "recDot": "size-2.5 shrink-0 rounded-full bg-danger-fg",
+    "recLabel": "text-sm font-medium",
+    "recClock": "ms-auto text-sm font-medium tabular-nums",
+    "chips": "flex flex-wrap gap-2",
+    "chip": "inline-flex h-8 max-w-full items-center gap-1.5 rounded-full bg-surface-subtle ps-2.5 pe-1 text-sm text-fg",
+    "chipIcon": "size-3.5 shrink-0 text-fg-secondary",
+    "chipLabel": "truncate",
+    "chipRemove": "inline-flex size-6 shrink-0 items-center justify-center rounded-full text-fg-secondary hover:bg-divider hover:text-fg active:bg-divider focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
+    "actions": "flex flex-wrap items-center gap-2"
+  },
+  "defaultVariants": {}
+}

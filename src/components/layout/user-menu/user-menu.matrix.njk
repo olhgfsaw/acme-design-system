@@ -1,0 +1,12 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/layout/user-menu/user-menu.njk" import userMenu %}
+{% set description = "The account avatar in TopBar; it opens the profile links and Log out." %}
+{% block matrix %}
+
+{% set items = [{ label: "My profile", href: "#me", icon: "user" }, { label: "Time and time off", href: "#time", icon: "clock" }, { label: "Account settings", href: "#account", icon: "settings" }] %}
+{% call section("state") %}
+  {% call cell("closed") %}{{ userMenu("m-um-1", "Daniel Kim", "Account director · Admin", items, footer=[{ label: "Log out", href: "#logout", icon: "log-out" }]) }}{% endcall %}
+  {% call cell("open") %}<div class="flex h-80 w-72 justify-end">{{ userMenu("m-um-2", "Daniel Kim", "Account director · Admin", items, footer=[{ label: "Log out", href: "#logout", icon: "log-out" }], open=true) }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

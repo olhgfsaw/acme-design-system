@@ -1,0 +1,10 @@
+{% extends "layouts/matrix.njk" %}
+{% from "layouts/_matrix-macros.njk" import section, cell %}
+{% from "components/common/task-list/task-list.njk" import taskList %}
+{% set description = "The next tasks from a board, with status, due date and assignee." %}
+{% block matrix %}
+
+{% call section("tasks") %}
+  {% call cell("overdue first") %}<div class="w-80">{{ taskList([{ title: "Header and navigation", href: "#", due: "Oct 27", overdue: true, status: "In review", tone: "warning", assignee: "James Reed" }, { title: "Responsive check of page templates", href: "#", due: "Oct 30", status: "In progress", tone: "accent", assignee: "Olivia Foster" }, { title: "Homepage build", href: "#", due: "Nov 3", status: "In progress", tone: "accent", assignee: "James Reed" }], "Up next on the board") }}</div>{% endcall %}
+{% endcall %}
+{% endblock %}

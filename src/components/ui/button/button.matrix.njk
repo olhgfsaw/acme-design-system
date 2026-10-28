@@ -13,6 +13,10 @@
     {% call cell("disabled") %}{{ button(sample.unavailable, variant=variant, disabled=true) }}{% endcall %}
   {% endcall %}
 {% endfor %}
+{% call section("as a link") %}
+  {% call cell("secondary · href") %}{{ button(sample.create, variant="secondary", iconLeading="plus", href="#") }}{% endcall %}
+  {% call cell("primary · lg · href") %}{{ button(sample.upgradeNow, size="lg", iconTrailing="arrow-right", href="#") }}{% endcall %}
+{% endcall %}
 {% call section("full width (promo call to action)") %}
   {% call cell("lg · w-full") %}<div class="w-80">{{ button(sample.upgradeNow, size="lg", iconTrailing="arrow-right", layout="w-full") }}</div>{% endcall %}
 {% endcall %}

@@ -4,43 +4,39 @@
     "typical": [
       {
         "id": 11,
-        "name": "James R.",
-        "performancePercent": 70
+        "name": "Olivia F.",
+        "fullName": "Olivia Foster",
+        "workloadPercent": 86
       },
       {
         "id": 12,
-        "name": "Olivia F.",
-        "performancePercent": 80
+        "name": "James R.",
+        "fullName": "James Reed",
+        "workloadPercent": 72
       },
       {
         "id": 13,
         "name": "Karl H.",
-        "performancePercent": 90
+        "fullName": "Karl Hansen",
+        "workloadPercent": 94
       },
       {
         "id": 14,
         "name": "Abraham M.",
-        "performancePercent": 60
+        "fullName": "Abraham Moss",
+        "workloadPercent": 68
       },
       {
         "id": 15,
         "name": "Emma R.",
-        "performancePercent": 55
+        "fullName": "Emma Ruiz",
+        "workloadPercent": 55
       },
       {
         "id": 16,
-        "name": "Noah M.",
-        "performancePercent": 72
-      },
-      {
-        "id": 17,
-        "name": "Liam K.",
-        "performancePercent": 64
-      },
-      {
-        "id": 18,
-        "name": "Sofia P.",
-        "performancePercent": 77
+        "name": "Noah B.",
+        "fullName": "Noah Bennett",
+        "workloadPercent": 40
       }
     ],
     "empty": [],
@@ -48,36 +44,42 @@
       {
         "id": 21,
         "name": "Konstantinopolsky-Alexandrovsky V.",
-        "performancePercent": 88
+        "fullName": "Konstantinopolsky-Alexandrovsky Vladislav",
+        "workloadPercent": 88
       },
       {
         "id": 22,
-        "name": "Bartholomew Oyelaran-Whitmore",
-        "performancePercent": 45
+        "name": "Bartholomew O.",
+        "fullName": "Bartholomew Oyelaran-Whitmore",
+        "workloadPercent": 45
       }
     ],
     "largeNumbers": [
       {
         "id": 900000011,
         "name": "James R.",
-        "performancePercent": 100
+        "fullName": "James Reed",
+        "workloadPercent": 200
       },
       {
         "id": 900000012,
         "name": "Olivia F.",
-        "performancePercent": 0
+        "fullName": "Olivia Foster",
+        "workloadPercent": 0
       }
     ],
     "partial": [
       {
         "id": 31,
         "name": "New hire",
-        "performancePercent": null
+        "fullName": "New hire",
+        "workloadPercent": null
       },
       {
         "id": 32,
         "name": "Olivia F.",
-        "performancePercent": 80
+        "fullName": "Olivia Foster",
+        "workloadPercent": 80
       }
     ],
     "many": {
